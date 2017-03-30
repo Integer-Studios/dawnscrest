@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using PolyPlayer;
+using PolyItem;
 
 namespace PolyWorld {
 
@@ -138,6 +139,13 @@ namespace PolyWorld {
 
 		public static bool isUnderwater(Vector3 p) {
 			return (getTerrainHeight (p) < terrain.ocean.transform.position.y);
+		}
+
+		public static MaterialType getMaterial(Vector3 p) {
+			int id = terrain.getBlock (p);
+			if (id == 0)
+				return MaterialType.Earth;
+			return Block.getBlock(id).material;
 		}
 
 		[Server]

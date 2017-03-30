@@ -777,11 +777,76 @@ MonoBehaviour:
   - key:
       mat1: 0
       mat2: 0
-    sound: {fileID: 8300000, guid: 0ce5b35957d6b4f6b976a13a8f08c6c4, type: 3}
+    sound:
+    - {fileID: 8300000, guid: 0ce5b35957d6b4f6b976a13a8f08c6c4, type: 3}
   - key:
       mat1: 2
-      mat2: 3
-    sound: {fileID: 8300000, guid: f65c4ff197551410b9f70b804410c961, type: 3}
+      mat2: 6
+    sound:
+    - {fileID: 8300000, guid: 22b5b26c3429f42c482afafb562afc2a, type: 3}
+    - {fileID: 8300000, guid: a948133482bd9461cbcb85c1b36c59b7, type: 3}
+    - {fileID: 8300000, guid: 8033517be0e2b4a939b3f8ffacc6f4d5, type: 3}
+    - {fileID: 8300000, guid: f65c4ff197551410b9f70b804410c961, type: 3}
+    - {fileID: 8300000, guid: 23684c2373aa34787b0d7b3349bdd2e6, type: 3}
+    - {fileID: 8300000, guid: dd1266cc97b6b4a38a280331273cb1ed, type: 3}
+    - {fileID: 8300000, guid: 1c30db6cd8fb645049fe02656a68d721, type: 3}
+    - {fileID: 8300000, guid: 8148972f644724dc6ab272a4f7e24faa, type: 3}
+    - {fileID: 8300000, guid: a476e34385a8f43f5a7cd7280badc54f, type: 3}
+    - {fileID: 8300000, guid: c71a1656ec801453da6b0fc7884f77fe, type: 3}
+  - key:
+      mat1: 4
+      mat2: 6
+    sound:
+    - {fileID: 8300000, guid: 0f7237cf710e142909810e114ce1d2fb, type: 3}
+    - {fileID: 8300000, guid: ba5699080bfd24d7e984d2a0d88405ef, type: 3}
+    - {fileID: 8300000, guid: 3d466a540cab840049f3a6d6d885a4b5, type: 3}
+    - {fileID: 8300000, guid: 82c7ec065b4f1479c85a5c2d51e4e313, type: 3}
+    - {fileID: 8300000, guid: 273eb9554375f4ebb9e87931ec8335a0, type: 3}
+    - {fileID: 8300000, guid: 61467420665bc4bb782283cc97cebfdb, type: 3}
+    - {fileID: 8300000, guid: e6ca2426aab48445d80f08b93db94f24, type: 3}
+    - {fileID: 8300000, guid: c4c95fd958444446aacca5c7a33ba1a7, type: 3}
+  - key:
+      mat1: 6
+      mat2: 5
+    sound:
+    - {fileID: 8300000, guid: 4a39cc5cc296040ae9a08ae3df059278, type: 3}
+    - {fileID: 8300000, guid: e877f05d3593740e890666a278a92647, type: 3}
+    - {fileID: 8300000, guid: 18c6e6704fe024829bfc92c6a150d173, type: 3}
+    - {fileID: 8300000, guid: d2ada57a6473e45b1b341ba45179678b, type: 3}
+    - {fileID: 8300000, guid: df7c64cd5250141ebb9b49a9fcde0906, type: 3}
+    - {fileID: 8300000, guid: b9258af34b50346bbaf8db94a7971161, type: 3}
+    - {fileID: 8300000, guid: b284d2839b804407fad77d22ed039341, type: 3}
+    - {fileID: 8300000, guid: a99084369a141469c9c800b73b234d14, type: 3}
+    - {fileID: 8300000, guid: 41249fbe02040441799363e44512ecb4, type: 3}
+    - {fileID: 8300000, guid: 6ca87357d0d6145ffb822834c20828f2, type: 3}
+  - key:
+      mat1: 6
+      mat2: 0
+    sound:
+    - {fileID: 8300000, guid: 3d9d5bfcbf5994db0b249634150cdbe7, type: 3}
+    - {fileID: 8300000, guid: 4746366be8c48404bada1f5967751c49, type: 3}
+    - {fileID: 8300000, guid: 3caa104fc6d0a40a997af1f4665870cf, type: 3}
+    - {fileID: 8300000, guid: 12e7ead1d42cd4a1d857362a5d7a106a, type: 3}
+    - {fileID: 8300000, guid: b169b651ecf474eaeb57ce89d98589dd, type: 3}
+    - {fileID: 8300000, guid: 9306c197837ae4018a390bb4df0ab944, type: 3}
+    - {fileID: 8300000, guid: 16c62b67a65c146b29671d31ff4b2cb7, type: 3}
+    - {fileID: 8300000, guid: 069dba1c6269b47ac88133026e9ea246, type: 3}
+    - {fileID: 8300000, guid: 3aab7a2c983f74d258e35504975f0f29, type: 3}
+    - {fileID: 8300000, guid: 83006144b2df84e4892d021b3ea8c466, type: 3}
+  - key:
+      mat1: 6
+      mat2: 7
+    sound:
+    - {fileID: 8300000, guid: c067618f167844bf59bb5b34dd6aa110, type: 3}
+    - {fileID: 8300000, guid: 5702c27fc05cb42449b717da9f9cdd5b, type: 3}
+    - {fileID: 8300000, guid: 521241fbc72fb42738100dbf6a1dcf2f, type: 3}
+    - {fileID: 8300000, guid: 2e846ac55f6fc489f89b8e29c3d83222, type: 3}
+    - {fileID: 8300000, guid: fdf7f2813c0984d53a066dbdd0a0cf8d, type: 3}
+    - {fileID: 8300000, guid: 5061e325ff3b64818b5b7b3f440a6d2f, type: 3}
+    - {fileID: 8300000, guid: 7e384f681d34d427fa4756ad1d9c16f7, type: 3}
+    - {fileID: 8300000, guid: 63b9c1f3a9da5473e9d741d6d97daa8f, type: 3}
+    - {fileID: 8300000, guid: b5e152f71a7c0498780686afe92a5440, type: 3}
+    - {fileID: 8300000, guid: 2cc29d36c2c78456b99e9e705b9c6739, type: 3}
   defaultMaterialKey:
     mat1: 0
     mat2: 0

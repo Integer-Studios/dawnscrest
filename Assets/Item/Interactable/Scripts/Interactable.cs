@@ -87,6 +87,8 @@ namespace PolyItem {
 		Flesh,
 		Water,
 		Plant,
+		Footstep,
+		Snow,
 	}
 
 
