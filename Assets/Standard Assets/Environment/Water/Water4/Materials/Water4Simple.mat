@@ -19,7 +19,7 @@ Material:
         name: _BumpMap
       second:
         m_Texture: {fileID: 2800000, guid: da0041a31cd0e4ce792e80e24c2d9fe5, type: 3}
-        m_Scale: {x: 5, y: 5}
+        m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - first:
         name: _CubeTex
@@ -78,7 +78,7 @@ Material:
     m_Floats:
     - first:
         name: _FresnelScale
-      second: 0.31
+      second: 0.3897143
     - first:
         name: _GerstnerIntensity
       second: 1
@@ -94,13 +94,13 @@ Material:
     m_Colors:
     - first:
         name: _AnimationDirection
-      second: {r: 1, g: 1, b: -1, a: 1}
+      second: {r: 2, g: 1, b: -1, a: 1}
     - first:
         name: _AnimationTiling
-      second: {r: 1, g: 1, b: 1, a: 1}
+      second: {r: 0.4, g: 0.39099997, b: 0.56, a: 0.7}
     - first:
         name: _BaseColor
-      second: {r: 0.17290224, g: 0.26265743, b: 0.30147058, a: 0.541}
+      second: {r: 0.17275561, g: 0.224076, b: 0.24626863, a: 0.5058824}
     - first:
         name: _BumpDirection
       second: {r: 1, g: 30, b: 20, a: -20}
@@ -115,34 +115,34 @@ Material:
       second: {r: 0.29811764, g: 0.36611718, b: 0.39552242, a: 0.34509805}
     - first:
         name: _DistortParams
-      second: {r: 1, g: 0.20187221, b: 2.766625, a: -0.41714284}
+      second: {r: 1.0285715, g: 0.20187221, b: 2.766625, a: -0.41714284}
     - first:
         name: _Foam
       second: {r: 0.3275862, g: 0.7471264, b: 0, a: 0}
     - first:
         name: _GAmplitude
-      second: {r: 0.1, g: 0.1, b: 0.1, a: 0.1}
+      second: {r: 0.01, g: 0.01, b: 0.01, a: 0.25}
     - first:
         name: _GDirectionAB
-      second: {r: 0.85, g: 0.3, b: 0.25, a: 0.25}
+      second: {r: 0.01, g: 0.01, b: 0.01, a: 0.25}
     - first:
         name: _GDirectionCD
-      second: {r: -0.3, g: -0.9, b: 0.5, a: 0.5}
+      second: {r: 0.01, g: 0.01, b: 0.01, a: 0.5}
     - first:
         name: _GFrequency
-      second: {r: 0.1, g: 0.1, b: 0.1, a: 0.1}
+      second: {r: 0.01, g: 0.025, b: 0.06, a: 0.245}
     - first:
         name: _GSpeed
-      second: {r: 1, g: 1, b: 1, a: 1}
+      second: {r: 0.01, g: 0.01, b: 0.01, a: 1}
     - first:
         name: _GSteepness
-      second: {r: 1, g: 1, b: 1, a: 1}
+      second: {r: 0.01, g: 0.01, b: 0.01, a: 1}
     - first:
         name: _InvFadeParemeter
-      second: {r: 0.2, g: 0.08562102, b: 0.09414239, a: 0.48031002}
+      second: {r: 0.27508128, g: 0.08562102, b: 0.09414239, a: 0.48031002}
     - first:
         name: _ReflectionColor
-      second: {r: 0.40900737, g: 0.5792429, b: 0.6544118, a: 0.497}
+      second: {r: 0.47582978, g: 0.6064865, b: 0.6641791, a: 0.47058824}
     - first:
         name: _RefractionFog
       second: {r: 0.8681778, g: 0.8797176, b: 0.8880597, a: 1}

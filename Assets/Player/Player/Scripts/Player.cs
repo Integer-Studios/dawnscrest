@@ -1029,7 +1029,10 @@ namespace PolyPlayer {
 		}
 
 		private void onLand() {
-			SoundManager.playSound(null, groundObject);
+			if (groundObject.layer == 8)
+				SoundManager.playSound (MaterialType.Footstep, WorldTerrain.getMaterial (transform.position));
+			else
+				SoundManager.playSound(null, groundObject);
 		}
 
 		private void swing() {
@@ -1054,7 +1057,10 @@ namespace PolyPlayer {
 			while (true) {
 				if (grounded && isMoving()) {
 					//can pass clothing items here when they exist
-					SoundManager.playSound(null, groundObject);
+					if (groundObject.layer == 8)
+						SoundManager.playSound (MaterialType.Footstep, WorldTerrain.getMaterial (transform.position));
+					else
+						SoundManager.playSound(null, groundObject);
 				}
 				if (speed == 0f)
 					yield return new WaitForSeconds (1f);
