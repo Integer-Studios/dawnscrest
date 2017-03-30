@@ -1,0 +1,20 @@
+fileFormatVersion: 2
+guid: 3fce2dcd69338441c9240aefddbac9c3
+timeCreated: 1489872923
+licenseType: Free
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - itemPickupSound: {fileID: 8300000, guid: 08a01ac33f3604aec8780925a4870239, type: 3}
+  - fallSound: {fileID: 8300000, guid: f54a7e8aabfc8436b965149db8156132, type: 3}
+  - hairMesh: {instanceID: 0}
+  - bodyMesh: {instanceID: 0}
+  - fpsMesh: {instanceID: 0}
+  - pivot: {instanceID: 0}
+  - hip: {instanceID: 0}
+  - handTransform: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
