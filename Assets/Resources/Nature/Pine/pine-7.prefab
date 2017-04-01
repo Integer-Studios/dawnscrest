@@ -114,7 +114,8 @@ MonoBehaviour:
   repeats: 3
   refills: 5
   refillTime: 60
-  replacement: {fileID: 0}
+  replacement: {fileID: 1247658544205150, guid: e80e680242e294f1a9a384400e510c8d,
+    type: 2}
 --- !u!114 &114695093970552834
 MonoBehaviour:
   m_ObjectHideFlags: 1

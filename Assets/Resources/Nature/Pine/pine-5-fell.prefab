@@ -158,7 +158,10 @@ MonoBehaviour:
   maxStrength: 10
   type: 2
   destroyOnInteract: 1
-  drops: []
+  drops:
+  - {fileID: 114068146883311342, guid: 9c6005fa877f5434481f450b7d433ad7, type: 2}
+  - {fileID: 114068146883311342, guid: 9c6005fa877f5434481f450b7d433ad7, type: 2}
+  - {fileID: 114068146883311342, guid: 9c6005fa877f5434481f450b7d433ad7, type: 2}
   repeats: 3
   refills: 5
   refillTime: 60

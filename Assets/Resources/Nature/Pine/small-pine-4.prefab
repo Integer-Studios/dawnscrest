@@ -22,6 +22,8 @@ GameObject:
   - component: {fileID: 33372839085769764}
   - component: {fileID: 23345546188688714}
   - component: {fileID: 65014580711563082}
+  - component: {fileID: 114528039779093194}
+  - component: {fileID: 114944538277337822}
   m_Layer: 0
   m_Name: small-pine-4
   m_TagString: decoration
@@ -93,3 +95,56 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.322188, y: 2.805792, z: 1.173697}
   m_Center: {x: -0.015271008, y: 1.316605, z: -0.021228492}
+--- !u!114 &114528039779093194
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1051428575026566}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 245
+    i1: 218
+    i2: 69
+    i3: 113
+    i4: 230
+    i5: 251
+    i6: 116
+    i7: 82
+    i8: 219
+    i9: 116
+    i10: 63
+    i11: 108
+    i12: 59
+    i13: 97
+    i14: 66
+    i15: 62
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
+--- !u!114 &114944538277337822
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1051428575026566}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d59c217d16c2a48198c5b8e471808671, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  material: 0
+  maxStrength: 3
+  type: 0
+  destroyOnInteract: 0
+  drops:
+  - {fileID: 114566451808525438, guid: 360821c6ab1654bfb98fa9df876ded51, type: 2}
+  repeats: 3
+  refills: 5
+  refillTime: 60
+  replacement: {fileID: 0}

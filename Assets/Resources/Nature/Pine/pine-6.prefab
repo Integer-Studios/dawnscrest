@@ -146,4 +146,5 @@ MonoBehaviour:
   repeats: 3
   refills: 5
   refillTime: 60
-  replacement: {fileID: 0}
+  replacement: {fileID: 1076388452969500, guid: 41efaeec0a7cd4f18ba062e8094fac11,
+    type: 2}
