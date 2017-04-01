@@ -70,37 +70,46 @@ namespace PolyEntity {
 			return new Vector3 (v.x, owner.transform.position.y, v.z);
 		}
 
-		protected void steer(ref Vector3 dir, float dist) {
+		protected bool steer(ref Vector3 dir, float dist) {
 			
 			float castDist = calcCastDist(dir);
 			Debug.DrawRay (castPos (), dir * castDist, Color.blue);
+			bool flag = true;
 			if (!canWalk (dir, castDist))
-				avoid (ref dir, castDist);
+				flag = avoid (ref dir, castDist);
 			Debug.DrawRay (castPos (), dir * castDist, Color.red);
+			return flag;
 		}
 
 
-		protected void avoid (ref Vector3 dir, float dist) {
+		protected bool avoid (ref Vector3 dir, float dist) {
 			Vector3 dirP = dir;
 			Vector3 dirN = dir;
 			float tests = 0;
+			bool flag1 = true;
 			while (!canWalk(dirP.normalized, dist)) {
 				rotateY (ref dirP, owner.steeringInfo.interpolation);
 				tests += owner.steeringInfo.interpolation;
-				if (tests > 360f)
+				if (tests > 360f) {
+					flag1 = false;
 					break;
+				}
 			}
 			tests = 0;
+			bool flag2 = true;
 			while (!canWalk(dirN.normalized, dist)) {
 				rotateY (ref dirN, -1*owner.steeringInfo.interpolation);
 				tests += owner.steeringInfo.interpolation;
-				if (tests > 360f)
+				if (tests > 360f) {
+					flag2 = false;
 					break;
+				}
 			}
 			if (Vector3.Distance (dirP, owner.transform.forward) < Vector3.Distance (dirN, owner.transform.forward))
 				dir = dirP;
 			else
 				dir = dirN;
+			return flag1 || flag2;
 		}
 
 		protected bool canWalk(Vector3 dir, float castDist) {
@@ -114,8 +123,9 @@ namespace PolyEntity {
 					continue;
 				if (hit.collider.gameObject.layer == 4)
 					flag = false;
-				if (!hit.collider.isTrigger && Math.Abs(Vector3.Dot (hit.normal, Vector3.up)) < owner.steeringInfo.steepness)
+				if (!hit.collider.isTrigger && Math.Abs (Vector3.Dot (hit.normal, Vector3.up)) < owner.steeringInfo.steepness) {
 					flag = false;
+				}
 			}
 			return flag;
 		}

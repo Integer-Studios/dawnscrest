@@ -30,9 +30,9 @@ namespace PolyEntity {
 		}
 
 		protected void seek(Vector3 dir, float dist) {
-			float speed = owner.runSpeed;
-			float deg = getRotationTo(dir);
-			owner.setRotation(getScaledRotation(deg));
+			float deg = getScaledRotation(getRotationTo(dir));
+			float speed = owner.runSpeed - ((owner.runSpeed) * (deg / owner.maxRotation));
+			owner.setRotation(deg);
 			owner.setVelocity (new Vector3 (0, 0, speed));
 		}
 
