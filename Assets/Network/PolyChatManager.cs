@@ -38,13 +38,18 @@ public class PolyChatManager : PolyMessageHandler {
 			if (c.gameObject.tag == "Player") {
 				float distance = Vector3.Distance (c.gameObject.transform.position, sender.gameObject.transform.position);
 				distance = distance / range;
-				PolyClient receiver = PolyDataManager.getPlayer(PolyDataManager.getPlayerIDForObject (c.gameObject.GetInstanceID()));
-				if (receiver.loginID == sender.loginID || distance < 0.3f || volume == 1)
-					distance = 0.0f;
-				if (distance > 0.85f) {
-					distance = 0.85f;
+				int receiverID = PolyDataManager.getPlayerIDForObject (c.gameObject.GetInstanceID ());
+				if (receiverID != -1) {
+					PolyClient receiver = PolyDataManager.getPlayer (receiverID);
+					if (receiver.loginID == sender.loginID || distance < 0.3f || volume == 1)
+						distance = 0.0f;
+					if (distance > 0.85f) {
+						distance = 0.85f;
+					}
+					sendMessage (receiver, sender.identifier, message, distance);
+				} else {
+					Debug.Log ("Could not send message to object: " + c.gameObject.GetInstanceID ());
 				}
-				sendMessage (receiver, sender.identifier, message, distance);
 			}
 		}
 	}
@@ -82,7 +87,8 @@ public class PolyChatManager : PolyMessageHandler {
 			else if (char.IsLower(message[i])) countLower++;
 			else countOther++;
 		}
-
+		if (countLower + countUpper == 0)
+			return 2;
 		if (countUpper / (countLower + countUpper) > 0.7f) {
 			//yelling
 			return 4;

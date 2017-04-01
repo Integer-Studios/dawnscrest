@@ -52,6 +52,7 @@ public class PolyDataManager {
 				player.connection = NetworkServer.connections [connectionID];
 				player.controllerID = queuedConnections [connectionID];
 				player = PolyNetworkManager.FinishPlayerLogin (player);
+
 				activeGameObjects.Add (player.gameObject.GetInstanceID (), player.loginID);
 				PlayerSaveable s = player.gameObject.GetComponent<PlayerSaveable> ();
 				IPolyPlayer playerObj = player.gameObject.GetComponent<IPolyPlayer> ();
@@ -74,8 +75,11 @@ public class PolyDataManager {
 	}
 
 	public static int getPlayerIDForObject(int instanceID) {
-		return activeGameObjects [instanceID];
-	}
+		if (activeGameObjects.ContainsKey (instanceID))
+			return activeGameObjects [instanceID];
+		else
+			return -1;
+	}	
 
 	public static PolyClient getPlayerForConnection(int connectionID) {
 		return activePlayers [activeConnections [connectionID]];
