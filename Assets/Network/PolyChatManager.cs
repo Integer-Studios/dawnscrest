@@ -38,7 +38,7 @@ public class PolyChatManager : PolyMessageHandler {
 			if (c.gameObject.tag == "Player") {
 				float distance = Vector3.Distance (c.gameObject.transform.position, sender.gameObject.transform.position);
 				distance = distance / range;
-				int receiverID = PolyDataManager.getPlayerIDForObject (c.gameObject.GetInstanceID ());
+				int receiverID = c.GetComponent<PlayerSaveable> ().id;
 				if (receiverID != -1) {
 					PolyClient receiver = PolyDataManager.getPlayer (receiverID);
 					if (receiver.loginID == sender.loginID || distance < 0.3f || volume == 1)
