@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-//using UnityEditor;
+using System.IO;
 using UnityEngine.Networking;
 using SocketIO;
 
@@ -258,42 +258,14 @@ public class PolyDataManager {
 	}
 
 	private static void rip() {
-//		ripping = true;
-//		rippedObjects = new JSONObject (JSONObject.Type.ARRAY);
-//		prefabs = new Dictionary<int, string>();
-//		Dictionary<string, int> prefabsInverse = new Dictionary<string, int>();
-//		int persistentID = 0;
-//		int prefabID = 0;
-//		foreach (GameObject g in PolyNetworkManager.FindObjectsOfType<GameObject>()) {
-//			Saveable saveable = g.GetComponent<Saveable> ();
-//
-//			if (saveable == null)
-//				continue;
-//
-//			// get prefab
-//			GameObject pre = PrefabUtility.GetPrefabParent (g) as GameObject;
-//			string path = AssetDatabase.GetAssetPath(pre);
-//
-//			// get correct prefab ID, add new if necessary
-//			int gPreindex = prefabID;
-//			if (!prefabsInverse.TryGetValue (path, out gPreindex)) {
-//
-//				prefabs.Add (prefabID, path);
-//				prefabsInverse.Add (path, prefabID);
-//				gPreindex = prefabID;
-//				prefabID++;
-//			}
-//			//on rip only because it will already have it on save
-//			saveable.setID (persistentID);
-//			saveable.setPrefab (gPreindex);
-//			// saves object to saves
-//			rippedObjects.Add(saveable.write());
-//			//schedule gameobject save
-//
-//			// increment and destroy object
-//			persistentID++;
-//			PolyNetworkManager.DestroyImmediate (g);
-//		}
+		string prefabJSON = ReadString ("Assets/Resources/JSON/prefabs.json");
+		JSONObject prefabsOBJ = new JSONObject (prefabJSON);
+		foreach (JSONObject prefab in prefabsOBJ.list) {
+			prefabs.Add ((int)prefab.GetField ("id").n, prefab.GetField ("path").str);
+		}
+		string objectsJSONString = ReadString ("Assets/Resources/JSON/objects.json");
+		JSONObject objectsOBJ = new JSONObject (objectsJSONString);
+		rippedObjects = objectsOBJ;
 	}
 
 	private static JSONObject serializeGameobject(int persistentID, int prefabID, GameObject obj) {
@@ -391,5 +363,18 @@ public class PolyDataManager {
 	private static void onPlayerSave(SocketIOEvent e) {
 
 	}
+
+
+	private static string ReadString(string path) {
+
+		//Read the text from directly from the test.txt file
+		StreamReader reader = new StreamReader(path); 
+		string stringData = reader.ReadToEnd();
+		reader.Close();
+
+		return stringData;
+
+	}
+
 
 }
