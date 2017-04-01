@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using PolyPlayer;
 using PolyItem;
+using System.IO;
 
 namespace PolyWorld {
 
@@ -100,6 +101,55 @@ namespace PolyWorld {
 			foreach (Chunk chunk in c) {
 				DestroyImmediate (chunk.gameObject);
 			}
+		}
+
+		public void editor_ripHeightMap() {
+			if (!Application.isEditor)
+				return;
+			var info = new System.IO.FileInfo(rawFile);
+			int rawHeightMapSize = Mathf.RoundToInt(Mathf.Sqrt(info.Length / sizeof(System.UInt16)));
+
+			var rawBytes = System.IO.File.ReadAllBytes(rawFile);
+			bool reverseBytes = System.BitConverter.IsLittleEndian == (rawHeightMapOrder == ByteOrder.Mac);
+			float [,]rawHeightmap = new float[rawHeightMapSize, rawHeightMapSize];
+			int index = 0;
+
+			for (int v = 0; v < rawHeightMapSize; ++v) {
+				for (int u = 0; u < rawHeightMapSize; ++u) {
+					if (reverseBytes) {
+						System.Array.Reverse(rawBytes, index, sizeof(System.UInt16));
+					}
+					rawHeightmap [u, v] = (float)System.BitConverter.ToUInt16(rawBytes, index) / System.UInt16.MaxValue;
+					index += sizeof(System.UInt16);
+				}
+			}
+			int heightmapSizeTemp = (int)(size / resolution);
+			float[,] heightmapTemp = new float[heightmapSizeTemp, heightmapSizeTemp];
+			for (int zi = 0; zi < heightmapSizeTemp; ++zi) {
+				for (int xi = 0; xi < heightmapSizeTemp; ++xi) {
+					float u = ((float)xi) / ((float)heightmapSizeTemp);
+					float v = ((float)zi) / ((float)heightmapSizeTemp);
+					heightmapTemp [xi, zi] = height * rawHeightmap [(int)(u * rawHeightMapSize), (int)(v * rawHeightMapSize)];
+				}
+			}
+
+			JSONObject heightMapData = new JSONObject (JSONObject.Type.ARRAY);
+			for (int zi = 0; zi < heightmapSizeTemp; ++zi) {
+				for (int xi = 0; xi < heightmapSizeTemp; ++xi) {
+					JSONObject heightIndex = new JSONObject (JSONObject.Type.OBJECT);
+					heightIndex.AddField ("x", xi);
+					heightIndex.AddField ("z", zi);
+					heightIndex.AddField ("y", heightmapTemp[xi,zi]);
+					heightMapData.Add (heightIndex);
+				}
+			}
+			JSONObject heightData = new JSONObject (JSONObject.Type.OBJECT);
+			heightData.AddField ("map", heightMapData);
+			heightData.AddField ("size", heightmapSizeTemp);
+			string dir = "Assets/Resources/JSON/";
+
+			File.WriteAllText(dir + "heightmap.json", heightData.ToString());
+
 		}
 
 		/*
@@ -461,31 +511,13 @@ namespace PolyWorld {
 		}
 
 		private void generateHeightmap() {
-			var info = new System.IO.FileInfo(rawFile);
-			int rawHeightMapSize = Mathf.RoundToInt(Mathf.Sqrt(info.Length / sizeof(System.UInt16)));
-
-			var rawBytes = System.IO.File.ReadAllBytes(rawFile);
-			bool reverseBytes = System.BitConverter.IsLittleEndian == (rawHeightMapOrder == ByteOrder.Mac);
-			float [,]rawHeightmap = new float[rawHeightMapSize, rawHeightMapSize];
-			int index = 0;
-
-			for (int v = 0; v < rawHeightMapSize; ++v) {
-				for (int u = 0; u < rawHeightMapSize; ++u) {
-					if (reverseBytes) {
-						System.Array.Reverse(rawBytes, index, sizeof(System.UInt16));
-					}
-					rawHeightmap [u, v] = (float)System.BitConverter.ToUInt16(rawBytes, index) / System.UInt16.MaxValue;
-					index += sizeof(System.UInt16);
-				}
-			}
-			heightmapSize = (int)(size / resolution);
+			string data = Resources.Load ("JSON/heightmap").ToString();
+	
+			JSONObject heightMapData = new JSONObject (data);
+			heightmapSize = (int)heightMapData.GetField ("size").n;
 			heightmap = new float[heightmapSize, heightmapSize];
-			for (int zi = 0; zi < heightmapSize; ++zi) {
-				for (int xi = 0; xi < heightmapSize; ++xi) {
-					float u = ((float)xi) / ((float)heightmapSize);
-					float v = ((float)zi) / ((float)heightmapSize);
-					heightmap [xi, zi] = height * rawHeightmap [(int)(u * rawHeightMapSize), (int)(v * rawHeightMapSize)];
-				}
+			foreach (JSONObject heightIndex in heightMapData.GetField("map").list) {
+				heightmap [(int)heightIndex.GetField ("x").n, (int)heightIndex.GetField ("z").n] = heightIndex.GetField ("y").n;
 			}
 		}
 
