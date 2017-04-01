@@ -72,19 +72,21 @@ public class PolyNetworkManager : NetworkManager {
 
 	public static void FinishStart() {
 		Debug.Log ("Finishing Start...");
-
-		if (self.login != null) {
-			if (self.login.debugHost) {
-				self.StartHost ();
-			} else if (self.login.debugClient) {
-				self.StartClient ();
+		if (getManager ().IsHeadless ())
+			self.StartServer ();
+		else {
+			if (self.login != null) {
+				if (self.login.debugHost) {
+					self.StartHost ();
+				} else if (self.login.debugClient) {
+					self.StartClient ();
+				} else {
+					self.StartClient ();
+				}
 			} else {
-				self.StartClient ();
+				self.StartHost ();
 			}
-		} else {
-			self.StartHost ();
 		}
-
 	}
 
 	public static PolyClient FinishPlayerLogin(PolyClient player) {
