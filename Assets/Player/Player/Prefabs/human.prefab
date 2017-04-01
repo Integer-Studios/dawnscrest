@@ -888,8 +888,8 @@ MonoBehaviour:
     - {fileID: 8300000, guid: c1211b50b3777405898483e2289f81fe, type: 3}
     - {fileID: 8300000, guid: eee1e62809cdc4d89b496183d177869d, type: 3}
   defaultMaterialKey:
-    mat1: 0
-    mat2: 0
+    mat1: 6
+    mat2: 1
 --- !u!114 &114153642529667880
 MonoBehaviour:
   m_ObjectHideFlags: 1

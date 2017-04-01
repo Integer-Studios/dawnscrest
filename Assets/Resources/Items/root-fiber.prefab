@@ -153,7 +153,7 @@ MonoBehaviour:
   material: 5
   maxStrength: 0
   id: 4
-  sprite: {fileID: 21300000, guid: 4bdf23dbdd507464baf65258f204ebdf, type: 3}
+  sprite: {fileID: 21300000, guid: 206abb9f6fe274c669bb208b77fb7912, type: 3}
   weight: 1
   maxStackSize: 10
   type: 0
