@@ -224,7 +224,8 @@ namespace PolyWorld {
 		private float getHeight(heightmapIndex h) {
 			if (!isInBounds (h))
 				return 0f;
-			return heightmap [h.x,h.z];
+			else 
+				return heightmap [h.x, h.z];
 		}
 
 		private void setHeight(heightmapIndex h, float f) {
@@ -522,7 +523,7 @@ namespace PolyWorld {
 		}
 
 		private bool isInBounds(heightmapIndex h) {
-			if (h.x < 0 || h.z < 0 || h.x > heightmapSize || h.z > heightmapSize)
+			if (h.x < heightmap.GetLowerBound(0) || h.z < heightmap.GetLowerBound(1) || h.x > heightmap.GetUpperBound(0) || h.z > heightmap.GetUpperBound(1))
 				return false;
 			else
 				return true;
