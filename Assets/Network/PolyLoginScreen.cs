@@ -19,8 +19,13 @@ public class PolyLoginScreen : MonoBehaviour {
 		this.eventSystem = EventSystem.current;
 		login = FindObjectOfType<PolyLogin> ();
 		playBtn.onClick.AddListener(onPlay);
-		debugHost.onClick.AddListener(onDebugHost);
-		debugClient.onClick.AddListener(onDebugClient);
+		if (!login.isSinglePlayer) {
+			debugHost.onClick.AddListener (onDebugHost);
+			debugClient.onClick.AddListener (onDebugClient);
+		} else {
+			debugHost.enabled = false;
+			debugClient.enabled = false;
+		}
 	}
 
 	void Update() {
