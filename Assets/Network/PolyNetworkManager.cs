@@ -37,6 +37,8 @@ public class PolyNetworkManager : NetworkManager {
 			if (FindObjectOfType<PolyLogin> () != null) {
 				login = FindObjectOfType<PolyLogin> ();
 				if (login.debugHost) {
+					if (login.isSinglePlayer)
+						live = false;
 					login.playerID = debugUserID;
 					this.networkAddress = "localhost";
 					StartPolyHost ();

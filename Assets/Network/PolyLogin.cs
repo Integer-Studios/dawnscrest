@@ -14,6 +14,7 @@ public class PolyLogin : MonoBehaviour {
 	public int playerID;
 	public bool debugHost = false;
 	public bool debugClient = false;
+	public bool isSinglePlayer = false;
 
 	void Awake(){
 		DontDestroyOnLoad (this);
@@ -24,12 +25,15 @@ public class PolyLogin : MonoBehaviour {
 	}
 
 	public void login() {
+		
 		if (!debugClient && !debugHost) {
 			WWWForm form = new WWWForm ();
 			form.AddField ("username", username);
 			form.AddField ("password", password);
 			form.AddField ("version", version);
-
+			if (isSinglePlayer) {
+				form.AddField ("singleplayer", "true");
+			}
 			WWW w = new WWW ("http://server.integerstudios.com/poly/login.php", form);    
 			StartCoroutine (LogIn (w));
 		} else {
@@ -71,6 +75,9 @@ public class PolyLogin : MonoBehaviour {
 			} else {
 				//connect
 				playerID = int.Parse(_w.text);
+				if (isSinglePlayer) {
+					debugHost = true;
+				}
 				SceneManager.LoadScene ("main");
 			}
 		} else {

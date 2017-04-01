@@ -1693,6 +1693,7 @@ MonoBehaviour:
   playerID: 0
   debugHost: 0
   debugClient: 0
+  isSinglePlayer: 1
 --- !u!1 &1961133916
 GameObject:
   m_ObjectHideFlags: 0
