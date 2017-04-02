@@ -261,7 +261,7 @@ namespace PolyWorld {
 
 		private void Start () {
 			initialize ();
-			if (!isServer)
+			if (isClient)
 				StartCoroutine (renderDistanceUpdate ());
 		}
 

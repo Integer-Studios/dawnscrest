@@ -19,11 +19,26 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4967888238810840}
-  - component: {fileID: 33159236375904428}
-  - component: {fileID: 23805083034067222}
-  - component: {fileID: 65164467955426676}
-  - component: {fileID: 114670823986379330}
-  - component: {fileID: 114510320406604286}
+  - component: {fileID: 65052635332588886}
+  - component: {fileID: 114069538015997230}
+  - component: {fileID: 114548334516645460}
+  m_Layer: 0
+  m_Name: potted-fire
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1183007317614706
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4414363072848128}
+  - component: {fileID: 33390351805209574}
+  - component: {fileID: 23928291416173390}
   m_Layer: 0
   m_Name: potted-fire
   m_TagString: Untagged
@@ -88,11 +103,11 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1865735020708018}
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0.1346678, z: 0}
-  m_LocalScale: {x: 0.64127445, y: 0.64127475, z: 0.64127517}
+  m_LocalPosition: {x: 0, y: 0.25504303, z: 0}
+  m_LocalScale: {x: 1.2144898, y: 1.2144909, z: 1.214491}
   m_Children: []
   m_Father: {fileID: 4967888238810840}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!4 &4275896584854132
 Transform:
@@ -101,8 +116,21 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1361736191204016}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.2635643, z: 0}
-  m_LocalScale: {x: 0.64127445, y: 0.6412749, z: 0.6412745}
+  m_LocalPosition: {x: 0, y: 0.499156, z: 0}
+  m_LocalScale: {x: 1.2144898, y: 1.2144902, z: 1.2144899}
+  m_Children: []
+  m_Father: {fileID: 4967888238810840}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4414363072848128
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1183007317614706}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.893869, y: 1.8938681, z: 1.893869}
   m_Children: []
   m_Father: {fileID: 4967888238810840}
   m_RootOrder: 0
@@ -114,11 +142,11 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1392926146080544}
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0.1346678, z: 0}
-  m_LocalScale: {x: 0.64127445, y: 0.64127475, z: 0.64127517}
+  m_LocalPosition: {x: 0, y: 0.25504303, z: 0}
+  m_LocalScale: {x: 1.2144898, y: 1.2144909, z: 1.214491}
   m_Children: []
   m_Father: {fileID: 4967888238810840}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!4 &4967888238810840
 Transform:
@@ -127,21 +155,22 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1015646184118510}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 317.21817, y: 14.748577, z: 252.4176}
-  m_LocalScale: {x: 1.893869, y: 1.8938681, z: 1.893869}
+  m_LocalPosition: {x: 315.26822, y: 14.53599, z: 151.5894}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 4414363072848128}
   - {fileID: 4275896584854132}
   - {fileID: 4182842082336090}
   - {fileID: 4617376762444574}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!23 &23805083034067222
+--- !u!23 &23928291416173390
 MeshRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1015646184118510}
+  m_GameObject: {fileID: 1183007317614706}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -169,14 +198,14 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
---- !u!33 &33159236375904428
+--- !u!33 &33390351805209574
 MeshFilter:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1015646184118510}
+  m_GameObject: {fileID: 1183007317614706}
   m_Mesh: {fileID: 4300000, guid: d817a0a5953491b43b70703469572251, type: 3}
---- !u!65 &65164467955426676
+--- !u!65 &65052635332588886
 BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -186,7 +215,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.9234772, y: 0.26372296, z: 1.0404477}
+  m_Size: {x: 1.5, y: 1, z: 1.5}
   m_Center: {x: 0, y: 0.13186146, z: 0}
 --- !u!108 &108723688554224230
 Light:
@@ -222,31 +251,7 @@ Light:
   m_BounceIntensity: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
---- !u!114 &114510320406604286
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1015646184118510}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dbe16d288f4b7444796f28f7180111be, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  material: 1
-  maxStrength: 0
-  type: 0
-  destroyOnInteract: 0
-  cratingType: 2
-  fuel: 0
-  fuelConumptionRate: 0.1
-  fuelItems:
-  - {fileID: 114068146883311342, guid: 9c6005fa877f5434481f450b7d433ad7, type: 2}
-  maxLight: 2
-  fuelAtMaxLight: 100
-  lightSource: {fileID: 108723688554224230}
-  flames: {fileID: 198794721275462862}
---- !u!114 &114670823986379330
+--- !u!114 &114069538015997230
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -278,6 +283,30 @@ MonoBehaviour:
     i15: 184
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &114548334516645460
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1015646184118510}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbe16d288f4b7444796f28f7180111be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  material: 1
+  maxStrength: 0
+  type: 0
+  destroyOnInteract: 0
+  cratingType: 2
+  fuel: 0
+  fuelConumptionRate: 0.1
+  fuelItems:
+  - {fileID: 114068146883311342, guid: 9c6005fa877f5434481f450b7d433ad7, type: 2}
+  maxLight: 2
+  fuelAtMaxLight: 100
+  lightSource: {fileID: 108723688554224230}
+  flames: {fileID: 198794721275462862}
 --- !u!198 &198188799308613048
 ParticleSystem:
   m_ObjectHideFlags: 1
