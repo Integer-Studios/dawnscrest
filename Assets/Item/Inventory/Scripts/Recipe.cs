@@ -42,5 +42,6 @@ namespace PolyItem {
 	public enum CraftingType {
 		Hand,
 		Fire,
+		Pot,
 	}
 }

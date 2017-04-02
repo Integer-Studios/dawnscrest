@@ -944,6 +944,39 @@ MonoBehaviour:
       quality: 0
       size: 2
     type: 0
+  - output:
+      id: 10
+      quality: 0
+      size: 1
+    input:
+    - id: 1
+      quality: 0
+      size: 6
+    - id: 3
+      quality: 0
+      size: 9
+    - id: 4
+      quality: 0
+      size: 4
+    type: 0
+  - output:
+      id: 11
+      quality: 0
+      size: 1
+    input:
+    - id: 3
+      quality: 0
+      size: 6
+    type: 1
+  - output:
+      id: 12
+      quality: 0
+      size: 1
+    input:
+    - id: 13
+      quality: 0
+      size: 1
+    type: 2
   rightHandTransform: {fileID: 4935162812231872}
   leftHandTransform: {fileID: 4874893225880576}
   backTransform: {fileID: 4721252324770450}

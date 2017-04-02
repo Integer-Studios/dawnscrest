@@ -155,7 +155,7 @@ MonoBehaviour:
   id: 1
   sprite: {fileID: 21300000, guid: f1eb84fd369954eb29f40a1e13e8d8e4, type: 3}
   weight: 2
-  maxStackSize: 1
+  maxStackSize: 10
   type: 0
   onPlaced: {fileID: 0}
   quality: 0
