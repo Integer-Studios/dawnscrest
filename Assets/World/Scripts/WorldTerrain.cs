@@ -80,6 +80,17 @@ namespace PolyWorld {
 
 		}
 
+		public void editor_combine() {
+			if (!Application.isEditor)
+				return;
+
+			setupRuntimeData ();
+			foreach (Chunk c in chunks) {
+				c.editor_combine ();
+			}
+		
+		}
+
 		public void editor_chunkify() {
 			if (!Application.isEditor)
 				return;
@@ -261,7 +272,7 @@ namespace PolyWorld {
 
 		private void Start () {
 			initialize ();
-			if (!isServer)
+			if (isClient)
 				StartCoroutine (renderDistanceUpdate ());
 		}
 
