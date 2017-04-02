@@ -31,6 +31,9 @@ namespace PolyWorld {
 			if (GUILayout.Button ("Chunkify")) {
 				terrain.editor_chunkify ();
 			}
+			if (GUILayout.Button ("Combine")) {
+				terrain.editor_combine ();
+			}
 			if (GUILayout.Button ("Rip Height Map")) {
 				terrain.editor_ripHeightMap ();
 			}
