@@ -4,60 +4,64 @@ using UnityEngine;
 using UnityEditor;
 using System.IO;
 
-public class PolyDataRipper {
+namespace PolyNetwork {
 
-	public static string rippedPrefabsString;
-	public static string rippedString;
+	public class PolyDataRipper {
 
-	public static void rip(PolyNetworkManager manager) {
-		JSONObject rippedObjects = new JSONObject (JSONObject.Type.ARRAY);
-		Dictionary<int, string> prefabs = new Dictionary<int, string>();
-		Dictionary<string, int> prefabsInverse = new Dictionary<string, int>();
-		int persistentID = 0;
-		int prefabID = 0;
-		foreach (GameObject g in PolyNetworkManager.FindObjectsOfType<GameObject>()) {
+		public static string rippedPrefabsString;
+		public static string rippedString;
 
-			Saveable saveable = g.GetComponent<Saveable> ();
+		public static void rip(PolyNetworkManager manager) {
+			JSONObject rippedObjects = new JSONObject (JSONObject.Type.ARRAY);
+			Dictionary<int, string> prefabs = new Dictionary<int, string>();
+			Dictionary<string, int> prefabsInverse = new Dictionary<string, int>();
+			int persistentID = 0;
+			int prefabID = 0;
+			foreach (GameObject g in PolyNetworkManager.FindObjectsOfType<GameObject>()) {
 
-			if (saveable == null)
-				continue;
+				Saveable saveable = g.GetComponent<Saveable> ();
 
-			// get prefab
-			GameObject pre = PrefabUtility.GetPrefabParent (g) as GameObject;
-			string path = AssetDatabase.GetAssetPath(pre);
+				if (saveable == null)
+					continue;
 
-			// get correct prefab ID, add new if necessary
-			int gPreindex = prefabID;
-			if (!prefabsInverse.TryGetValue (path, out gPreindex)) {
+				// get prefab
+				GameObject pre = PrefabUtility.GetPrefabParent (g) as GameObject;
+				string path = AssetDatabase.GetAssetPath(pre);
 
-				prefabs.Add (prefabID, path);
-				prefabsInverse.Add (path, prefabID);
-				gPreindex = prefabID;
-				prefabID++;
+				// get correct prefab ID, add new if necessary
+				int gPreindex = prefabID;
+				if (!prefabsInverse.TryGetValue (path, out gPreindex)) {
+
+					prefabs.Add (prefabID, path);
+					prefabsInverse.Add (path, prefabID);
+					gPreindex = prefabID;
+					prefabID++;
+				}
+				//on rip only because it will already have it on save
+				saveable.setID (persistentID);
+				saveable.setPrefab (gPreindex);
+				// saves object to saves
+				rippedObjects.Add(saveable.write());
+				//schedule gameobject save
+
+				// increment and destroy object
+				persistentID++;
 			}
-			//on rip only because it will already have it on save
-			saveable.setID (persistentID);
-			saveable.setPrefab (gPreindex);
-			// saves object to saves
-			rippedObjects.Add(saveable.write());
-			//schedule gameobject save
+			JSONObject prefabsJSON = new JSONObject (JSONObject.Type.ARRAY);
+			foreach (int prefabIndex in prefabs.Keys) {
+				JSONObject prefabJSON = new JSONObject (JSONObject.Type.OBJECT);
+				prefabJSON.AddField ("id", prefabIndex);
+				prefabJSON.AddField ("path", prefabs[prefabIndex]);
+				prefabsJSON.Add (prefabJSON);
+			}
+			rippedPrefabsString = prefabsJSON.ToString ();
+			rippedString = rippedObjects.ToString ();
+			string dir = "Assets/Resources/JSON/";
 
-			// increment and destroy object
-			persistentID++;
+			File.WriteAllText(dir + "prefabs.json", rippedPrefabsString);
+			File.WriteAllText(dir + "objects.json", rippedString);
 		}
-		JSONObject prefabsJSON = new JSONObject (JSONObject.Type.ARRAY);
-		foreach (int prefabIndex in prefabs.Keys) {
-			JSONObject prefabJSON = new JSONObject (JSONObject.Type.OBJECT);
-			prefabJSON.AddField ("id", prefabIndex);
-			prefabJSON.AddField ("path", prefabs[prefabIndex]);
-			prefabsJSON.Add (prefabJSON);
-		}
-		rippedPrefabsString = prefabsJSON.ToString ();
-		rippedString = rippedObjects.ToString ();
-		string dir = "Assets/Resources/JSON/";
 
-		File.WriteAllText(dir + "prefabs.json", rippedPrefabsString);
-		File.WriteAllText(dir + "objects.json", rippedString);
 	}
 
 }

@@ -6,6 +6,7 @@ using UnityEngine.Networking;
 using PolyItem;
 using PolyEntity;
 using PolyWorld;
+using PolyNetwork;
 
 namespace PolyPlayer {
 
