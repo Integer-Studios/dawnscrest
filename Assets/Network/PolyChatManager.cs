@@ -6,16 +6,38 @@ using UnityEngine.Networking;
 public class PolyChatManager : PolyMessageHandler {
 
 	public static void handleSend(int senderID, string message) {
+		bool server = false;
 		PolyClient sender = PolyDataManager.getPlayer (senderID);
+		if (sender.loginID == -1)
+			server = true;
 
-		if (message.StartsWith ("/")) {
+		if (message.StartsWith ("/") || server) {
 			//is command
-			message = message.Substring(1);
+			if (!server)
+				message = message.Substring(1);
 			string[] args = message.Split (' ');
 			string command = args [0];
+			var argsList = new List<string>(args);
+			argsList.RemoveAt(0);
+			args = argsList.ToArray ();
+			string fullCommand = string.Join (" ", args);
 			switch (command) {
 				case "save": 
-					PolyDataManager.savePlayers ();
+					switch (args [0]) {
+						case "players":
+							PolyDataManager.savePlayers ();
+							break;
+						case "world":
+							PolyDataManager.save ();
+							break;
+						default:
+							PolyDataManager.save ();
+							PolyDataManager.savePlayers ();
+							break;
+					}
+					break;
+				case "say":
+					broadcastGlobal (fullCommand);
 					break;
 			}
 
@@ -39,8 +61,10 @@ public class PolyChatManager : PolyMessageHandler {
 				float distance = Vector3.Distance (c.gameObject.transform.position, sender.gameObject.transform.position);
 				distance = distance / range;
 				int receiverID = c.GetComponent<PlayerSaveable> ().id;
-				if (receiverID != -1) {
-					PolyClient receiver = PolyDataManager.getPlayer (receiverID);
+				PolyClient receiver = PolyDataManager.getPlayer (receiverID);
+
+				if (receiverID != -1 && receiver.loginID != -1) {
+
 					if (receiver.loginID == sender.loginID || distance < 0.3f || volume == 1)
 						distance = 0.0f;
 					if (distance > 0.85f) {
@@ -48,9 +72,16 @@ public class PolyChatManager : PolyMessageHandler {
 					}
 					sendMessage (receiver, sender.identifier, message, distance);
 				} else {
-					Debug.Log ("Could not send message to object: " + c.gameObject.GetInstanceID ());
+					Debug.Log ("Could not send message to player: " + receiverID);
 				}
 			}
+		}
+	}
+
+	public static void broadcastGlobal(string message) {
+		List<PolyClient> players = PolyDataManager.getActivePlayers ();
+		foreach (PolyClient p in players) {
+			sendMessage (p, null, message);
 		}
 	}
 

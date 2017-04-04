@@ -38,4 +38,16 @@ public struct PolyClient {
 		this.controllerID = -1;
 	}
 
+	public PolyClient(bool isNull) {
+
+		this.loginID = -1;
+		this.connectionID = -1;
+		this.connection = null;
+		this.data = null;
+		this.identifier = null;
+		this.gameObject = null;
+		this.playerObject = null;
+		this.controllerID = -1;
+	}
+
 }
