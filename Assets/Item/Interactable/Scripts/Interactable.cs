@@ -8,7 +8,6 @@ namespace PolyItem {
 	public class Interactable : NetworkBehaviour {
 		
 		// Vars : public, protected, private, hide
-		public MaterialType material = MaterialType.Stone;
 
 		// Syncvars
 		[SyncVar]
@@ -79,17 +78,6 @@ namespace PolyItem {
 		Vector3 interactor_getInteractionPosition();
 		Vector3 interactor_getInteractionNormal();
 	}
-
-	public enum MaterialType {
-		Wood,
-		Stone,
-		Earth,
-		Flesh,
-		Water,
-		Plant,
-		Footstep,
-		Snow,
-	}
-
+		
 
 }

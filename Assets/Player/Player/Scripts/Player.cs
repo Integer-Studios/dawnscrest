@@ -6,6 +6,7 @@ using UnityEngine.Networking;
 using PolyItem;
 using PolyEntity;
 using PolyWorld;
+using PolyEffects;
 
 namespace PolyPlayer {
 
@@ -60,6 +61,8 @@ namespace PolyPlayer {
 		private Vector3 velocity;
 		private float rotationalVelocity;
 		private bool rightHandActive = true;
+		private SoundManager sounds;
+		private EffectListener effects;
 
 		// Syncvars
 		[SyncVar]
@@ -115,7 +118,7 @@ namespace PolyPlayer {
 					return;
 				}
 			}
-			SoundManager.rpcPlaySound (PlayerSound.ItemPickup);
+			sounds.rpcPlaySound (PlayerSound.ItemPickup);
 			NetworkServer.Destroy (i.gameObject);
 		}
 
@@ -279,7 +282,7 @@ namespace PolyPlayer {
 		[ClientRpc]
 		private void RpcHurt() {
 			anim.SetTrigger ("Hurt");
-			SoundManager.playSound(PlayerSound.Hurt);
+			sounds.playSound(PlayerSound.Hurt);
 		}
 
 		// Broadcasts
@@ -533,6 +536,7 @@ namespace PolyPlayer {
 			thirst = maxThirst;
 
 			ClientScene.RegisterPrefab (deadPrefab);
+			sounds = GetComponent <SoundManager> ();
 
 			if (isServer)
 				StartCoroutine (updateVitals ());
@@ -969,7 +973,7 @@ namespace PolyPlayer {
 
 		private void completeConsuming() {
 			//play burp sound
-			SoundManager.playSound(PlayerSound.ConsumeFinish);
+			sounds.playSound(PlayerSound.ConsumeFinish);
 			anim.SetBool ("Consuming", false);
 			CmdCompleteConsuming ();
 			CmdConsuming (false, rightHandActive);
@@ -1030,23 +1034,21 @@ namespace PolyPlayer {
 
 		private void onLand() {
 			if (groundObject.layer == 8)
-				SoundManager.playSound (MaterialType.Footstep, WorldTerrain.getMaterial (transform.position));
+				effects.playEffect (WorldTerrain.getMaterialEffects(transform.position).stepEffect, transform.position, Vector3.up, 50f);
 			else
-				SoundManager.playSound(null, groundObject);
+				effects.playEffect (groundObject.GetComponent<FXMaterial> ().effects.stepEffect, transform.position, Vector3.up, 50f);
 		}
-
+			
 		private void swing() {
 			CmdSwing (rightHandActive);
 			anim.SetTrigger ("Swing");
 		}
 
 		private void onSwingHit() {
-			if (isLookingAtInteractable()) 
-				SoundManager.playSound(interactor_getItemInHand(), lookingAtObject);
-			else if (lookingAtObject != null && Vector3.Distance(transform.position, lookingAtPoint) < hitRange) {
-				SoundManager.playSound(interactor_getItemInHand(), lookingAtObject);
-				CmdOnHit (lookingAtObject);
-			}
+			if (lookingAtObject.layer == 8)
+				effects.playEffect (WorldTerrain.getMaterialEffects(transform.position).stepEffect, lookingAtPoint, lookingAtNormal, 50f);
+			else
+				effects.playEffect (lookingAtObject.GetComponent<FXMaterial> ().effects.hitEffect, lookingAtPoint, lookingAtNormal, 30f);
 		}
 
 		private bool isConsuming() {
@@ -1058,9 +1060,9 @@ namespace PolyPlayer {
 				if (grounded && isMoving()) {
 					//can pass clothing items here when they exist
 					if (groundObject.layer == 8)
-						SoundManager.playSound (MaterialType.Footstep, WorldTerrain.getMaterial (transform.position));
+						effects.playEffect (WorldTerrain.getMaterialEffects(transform.position).stepEffect, transform.position, Vector3.up, 20f);
 					else
-						SoundManager.playSound(null, groundObject);
+						effects.playEffect (groundObject.GetComponent<FXMaterial> ().effects.stepEffect, transform.position, Vector3.up, 20f);
 				}
 				if (speed == 0f)
 					yield return new WaitForSeconds (1f);

@@ -22,10 +22,6 @@ namespace PolyItem {
 		* 
 		*/
 
-		public static MaterialType getMaterial(ItemStack s) {
-			return getMaterial (s.id);
-		}
-
 		public static int getMaxStackSize(ItemStack s) {
 			return getMaxStackSize (s.id);
 		}
@@ -94,9 +90,6 @@ namespace PolyItem {
 			return ((ItemConsumable)getItem(s.id)).nutrition;
 		}
 
-		public static MaterialType getMaterial(int id) {
-			return getItem (id).material;
-		}
 
 		public static int getMaxStackSize(int id) {
 			return getItem (id).maxStackSize;

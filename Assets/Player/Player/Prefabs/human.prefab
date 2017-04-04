@@ -455,7 +455,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1282339028826058}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 158.59273, y: 9.806493, z: 203.9916}
+  m_LocalPosition: {x: 51.8, y: 17, z: 88}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4979583766294688}
@@ -771,7 +771,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemPickupSound: {fileID: 8300000, guid: 08a01ac33f3604aec8780925a4870239, type: 3}
-  hurtSound: {fileID: 0}
+  hurtSound: {fileID: 8300000, guid: 5c6762c1847364f8b940834bfa5170d8, type: 3}
   burpSound: {fileID: 8300000, guid: 255422777b0e54128a6d80bd4724c439, type: 3}
   materialSoundEntries:
   - key:
@@ -923,7 +923,7 @@ MonoBehaviour:
   fpsMesh: {fileID: 4300000, guid: a4c3dfbfb1e41442c98c4848dfe86e22, type: 3}
   pivot: {fileID: 1037369410354412}
   armLength: 7
-  hitRange: 2
+  hitRange: 4
   maxSpeed: 8
   maxRotation: 5
   jumpSpeed: 7
