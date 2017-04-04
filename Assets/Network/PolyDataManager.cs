@@ -65,7 +65,7 @@ public class PolyDataManager {
 
 				s.id = player.loginID;
 				s.read (player.data);
-
+				PolyChatManager.broadcastGlobal (player.identifier + " has logged in!");
 			}
 		}
 	}
@@ -82,11 +82,23 @@ public class PolyDataManager {
 	}	
 
 	public static PolyClient getPlayerForConnection(int connectionID) {
-		return activePlayers [activeConnections [connectionID]];
+		if (activeConnections.ContainsKey (connectionID))
+			return activePlayers [activeConnections [connectionID]];
+		else
+			return new PolyClient(true);
 	}
 
 	public static PolyClient getPlayer(int playerID) {
-		return activePlayers [playerID];
+		if (activePlayers.ContainsKey (playerID))
+			return activePlayers [playerID];
+		else
+			return new PolyClient(true);
+	}
+
+	public static List<PolyClient> getActivePlayers() {
+		List<PolyClient> items = new List<PolyClient>();
+		items.AddRange(activePlayers.Values);
+		return items;
 	}
 
 	public static void connectionQue(int connectionID, short controllerID) {
@@ -154,6 +166,8 @@ public class PolyDataManager {
 
 			socket.On ("loadPrefabs", onLoadPrefabs);
 			socket.On ("loadObjects", onLoadObjects);
+
+			socket.On ("receiveCommand", onReceiveCommand);
 
 			PolyNetworkManager.FinishStart ();
 			if (PolyNetworkManager.getManager ().shouldRip) {
@@ -367,7 +381,11 @@ public class PolyDataManager {
 	private static void onPlayerSave(SocketIOEvent e) {
 
 	}
-
+		
+	private static void onReceiveCommand(SocketIOEvent e) {
+		if (e.data.HasField("message"))
+			PolyChatManager.handleSend (-1, e.data.GetField ("message").str);
+	}
 
 	private static string ReadString(string path) {
 

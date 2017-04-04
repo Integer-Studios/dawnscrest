@@ -226,7 +226,11 @@ namespace PolyPlayer {
 
 		[Client]
 		public void receiveChat(string name, string message, float distance) {
-			GUIManager.chat.displayMessage (name + ": " + message, distance);
+			if (name != null && name.Length != 0)
+				GUIManager.chat.displayMessage (name + ": " + message, distance);
+			else
+				GUIManager.chat.displayMessage (message, distance);
+			
 		}
 
 		// Multi-Use
