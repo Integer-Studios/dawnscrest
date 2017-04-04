@@ -22,9 +22,10 @@ namespace PolyEffects {
 			if (e.particles != null) {
 				GameObject g = Instantiate (e.particles.gameObject);
 				g.transform.position = pos;
-				g.transform.up = norm;
-				float r = g.GetComponent<ParticleSystem> ().emission.rateOverTimeMultiplier;
-				r = intensity;
+				g.transform.forward = norm;
+				g.transform.Translate (new Vector3 (0f, 0f, 0.3f));
+//				float r = g.GetComponent<ParticleSystem> ().emission.rateOverTimeMultiplier;
+//				r = intensity;
 			}
 		}
 

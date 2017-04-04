@@ -468,8 +468,10 @@ namespace PolyPlayer {
 
 		[Command]
 		private void CmdOnHit(GameObject g) {
+			
 			Living l = g.GetComponent<Living> ();
 			if (l != null) {
+				
 				l.living_hurt (this, 5f);
 			}
 		}
@@ -537,6 +539,7 @@ namespace PolyPlayer {
 
 			ClientScene.RegisterPrefab (deadPrefab);
 			sounds = GetComponent <SoundManager> ();
+			effects = GetComponent<EffectListener> ();
 
 			if (isServer)
 				StartCoroutine (updateVitals ());
@@ -1035,7 +1038,7 @@ namespace PolyPlayer {
 		private void onLand() {
 			if (groundObject.layer == 8)
 				effects.playEffect (WorldTerrain.getMaterialEffects(transform.position).stepEffect, transform.position, Vector3.up, 50f);
-			else
+			else if (groundObject.GetComponent<FXMaterial> ())
 				effects.playEffect (groundObject.GetComponent<FXMaterial> ().effects.stepEffect, transform.position, Vector3.up, 50f);
 		}
 			
@@ -1045,10 +1048,13 @@ namespace PolyPlayer {
 		}
 
 		private void onSwingHit() {
+			if (lookingAtObject == null)
+				return;
 			if (lookingAtObject.layer == 8)
-				effects.playEffect (WorldTerrain.getMaterialEffects(transform.position).stepEffect, lookingAtPoint, lookingAtNormal, 50f);
-			else
-				effects.playEffect (lookingAtObject.GetComponent<FXMaterial> ().effects.hitEffect, lookingAtPoint, lookingAtNormal, 30f);
+				effects.playEffect (WorldTerrain.getMaterialEffects(transform.position).hitEffect, lookingAtPoint, lookingAtNormal, 50f);
+			else if (lookingAtObject.GetComponent<FXMaterial> ())
+				effects.playEffect (lookingAtObject.GetComponent<FXMaterial> ().effects.hitEffect, lookingAtPoint, lookingAtNormal, 50f);
+			CmdOnHit (lookingAtObject);
 		}
 
 		private bool isConsuming() {
@@ -1060,9 +1066,9 @@ namespace PolyPlayer {
 				if (grounded && isMoving()) {
 					//can pass clothing items here when they exist
 					if (groundObject.layer == 8)
-						effects.playEffect (WorldTerrain.getMaterialEffects(transform.position).stepEffect, transform.position, Vector3.up, 20f);
-					else
-						effects.playEffect (groundObject.GetComponent<FXMaterial> ().effects.stepEffect, transform.position, Vector3.up, 20f);
+						effects.playEffect (WorldTerrain.getMaterialEffects(transform.position).stepEffect, transform.position,Vector3.up, 50f);
+					else if (groundObject.GetComponent<FXMaterial> ())
+						effects.playEffect (groundObject.GetComponent<FXMaterial> ().effects.stepEffect, transform.position, Vector3.up, 50f);
 				}
 				if (speed == 0f)
 					yield return new WaitForSeconds (1f);
