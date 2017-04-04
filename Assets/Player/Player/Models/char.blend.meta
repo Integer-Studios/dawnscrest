@@ -528,8 +528,8 @@ ModelImporter:
     - serializedVersion: 16
       name: FPS Swing r
       takeName: Swing
-      firstFrame: 6.1
-      lastFrame: 28.8
+      firstFrame: 9.5
+      lastFrame: 31
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -675,8 +675,8 @@ ModelImporter:
     - serializedVersion: 16
       name: FPS Swing l
       takeName: Swing
-      firstFrame: 6.1
-      lastFrame: 28.8
+      firstFrame: 9.5
+      lastFrame: 31
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

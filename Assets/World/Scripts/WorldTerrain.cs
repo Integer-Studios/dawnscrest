@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using PolyPlayer;
-using PolyItem;
+using PolyEffects;
 using System.IO;
 
 namespace PolyWorld {
@@ -202,11 +202,8 @@ namespace PolyWorld {
 			return (getTerrainHeight (p) < terrain.ocean.transform.position.y);
 		}
 
-		public static MaterialType getMaterial(Vector3 p) {
-			int id = terrain.getBlock (p);
-			if (id == 0)
-				return MaterialType.Earth;
-			return Block.getBlock(id).material;
+		public static MaterialEffects getMaterialEffects(Vector3 p) {
+			return Block.getBlock(terrain.getBlock (p)).effects;
 		}
 
 		[Server]
