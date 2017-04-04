@@ -2,9 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface PolyNetworkListener {
+namespace PolyNetwork {
 
-	void networkListener_onPlayerLogin (PolyClient player);
+	public interface PolyNetworkListener {
 
+		void networkListener_onPlayerLogin (PolyClient player);
+
+
+	}
 
 }

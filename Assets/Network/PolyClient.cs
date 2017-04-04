@@ -4,50 +4,54 @@ using UnityEngine;
 using PolyPlayer;
 using UnityEngine.Networking;
 
-[System.Serializable]
-public struct PolyClient {
+namespace PolyNetwork {
 
-	public GameObject gameObject;
-	public IPolyPlayer playerObject;
-	public int connectionID;
-	public NetworkConnection connection;
-	public int loginID;
-	public short controllerID;
-	public string identifier;
-	public JSONObject data;
+	[System.Serializable]
+	public struct PolyClient {
 
-	public PolyClient(int id, NetworkConnection connection) {
-		this.loginID = id;
-		this.connectionID = connection.connectionId;
-		this.connection = connection;
-		this.data = null;
-		this.identifier = null;
-		this.gameObject = null;
-		this.playerObject = null;
-		this.controllerID = -1;
-	}
+		public GameObject gameObject;
+		public IPolyPlayer playerObject;
+		public int connectionID;
+		public NetworkConnection connection;
+		public int loginID;
+		public short controllerID;
+		public string identifier;
+		public JSONObject data;
 
-	public PolyClient(int id, int  connectionID, JSONObject data) {
-		this.loginID = id;
-		this.connectionID = connectionID;
-		this.connection = null;
-		this.data = data;
-		this.identifier = null;
-		this.gameObject = null;
-		this.playerObject = null;
-		this.controllerID = -1;
-	}
+		public PolyClient(int id, NetworkConnection connection) {
+			this.loginID = id;
+			this.connectionID = connection.connectionId;
+			this.connection = connection;
+			this.data = null;
+			this.identifier = null;
+			this.gameObject = null;
+			this.playerObject = null;
+			this.controllerID = -1;
+		}
 
-	public PolyClient(bool isNull) {
+		public PolyClient(int id, int  connectionID, JSONObject data) {
+			this.loginID = id;
+			this.connectionID = connectionID;
+			this.connection = null;
+			this.data = data;
+			this.identifier = null;
+			this.gameObject = null;
+			this.playerObject = null;
+			this.controllerID = -1;
+		}
 
-		this.loginID = -1;
-		this.connectionID = -1;
-		this.connection = null;
-		this.data = null;
-		this.identifier = null;
-		this.gameObject = null;
-		this.playerObject = null;
-		this.controllerID = -1;
+		public PolyClient(bool isNull) {
+
+			this.loginID = -1;
+			this.connectionID = -1;
+			this.connection = null;
+			this.data = null;
+			this.identifier = null;
+			this.gameObject = null;
+			this.playerObject = null;
+			this.controllerID = -1;
+		}
+
 	}
 
 }

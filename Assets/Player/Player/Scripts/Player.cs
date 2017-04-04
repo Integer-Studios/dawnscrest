@@ -7,6 +7,7 @@ using PolyItem;
 using PolyEntity;
 using PolyWorld;
 using PolyEffects;
+using PolyNetwork;
 
 namespace PolyPlayer {
 

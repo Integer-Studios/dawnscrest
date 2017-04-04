@@ -2,8 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IPolyPlayer {
+namespace PolyNetwork {
 
-	void receiveChat(string name, string message, float distance);
+	public interface IPolyPlayer {
+
+		void receiveChat(string name, string message, float distance);
+
+	}
 
 }
