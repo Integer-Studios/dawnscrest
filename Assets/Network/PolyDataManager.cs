@@ -19,7 +19,6 @@ namespace PolyNetwork {
 		private static Dictionary<int, int> activeConnections = new Dictionary<int, int> ();
 		private static Dictionary<int, short> queuedConnections = new Dictionary<int, short> ();
 		private static Dictionary<int, PolyClient> activePlayers = new Dictionary<int, PolyClient> ();
-		private static Dictionary<int, int> activeGameObjects = new Dictionary<int, int> ();
 
 		private static Dictionary<int, PolyClient> queuedPlayers = new Dictionary<int, PolyClient> ();
 		//	public static Dictionary<int, PolyClient> inactiveClients = new Dictionary<int, PolyClient> ();
@@ -55,7 +54,6 @@ namespace PolyNetwork {
 					player.controllerID = queuedConnections [connectionID];
 					player = PolyNetworkManager.FinishPlayerLogin (player);
 
-					activeGameObjects.Add (player.gameObject.GetInstanceID (), player.loginID);
 					PlayerSaveable s = player.gameObject.GetComponent<PlayerSaveable> ();
 					IPolyPlayer playerObj = player.gameObject.GetComponent<IPolyPlayer> ();
 					player.playerObject = playerObj;
@@ -75,14 +73,7 @@ namespace PolyNetwork {
 		public static int getPlayerIDForConnection(int connectionID) {
 			return activeConnections [connectionID];
 		}
-
-		public static int getPlayerIDForObject(int instanceID) {
-			if (activeGameObjects.ContainsKey (instanceID))
-				return activeGameObjects [instanceID];
-			else
-				return -1;
-		}	
-
+			
 		public static PolyClient getPlayerForConnection(int connectionID) {
 			if (activeConnections.ContainsKey (connectionID))
 				return activePlayers [activeConnections [connectionID]];
@@ -128,7 +119,6 @@ namespace PolyNetwork {
 
 			int playerID = activeConnections [connectionID];
 			savePlayer (playerID);
-			activeGameObjects.Remove (activePlayers[playerID].gameObject.GetInstanceID());
 			activePlayers.Remove (playerID);
 			activeConnections.Remove (connectionID);
 			JSONObject obj = new JSONObject (JSONObject.Type.OBJECT);
