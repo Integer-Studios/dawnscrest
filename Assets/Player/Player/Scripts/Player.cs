@@ -17,6 +17,7 @@ namespace PolyPlayer {
 		#region
 		public float interpolationRate = 9f;
 		public float ipPositionAllowance = 0.1f;
+		public float ipPositionServerAuth = 1f;
 		public float ipRotationAllowance = 1f;
 		public float vitalsUpdateRate = 5f;
 		public float mouseSensitivity = 8.0f;
@@ -410,7 +411,7 @@ namespace PolyPlayer {
 
 		[Command]
 		private void CmdUpdateTransform (Vector3 v, float rv, Vector3 p, Quaternion r, float pi) {
-			if (Vector3.Distance (transform.position, p) > ipPositionAllowance) {
+			if (Vector3.Distance (transform.position, p) > ipPositionServerAuth) {
 				p = transform.position;
 				RpcTransformDenied (p);
 			}
