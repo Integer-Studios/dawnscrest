@@ -36,9 +36,9 @@ public class PlayerSaveable : MonoBehaviour {
 
 		Player p = GetComponent<Player> ();
 		p.playerID = (int) json.GetField ("id").n;
-		Vector3 pos = new Vector3(json.GetField("position-x").n, json.GetField("position-y").n, json.GetField("position-z").n);
-		Vector3 rot = new Vector3(json.GetField("rotation-x").n, json.GetField("rotation-y").n, json.GetField("rotation-z").n);
-		transform.position = pos;
+		Vector3 pos = Saveable.readVector (json, "position");
+		Vector3 rot = Saveable.readVector (json, "rotation");
+//		transform.position = pos;
 		transform.rotation = Quaternion.Euler(rot);
 		p.loadVitals (json.GetField("health").n, json.GetField("hunger").n, json.GetField("thirst").n);
 		Inventory[] invs = GetComponents<Inventory> ();

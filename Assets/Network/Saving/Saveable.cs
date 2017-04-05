@@ -68,4 +68,10 @@ public class Saveable : NetworkBehaviour {
 		}
 	}
 
+	public static Vector3 readVector(JSONObject json, string identifier) {
+
+		return new Vector3(json.GetField(identifier + "-x").n, json.GetField(identifier + "-y").n, json.GetField(identifier + "-z").n);
+
+	}
+
 }
