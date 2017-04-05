@@ -119,11 +119,13 @@ namespace PolyNetwork {
 
 			int playerID = activeConnections [connectionID];
 			savePlayer (playerID);
+			string identifier = activePlayers [playerID].identifier;
 			activePlayers.Remove (playerID);
 			activeConnections.Remove (connectionID);
 			JSONObject obj = new JSONObject (JSONObject.Type.OBJECT);
 			obj.AddField ("id", playerID);
 			socket.Emit("playerDisconnect", obj);
+			PolyChatManager.broadcastGlobal (identifier + " has logged off!");
 		}
 
 		public static void DeleteObject(int id) {
