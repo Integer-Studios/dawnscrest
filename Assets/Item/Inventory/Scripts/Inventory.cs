@@ -77,12 +77,13 @@ namespace PolyItem {
 
 		[Server]
 		public void setSlot(int i, ItemStack s) {
-			if (s != null && s.size != 0) {
-				slots [i].stack = s;
-			} else {
-				slots [i].stack = null;
-			}
-			onSlotUpdate (i);
+			Debug.Log (networkID + " " + i + " " + slots.Length + " " + s.id + " " + s.size);
+//			if (s != null && s.size != 0) {
+//				slots [i].stack = s;
+//			} else {
+//				slots [i].stack = null;
+//			}
+//			onSlotUpdate (i);
 		}
 
 		[Server]
@@ -234,20 +235,19 @@ namespace PolyItem {
 		}
 
 		public virtual void read (JSONObject obj) {
+			JSONObject slotsJSON = obj.GetField ("slots");
 
 			if (slots != null) {
-
-				for(int x = 0; x <  obj.list.Count; x ++) {
-					JSONObject slot = obj [x];
+				foreach(JSONObject slot in slotsJSON.list) {
 					int index = (int)slot.GetField ("id").n;
 					int item = (int)slot.GetField ("item").n;
 					int size = (int)slot.GetField ("size").n;
 					int quality = (int)slot.GetField ("quality").n;
-					if (item != -1)
-						setSlot (index, new ItemStack (item, quality, size));
+//					Debug.Log (index + " " + item + " " + size + " " + quality);
+//					if (item != -1)
+//						setSlot (index, new ItemStack (item, quality, size));
 				}
 			} else {
-				JSONObject slotsJSON = obj.GetField ("slots");
 
 				this.data = slotsJSON;
 			}

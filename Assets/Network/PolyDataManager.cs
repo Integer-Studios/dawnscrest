@@ -50,6 +50,7 @@ namespace PolyNetwork {
 			int[] keys = new int[queuedConnections.Keys.Count];
 			queuedConnections.Keys.CopyTo(keys, 0);
 			foreach (int connectionID in keys) {
+				
 				if (queuedPlayers.ContainsKey (connectionID)) {
 					PolyClient player = queuedPlayers [connectionID];
 					player.connection = NetworkServer.connections [connectionID];
@@ -66,9 +67,8 @@ namespace PolyNetwork {
 					activeConnections.Add (player.connectionID, player.loginID);
 					activeUsernames.Add (player.identifier.ToLower(), player.loginID);
 
-					s.id = player.loginID;
-					s.read (player.data);
-					PolyChatManager.broadcastGlobal (player.identifier + " has logged in!");
+					PolyNetworkManager.getManager ().StartCoroutine (ReadPlayerData (player.data, s, player));
+
 				}
 			}
 		}
@@ -163,6 +163,15 @@ namespace PolyNetwork {
 			objects.Remove (s.id);
 			NetworkServer.Destroy (s.gameObject);
 		}
+
+		public static IEnumerator ReadPlayerData(JSONObject json, PlayerSaveable s, PolyClient player) {
+			yield return new WaitForSeconds (1f);
+			s.id = player.loginID;
+			s.read (json);
+			PolyChatManager.broadcastGlobal (player.identifier + " has logged in!");
+
+		}
+
 
 		public static IEnumerator Connect() {
 			yield return new WaitForSeconds (3f);
@@ -382,7 +391,6 @@ namespace PolyNetwork {
 		private static void onPlayerLogin(SocketIOEvent e) {
 			int loginID = (int)e.data.GetField ("id").n;
 			int connectionID = (int)e.data.GetField ("connection").n;
-
 			PolyClient player = new PolyClient (loginID, connectionID, e.data);
 			player.identifier = e.data.GetField ("username").str;
 		

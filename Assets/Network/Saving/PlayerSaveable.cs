@@ -36,7 +36,6 @@ public class PlayerSaveable : MonoBehaviour {
 
 		Player p = GetComponent<Player> ();
 		p.playerID = (int) json.GetField ("id").n;
-		Vector3 pos = Saveable.readVector (json, "position");
 		Vector3 rot = Saveable.readVector (json, "rotation");
 //		transform.position = pos;
 		transform.rotation = Quaternion.Euler(rot);
