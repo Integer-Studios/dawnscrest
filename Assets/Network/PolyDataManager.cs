@@ -16,6 +16,8 @@ namespace PolyNetwork {
 		private static SocketIOComponent socket;
 
 		//Clients
+		private static Dictionary<string, int> activeUsernames = new Dictionary<string, int> ();
+
 		private static Dictionary<int, int> activeConnections = new Dictionary<int, int> ();
 		private static Dictionary<int, short> queuedConnections = new Dictionary<int, short> ();
 		private static Dictionary<int, PolyClient> activePlayers = new Dictionary<int, PolyClient> ();
@@ -62,6 +64,7 @@ namespace PolyNetwork {
 					queuedPlayers.Remove (player.connectionID);
 					activePlayers.Add (player.loginID, player);
 					activeConnections.Add (player.connectionID, player.loginID);
+					activeUsernames.Add (player.identifier.ToLower(), player.loginID);
 
 					s.id = player.loginID;
 					s.read (player.data);
@@ -77,6 +80,19 @@ namespace PolyNetwork {
 		public static PolyClient getPlayerForConnection(int connectionID) {
 			if (activeConnections.ContainsKey (connectionID))
 				return activePlayers [activeConnections [connectionID]];
+			else
+				return new PolyClient(true);
+		}
+
+		public static int getPlayerIDForUsername(string identifier) {
+			identifier = identifier.ToLower ();
+			return activeUsernames [identifier];
+		}
+
+		public static PolyClient getPlayerForUsername(string identifier) {
+			identifier = identifier.ToLower ();
+			if (activeUsernames.ContainsKey (identifier))
+				return activePlayers [activeUsernames [identifier]];
 			else
 				return new PolyClient(true);
 		}
@@ -122,6 +138,7 @@ namespace PolyNetwork {
 			string identifier = activePlayers [playerID].identifier;
 			activePlayers.Remove (playerID);
 			activeConnections.Remove (connectionID);
+			activeUsernames.Remove (identifier.ToLower ());
 			JSONObject obj = new JSONObject (JSONObject.Type.OBJECT);
 			obj.AddField ("id", playerID);
 			socket.Emit("playerDisconnect", obj);

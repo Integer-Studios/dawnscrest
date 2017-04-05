@@ -25,6 +25,7 @@ namespace PolyNetwork {
 				string fullCommand = string.Join (" ", args);
 				switch (command) {
 					case "save": 
+						sendMessage (sender, "Server", "Received command " + message);
 						switch (args [0]) {
 							case "players":
 								PolyDataManager.savePlayers ();
@@ -41,9 +42,39 @@ namespace PolyNetwork {
 					case "say":
 						broadcastGlobal (fullCommand);
 						break;
+				case "tp":
+					PolyClient teleportee;
+					if (server) {
+						teleportee = PolyDataManager.getPlayerForUsername (args [0]);
+						argsList = new List<string> (args);
+						argsList.RemoveAt (0);
+						args = argsList.ToArray ();
+					} else
+						teleportee = sender;
+						if (args.Length == 3) {
+							//vector
+							Vector3 pos = new Vector3 (float.Parse (args [0]), float.Parse (args [1]), float.Parse (args [2]));
+							teleportee.gameObject.transform.position = pos;
+						} else if (args.Length == 1 && args [0] != "spawn") {
+							//player
+							PolyClient target = PolyDataManager.getPlayerForUsername (args [0]);
+							if (target.loginID != -1) {
+								Vector3 pos = target.gameObject.transform.position;
+								teleportee.gameObject.transform.position = pos;
+							} else
+								sendMessage (sender, "Server", "Could not find player: " + args [0]);
+
+						} else if (args [0] == "spawn") {
+							Vector3 pos = PolyNetworkManager.getManager ().spawn.transform.position;
+							teleportee.gameObject.transform.position = pos;
+						}
+						
+						break;
+					default: 
+						sendMessage (sender, "Server", "Received command " + message);
+						break;
 				}
 
-				sendMessage(sender, "Server", "Received command " + message);
 			} else {
 				broadcastLocal (sender, message);
 			}
@@ -88,6 +119,9 @@ namespace PolyNetwork {
 		}
 
 		public static void sendMessage(PolyClient receiver, string sender, string message, float distance = 0) {
+			if (receiver.loginID == -1)
+				return;
+			
 			PolyNetworkManager.sendNetMessage (receiver.connection, PlayerChat.MSG_TYPE, new PlayerChat () {
 				senderIdentifier = sender,
 				message = message,
