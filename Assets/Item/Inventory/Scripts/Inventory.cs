@@ -25,22 +25,22 @@ namespace PolyItem {
 
 		[Server]
 		public virtual void dropAll(Vector3 pos) {
-			foreach (ItemSlot s in slots) {
-				if (s.stack == null)
+			for (int i = 0; i < slots.GetLength(0); i++) {
+				if (slots [i].stack == null)
 					continue;
 				
-				for (int i = 0; i < s.stack.size; i++) {
-					GameObject g = ItemManager.createItem (s.stack);
+				for (int j = 0; j < slots [i].stack.size; j++) {
+					GameObject g = ItemManager.createItem (slots [i].stack);
 					g.transform.position = pos;
 				}
-				s.stack = null;
+				setSlot (i, null);
 			}
 		}
 
 		[Server]
 		public virtual void clearAll() {
-			foreach (ItemSlot s in slots) {
-				s.stack = null;
+			for (int i = 0; i < slots.GetLength (0); i++) {
+				setSlot (i, null);
 			}
 		}
 
