@@ -53,16 +53,14 @@ namespace PolyItem {
 		protected override void onComplete(Interactor i) {
 			for (int j = 0; j < drops.GetLength (0); j++) {
 				GameObject g = Instantiate (drops [j].gameObject);
-				g.transform.position = i.interactor_getInteractionPosition() + new Vector3(Random.Range(-0.5f,0.5f),Random.Range(-0.5f,0.5f), Random.Range(-0.5f,0.5f));
 				g.GetComponent<Rigidbody> ().velocity = i.interactor_getInteractionNormal () + new Vector3(Random.Range(-0.5f,0.5f),Random.Range(-0.5f,0.5f), Random.Range(-0.5f,0.5f));
 				NetworkServer.Spawn (g);
+				g.GetComponent<Item> ().setPosition ( i.interactor_getInteractionPosition() + new Vector3(Random.Range(-0.5f,0.5f),Random.Range(-0.5f,0.5f), Random.Range(-0.5f,0.5f)));
 			}
 			if (replacement != null) {
 				GameObject g = Instantiate(replacement);
-				g.transform.position = transform.position;
-				g.transform.localScale = transform.localScale;
-				g.transform.rotation = transform.rotation;
 				NetworkServer.Spawn (g);
+				g.GetComponent<Item> ().setPosition (transform.position);
 				Destroy (gameObject);
 			} else {
 				curRepeats++;

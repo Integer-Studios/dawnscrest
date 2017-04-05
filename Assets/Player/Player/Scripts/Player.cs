@@ -525,7 +525,7 @@ namespace PolyPlayer {
 				slot = 2;
 			
 			GameObject g = ItemManager.createItemForPlacing (hotbarInventory.getSlotCopy (slot));
-			g.transform.position = p;
+			g.GetComponent<Item> ().setPosition (p);
 			hotbarInventory.decreaseSlot (slot);
 		}
 
