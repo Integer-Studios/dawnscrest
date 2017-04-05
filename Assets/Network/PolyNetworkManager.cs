@@ -42,11 +42,9 @@ namespace PolyNetwork {
 						if (login.isSinglePlayer)
 							live = false;
 						login.playerID = debugUserID;
-						this.networkAddress = "localhost";
 						StartPolyHost ();
 					} else if (login.debugClient) {
 						login.playerID = debugUserID;
-						this.networkAddress = "10.0.0.10";
 						StartClient ();
 					} else {
 						this.networkAddress = "52.34.152.147";
