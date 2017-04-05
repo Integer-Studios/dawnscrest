@@ -7,7 +7,7 @@ namespace PolyNetwork {
 	public interface IPolyPlayer {
 
 		void receiveChat(string name, string message, float distance);
-
+		void setPlayerID(int id);
 	}
 
 }

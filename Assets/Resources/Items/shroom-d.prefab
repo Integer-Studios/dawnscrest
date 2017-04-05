@@ -23,7 +23,6 @@ GameObject:
   - component: {fileID: 54312013851007746}
   - component: {fileID: 114990259317178628}
   - component: {fileID: 114048898583223232}
-  - component: {fileID: 114502014744511772}
   m_Layer: 0
   m_Name: shroom-d
   m_TagString: decoration
@@ -161,26 +160,6 @@ MonoBehaviour:
   quality: 0
   nutrition: 10
   consumableType: 1
---- !u!114 &114502014744511772
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1644534853073114}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_TransformSyncMode: 0
-  m_SendInterval: 0.1
-  m_SyncRotationAxis: 7
-  m_RotationSyncCompression: 0
-  m_SyncSpin: 0
-  m_MovementTheshold: 0.001
-  m_SnapThreshold: 5
-  m_InterpolateRotation: 1
-  m_InterpolateMovement: 1
 --- !u!114 &114990259317178628
 MonoBehaviour:
   m_ObjectHideFlags: 1

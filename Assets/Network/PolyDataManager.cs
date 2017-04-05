@@ -60,14 +60,13 @@ namespace PolyNetwork {
 					PlayerSaveable s = player.gameObject.GetComponent<PlayerSaveable> ();
 					IPolyPlayer playerObj = player.gameObject.GetComponent<IPolyPlayer> ();
 					player.playerObject = playerObj;
+					s.id = player.loginID;
 
 					queuedConnections.Remove (player.connectionID);
 					queuedPlayers.Remove (player.connectionID);
 					activePlayers.Add (player.loginID, player);
 					activeConnections.Add (player.connectionID, player.loginID);
 					activeUsernames.Add (player.identifier.ToLower(), player.loginID);
-
-					PolyNetworkManager.getManager ().StartCoroutine (ReadPlayerData (player.data, s, player));
 
 				}
 			}
@@ -164,9 +163,11 @@ namespace PolyNetwork {
 			NetworkServer.Destroy (s.gameObject);
 		}
 
-		public static IEnumerator ReadPlayerData(JSONObject json, PlayerSaveable s, PolyClient player) {
+		public static IEnumerator ReadPlayerData(int playerID) {
 			yield return new WaitForSeconds (1f);
-			s.id = player.loginID;
+			PolyClient player = getPlayer (playerID);
+			JSONObject json = player.data;
+			PlayerSaveable s = player.gameObject.GetComponent<PlayerSaveable> ();
 			s.read (json);
 			PolyChatManager.broadcastGlobal (player.identifier + " has logged in!");
 

@@ -102,16 +102,18 @@ namespace PolyItem {
 
 		protected virtual void convertToHeldItem(ItemHolder h, int hid) {
 			heldID = hid;
-			if (GetComponent<Rigidbody> ())
-				Destroy(GetComponent<Rigidbody> ());
 			if (GetComponent<NetworkTransform> ())
 				Destroy(GetComponent<NetworkTransform> ());
+
+			if (GetComponent<Rigidbody> ())
+				Destroy(GetComponent<Rigidbody> ());
+
 			if (GetComponent<Renderer> ())
 				GetComponent<Renderer> ().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
 
 			foreach (Collider c in GetComponents<Collider> ())
 				Destroy(c);
-			
+
 			transform.SetParent (h.itemHolder_getHolderTransform(heldID));
 			transform.localPosition = h.itemHolder_getOffset(heldID);
 			transform.localEulerAngles = h.itemHolder_getRotation(heldID);

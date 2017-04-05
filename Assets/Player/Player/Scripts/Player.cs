@@ -136,8 +136,10 @@ namespace PolyPlayer {
 		// Inventory Listener Interface
 		[Server]
 		public void inventoryListener_onSlotChange(Inventory inv, int i, ItemStack s) {
-			if (inv == hotbarInventory)
-				updateHolding (s, i);
+			if (isServer) {
+				if (inv == hotbarInventory)
+					updateHolding (s, i);
+			}
 		}
 
 		// Item Holder Interface
@@ -235,6 +237,11 @@ namespace PolyPlayer {
 			else
 				GUIManager.chat.displayMessage (message, distance);
 			
+		}
+
+		[Client]
+		public void setPlayerID(int id) {
+			this.playerID = id;
 		}
 
 		// Multi-Use
@@ -537,6 +544,12 @@ namespace PolyPlayer {
 			PolyDataManager.overwriteSave (playerID);
 		}
 
+		[Command]
+		private void CmdOnPlayerLoaded(int id) {
+			if (id > 0) 
+				StartCoroutine(PolyDataManager.ReadPlayerData (id));
+		}
+
 
 		#endregion
 		/* 
@@ -575,7 +588,7 @@ namespace PolyPlayer {
 					mainInventory = i;
 
 			}
-
+			CmdOnPlayerLoaded (playerID);
 			StartCoroutine(lateStart ());
 
 			if (!isLocalPlayer)

@@ -19,6 +19,7 @@ namespace PolyNetwork {
 
 		private static IPolyPlayer localPlayer;
 		private PolyLogin login;
+		private static int localUserID;
 		private static PolyNetworkManager self; 
 		private static List<PolyNetworkListener> listeners = new List<PolyNetworkListener>();
 		private static List<PolyMessageHandler> handlers = new List<PolyMessageHandler> ();
@@ -50,10 +51,13 @@ namespace PolyNetwork {
 						this.networkAddress = "52.34.152.147";
 						StartClient ();
 					}
+					localUserID = login.playerID;
 				} else {
+					localUserID = debugUserID;
 					this.networkAddress = "localhost";
 					StartPolyHost ();
 				}
+
 			}
 
 			handlers.Add (new PolyChatManager ());
@@ -134,6 +138,8 @@ namespace PolyNetwork {
 
 		public static void setLocalPlayer(IPolyPlayer p) {
 			localPlayer = p;
+
+			p.setPlayerID (localUserID);
 		}
 
 		public static IPolyPlayer getLocalPlayer() {

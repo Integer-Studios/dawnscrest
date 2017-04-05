@@ -77,13 +77,12 @@ namespace PolyItem {
 
 		[Server]
 		public void setSlot(int i, ItemStack s) {
-			Debug.Log (networkID + " " + i + " " + slots.Length + " " + s.id + " " + s.size);
-//			if (s != null && s.size != 0) {
-//				slots [i].stack = s;
-//			} else {
-//				slots [i].stack = null;
-//			}
-//			onSlotUpdate (i);
+			if (s != null && s.size != 0) {
+				slots [i].stack = s;
+			} else {
+				slots [i].stack = null;
+			}
+			onSlotUpdate (i);
 		}
 
 		[Server]
@@ -243,9 +242,8 @@ namespace PolyItem {
 					int item = (int)slot.GetField ("item").n;
 					int size = (int)slot.GetField ("size").n;
 					int quality = (int)slot.GetField ("quality").n;
-//					Debug.Log (index + " " + item + " " + size + " " + quality);
-//					if (item != -1)
-//						setSlot (index, new ItemStack (item, quality, size));
+					if (item != -1)
+						setSlot (index, new ItemStack (item, quality, size));
 				}
 			} else {
 
