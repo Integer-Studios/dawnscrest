@@ -13,7 +13,6 @@ namespace PolyPlayer {
 
 	public class Player : NetworkBehaviour, Interactor, InventoryListener, ItemHolder, Living, IPolyPlayer {
 
-
 		// Vars : public, protected, private, hide
 		#region
 		public float interpolationRate = 9f;
@@ -545,6 +544,8 @@ namespace PolyPlayer {
 		// Start
 
 		private void Start() {
+			if (isLocalPlayer) 
+				PolyNetworkManager.setLocalPlayer (this);
 			health = maxHealth;
 			hunger = maxHunger;
 			thirst = maxThirst;
@@ -576,7 +577,6 @@ namespace PolyPlayer {
 			if (!isLocalPlayer)
 				return;
 
-			PolyNetworkManager.setLocalPlayer (this);
 			rigidBody.interpolation = RigidbodyInterpolation.Interpolate;
 			setUpCamera ();
 			setUpLocalAnimations ();
