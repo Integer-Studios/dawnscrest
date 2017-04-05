@@ -95,7 +95,8 @@ namespace PolyNetwork {
 
 			Debug.Log ("Finishing player... " + player.identifier);
 			NetworkConnection conn = NetworkServer.connections[player.connectionID];
-			var playerObject = (GameObject)GameObject.Instantiate(self.playerPrefab, self.spawn.transform.position, Quaternion.identity);
+			Vector3 position = Saveable.readVector (player.data, "position");
+			var playerObject = (GameObject)GameObject.Instantiate(self.playerPrefab, position, Quaternion.identity);
 			NetworkServer.AddPlayerForConnection(conn, playerObject, player.controllerID);
 			player.gameObject = playerObject;
 			self.StartCoroutine (listeners_onPlayerLogin (player));
