@@ -13,7 +13,9 @@ namespace PolyItem {
 		public float refillTime = 60;
 		public GameObject replacement;
 
+		[SyncVar]
 		private int curRepeats = 0;
+		[SyncVar]
 		private int curRefills = 0;
 		private float runoutTime = -1f;
 
