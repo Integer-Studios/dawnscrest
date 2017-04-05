@@ -668,7 +668,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 30
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -817,6 +817,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interpolationRate: 15
   ipPositionAllowance: 0.1
+  ipPositionServerAuth: 1
   ipRotationAllowance: 1
   vitalsUpdateRate: 5
   mouseSensitivity: 8
