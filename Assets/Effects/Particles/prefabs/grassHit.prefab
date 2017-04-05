@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 199295090951404766}
   - component: {fileID: 114042388603297926}
   m_Layer: 0
-  m_Name: hit
+  m_Name: grassHit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -281,7 +281,7 @@ ParticleSystem:
         m_NumColorKeys: 2
         m_NumAlphaKeys: 2
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 0.68235296, g: 0.67058825, b: 0.67058825, a: 1}
+      maxColor: {r: 0.5372549, g: 0.84705883, b: 0.44313726, a: 1}
       minMaxState: 0
     startSize:
       scalar: 0.2

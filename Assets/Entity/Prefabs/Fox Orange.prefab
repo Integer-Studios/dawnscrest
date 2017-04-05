@@ -101,6 +101,7 @@ GameObject:
   - component: {fileID: 114366065153454052}
   - component: {fileID: 114067469561392986}
   - component: {fileID: 114630541500324140}
+  - component: {fileID: 114917673608379030}
   m_Layer: 20
   m_Name: Fox Orange
   m_TagString: Untagged
@@ -1222,6 +1223,31 @@ MonoBehaviour:
     i15: 146
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &114917673608379030
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1279174189599448}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11eb8acd47c934639b60e87a2cf56a51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  effects:
+    hitEffect:
+      clips:
+      - {fileID: 8300000, guid: c067618f167844bf59bb5b34dd6aa110, type: 3}
+      - {fileID: 8300000, guid: 5702c27fc05cb42449b717da9f9cdd5b, type: 3}
+      - {fileID: 8300000, guid: 521241fbc72fb42738100dbf6a1dcf2f, type: 3}
+      particles: {fileID: 198660948010905948, guid: 0c1e60a0cd87644ba9eeb71fafb4887c,
+        type: 2}
+    stepEffect:
+      clips:
+      - {fileID: 8300000, guid: c067618f167844bf59bb5b34dd6aa110, type: 3}
+      - {fileID: 8300000, guid: 5702c27fc05cb42449b717da9f9cdd5b, type: 3}
+      - {fileID: 8300000, guid: 521241fbc72fb42738100dbf6a1dcf2f, type: 3}
+      particles: {fileID: 0}
 --- !u!136 &136942053446350920
 CapsuleCollider:
   m_ObjectHideFlags: 1

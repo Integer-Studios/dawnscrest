@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6400160}
   - component: {fileID: 114426444174103944}
   - component: {fileID: 114246289235704698}
+  - component: {fileID: 114614116622924282}
   m_Layer: 0
   m_Name: Rocks_Round_m_03
   m_TagString: Untagged
@@ -136,7 +137,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d59c217d16c2a48198c5b8e471808671, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  material: 1
   maxStrength: 5
   type: 0
   destroyOnInteract: 0
@@ -178,3 +178,43 @@ MonoBehaviour:
     i15: 124
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &114614116622924282
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 143902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11eb8acd47c934639b60e87a2cf56a51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  effects:
+    hitEffect:
+      clips:
+      - {fileID: 8300000, guid: e842c3e63ade34737b45b6b5a7735348, type: 3}
+      - {fileID: 8300000, guid: 554bc1af3e2644701bbee2565fcaea87, type: 3}
+      - {fileID: 8300000, guid: 67dc2f6c5d50e4b978fdd09e8e9b1b73, type: 3}
+      - {fileID: 8300000, guid: 9421169b231874293918e738c073e538, type: 3}
+      - {fileID: 8300000, guid: 99e4a3d360b6b419f9264182be2cc15a, type: 3}
+      - {fileID: 8300000, guid: b19860f3d34e748a98303a5529ee1dba, type: 3}
+      - {fileID: 8300000, guid: f6dc061bb22654cc29931d5703ec83e9, type: 3}
+      - {fileID: 8300000, guid: 18e20fe2f2dca46dc9e0b2aee17d56a4, type: 3}
+      - {fileID: 8300000, guid: c1211b50b3777405898483e2289f81fe, type: 3}
+      - {fileID: 8300000, guid: eee1e62809cdc4d89b496183d177869d, type: 3}
+      particles: {fileID: 198050472945075162, guid: 17a4b574dcc9b44f9b676921d1b85a21,
+        type: 2}
+    stepEffect:
+      clips:
+      - {fileID: 8300000, guid: e842c3e63ade34737b45b6b5a7735348, type: 3}
+      - {fileID: 8300000, guid: 554bc1af3e2644701bbee2565fcaea87, type: 3}
+      - {fileID: 8300000, guid: 67dc2f6c5d50e4b978fdd09e8e9b1b73, type: 3}
+      - {fileID: 8300000, guid: 9421169b231874293918e738c073e538, type: 3}
+      - {fileID: 8300000, guid: 99e4a3d360b6b419f9264182be2cc15a, type: 3}
+      - {fileID: 8300000, guid: b19860f3d34e748a98303a5529ee1dba, type: 3}
+      - {fileID: 8300000, guid: f6dc061bb22654cc29931d5703ec83e9, type: 3}
+      - {fileID: 8300000, guid: 18e20fe2f2dca46dc9e0b2aee17d56a4, type: 3}
+      - {fileID: 8300000, guid: c1211b50b3777405898483e2289f81fe, type: 3}
+      - {fileID: 8300000, guid: eee1e62809cdc4d89b496183d177869d, type: 3}
+      particles: {fileID: 198050472945075162, guid: 17a4b574dcc9b44f9b676921d1b85a21,
+        type: 2}
