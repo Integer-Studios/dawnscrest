@@ -357,7 +357,8 @@ namespace PolyPlayer {
 
 		[ClientRpc]
 		private void RpcTransformDenied(Vector3 pos) {
-			transform.position = pos;
+			if (isLocalPlayer)
+				transform.position = pos;
 		}
 
 		#endregion
@@ -409,17 +410,19 @@ namespace PolyPlayer {
 
 		[Command]
 		private void CmdUpdateTransform (Vector3 v, float rv, Vector3 p, Quaternion r, float pi) {
+			if (Vector3.Distance (transform.position, p) > ipPositionAllowance) {
+				p = transform.position;
+				RpcTransformDenied (p);
+			}
+
 			if (!isClient) {
 				velocity = v;
 				rotationalVelocity = rv;
-				if (Vector3.Distance (transform.position, p) < ipPositionAllowance)
-					transform.position = p;
-				else
-					RpcTransformDenied (transform.position);
+				transform.position = p;
 				transform.rotation = r;
 				pitch = pi;
 			}
-			RpcUpdateTransform_Broadcast (v, rv, transform.position, r, pi);
+			RpcUpdateTransform_Broadcast (v, rv, p, r, pi);
 		}
 
 		// Interaction Commands
