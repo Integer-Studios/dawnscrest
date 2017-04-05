@@ -40,6 +40,7 @@ GameObject:
   - component: {fileID: 54077595996285664}
   - component: {fileID: 114851564543183902}
   - component: {fileID: 114930095982578594}
+  - component: {fileID: 114638054500593650}
   m_Layer: 0
   m_Name: raw-meat
   m_TagString: Untagged
@@ -139,6 +140,26 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.5, y: 0.3, z: 0.7}
   m_Center: {x: 0, y: 0.1, z: 0}
+--- !u!114 &114638054500593650
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1768839809474872}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TransformSyncMode: 0
+  m_SendInterval: 0.1
+  m_SyncRotationAxis: 7
+  m_RotationSyncCompression: 0
+  m_SyncSpin: 0
+  m_MovementTheshold: 0.001
+  m_SnapThreshold: 5
+  m_InterpolateRotation: 1
+  m_InterpolateMovement: 1
 --- !u!114 &114851564543183902
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -182,7 +203,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f461e8f5c487457887ec27ccad42967, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  material: 3
   maxStrength: 0
   id: 13
   sprite: {fileID: 21300000, guid: 9a1a1c517b38b4fc7ac40886e320cb8d, type: 3}

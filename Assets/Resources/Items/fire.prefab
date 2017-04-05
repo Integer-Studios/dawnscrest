@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 135702719959745316}
   - component: {fileID: 114948887260706954}
   - component: {fileID: 114450475430160602}
+  - component: {fileID: 114958805745909292}
   m_Layer: 0
   m_Name: fire
   m_TagString: Untagged
@@ -53,7 +54,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f461e8f5c487457887ec27ccad42967, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  material: 1
   maxStrength: 0
   id: 10
   sprite: {fileID: 21300000, guid: 0718f16383ee8480cb6377a1aa5c0f03, type: 3}
@@ -94,6 +94,26 @@ MonoBehaviour:
     i15: 95
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &114958805745909292
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1456139303017004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TransformSyncMode: 0
+  m_SendInterval: 0.1
+  m_SyncRotationAxis: 7
+  m_RotationSyncCompression: 0
+  m_SyncSpin: 0
+  m_MovementTheshold: 0.001
+  m_SnapThreshold: 5
+  m_InterpolateRotation: 1
+  m_InterpolateMovement: 1
 --- !u!135 &135702719959745316
 SphereCollider:
   m_ObjectHideFlags: 1

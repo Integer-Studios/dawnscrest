@@ -40,6 +40,7 @@ GameObject:
   - component: {fileID: 65418116451461168}
   - component: {fileID: 114566451808525438}
   - component: {fileID: 114845024798753668}
+  - component: {fileID: 114307289501471410}
   m_Layer: 0
   m_Name: stick
   m_TagString: Untagged
@@ -139,6 +140,26 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.13936926, y: 2.595274, z: 0.20592695}
   m_Center: {x: -0.015771396, y: 0.6675072, z: -0.002605709}
+--- !u!114 &114307289501471410
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1501807591937866}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TransformSyncMode: 3
+  m_SendInterval: 0.1
+  m_SyncRotationAxis: 7
+  m_RotationSyncCompression: 0
+  m_SyncSpin: 0
+  m_MovementTheshold: 0.001
+  m_SnapThreshold: 5
+  m_InterpolateRotation: 1
+  m_InterpolateMovement: 1
 --- !u!114 &114566451808525438
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -150,7 +171,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f461e8f5c487457887ec27ccad42967, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  material: 0
   maxStrength: 0
   id: 2
   sprite: {fileID: 21300000, guid: 18be969d6bfd84f2986e307a225304e3, type: 3}
