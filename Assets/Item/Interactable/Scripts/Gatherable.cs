@@ -59,8 +59,10 @@ namespace PolyItem {
 			}
 			if (replacement != null) {
 				GameObject g = Instantiate(replacement);
+				g.transform.position = transform.position;
+				g.transform.localScale = transform.localScale;
+				g.transform.rotation = transform.rotation;
 				NetworkServer.Spawn (g);
-				g.GetComponent<Item> ().setPosition (transform.position);
 				Destroy (gameObject);
 			} else {
 				curRepeats++;
