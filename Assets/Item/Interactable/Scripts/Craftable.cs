@@ -23,7 +23,7 @@ namespace PolyItem {
 
 		[Server]
 		public virtual void setRecipe(Recipe r) {
-			Debug.Log ("craftable recipe");
+			Debug.Log ("craftable recipe: " + r);
 			recipe = r;
 			if (recipe != null) {
 				setMaxStrength (5f);
@@ -41,7 +41,7 @@ namespace PolyItem {
 
 		[Server]
 		public virtual void setInput(ItemStack[] s) {
-			Debug.Log ("craftable input");
+			Debug.Log ("craftable input: " + s);
 			input = s;
 			RpcSetInput (new NetworkItemStackArray (s));
 		}
@@ -119,8 +119,10 @@ namespace PolyItem {
 		private void useRequirements() {
 			if (!isLoaded ())
 				return;
-			
+			Debug.Log ("craftable use requirements:");
 			for(int i = 0; i < recipe.input.GetLength (0); i++) {
+				Debug.Log ("input: " + input);
+				Debug.Log ("recipe: " + recipe);
 				input [i].size -= recipe.input [i].size;
 				if (input [i].size <= 0)
 					input [i] = null;
