@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Security.Cryptography;
 using UnityEngine.SceneManagement;
+using System.IO;
 
 namespace PolyNetwork {
 
@@ -13,6 +14,7 @@ namespace PolyNetwork {
 		public string version = "0.0";
 		public string password;
 		public string username;
+		public bool loaded = false;
 		public int playerID;
 		public bool debugHost = false;
 		public bool debugClient = false;
@@ -24,6 +26,15 @@ namespace PolyNetwork {
 
 		void Start() {
 			loginScreen = canvas.GetComponent<PolyLoginScreen> ();
+
+			JSONObject userJSON = new JSONObject(ReadString ("Assets/Resources/JSON/user.json"));
+			if (userJSON.HasField ("username")) {
+				loaded = true;
+
+				username = userJSON.GetField ("username").str;
+				password = userJSON.GetField ("password").str;
+				loginScreen.setLogin ();
+			}
 		}
 
 		public void login() {
@@ -53,6 +64,38 @@ namespace PolyNetwork {
 				t += string.Format("{0:x2}", hash[i]);
 			return t;
 		}
+		//"Assets/Resources/JSON/prefabs.json"
+		private string ReadString(string path) {
+
+			try {
+				//Read the text from directly from the test.txt file
+				StreamReader reader = new StreamReader(path); 
+				string stringData = reader.ReadToEnd();
+				reader.Close();
+				return stringData;
+
+			} catch (FileNotFoundException e) {
+				return "";
+			}
+
+		}
+
+		private void saveUser() {
+			JSONObject obj = new JSONObject (JSONObject.Type.OBJECT);
+			obj.AddField ("username", username);
+			obj.AddField ("password", password);
+			string str = obj.ToString ();
+			string dir = "Assets/Resources/JSON/";
+
+			File.WriteAllText(dir + "user.json", str);
+		}
+
+		private void deleteUser() {
+			string str = "";
+			string dir = "Assets/Resources/JSON/";
+
+			File.WriteAllText(dir + "user.json", str);
+		}
 
 		private IEnumerator LogIn(WWW _w) {
 			yield return _w; 
@@ -61,6 +104,7 @@ namespace PolyNetwork {
 				if (_w.text.Contains("!!NO!!USER!!")) {
 					//failed
 					loginScreen.errorText.text = "User not found!";
+					deleteUser ();
 					Debug.Log("NO USER");
 				} else if (_w.text.Contains("!!USER!!ONLINE!!")) {
 					//failed
@@ -80,12 +124,14 @@ namespace PolyNetwork {
 					if (isSinglePlayer) {
 						debugHost = true;
 					}
+					saveUser ();
+
 					SceneManager.LoadScene ("main");
 				}
 			} else {
 				Debug.Log(_w.error);
 				loginScreen.errorText.text = "An Unknown Error Occured!";
-
+				deleteUser ();
 				//php error
 			}
 		}
