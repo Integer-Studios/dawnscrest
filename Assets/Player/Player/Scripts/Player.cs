@@ -612,6 +612,7 @@ namespace PolyPlayer {
 		private void setUpHair() {
 			Debug.Log (playerID);
 			hairMesh.GetComponent<SkinnedMeshRenderer> ().sharedMesh = hairMeshes[playerID-1];
+//			hairMesh.GetComponent<SkinnedMeshRenderer> ().material = 
 		}
 
 		private void setUpCamera() {
