@@ -817,7 +817,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interpolationRate: 15
   ipPositionAllowance: 0.1
-  ipPositionServerAuth: 1
+  ipPositionServerAuth: 5
   ipRotationAllowance: 1
   vitalsUpdateRate: 5
   mouseSensitivity: 8
@@ -825,6 +825,9 @@ MonoBehaviour:
   hairMeshes:
   - {fileID: 4300004, guid: a4c3dfbfb1e41442c98c4848dfe86e22, type: 3}
   - {fileID: 4300006, guid: a4c3dfbfb1e41442c98c4848dfe86e22, type: 3}
+  hairColors:
+  - {fileID: 2100000, guid: f0006dc56603241d2928ede45374e544, type: 2}
+  - {fileID: 2100000, guid: c7b4eda93f5174eea8015e162d82e9ef, type: 2}
   bodyMesh: {fileID: 1318294091723294}
   fpsMesh: {fileID: 4300000, guid: a4c3dfbfb1e41442c98c4848dfe86e22, type: 3}
   pivot: {fileID: 1037369410354412}
