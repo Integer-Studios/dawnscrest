@@ -269,12 +269,13 @@ namespace PolyWorld {
 
 		private void Start () {
 			initialize ();
-			if (isClient)
+			if (!isServer)
 				StartCoroutine (renderDistanceUpdate ());
 		}
 
 		private IEnumerator renderDistanceUpdate() {
 			while (true) {
+//				Debug.Log (renderDistanceDecorations);
 				updateChunks (Camera.main.transform.position);
 				yield return new WaitForSeconds (renderDistUpdateRate);
 			}
