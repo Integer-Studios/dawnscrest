@@ -146,6 +146,8 @@ namespace PolyItem {
 			items = it;
 			foreach (Item i in items) {
 				ClientScene.RegisterPrefab(i.gameObject);
+				if (i.onPlaced != null)
+					ClientScene.RegisterPrefab(i.onPlaced);
 			}
 		}
 
