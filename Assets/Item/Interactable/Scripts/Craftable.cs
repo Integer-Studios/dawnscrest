@@ -121,8 +121,8 @@ namespace PolyItem {
 				return;
 			Debug.Log ("craftable use requirements:");
 			for(int i = 0; i < recipe.input.GetLength (0); i++) {
-				Debug.Log ("input: " + input);
-				Debug.Log ("recipe: " + recipe);
+				Debug.Log ("input i: " + input [i]);
+				Debug.Log ("recipe input i: " + recipe.input [i]);
 				input [i].size -= recipe.input [i].size;
 				if (input [i].size <= 0)
 					input [i] = null;
