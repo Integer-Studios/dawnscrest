@@ -51,6 +51,11 @@ namespace PolyNetwork {
 							break;
 						handleTeleport (args, server, sender);
 						break;
+					case "loc":
+						if (!adminCase)
+							break;
+						sendMessage (sender, "Current Location", sender.gameObject.transform.position.ToString());
+						break;
 					case "w":
 						broadcastLocal (sender, fullCommand, 6F);
 						break;
