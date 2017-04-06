@@ -298,12 +298,12 @@ MonoBehaviour:
   type: 0
   destroyOnInteract: 0
   cratingType: 2
-  fuel: 0
+  fuel: 15
   fuelConumptionRate: 0.1
   fuelItems:
   - {fileID: 114068146883311342, guid: 9c6005fa877f5434481f450b7d433ad7, type: 2}
   maxLight: 4
-  fuelAtMaxLight: 100
+  fuelAtMaxLight: 50
   lightSource: {fileID: 108723688554224230}
   flames: {fileID: 198794721275462862}
 --- !u!198 &198188799308613048

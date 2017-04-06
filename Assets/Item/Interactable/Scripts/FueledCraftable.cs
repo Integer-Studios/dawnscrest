@@ -7,6 +7,7 @@ namespace PolyItem {
 	
 	public class FueledCraftable : Craftable {
 
+		[SyncVar]
 		public float fuel = 0f;
 		public float fuelConumptionRate = 0.1f;
 		public Item[] fuelItems;
@@ -52,7 +53,8 @@ namespace PolyItem {
 		}
 
 		protected override void Update() {
-
+			if (!NetworkServer.active)
+				return;
 			if (fuel <= 0f && isFueled)
 				setFuled (false);
 			else if (isFueled)
