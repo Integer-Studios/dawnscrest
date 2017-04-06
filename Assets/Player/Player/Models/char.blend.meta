@@ -26,6 +26,7 @@ ModelImporter:
     100036: shoulder_r
     100038: thigh_l
     100040: thigh_r
+    100042: Cube_003
     400000: arm_l
     400002: arm_r
     400004: Armature
@@ -47,9 +48,11 @@ ModelImporter:
     400036: shoulder_r
     400038: thigh_l
     400040: thigh_r
+    400042: Cube_003
     4300000: Cube_002
     4300002: Cube
     4300004: Cube_001
+    4300006: Cube_003
     7400000: Default Take
     7400002: Defaukt
     7400004: Idle-1
@@ -64,6 +67,7 @@ ModelImporter:
     13700000: Cube
     13700002: Cube_001
     13700004: Cube_002
+    13700006: Cube_003
   materials:
     importMaterials: 1
     materialName: 0

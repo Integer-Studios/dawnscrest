@@ -22,6 +22,7 @@ namespace PolyPlayer {
 		public float vitalsUpdateRate = 5f;
 		public float mouseSensitivity = 8.0f;
 		public GameObject hairMesh;
+		public Mesh[] hairMeshes;
 		public GameObject bodyMesh;
 		public Mesh fpsMesh;
 		public GameObject pivot;
@@ -563,6 +564,7 @@ namespace PolyPlayer {
 		private void Start() {
 			if (isLocalPlayer) 
 				PolyNetworkManager.setLocalPlayer (this);
+			
 			health = maxHealth;
 			hunger = maxHunger;
 			thirst = maxThirst;
@@ -591,6 +593,8 @@ namespace PolyPlayer {
 			CmdOnPlayerLoaded (playerID);
 			StartCoroutine(lateStart ());
 
+			setUpHair ();
+
 			if (!isLocalPlayer)
 				return;
 
@@ -601,6 +605,10 @@ namespace PolyPlayer {
 			GUIManager.closeGUI ();
 			StartCoroutine(networkTransformUpdate ());
 			StartCoroutine(footstepSoundPlay ());
+		}
+
+		private void setUpHair() {
+			hairMesh.GetComponent<SkinnedMeshRenderer> ().sharedMesh = hairMeshes[playerID-1];
 		}
 
 		private void setUpCamera() {

@@ -822,6 +822,9 @@ MonoBehaviour:
   vitalsUpdateRate: 5
   mouseSensitivity: 8
   hairMesh: {fileID: 1601406426032068}
+  hairMeshes:
+  - {fileID: 4300004, guid: a4c3dfbfb1e41442c98c4848dfe86e22, type: 3}
+  - {fileID: 4300006, guid: a4c3dfbfb1e41442c98c4848dfe86e22, type: 3}
   bodyMesh: {fileID: 1318294091723294}
   fpsMesh: {fileID: 4300000, guid: a4c3dfbfb1e41442c98c4848dfe86e22, type: 3}
   pivot: {fileID: 1037369410354412}
