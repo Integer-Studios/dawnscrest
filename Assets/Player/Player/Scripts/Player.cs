@@ -498,7 +498,7 @@ namespace PolyPlayer {
 
 		[Command]
 		private void CmdSetCraftableInput(GameObject g, NetworkItemStackArray i) {
-			Debug.Log ("cmd input: " + i.size.GetLength() + " " + i.id[0]);
+			Debug.Log ("cmd input: " + i.size.GetLength(0) + " " + i.id[0]);
 			g.GetComponent<Craftable> ().setInput (ItemStack.unwrapNetworkStackArray (i));
 		}
 
