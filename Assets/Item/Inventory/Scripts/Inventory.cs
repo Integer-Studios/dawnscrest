@@ -31,7 +31,7 @@ namespace PolyItem {
 				
 				for (int j = 0; j < slots [i].stack.size; j++) {
 					GameObject g = ItemManager.createItem (slots [i].stack);
-					g.GetComponent<Item> ().setPosition (pos);
+					g.GetComponent<Item> ().setTransform (pos, Vector3.one, Vector3.zero);
 				}
 				setSlot (i, null);
 			}

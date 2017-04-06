@@ -429,7 +429,7 @@ namespace PolyPlayer {
 				p = transform.position;
 				RpcTransformDenied (p);
 			}
-
+				
 			if (!isClient) {
 				velocity = v;
 				rotationalVelocity = rv;
@@ -532,7 +532,7 @@ namespace PolyPlayer {
 				slot = 2;
 			
 			GameObject g = ItemManager.createItemForPlacing (hotbarInventory.getSlotCopy (slot));
-			g.GetComponent<Item> ().setPosition (p);
+			g.GetComponent<Interactable> ().setPosition (p);
 			hotbarInventory.decreaseSlot (slot);
 		}
 

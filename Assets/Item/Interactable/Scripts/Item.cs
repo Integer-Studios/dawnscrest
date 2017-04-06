@@ -51,11 +51,6 @@ namespace PolyItem {
 			RpcSetHolder (h.itemHolder_getGameObject (), hid);
 		}
 
-		[Server]
-		public void setPosition(Vector3 position) {
-			RpcSetPosition (position);
-		}
-
 		// General Interface
 
 		public virtual int getQuality() {
@@ -92,11 +87,6 @@ namespace PolyItem {
 				ItemHolder h = holder.GetComponent<ItemHolder> ();
 				convertToHeldItem (h, hid);
 			}
-		}
-
-		[ClientRpc]
-		private void RpcSetPosition(Vector3 position) {
-			gameObject.transform.position = position; 
 		}
 
 		/*

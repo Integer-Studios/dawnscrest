@@ -269,8 +269,9 @@ namespace PolyWorld {
 
 		private void Start () {
 			initialize ();
-			if (isClient)
+			if (NetworkClient.active) {
 				StartCoroutine (renderDistanceUpdate ());
+			}
 		}
 
 		private IEnumerator renderDistanceUpdate() {
