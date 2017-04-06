@@ -63,7 +63,7 @@ namespace PolyNetwork {
 					s.id = player.loginID;
 					playerObj.polyPlayer_sendPlayerData (player.loginID);
 					if (player.data.HasField ("admin")) {
-						if (player.data.GetField ("admin").b)
+						if (player.data.GetField ("admin").n == 1)
 							player.admin = true;
 					}
 
