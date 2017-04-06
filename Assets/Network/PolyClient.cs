@@ -17,6 +17,7 @@ namespace PolyNetwork {
 		public short controllerID;
 		public string identifier;
 		public JSONObject data;
+		public bool admin;
 
 		public PolyClient(int id, NetworkConnection connection) {
 			this.loginID = id;
@@ -27,6 +28,7 @@ namespace PolyNetwork {
 			this.gameObject = null;
 			this.playerObject = null;
 			this.controllerID = -1;
+			this.admin = false;
 		}
 
 		public PolyClient(int id, int  connectionID, JSONObject data) {
@@ -38,6 +40,8 @@ namespace PolyNetwork {
 			this.gameObject = null;
 			this.playerObject = null;
 			this.controllerID = -1;
+			this.admin = false;
+
 		}
 
 		public PolyClient(bool isNull) {
@@ -50,6 +54,8 @@ namespace PolyNetwork {
 			this.gameObject = null;
 			this.playerObject = null;
 			this.controllerID = -1;
+			this.admin = false;
+		
 		}
 
 	}

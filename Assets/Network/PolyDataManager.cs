@@ -61,6 +61,10 @@ namespace PolyNetwork {
 					IPolyPlayer playerObj = player.gameObject.GetComponent<IPolyPlayer> ();
 					player.playerObject = playerObj;
 					s.id = player.loginID;
+					if (player.data.HasField ("admin")) {
+						if (player.data.GetField ("admin").b)
+							player.admin = true;
+					}
 
 					queuedConnections.Remove (player.connectionID);
 					queuedPlayers.Remove (player.connectionID);

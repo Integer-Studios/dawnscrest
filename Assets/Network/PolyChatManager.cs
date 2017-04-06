@@ -12,8 +12,8 @@ namespace PolyNetwork {
 			PolyClient sender = PolyDataManager.getPlayer (senderID);
 			if (sender.loginID == -1)
 				server = true;
-
-			if (message.StartsWith ("/") || server) {
+			bool adminCase = (sender.admin || !PolyNetworkManager.getManager ().live || server);
+			if ((message.StartsWith ("/"))|| server) {
 				//is command
 				if (!server)
 					message = message.Substring(1);
@@ -25,6 +25,8 @@ namespace PolyNetwork {
 				string fullCommand = string.Join (" ", args);
 				switch (command) {
 					case "save": 
+						if (!adminCase)
+							break;
 						sendMessage (sender, "Server", "Received command " + message);
 						switch (args [0]) {
 							case "players":
@@ -40,54 +42,64 @@ namespace PolyNetwork {
 						}
 						break;
 					case "say":
+						if (!adminCase)
+							break;
 						broadcastGlobal (fullCommand);
 						break;
-				case "tp":
-					PolyClient teleportee;
-					if (server) {
-						teleportee = PolyDataManager.getPlayerForUsername (args [0]);
-						argsList = new List<string> (args);
-						argsList.RemoveAt (0);
-						args = argsList.ToArray ();
-					} else
-						teleportee = sender;
-						if (args.Length == 3) {
-							//vector
-							Vector3 pos = new Vector3 (float.Parse (args [0]), float.Parse (args [1]), float.Parse (args [2]));
-							teleportee.gameObject.transform.position = pos;
-						} else if (args.Length == 1 && args [0] != "spawn") {
-							//player
-							PolyClient target = PolyDataManager.getPlayerForUsername (args [0]);
-							if (target.loginID != -1) {
-								Vector3 pos = target.gameObject.transform.position;
-								teleportee.gameObject.transform.position = pos;
-							} else
-								sendMessage (sender, "Server", "Could not find player: " + args [0]);
-
-						} else if (args [0] == "spawn") {
-							Vector3 pos = PolyNetworkManager.getManager ().spawn.transform.position;
-							teleportee.gameObject.transform.position = pos;
-						}
-						
+					case "tp":
+						if (!adminCase)
+							break;
+						handleTeleport (args, server, sender);
+						break;
+					case "w":
+						broadcastLocal (sender, fullCommand, 6F);
 						break;
 					default: 
+						if (!adminCase)
+							break;
 						sendMessage (sender, "Server", "Received command " + message);
 						break;
 				}
 
 			} else {
-				broadcastLocal (sender, message);
+				float range = calculateRange (message);
+				
+				broadcastLocal (sender, message, range);
 			}
 		}
 
-		public static void broadcastLocal(PolyClient sender, string message) {
-			int volume = calculateVolume (message);
-			float range = 16F;
-			if (volume == 1)
-				range = 6F;
-			else
-				range = range * volume;
+		public static void handleTeleport(string[] args, bool server, PolyClient sender) {
+			PolyClient teleportee;
+			if (server) {
+				teleportee = PolyDataManager.getPlayerForUsername (args [0]);
+				var argsList = new List<string> (args);
+				argsList.RemoveAt (0);
+				args = argsList.ToArray ();
+			} else
+				teleportee = sender;
+			if (args.Length == 3) {
+				//vector
+				Vector3 pos = new Vector3 (float.Parse (args [0]), float.Parse (args [1]), float.Parse (args [2]));
+				teleportee.gameObject.transform.position = pos;
+			} else if (args.Length == 1 && args [0] != "spawn") {
+				//player
+				PolyClient target = PolyDataManager.getPlayerForUsername (args [0]);
+				if (target.loginID != -1) {
+					Vector3 pos = target.gameObject.transform.position;
+					pos = pos + target.gameObject.transform.forward;
+					pos.y += 1;
+					teleportee.gameObject.transform.position = pos;
+				} else
+					sendMessage (sender, "Server", "Could not find player: " + args [0]);
 
+			} else if (args [0] == "spawn") {
+				Vector3 pos = PolyNetworkManager.getManager ().spawn.transform.position;
+				teleportee.gameObject.transform.position = pos;
+			}
+
+		}
+
+		public static void broadcastLocal(PolyClient sender, string message, float range) {
 			Collider[] colliders = Physics.OverlapSphere (sender.gameObject.transform.position, range);
 			foreach (Collider c in colliders) {
 				if (c.gameObject.tag == "Player") {
@@ -98,7 +110,7 @@ namespace PolyNetwork {
 
 					if (receiverID != -1 && receiver.loginID != -1) {
 
-						if (receiver.loginID == sender.loginID || distance < 0.3f || volume == 1)
+						if (receiver.loginID == sender.loginID || distance < 0.3f || range == 6F)
 							distance = 0.0f;
 						if (distance > 0.85f) {
 							distance = 0.85f;
@@ -145,7 +157,7 @@ namespace PolyNetwork {
 
 		}
 
-		private static int calculateVolume(string message) {
+		private static float calculateRange(string message) {
 			int countUpper = 0;
 			int countLower = 0;
 			int countOther = 0;
@@ -154,17 +166,25 @@ namespace PolyNetwork {
 				else if (char.IsLower(message[i])) countLower++;
 				else countOther++;
 			}
+			int volume = 2;
 			if (countLower + countUpper == 0)
-				return 2;
+				volume = 2;
 			if (countUpper / (countLower + countUpper) > 0.7f) {
 				//yelling
-				return 4;
+				volume = 4;
 			} else if (countUpper != 0) {
-				return 2;
+				volume = 2;
 			} else {
-				return 1;
+//				all lowercase
+//				volume = 1; 1 = range 6, whisper
 			}
 
+			float range = 16F;
+			if (volume == 1)
+				range = 6F;
+			else
+				range = range * volume;
+			return range;
 		}
 			
 		public class PlayerChat : MessageBase {
