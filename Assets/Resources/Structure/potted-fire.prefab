@@ -294,7 +294,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbe16d288f4b7444796f28f7180111be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  material: 1
   maxStrength: 0
   type: 0
   destroyOnInteract: 0
@@ -303,7 +302,7 @@ MonoBehaviour:
   fuelConumptionRate: 0.1
   fuelItems:
   - {fileID: 114068146883311342, guid: 9c6005fa877f5434481f450b7d433ad7, type: 2}
-  maxLight: 2
+  maxLight: 4
   fuelAtMaxLight: 100
   lightSource: {fileID: 108723688554224230}
   flames: {fileID: 198794721275462862}

@@ -825,7 +825,7 @@ MonoBehaviour:
   hairMeshes:
   - {fileID: 4300004, guid: a4c3dfbfb1e41442c98c4848dfe86e22, type: 3}
   - {fileID: 4300010, guid: a4c3dfbfb1e41442c98c4848dfe86e22, type: 3}
-  - {fileID: 4300004, guid: a4c3dfbfb1e41442c98c4848dfe86e22, type: 3}
+  - {fileID: 4300010, guid: a4c3dfbfb1e41442c98c4848dfe86e22, type: 3}
   - {fileID: 4300008, guid: a4c3dfbfb1e41442c98c4848dfe86e22, type: 3}
   - {fileID: 4300012, guid: a4c3dfbfb1e41442c98c4848dfe86e22, type: 3}
   - {fileID: 4300010, guid: a4c3dfbfb1e41442c98c4848dfe86e22, type: 3}
@@ -836,7 +836,7 @@ MonoBehaviour:
   hairColors:
   - {fileID: 2100000, guid: 2ad4b7c65274b4c27a8ce9e34264306a, type: 2}
   - {fileID: 2100000, guid: 6022fa8e02e69409aaa0b9cb35c00f94, type: 2}
-  - {fileID: 2100000, guid: c7b4eda93f5174eea8015e162d82e9ef, type: 2}
+  - {fileID: 2100000, guid: 04c8c842ae68b424faa0517071a56420, type: 2}
   - {fileID: 2100000, guid: f0006dc56603241d2928ede45374e544, type: 2}
   - {fileID: 2100000, guid: f53b0d67cada94941aa897a2f09d64a5, type: 2}
   - {fileID: 2100000, guid: 2ad4b7c65274b4c27a8ce9e34264306a, type: 2}
