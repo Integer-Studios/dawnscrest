@@ -170,7 +170,7 @@ namespace PolyNetwork {
 
 		public static IEnumerator ReadPlayerData(int playerID) {
 			PolyClient player = getPlayer (playerID);
-			yield return new WaitForSeconds (1f);
+			yield return new WaitForSeconds (0.1f);
 			JSONObject json = player.data;
 			PlayerSaveable s = player.gameObject.GetComponent<PlayerSaveable> ();
 			s.read (json);

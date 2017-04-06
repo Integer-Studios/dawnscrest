@@ -67,6 +67,7 @@ namespace PolyPlayer {
 		private bool rightHandActive = true;
 		private SoundManager sounds;
 		private EffectListener effects;
+		private bool dataLoaded = false;
 
 		// Syncvars
 		[SyncVar]
@@ -256,6 +257,12 @@ namespace PolyPlayer {
 				GUIManager.chat.displayMessage (message, distance);
 			
 		}
+
+		[Client]
+		public void polyPlayer_setPlayerID(int playerID) {
+			this.playerID = playerID;
+		}
+
 
 		// Multi-Use
 
@@ -565,8 +572,9 @@ namespace PolyPlayer {
 
 		[Command]
 		private void CmdOnPlayerLoaded(int id) {
-			if (id > 0) 
-				StartCoroutine(PolyDataManager.ReadPlayerData (id));
+			if (id > 0) {
+				StartCoroutine (PolyDataManager.ReadPlayerData (id));
+			}
 		}
 
 
@@ -605,8 +613,7 @@ namespace PolyPlayer {
 					mainInventory = i;
 
 			}
-			StartCoroutine(lateStart ());
-
+				
 			if (!isLocalPlayer) {
 				if (playerID != 0)
 					setUpHair ();
@@ -614,7 +621,8 @@ namespace PolyPlayer {
 			}
 
 			PolyNetworkManager.setLocalPlayer (this);
-			CmdOnPlayerLoaded (playerID);
+
+			StartCoroutine(lateStart ());
 
 			rigidBody.interpolation = RigidbodyInterpolation.Interpolate;
 			setUpCamera ();
@@ -626,7 +634,6 @@ namespace PolyPlayer {
 		}
 
 		private void setUpHair() {
-			Debug.Log (playerID);
 			hairMesh.GetComponent<SkinnedMeshRenderer> ().sharedMesh = hairMeshes[playerID-1];
 			hairMesh.GetComponent<SkinnedMeshRenderer> ().material = hairColors [playerID - 1];
 		}
@@ -679,6 +686,11 @@ namespace PolyPlayer {
 
 			if (!isLocalPlayer)
 				return;
+
+			if (!dataLoaded && playerID != 0) {
+				dataLoaded = true;
+				CmdOnPlayerLoaded (playerID);
+			}
 
 			updateLookingAt ();
 			if (!GUIManager.processInput()) {

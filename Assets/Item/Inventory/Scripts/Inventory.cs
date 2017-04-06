@@ -235,11 +235,13 @@ namespace PolyItem {
 
 		public virtual void read (JSONObject obj) {
 			JSONObject slotsJSON = obj.GetField ("slots");
-
 			if (slots != null) {
 				foreach(JSONObject slot in slotsJSON.list) {
 					int index = (int)slot.GetField ("id").n;
+//					Debug.Log ("A");
+
 					int item = (int)slot.GetField ("item").n;
+//					Debug.Log (item);
 					int size = (int)slot.GetField ("size").n;
 					int quality = (int)slot.GetField ("quality").n;
 					if (item != -1)
