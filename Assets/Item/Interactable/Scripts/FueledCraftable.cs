@@ -53,10 +53,14 @@ namespace PolyItem {
 		}
 
 		protected override void Update() {
-			if (!NetworkServer.active)
-				return;
 			if (fuel <= 0f && isFueled)
 				setFuled (false);
+			else if (fuel > 0f && !isFueled)
+				setFuled (true);
+			
+			if (!NetworkServer.active)
+				return;
+
 			else if (isFueled)
 				fuel -= Time.deltaTime * fuelConumptionRate;
 			
