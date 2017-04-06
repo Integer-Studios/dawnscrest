@@ -174,6 +174,12 @@ namespace PolyWorld {
 			terrain.setHeight(p,f);
 		}
 
+		[Client]
+		public static void setRenderDistance(float f) {
+			terrain.renderDistanceDecorations = f;
+			terrain.renderDistanceTerrain = f+100f;
+		}
+
 		public static Transform getSpawnPoint() {
 			return terrain.spawnPoint;
 		}

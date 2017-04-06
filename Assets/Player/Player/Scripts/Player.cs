@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
+using UnityStandardAssets.ImageEffects;
 using PolyItem;
 using PolyEntity;
 using PolyWorld;
@@ -184,6 +185,16 @@ namespace PolyPlayer {
 		}
 			
 		// GUI Interface
+
+		[Client]
+		public void setFancyGraphics(bool b) {
+			Camera.main.GetComponent<FlareLayer> ().enabled = b;
+			Camera.main.GetComponent<Bloom> ().enabled = b;
+			Camera.main.GetComponent<SunShafts> ().enabled = b;
+			Camera.main.GetComponent<ScreenSpaceAmbientOcclusion> ().enabled = b;
+			Camera.main.GetComponent<DepthOfField> ().enabled = b;
+			Camera.main.GetComponent<Antialiasing> ().enabled = b;
+		}
 
 		[Client]
 		public void onSlotUpdate(int bindingID, int slotID, ItemStack s) {
@@ -790,6 +801,10 @@ namespace PolyPlayer {
 
 			if (Input.GetKeyDown(KeyCode.T)) {
 				GUIManager.setChatOpen (true);
+			}
+
+			if (Input.GetKeyDown(KeyCode.Tab)) {
+				GUIManager.pushScreen (GUIManager.settingsScreen);
 			}
 
 			deltaPitch = mouseSensitivity * Input.GetAxis ("Mouse Y");
