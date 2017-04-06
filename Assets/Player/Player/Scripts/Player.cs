@@ -491,12 +491,14 @@ namespace PolyPlayer {
 
 		[Command]
 		private void CmdSetCraftableRecipe(GameObject g, NetworkItemStack o, NetworkItemStackArray i) {
+			Debug.Log ("cmd recipe");
 			Recipe r = Recipe.unwrapRecipe(o,i);
 			g.GetComponent<Craftable> ().setRecipe (r);
 		}
 
 		[Command]
 		private void CmdSetCraftableInput(GameObject g, NetworkItemStackArray i) {
+			Debug.Log ("cmd input");
 			g.GetComponent<Craftable> ().setInput (ItemStack.unwrapNetworkStackArray (i));
 		}
 
