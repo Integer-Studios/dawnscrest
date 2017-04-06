@@ -27,14 +27,14 @@ namespace PolyNetwork {
 		void Start() {
 			loginScreen = canvas.GetComponent<PolyLoginScreen> ();
 
-			JSONObject userJSON = new JSONObject(ReadString ("Assets/Resources/JSON/user.json"));
-			if (userJSON.HasField ("username")) {
+			if (PlayerPrefs.HasKey ("username")) {
 				loaded = true;
 
-				username = userJSON.GetField ("username").str;
-				password = userJSON.GetField ("password").str;
+				username = PlayerPrefs.GetString ("username");
+				password = PlayerPrefs.GetString ("password");
 				loginScreen.setLogin ();
 			}
+
 		}
 
 		public void login() {
@@ -64,37 +64,19 @@ namespace PolyNetwork {
 				t += string.Format("{0:x2}", hash[i]);
 			return t;
 		}
-		//"Assets/Resources/JSON/prefabs.json"
-		private string ReadString(string path) {
-
-			try {
-				//Read the text from directly from the test.txt file
-				StreamReader reader = new StreamReader(path); 
-				string stringData = reader.ReadToEnd();
-				reader.Close();
-				return stringData;
-
-			} catch (FileNotFoundException e) {
-				return "";
-			}
-
-		}
 
 		private void saveUser() {
-			JSONObject obj = new JSONObject (JSONObject.Type.OBJECT);
-			obj.AddField ("username", username);
-			obj.AddField ("password", password);
-			string str = obj.ToString ();
-			string dir = "Assets/Resources/JSON/";
-
-			File.WriteAllText(dir + "user.json", str);
+			PlayerPrefs.SetString ("username", username);
+			PlayerPrefs.SetString ("password", password);
+			PlayerPrefs.Save ();
 		}
 
 		private void deleteUser() {
-			string str = "";
-			string dir = "Assets/Resources/JSON/";
-
-			File.WriteAllText(dir + "user.json", str);
+			if (PlayerPrefs.HasKey("username"))
+				PlayerPrefs.DeleteKey ("username");
+			if (PlayerPrefs.HasKey("password"))
+				PlayerPrefs.DeleteKey ("password");
+			PlayerPrefs.Save ();
 		}
 
 		private IEnumerator LogIn(WWW _w) {
