@@ -52,6 +52,11 @@ namespace PolyItem {
 			}
 		}
 
+		protected override void Start() {
+			if (fuel > 0)
+				setFuled (true);
+		}
+
 		protected override void Update() {
 			if (fuel <= 0f && isFueled)
 				setFuled (false);
