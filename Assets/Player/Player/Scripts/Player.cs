@@ -915,8 +915,10 @@ namespace PolyPlayer {
 		}
 
 		private void primaryActionUpdate() {
-			if (isLookingAtInteractable ()) {
+			if (isLookingAtInteractable (true)) {
 				CmdInteract (lookingAtObject, lookingAtPoint, lookingAtNormal);
+			} else {
+				cancelActions ();
 			}
 		}
 
