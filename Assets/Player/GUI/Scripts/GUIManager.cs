@@ -19,6 +19,7 @@ namespace PolyPlayer {
 		public ScreenRecipes recipesScreenObj;
 		public ScreenCrafting craftingScreenObj;
 		public ScreenInventory inventoryScreenObj;
+		public ScreenSettings settingsScreenObj;
 
 		public static GameObject crosshair;
 		public static GameObject blackout;
@@ -29,6 +30,7 @@ namespace PolyPlayer {
 		public static ScreenRecipes recipesScreen;
 		public static ScreenCrafting craftingScreen;
 		public static ScreenInventory inventoryScreen;
+		public static ScreenSettings settingsScreen;
 		public static Player player;
 
 		private static List<Screen> screenStack;
@@ -128,6 +130,7 @@ namespace PolyPlayer {
 			recipesScreen = recipesScreenObj;
 			craftingScreen = craftingScreenObj;
 			inventoryScreen = inventoryScreenObj;
+			settingsScreen = settingsScreenObj;
 			screenStack = new List<Screen> ();
 		}
 

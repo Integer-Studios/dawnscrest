@@ -28,6 +28,21 @@ namespace PolyItem {
 				onComplete (i);
 		}
 
+		[Server]
+		public void setTransform(Transform t) {
+			setTransform (t.position, t.localScale, t.eulerAngles);
+		}
+
+		[Server]
+		public void setTransform(Vector3 pos, Vector3 scale, Vector3 rot) {
+			RpcSetTransform (pos, scale, rot);
+		}
+
+		[Server]
+		public void setPosition(Vector3 pos) {
+			RpcSetPosition (pos);
+		}
+
 		public virtual bool isInteractable(Interactor i) {
 			return true;
 		}
@@ -43,6 +58,19 @@ namespace PolyItem {
 		*/
 
 
+
+		[ClientRpc]
+		private void RpcSetTransform(Vector3 pos, Vector3 scale, Vector3 rot) {
+			gameObject.transform.position = pos; 
+			gameObject.transform.localScale = scale; 
+			gameObject.transform.eulerAngles = rot; 
+		}
+
+		[ClientRpc]
+		private void RpcSetPosition(Vector3 pos) {
+			gameObject.transform.position = pos; 
+		}
+
 		/*
 		* 
 		* Private
@@ -50,14 +78,14 @@ namespace PolyItem {
 		*/
 
 		protected virtual void Start() {
-			if (!isServer)
+			if (!NetworkServer.active)
 				return;
 			
 			strength = maxStrength;
 		}
 
 		protected virtual void Update() {
-			if (!isServer)
+			if (!NetworkServer.active)
 				return;
 		}
 

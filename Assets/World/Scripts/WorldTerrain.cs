@@ -174,6 +174,12 @@ namespace PolyWorld {
 			terrain.setHeight(p,f);
 		}
 
+		[Client]
+		public static void setRenderDistance(float f) {
+			terrain.renderDistanceDecorations = f;
+			terrain.renderDistanceTerrain = f+100f;
+		}
+
 		public static Transform getSpawnPoint() {
 			return terrain.spawnPoint;
 		}
@@ -269,13 +275,13 @@ namespace PolyWorld {
 
 		private void Start () {
 			initialize ();
-			if (!isServer)
+			if (NetworkClient.active) {
 				StartCoroutine (renderDistanceUpdate ());
+			}
 		}
 
 		private IEnumerator renderDistanceUpdate() {
 			while (true) {
-//				Debug.Log (renderDistanceDecorations);
 				updateChunks (Camera.main.transform.position);
 				yield return new WaitForSeconds (renderDistUpdateRate);
 			}
