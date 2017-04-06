@@ -23,7 +23,6 @@ namespace PolyItem {
 
 		[Server]
 		public virtual void setRecipe(Recipe r) {
-			Debug.Log ("craftable recipe: " + r);
 			recipe = r;
 			if (recipe != null) {
 				setMaxStrength (5f);
@@ -41,7 +40,6 @@ namespace PolyItem {
 
 		[Server]
 		public virtual void setInput(ItemStack[] s) {
-			Debug.Log ("craftable input: " + s);
 			input = s;
 			RpcSetInput (new NetworkItemStackArray (s));
 		}
@@ -91,7 +89,6 @@ namespace PolyItem {
 
 		[ClientRpc]
 		private void RpcSetRecipe(NetworkItemStack o, NetworkItemStackArray i) {
-			Debug.Log ("craftable rpc recipe");
 			recipe = Recipe.unwrapRecipe(o,i);
 			if (recipe != null)
 				input = new ItemStack[recipe.input.GetLength (0)];
@@ -101,7 +98,6 @@ namespace PolyItem {
 
 		[ClientRpc]
 		private void RpcSetInput(NetworkItemStackArray i) {
-			Debug.Log ("craftable rpc input");
 			input = ItemStack.unwrapNetworkStackArray(i);
 		}
 
@@ -112,17 +108,14 @@ namespace PolyItem {
 		*/
 
 		protected override void onComplete(Interactor i) {
+			if (!isSatisfied())
+				return;
 			useRequirements ();
 			base.onComplete (i);
 		}
 
 		private void useRequirements() {
-			if (!isLoaded ())
-				return;
-			Debug.Log ("craftable use requirements:");
 			for(int i = 0; i < recipe.input.GetLength (0); i++) {
-				Debug.Log ("input i: " + input [i]);
-				Debug.Log ("recipe input i: " + recipe.input [i]);
 				input [i].size -= recipe.input [i].size;
 				if (input [i].size <= 0)
 					input [i] = null;

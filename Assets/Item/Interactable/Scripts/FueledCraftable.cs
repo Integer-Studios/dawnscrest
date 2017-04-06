@@ -79,13 +79,15 @@ namespace PolyItem {
 		}
 
 		protected override void onComplete(Interactor i) {
+			if (!isSatisfied ())
+				return;
 			ItemStack drop = new ItemStack (recipe.output);
 			// make this more complex later
 			drop.quality = (int)cookTime;
 
 			for (int j = 0; j < recipe.output.size; j++) {
 				GameObject g = ItemManager.createItem (drop);
-				g.transform.position = transform.position + transform.up * 2f;
+				g.GetComponent<Item> ().setPosition (transform.position + transform.up * 2f);
 			}
 			base.onComplete (i);
 		}
