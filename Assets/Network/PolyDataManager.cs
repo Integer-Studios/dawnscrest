@@ -61,6 +61,7 @@ namespace PolyNetwork {
 					IPolyPlayer playerObj = player.gameObject.GetComponent<IPolyPlayer> ();
 					player.playerObject = playerObj;
 					s.id = player.loginID;
+					playerObj.polyPlayer_sendPlayerData (player.loginID);
 					if (player.data.HasField ("admin")) {
 						if (player.data.GetField ("admin").b)
 							player.admin = true;
@@ -168,8 +169,8 @@ namespace PolyNetwork {
 		}
 
 		public static IEnumerator ReadPlayerData(int playerID) {
-			yield return new WaitForSeconds (1f);
 			PolyClient player = getPlayer (playerID);
+			yield return new WaitForSeconds (1f);
 			JSONObject json = player.data;
 			PlayerSaveable s = player.gameObject.GetComponent<PlayerSaveable> ();
 			s.read (json);

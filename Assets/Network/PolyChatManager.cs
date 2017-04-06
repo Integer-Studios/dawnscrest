@@ -197,7 +197,7 @@ namespace PolyNetwork {
 		private void OnReceiveChat(NetworkMessage netMsg) {
 			PlayerChat msg = netMsg.ReadMessage<PlayerChat>();
 			if (PolyNetworkManager.getLocalPlayer() != null)
-				PolyNetworkManager.getLocalPlayer().receiveChat (msg.senderIdentifier, msg.message, msg.distance);
+				PolyNetworkManager.getLocalPlayer().polyPlayer_receiveChat (msg.senderIdentifier, msg.message, msg.distance);
 		}
 
 	}

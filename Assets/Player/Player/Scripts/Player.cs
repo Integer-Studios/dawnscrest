@@ -143,6 +143,11 @@ namespace PolyPlayer {
 			}
 		}
 
+		[Server]
+		public void polyPlayer_sendPlayerData(int playerID) {
+			RpcPlayerData (playerID);
+		}
+
 		// Item Holder Interface
 
 		public GameObject itemHolder_getGameObject() {
@@ -232,17 +237,12 @@ namespace PolyPlayer {
 		}
 
 		[Client]
-		public void receiveChat(string name, string message, float distance) {
+		public void polyPlayer_receiveChat(string name, string message, float distance) {
 			if (name != null && name.Length != 0)
 				GUIManager.chat.displayMessage (name + ": " + message, distance);
 			else
 				GUIManager.chat.displayMessage (message, distance);
 			
-		}
-
-		[Client]
-		public void setPlayerID(int id) {
-			this.playerID = id;
 		}
 
 		// Multi-Use
@@ -368,6 +368,12 @@ namespace PolyPlayer {
 		private void RpcTransformDenied(Vector3 pos) {
 			if (isLocalPlayer)
 				transform.position = pos;
+		}
+
+		[ClientRpc]
+		private void RpcPlayerData(int playerID) {
+			this.playerID = playerID;
+			setUpHair ();
 		}
 
 		#endregion
@@ -562,9 +568,6 @@ namespace PolyPlayer {
 		// Start
 
 		private void Start() {
-			if (isLocalPlayer) 
-				PolyNetworkManager.setLocalPlayer (this);
-			
 			health = maxHealth;
 			hunger = maxHunger;
 			thirst = maxThirst;
@@ -590,13 +593,12 @@ namespace PolyPlayer {
 					mainInventory = i;
 
 			}
-			CmdOnPlayerLoaded (playerID);
 			StartCoroutine(lateStart ());
-
-			setUpHair ();
 
 			if (!isLocalPlayer)
 				return;
+			PolyNetworkManager.setLocalPlayer (this);
+			CmdOnPlayerLoaded (playerID);
 
 			rigidBody.interpolation = RigidbodyInterpolation.Interpolate;
 			setUpCamera ();
@@ -608,6 +610,7 @@ namespace PolyPlayer {
 		}
 
 		private void setUpHair() {
+			Debug.Log (playerID);
 			hairMesh.GetComponent<SkinnedMeshRenderer> ().sharedMesh = hairMeshes[playerID-1];
 		}
 

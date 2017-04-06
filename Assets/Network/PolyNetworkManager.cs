@@ -139,7 +139,6 @@ namespace PolyNetwork {
 		public static void setLocalPlayer(IPolyPlayer p) {
 			localPlayer = p;
 
-			p.setPlayerID (localUserID);
 		}
 
 		public static IPolyPlayer getLocalPlayer() {
