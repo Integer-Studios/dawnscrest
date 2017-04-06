@@ -51,6 +51,8 @@ namespace PolyItem {
 		}
 
 		protected override void onComplete(Interactor i) {
+			if (isOut ())
+				return;
 			for (int j = 0; j < drops.GetLength (0); j++) {
 				GameObject g = Instantiate (drops [j].gameObject);
 				g.GetComponent<Rigidbody> ().velocity = i.interactor_getInteractionNormal () + new Vector3(Random.Range(-0.5f,0.5f),Random.Range(-0.5f,0.5f), Random.Range(-0.5f,0.5f));

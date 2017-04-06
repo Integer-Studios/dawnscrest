@@ -23,8 +23,6 @@ namespace PolyItem {
 
 		[Server]
 		public virtual void interact(Interactor i, float f) {
-			if (!isInteractable ())
-				return;
 			strength -= f;
 			if (strength <= 0)
 				onComplete (i);
