@@ -8,6 +8,8 @@ namespace PolyNetwork {
 
 		void polyPlayer_receiveChat(string name, string message, float distance);
 		void polyPlayer_sendPlayerData(int id);
+		void polyPlayer_setPlayerID(int id);
+
 	}
 
 }

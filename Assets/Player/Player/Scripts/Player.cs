@@ -257,6 +257,12 @@ namespace PolyPlayer {
 			
 		}
 
+		[Client]
+		public void polyPlayer_setPlayerID(int playerID) {
+			this.playerID = playerID;
+		}
+
+
 		// Multi-Use
 
 		public void loadVitals(float health, float hunger, float thirst) {
@@ -386,6 +392,8 @@ namespace PolyPlayer {
 		private void RpcPlayerData(int playerID) {
 			this.playerID = playerID;
 			setUpHair ();
+			CmdOnPlayerLoaded (playerID);
+
 		}
 
 		#endregion
@@ -567,8 +575,9 @@ namespace PolyPlayer {
 
 		[Command]
 		private void CmdOnPlayerLoaded(int id) {
-			if (id > 0) 
-				StartCoroutine(PolyDataManager.ReadPlayerData (id));
+			if (id > 0) {
+				StartCoroutine (PolyDataManager.ReadPlayerData (id));
+			}
 		}
 
 
@@ -607,8 +616,7 @@ namespace PolyPlayer {
 					mainInventory = i;
 
 			}
-			StartCoroutine(lateStart ());
-
+				
 			if (!isLocalPlayer) {
 				if (playerID != 0)
 					setUpHair ();
@@ -616,7 +624,8 @@ namespace PolyPlayer {
 			}
 
 			PolyNetworkManager.setLocalPlayer (this);
-			CmdOnPlayerLoaded (playerID);
+
+			StartCoroutine(lateStart ());
 
 			rigidBody.interpolation = RigidbodyInterpolation.Interpolate;
 			setUpCamera ();
