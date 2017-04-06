@@ -509,10 +509,10 @@ namespace PolyPlayer {
 
 		[Command]
 		private void CmdOnHit(GameObject g) {
-			
+			if (g == null)
+				return;
 			Living l = g.GetComponent<Living> ();
 			if (l != null) {
-				
 				l.living_hurt (this, 5f);
 			}
 		}
