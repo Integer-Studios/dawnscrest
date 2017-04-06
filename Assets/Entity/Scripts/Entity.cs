@@ -64,7 +64,7 @@ namespace PolyEntity {
 
 		[Server]
 		public void living_hurt(Living l, float d) {
-			if (!isClient) {
+			if (!NetworkClient.active) {
 				anim.SetTrigger ("Hurt");
 			}
 			health -= d;

@@ -78,14 +78,14 @@ namespace PolyItem {
 		*/
 
 		protected virtual void Start() {
-			if (!isServer)
+			if (!NetworkServer.active)
 				return;
 			
 			strength = maxStrength;
 		}
 
 		protected virtual void Update() {
-			if (!isServer)
+			if (!NetworkServer.active)
 				return;
 		}
 
