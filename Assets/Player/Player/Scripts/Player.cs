@@ -607,8 +607,12 @@ namespace PolyPlayer {
 			}
 			StartCoroutine(lateStart ());
 
-			if (!isLocalPlayer)
+			if (!isLocalPlayer) {
+				if (playerID != 0)
+					setUpHair ();
 				return;
+			}
+
 			PolyNetworkManager.setLocalPlayer (this);
 			CmdOnPlayerLoaded (playerID);
 
