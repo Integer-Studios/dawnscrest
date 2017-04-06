@@ -20,6 +20,7 @@ namespace PolyNetwork {
 		void Start() {
 			this.eventSystem = EventSystem.current;
 			login = FindObjectOfType<PolyLogin> ();
+
 			playBtn.onClick.AddListener(onPlay);
 			if (!login.isSinglePlayer) {
 				debugHost.onClick.AddListener (onDebugHost);
@@ -30,9 +31,22 @@ namespace PolyNetwork {
 			}
 		}
 
+		public void setLogin() {
+
+			if (login.loaded) {
+				username.text = login.username;
+				password.text = "**************";
+			}
+		}
+
 		void Update() {
 			Selectable current = null;
-
+			if (username.text != login.username && login.loaded) {
+				login.password = "";
+				login.username = "";
+				login.loaded = false;
+				password.text = "";
+			}
 			// Figure out if we have a valid current selected gameobject
 			if (eventSystem.currentSelectedGameObject != null) {
 				// Unity doesn't seem to "deselect" an object that is made inactive
@@ -63,7 +77,8 @@ namespace PolyNetwork {
 
 		private void onPlay() {
 			login.username = username.text;
-			login.password = login.toSHA (password.text);
+			if (!login.loaded)
+				login.password = login.toSHA (password.text);
 			if (username.text.Length <= 0) {
 				errorText.text = "You must enter a username!";
 				return;
