@@ -67,6 +67,7 @@ namespace PolyPlayer {
 		private bool rightHandActive = true;
 		private SoundManager sounds;
 		private EffectListener effects;
+		private bool dataLoaded = false;
 
 		// Syncvars
 		[SyncVar]
@@ -392,8 +393,6 @@ namespace PolyPlayer {
 		private void RpcPlayerData(int playerID) {
 			this.playerID = playerID;
 			setUpHair ();
-			CmdOnPlayerLoaded (playerID);
-
 		}
 
 		#endregion
@@ -637,7 +636,6 @@ namespace PolyPlayer {
 		}
 
 		private void setUpHair() {
-			Debug.Log (playerID);
 			hairMesh.GetComponent<SkinnedMeshRenderer> ().sharedMesh = hairMeshes[playerID-1];
 			hairMesh.GetComponent<SkinnedMeshRenderer> ().material = hairColors [playerID - 1];
 		}
@@ -690,6 +688,11 @@ namespace PolyPlayer {
 
 			if (!isLocalPlayer)
 				return;
+
+			if (!dataLoaded && playerID != 0) {
+				dataLoaded = true;
+				CmdOnPlayerLoaded (playerID);
+			}
 
 			updateLookingAt ();
 			if (!GUIManager.processInput()) {
