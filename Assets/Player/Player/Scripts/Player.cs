@@ -138,7 +138,6 @@ namespace PolyPlayer {
 		}
 
 		// Inventory Listener Interface
-		[Server]
 		public void inventoryListener_onSlotChange(Inventory inv, int i, ItemStack s) {
 			if (inv == hotbarInventory)
 				updateHolding (s, i);
