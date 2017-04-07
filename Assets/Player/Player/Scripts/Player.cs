@@ -632,6 +632,9 @@ namespace PolyPlayer {
 		}
 
 		private void setUpHair() {
+			if (playerID > 10)
+				return;
+			
 			hairMesh.GetComponent<SkinnedMeshRenderer> ().sharedMesh = hairMeshes[playerID-1];
 			hairMesh.GetComponent<SkinnedMeshRenderer> ().material = hairColors [playerID - 1];
 		}

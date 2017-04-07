@@ -854,7 +854,7 @@ MonoBehaviour:
   jumpSpeed: 7
   hungerMultiple: 0.1
   thirstMultiple: 0.1
-  healthMultiple: 0.1
+  healthMultiple: 0.03
   hip: {fileID: 1287477547474674}
   defaultRecipes:
   - output:
