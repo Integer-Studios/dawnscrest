@@ -610,6 +610,8 @@ namespace PolyPlayer {
 					mainInventory = i;
 
 			}
+
+			StartCoroutine(lateStart ());
 				
 			if (!isLocalPlayer) {
 				if (playerID != 0)
@@ -619,7 +621,6 @@ namespace PolyPlayer {
 
 			PolyNetworkManager.setLocalPlayer (this);
 
-			StartCoroutine(lateStart ());
 
 			rigidBody.interpolation = RigidbodyInterpolation.Interpolate;
 			setUpCamera ();
@@ -659,7 +660,6 @@ namespace PolyPlayer {
 
 			if (isLocalPlayer)
 				GUIManager.setPlayer (this);
-			
 			if (NetworkServer.active)
 				hotbarInventory.startListening (this, true);
 
