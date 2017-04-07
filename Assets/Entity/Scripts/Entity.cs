@@ -111,7 +111,7 @@ namespace PolyEntity {
 			rigidBody = GetComponent<Rigidbody> ();
 			ClientScene.RegisterPrefab(deadPrefab);
 
-			if (!isServer)
+			if (!NetworkServer.active)
 				return;
 
 			health = maxHealth;
@@ -173,14 +173,14 @@ namespace PolyEntity {
 		}
 
 		private void setInteracting(bool b) {
-			if (!isClient) {
+			if (!NetworkClient.active) {
 				anim.SetBool ("Interacting", b);
 			}
 			RpcInteracting (b);
 		}
 
 		private void setConsuming(bool b) {
-			if (!isClient) {
+			if (!NetworkClient.active) {
 				anim.SetBool ("Eating", b);
 			}
 			RpcConsuming (b);

@@ -140,7 +140,7 @@ namespace PolyPlayer {
 		// Inventory Listener Interface
 		[Server]
 		public void inventoryListener_onSlotChange(Inventory inv, int i, ItemStack s) {
-			if (isServer) {
+			if (NetworkServer.active) {
 				if (inv == hotbarInventory)
 					updateHolding (s, i);
 			}
@@ -406,7 +406,7 @@ namespace PolyPlayer {
 
 		[Command]
 		private void CmdInteracting(bool i, bool rightHand) {
-			if (!isLocalPlayer && !isClient) {
+			if (!isLocalPlayer && !NetworkClient.active) {
 				setRightHand (rightHand);
 				anim.SetBool ("Interacting", i);
 			}
@@ -415,7 +415,7 @@ namespace PolyPlayer {
 
 		[Command]
 		private void CmdConsuming(bool e, bool rightHand) {
-			if (!isLocalPlayer && !isClient) {
+			if (!isLocalPlayer && !NetworkClient.active) {
 				setRightHand (rightHand);
 				anim.SetBool ("Consuming", e);
 			}
@@ -424,7 +424,7 @@ namespace PolyPlayer {
 
 		[Command]
 		private void CmdSwing(bool rightHand) {
-			if (!isLocalPlayer && !isClient) {
+			if (!isLocalPlayer && !NetworkClient.active) {
 				setRightHand (rightHand);
 				anim.SetTrigger ("Swing");
 			}
@@ -433,7 +433,7 @@ namespace PolyPlayer {
 
 		[Command]
 		private void CmdJump() {
-			if (!isLocalPlayer && !isClient) {
+			if (!isLocalPlayer && !NetworkClient.active) {
 				anim.SetTrigger ("Jump");
 				shouldJump = true;
 			}
@@ -449,7 +449,7 @@ namespace PolyPlayer {
 				RpcTransformDenied (p);
 			}
 				
-			if (!isClient) {
+			if (!NetworkClient.active) {
 				velocity = v;
 				rotationalVelocity = rv;
 				transform.position = p;
@@ -596,7 +596,7 @@ namespace PolyPlayer {
 			sounds = GetComponent <SoundManager> ();
 			effects = GetComponent<EffectListener> ();
 
-			if (isServer)
+			if (NetworkServer.active)
 				StartCoroutine (updateVitals ());
 
 			rigidBody = GetComponent<Rigidbody> ();
@@ -663,12 +663,12 @@ namespace PolyPlayer {
 			if (isLocalPlayer)
 				GUIManager.setPlayer (this);
 			
-			if (isServer)
+			if (NetworkServer.active)
 				hotbarInventory.startListening (this, true);
 
 			// TODO delete this when we have a network manager doing on login notifications
 			//
-			if (isServer) {
+			if (NetworkServer.active) {
 				Item[] items = FindObjectsOfType<Item> ();
 				foreach (Item i in items) {
 					i.OnPlayerConnected ();

@@ -71,7 +71,7 @@ namespace PolyItem {
 
 		[ClientRpc]
 		private void RpcOnLoginInfo(GameObject holder, int hid) {
-			if (!isServer) {
+			if (!NetworkServer.active) {
 				
 				if (holder == null)
 					return;
@@ -83,7 +83,7 @@ namespace PolyItem {
 
 		[ClientRpc]
 		private void RpcSetHolder(GameObject holder, int hid) {
-			if (!isServer) {
+			if (!NetworkServer.active) {
 				ItemHolder h = holder.GetComponent<ItemHolder> ();
 				convertToHeldItem (h, hid);
 			}

@@ -145,7 +145,7 @@ namespace PolyItem {
 		[ClientRpc]
 		private void RpcSlotUpdate(int netID, int i, NetworkItemStack ns) {
 			
-			if (isServer)
+			if (NetworkServer.active)
 				return;
 
 			// redirect RPC to correct Inventory

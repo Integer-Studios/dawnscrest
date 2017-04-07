@@ -75,7 +75,7 @@ namespace PolyWorld {
 		private void Update() {
 			sun.transform.eulerAngles = new Vector3 (360f * getDayPercent(), 0f, 0f);
 
-			if (!isServer)
+			if (!NetworkServer.active)
 				return;
 			
 			time += Time.deltaTime;
