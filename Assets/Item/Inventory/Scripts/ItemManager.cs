@@ -96,7 +96,13 @@ namespace PolyItem {
 		}
 
 		public static int getWeight(int id) {
-			return getItem (id).weight;
+			Item i = getItem (id);
+			if (i != null) {
+				return getItem (id).weight;
+			} else {
+				Debug.Log ("Failed to get weight for id: " + id);
+				return 1;
+			}
 		}
 
 		public static string getName(int id) {
