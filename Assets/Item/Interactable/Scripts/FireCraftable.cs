@@ -21,8 +21,10 @@ namespace PolyItem {
 			
 			if (isFueled)
 				flames.Play ();
-			 else 
+			else {
 				flames.Stop ();
+				lightSource.intensity = 0f;
+			}
 
 		}
 

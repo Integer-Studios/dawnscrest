@@ -35,11 +35,15 @@ namespace PolyItem {
 
 		[Server]
 		public void setTransform(Vector3 pos, Vector3 scale, Vector3 rot) {
+			gameObject.transform.position = pos; 
+			gameObject.transform.localScale = scale; 
+			gameObject.transform.eulerAngles = rot; 
 			RpcSetTransform (pos, scale, rot);
 		}
 
 		[Server]
 		public void setPosition(Vector3 pos) {
+			gameObject.transform.position = pos; 
 			RpcSetPosition (pos);
 		}
 

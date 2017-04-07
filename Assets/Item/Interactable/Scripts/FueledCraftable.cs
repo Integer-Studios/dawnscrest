@@ -38,6 +38,9 @@ namespace PolyItem {
 		*/
 
 		protected virtual void OnCollisionEnter(Collision collision) {
+
+			if (!NetworkServer.active)
+				return;
 			
 			Item i = collision.gameObject.GetComponent<Item> ();
 			if (i == null)
@@ -66,7 +69,7 @@ namespace PolyItem {
 			if (!NetworkServer.active)
 				return;
 
-			else if (isFueled)
+			if (isFueled)
 				fuel -= Time.deltaTime * fuelConumptionRate;
 			
 			if (isSatisfied ())
