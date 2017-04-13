@@ -78,6 +78,19 @@ namespace PolyEntity {
 			
 		}
 
+		[Server]
+		public void setAttacking(bool b) {
+			anim.SetBool ("Attacking", b);
+			RpcAttacking (b);
+		}
+
+		public void onAttackHit() {
+			if (!NetworkServer.active)
+				return;
+			
+			Debug.Log ("yeeee");
+		}
+
 
 		/*
 		* 
@@ -98,6 +111,11 @@ namespace PolyEntity {
 		[ClientRpc]
 		private void RpcHurt() {
 			anim.SetTrigger ("Hurt");
+		}
+
+		[ClientRpc]
+		private void RpcAttacking(bool b) {
+			anim.SetBool ("Attacking", b);
 		}
 
 		/*

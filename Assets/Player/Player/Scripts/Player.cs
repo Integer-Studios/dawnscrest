@@ -824,6 +824,11 @@ namespace PolyPlayer {
 				GUIManager.pushScreen (GUIManager.settingsScreen);
 			}
 
+			if (Input.GetKeyDown(KeyCode.O)) {
+				transform.position = WorldTerrain.toTerrainSurface (transform.position);
+//				WorldTerrain.flattenTerrain(transform.position);
+			}
+
 			deltaPitch = mouseSensitivity * Input.GetAxis ("Mouse Y");
 			if (pitch - deltaPitch < 72f && pitch - deltaPitch > -72f) {
 				pitch -= deltaPitch;

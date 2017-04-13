@@ -42,6 +42,7 @@ namespace PolyWorld {
 		public Block[] blockRegister;
 		public Vector3 blockOffset;
 		public float renderDistUpdateRate = 4f;
+		public int flatteningDownsample;
 
 		private Chunk[,] chunks;
 		private int heightmapSize;
@@ -172,6 +173,19 @@ namespace PolyWorld {
 		[Server]
 		public static void setTerrainHeight(Vector3 p, float f) {
 			terrain.setHeight(p,f);
+		}
+
+		[Server]
+		public static void flattenTerrain(Vector3 p) {
+			terrain.setHeight(p, terrain.getHeight (p));
+		}
+
+		public float getFlatHeight(Vector3 p) {
+			heightmapIndex hmi = ToHMI (p);
+			float f = (getHeight (hmi) + getHeight (new heightmapIndex (hmi.x + 1, hmi.z + 1))) / 2f;
+			int i = (int)(f * flatteningDownsample);
+			i /= flatteningDownsample;
+			return (float)i;
 		}
 
 		[Client]
