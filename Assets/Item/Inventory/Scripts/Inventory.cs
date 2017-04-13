@@ -25,22 +25,22 @@ namespace PolyItem {
 
 		[Server]
 		public virtual void dropAll(Vector3 pos) {
-			foreach (ItemSlot s in slots) {
-				if (s.stack == null)
+			for (int i = 0; i < slots.GetLength(0); i++) {
+				if (slots [i].stack == null)
 					continue;
 				
-				for (int i = 0; i < s.stack.size; i++) {
-					GameObject g = ItemManager.createItem (s.stack);
-					g.transform.position = pos;
+				for (int j = 0; j < slots [i].stack.size; j++) {
+					GameObject g = ItemManager.createItem (slots [i].stack);
+					g.GetComponent<Item> ().setPosition(pos);
 				}
-				s.stack = null;
+				setSlot (i, null);
 			}
 		}
 
 		[Server]
 		public virtual void clearAll() {
-			foreach (ItemSlot s in slots) {
-				s.stack = null;
+			for (int i = 0; i < slots.GetLength (0); i++) {
+				setSlot (i, null);
 			}
 		}
 
@@ -145,7 +145,7 @@ namespace PolyItem {
 		[ClientRpc]
 		private void RpcSlotUpdate(int netID, int i, NetworkItemStack ns) {
 			
-			if (isServer)
+			if (NetworkServer.active)
 				return;
 
 			// redirect RPC to correct Inventory
@@ -234,20 +234,20 @@ namespace PolyItem {
 		}
 
 		public virtual void read (JSONObject obj) {
-
+			JSONObject slotsJSON = obj.GetField ("slots");
 			if (slots != null) {
-
-				for(int x = 0; x <  obj.list.Count; x ++) {
-					JSONObject slot = obj [x];
+				foreach(JSONObject slot in slotsJSON.list) {
 					int index = (int)slot.GetField ("id").n;
+//					Debug.Log ("A");
+
 					int item = (int)slot.GetField ("item").n;
+//					Debug.Log (item);
 					int size = (int)slot.GetField ("size").n;
 					int quality = (int)slot.GetField ("quality").n;
 					if (item != -1)
 						setSlot (index, new ItemStack (item, quality, size));
 				}
 			} else {
-				JSONObject slotsJSON = obj.GetField ("slots");
 
 				this.data = slotsJSON;
 			}

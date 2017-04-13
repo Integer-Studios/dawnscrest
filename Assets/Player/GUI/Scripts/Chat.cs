@@ -15,8 +15,10 @@ namespace PolyPlayer {
 				input.text = "";
 			
 			input.gameObject.SetActive(e);
-			input.transform.SetAsLastSibling ();			
-			input.ActivateInputField ();
+			if (e) {
+				input.transform.SetAsLastSibling ();			
+				input.ActivateInputField ();
+			}
 		}
 
 		public void displayMessage(string s, float distance) {
@@ -25,6 +27,7 @@ namespace PolyPlayer {
 			t.color = new Color(255, 255, 255, 1 - distance);
 			t.transform.SetParent (transform, false);
 			t.text = s;
+			input.transform.SetAsLastSibling ();
 		}
 
 		public void onInputSubmitted(string s) {

@@ -3,23 +3,28 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
+using UnityStandardAssets.ImageEffects;
 using PolyItem;
 using PolyEntity;
 using PolyWorld;
+using PolyEffects;
+using PolyNetwork;
 
 namespace PolyPlayer {
 
 	public class Player : NetworkBehaviour, Interactor, InventoryListener, ItemHolder, Living, IPolyPlayer {
 
-
 		// Vars : public, protected, private, hide
 		#region
 		public float interpolationRate = 9f;
 		public float ipPositionAllowance = 0.1f;
+		public float ipPositionServerAuth = 1f;
 		public float ipRotationAllowance = 1f;
 		public float vitalsUpdateRate = 5f;
 		public float mouseSensitivity = 8.0f;
 		public GameObject hairMesh;
+		public Mesh[] hairMeshes;
+		public Material[] hairColors;
 		public GameObject bodyMesh;
 		public Mesh fpsMesh;
 		public GameObject pivot;
@@ -60,6 +65,9 @@ namespace PolyPlayer {
 		private Vector3 velocity;
 		private float rotationalVelocity;
 		private bool rightHandActive = true;
+		private SoundManager sounds;
+		private EffectListener effects;
+		private bool dataLoaded = false;
 
 		// Syncvars
 		[SyncVar]
@@ -115,7 +123,7 @@ namespace PolyPlayer {
 					return;
 				}
 			}
-			SoundManager.rpcPlaySound (PlayerSound.ItemPickup);
+			sounds.rpcPlaySound (PlayerSound.ItemPickup);
 			NetworkServer.Destroy (i.gameObject);
 		}
 
@@ -130,10 +138,14 @@ namespace PolyPlayer {
 		}
 
 		// Inventory Listener Interface
-		[Server]
 		public void inventoryListener_onSlotChange(Inventory inv, int i, ItemStack s) {
 			if (inv == hotbarInventory)
 				updateHolding (s, i);
+		}
+
+		[Server]
+		public void polyPlayer_sendPlayerData(int playerID) {
+			RpcPlayerData (playerID);
 		}
 
 		// Item Holder Interface
@@ -172,6 +184,16 @@ namespace PolyPlayer {
 		}
 			
 		// GUI Interface
+
+		[Client]
+		public void setFancyGraphics(bool b) {
+			Camera.main.GetComponent<FlareLayer> ().enabled = b;
+			Camera.main.GetComponent<Bloom> ().enabled = b;
+			Camera.main.GetComponent<SunShafts> ().enabled = b;
+			Camera.main.GetComponent<ScreenSpaceAmbientOcclusion> ().enabled = b;
+			Camera.main.GetComponent<DepthOfField> ().enabled = b;
+			Camera.main.GetComponent<Antialiasing> ().enabled = b;
+		}
 
 		[Client]
 		public void onSlotUpdate(int bindingID, int slotID, ItemStack s) {
@@ -225,9 +247,19 @@ namespace PolyPlayer {
 		}
 
 		[Client]
-		public void receiveChat(string name, string message, float distance) {
-			GUIManager.chat.displayMessage (name + ": " + message, distance);
+		public void polyPlayer_receiveChat(string name, string message, float distance) {
+			if (name != null && name.Length != 0)
+				GUIManager.chat.displayMessage (name + ": " + message, distance);
+			else
+				GUIManager.chat.displayMessage (message, distance);
+			
 		}
+
+		[Client]
+		public void polyPlayer_setPlayerID(int playerID) {
+			this.playerID = playerID;
+		}
+
 
 		// Multi-Use
 
@@ -279,7 +311,7 @@ namespace PolyPlayer {
 		[ClientRpc]
 		private void RpcHurt() {
 			anim.SetTrigger ("Hurt");
-			SoundManager.playSound(PlayerSound.Hurt);
+			sounds.playSound(PlayerSound.Hurt);
 		}
 
 		// Broadcasts
@@ -348,6 +380,18 @@ namespace PolyPlayer {
 			transform.rotation = r;
 		}
 
+		[ClientRpc]
+		private void RpcTransformDenied(Vector3 pos) {
+			if (isLocalPlayer)
+				transform.position = pos;
+		}
+
+		[ClientRpc]
+		private void RpcPlayerData(int playerID) {
+			this.playerID = playerID;
+			setUpHair ();
+		}
+
 		#endregion
 		/*
 		* 
@@ -359,7 +403,7 @@ namespace PolyPlayer {
 
 		[Command]
 		private void CmdInteracting(bool i, bool rightHand) {
-			if (!isLocalPlayer && !isClient) {
+			if (!isLocalPlayer && !NetworkClient.active) {
 				setRightHand (rightHand);
 				anim.SetBool ("Interacting", i);
 			}
@@ -368,7 +412,7 @@ namespace PolyPlayer {
 
 		[Command]
 		private void CmdConsuming(bool e, bool rightHand) {
-			if (!isLocalPlayer && !isClient) {
+			if (!isLocalPlayer && !NetworkClient.active) {
 				setRightHand (rightHand);
 				anim.SetBool ("Consuming", e);
 			}
@@ -377,7 +421,7 @@ namespace PolyPlayer {
 
 		[Command]
 		private void CmdSwing(bool rightHand) {
-			if (!isLocalPlayer && !isClient) {
+			if (!isLocalPlayer && !NetworkClient.active) {
 				setRightHand (rightHand);
 				anim.SetTrigger ("Swing");
 			}
@@ -386,7 +430,7 @@ namespace PolyPlayer {
 
 		[Command]
 		private void CmdJump() {
-			if (!isLocalPlayer && !isClient) {
+			if (!isLocalPlayer && !NetworkClient.active) {
 				anim.SetTrigger ("Jump");
 				shouldJump = true;
 			}
@@ -397,8 +441,12 @@ namespace PolyPlayer {
 
 		[Command]
 		private void CmdUpdateTransform (Vector3 v, float rv, Vector3 p, Quaternion r, float pi) {
-
-			if (!isClient) {
+			if (Vector3.Distance (transform.position, p) > ipPositionServerAuth) {
+				p = transform.position;
+				RpcTransformDenied (p);
+			}
+				
+			if (!NetworkClient.active) {
 				velocity = v;
 				rotationalVelocity = rv;
 				transform.position = p;
@@ -465,6 +513,8 @@ namespace PolyPlayer {
 
 		[Command]
 		private void CmdOnHit(GameObject g) {
+			if (g == null)
+				return;
 			Living l = g.GetComponent<Living> ();
 			if (l != null) {
 				l.living_hurt (this, 5f);
@@ -498,7 +548,7 @@ namespace PolyPlayer {
 				slot = 2;
 			
 			GameObject g = ItemManager.createItemForPlacing (hotbarInventory.getSlotCopy (slot));
-			g.transform.position = p;
+			g.GetComponent<Interactable> ().setPosition (p);
 			hotbarInventory.decreaseSlot (slot);
 		}
 
@@ -517,6 +567,13 @@ namespace PolyPlayer {
 			PolyDataManager.overwriteSave (playerID);
 		}
 
+		[Command]
+		private void CmdOnPlayerLoaded(int id) {
+			if (id > 0) {
+				StartCoroutine (PolyDataManager.ReadPlayerData (id));
+			}
+		}
+
 
 		#endregion
 		/* 
@@ -533,8 +590,10 @@ namespace PolyPlayer {
 			thirst = maxThirst;
 
 			ClientScene.RegisterPrefab (deadPrefab);
+			sounds = GetComponent <SoundManager> ();
+			effects = GetComponent<EffectListener> ();
 
-			if (isServer)
+			if (NetworkServer.active)
 				StartCoroutine (updateVitals ());
 
 			rigidBody = GetComponent<Rigidbody> ();
@@ -553,11 +612,16 @@ namespace PolyPlayer {
 			}
 
 			StartCoroutine(lateStart ());
-
-			if (!isLocalPlayer)
+				
+			if (!isLocalPlayer) {
+				if (playerID != 0)
+					setUpHair ();
 				return;
+			}
 
 			PolyNetworkManager.setLocalPlayer (this);
+
+
 			rigidBody.interpolation = RigidbodyInterpolation.Interpolate;
 			setUpCamera ();
 			setUpLocalAnimations ();
@@ -565,6 +629,14 @@ namespace PolyPlayer {
 			GUIManager.closeGUI ();
 			StartCoroutine(networkTransformUpdate ());
 			StartCoroutine(footstepSoundPlay ());
+		}
+
+		private void setUpHair() {
+			if (playerID > 10)
+				return;
+			
+			hairMesh.GetComponent<SkinnedMeshRenderer> ().sharedMesh = hairMeshes[playerID-1];
+			hairMesh.GetComponent<SkinnedMeshRenderer> ().material = hairColors [playerID - 1];
 		}
 
 		private void setUpCamera() {
@@ -591,13 +663,12 @@ namespace PolyPlayer {
 
 			if (isLocalPlayer)
 				GUIManager.setPlayer (this);
-			
-			if (isServer)
+			if (NetworkServer.active)
 				hotbarInventory.startListening (this, true);
 
 			// TODO delete this when we have a network manager doing on login notifications
 			//
-			if (isServer) {
+			if (NetworkServer.active) {
 				Item[] items = FindObjectsOfType<Item> ();
 				foreach (Item i in items) {
 					i.OnPlayerConnected ();
@@ -615,6 +686,11 @@ namespace PolyPlayer {
 
 			if (!isLocalPlayer)
 				return;
+
+			if (!dataLoaded && playerID != 0) {
+				dataLoaded = true;
+				CmdOnPlayerLoaded (playerID);
+			}
 
 			updateLookingAt ();
 			if (!GUIManager.processInput()) {
@@ -744,6 +820,10 @@ namespace PolyPlayer {
 				GUIManager.setChatOpen (true);
 			}
 
+			if (Input.GetKeyDown(KeyCode.Tab)) {
+				GUIManager.pushScreen (GUIManager.settingsScreen);
+			}
+
 			deltaPitch = mouseSensitivity * Input.GetAxis ("Mouse Y");
 			if (pitch - deltaPitch < 72f && pitch - deltaPitch > -72f) {
 				pitch -= deltaPitch;
@@ -851,8 +931,10 @@ namespace PolyPlayer {
 		}
 
 		private void primaryActionUpdate() {
-			if (isLookingAtInteractable ()) {
+			if (isLookingAtInteractable (true)) {
 				CmdInteract (lookingAtObject, lookingAtPoint, lookingAtNormal);
+			} else {
+				cancelActions ();
 			}
 		}
 
@@ -969,7 +1051,7 @@ namespace PolyPlayer {
 
 		private void completeConsuming() {
 			//play burp sound
-			SoundManager.playSound(PlayerSound.ConsumeFinish);
+			sounds.playSound(PlayerSound.ConsumeFinish);
 			anim.SetBool ("Consuming", false);
 			CmdCompleteConsuming ();
 			CmdConsuming (false, rightHandActive);
@@ -1030,23 +1112,24 @@ namespace PolyPlayer {
 
 		private void onLand() {
 			if (groundObject.layer == 8)
-				SoundManager.playSound (MaterialType.Footstep, WorldTerrain.getMaterial (transform.position));
-			else
-				SoundManager.playSound(null, groundObject);
+				effects.playEffect (WorldTerrain.getMaterialEffects(transform.position).stepEffect, transform.position, Vector3.up, 50f);
+			else if (groundObject.GetComponent<FXMaterial> ())
+				effects.playEffect (groundObject.GetComponent<FXMaterial> ().effects.stepEffect, transform.position, Vector3.up, 50f);
 		}
-
+			
 		private void swing() {
 			CmdSwing (rightHandActive);
 			anim.SetTrigger ("Swing");
 		}
 
 		private void onSwingHit() {
-			if (isLookingAtInteractable()) 
-				SoundManager.playSound(interactor_getItemInHand(), lookingAtObject);
-			else if (lookingAtObject != null && Vector3.Distance(transform.position, lookingAtPoint) < hitRange) {
-				SoundManager.playSound(interactor_getItemInHand(), lookingAtObject);
-				CmdOnHit (lookingAtObject);
-			}
+			if (lookingAtObject == null)
+				return;
+			if (lookingAtObject.layer == 8)
+				effects.playEffect (WorldTerrain.getMaterialEffects(transform.position).hitEffect, lookingAtPoint, lookingAtNormal, 50f);
+			else if (lookingAtObject.GetComponent<FXMaterial> ())
+				effects.playEffect (lookingAtObject.GetComponent<FXMaterial> ().effects.hitEffect, lookingAtPoint, lookingAtNormal, 50f);
+			CmdOnHit (lookingAtObject);
 		}
 
 		private bool isConsuming() {
@@ -1057,10 +1140,10 @@ namespace PolyPlayer {
 			while (true) {
 				if (grounded && isMoving()) {
 					//can pass clothing items here when they exist
-					if (groundObject.layer == 8)
-						SoundManager.playSound (MaterialType.Footstep, WorldTerrain.getMaterial (transform.position));
-					else
-						SoundManager.playSound(null, groundObject);
+					if (groundObject.layer == 8) {
+						effects.playEffect (WorldTerrain.getMaterialEffects (transform.position).stepEffect, transform.position, Vector3.up, 50f);
+					} else if (groundObject.GetComponent<FXMaterial> ())
+						effects.playEffect (groundObject.GetComponent<FXMaterial> ().effects.stepEffect, transform.position, Vector3.up, 50f);
 				}
 				if (speed == 0f)
 					yield return new WaitForSeconds (1f);

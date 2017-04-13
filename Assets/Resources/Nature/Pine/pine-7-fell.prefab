@@ -25,6 +25,7 @@ GameObject:
   - component: {fileID: 114695093970552834}
   - component: {fileID: 54294196504869262}
   - component: {fileID: 114522678469581584}
+  - component: {fileID: 114320389780800446}
   m_Layer: 0
   m_Name: pine-7-fell
   m_TagString: decoration
@@ -111,6 +112,42 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.5, y: 18.057604, z: 0.5}
   m_Center: {x: 0.17933893, y: 8.517842, z: 0.00859046}
+--- !u!114 &114320389780800446
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1247658544205150}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11eb8acd47c934639b60e87a2cf56a51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  effects:
+    hitEffect:
+      clips:
+      - {fileID: 8300000, guid: a57113ef9828d427c9d79a61103462c4, type: 3}
+      - {fileID: 8300000, guid: a57113ef9828d427c9d79a61103462c4, type: 3}
+      - {fileID: 8300000, guid: 9bb4544b9814642dba160e03e9ff8364, type: 3}
+      - {fileID: 8300000, guid: d07e55c4f30ad4c2f8bec64b50bee574, type: 3}
+      - {fileID: 8300000, guid: f7455b36a8b6b49ce85b292a6407f8b8, type: 3}
+      - {fileID: 8300000, guid: 1cc4e436bbfe24cb38d65ba1b92d8d77, type: 3}
+      particles: {fileID: 198050472945075162, guid: e860e056db2024baf9cafa0aee146ed3,
+        type: 2}
+    stepEffect:
+      clips:
+      - {fileID: 8300000, guid: 3d9d5bfcbf5994db0b249634150cdbe7, type: 3}
+      - {fileID: 8300000, guid: 4746366be8c48404bada1f5967751c49, type: 3}
+      - {fileID: 8300000, guid: 3caa104fc6d0a40a997af1f4665870cf, type: 3}
+      - {fileID: 8300000, guid: 12e7ead1d42cd4a1d857362a5d7a106a, type: 3}
+      - {fileID: 8300000, guid: b169b651ecf474eaeb57ce89d98589dd, type: 3}
+      - {fileID: 8300000, guid: 9306c197837ae4018a390bb4df0ab944, type: 3}
+      - {fileID: 8300000, guid: 16c62b67a65c146b29671d31ff4b2cb7, type: 3}
+      - {fileID: 8300000, guid: 3aab7a2c983f74d258e35504975f0f29, type: 3}
+      - {fileID: 8300000, guid: 069dba1c6269b47ac88133026e9ea246, type: 3}
+      - {fileID: 8300000, guid: 83006144b2df84e4892d021b3ea8c466, type: 3}
+      particles: {fileID: 198050472945075162, guid: e860e056db2024baf9cafa0aee146ed3,
+        type: 2}
 --- !u!114 &114522678469581584
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -122,7 +159,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d59c217d16c2a48198c5b8e471808671, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  material: 0
   maxStrength: 10
   type: 2
   destroyOnInteract: 1

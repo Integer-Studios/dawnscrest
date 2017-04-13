@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 114205551743209406}
   - component: {fileID: 114895047372887304}
   - component: {fileID: 65391270229550880}
+  - component: {fileID: 114259217212918798}
   m_Layer: 0
   m_Name: Grass_c_TwoS_01
   m_TagString: decoration
@@ -155,6 +156,46 @@ MonoBehaviour:
     i15: 118
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &114259217212918798
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 132178}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11eb8acd47c934639b60e87a2cf56a51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  effects:
+    hitEffect:
+      clips:
+      - {fileID: 8300000, guid: 4a39cc5cc296040ae9a08ae3df059278, type: 3}
+      - {fileID: 8300000, guid: e877f05d3593740e890666a278a92647, type: 3}
+      - {fileID: 8300000, guid: 18c6e6704fe024829bfc92c6a150d173, type: 3}
+      - {fileID: 8300000, guid: d2ada57a6473e45b1b341ba45179678b, type: 3}
+      - {fileID: 8300000, guid: df7c64cd5250141ebb9b49a9fcde0906, type: 3}
+      - {fileID: 8300000, guid: b9258af34b50346bbaf8db94a7971161, type: 3}
+      - {fileID: 8300000, guid: b284d2839b804407fad77d22ed039341, type: 3}
+      - {fileID: 8300000, guid: a99084369a141469c9c800b73b234d14, type: 3}
+      - {fileID: 8300000, guid: 41249fbe02040441799363e44512ecb4, type: 3}
+      - {fileID: 8300000, guid: c067618f167844bf59bb5b34dd6aa110, type: 3}
+      particles: {fileID: 198050472945075162, guid: f890f2cadea734656b41d60dafd45f8a,
+        type: 2}
+    stepEffect:
+      clips:
+      - {fileID: 8300000, guid: 4a39cc5cc296040ae9a08ae3df059278, type: 3}
+      - {fileID: 8300000, guid: e877f05d3593740e890666a278a92647, type: 3}
+      - {fileID: 8300000, guid: 18c6e6704fe024829bfc92c6a150d173, type: 3}
+      - {fileID: 8300000, guid: d2ada57a6473e45b1b341ba45179678b, type: 3}
+      - {fileID: 8300000, guid: df7c64cd5250141ebb9b49a9fcde0906, type: 3}
+      - {fileID: 8300000, guid: b9258af34b50346bbaf8db94a7971161, type: 3}
+      - {fileID: 8300000, guid: b284d2839b804407fad77d22ed039341, type: 3}
+      - {fileID: 8300000, guid: a99084369a141469c9c800b73b234d14, type: 3}
+      - {fileID: 8300000, guid: 41249fbe02040441799363e44512ecb4, type: 3}
+      - {fileID: 8300000, guid: 6ca87357d0d6145ffb822834c20828f2, type: 3}
+      particles: {fileID: 198050472945075162, guid: f890f2cadea734656b41d60dafd45f8a,
+        type: 2}
 --- !u!114 &114895047372887304
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -166,7 +207,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d59c217d16c2a48198c5b8e471808671, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  material: 1
   maxStrength: 3
   type: 0
   destroyOnInteract: 1

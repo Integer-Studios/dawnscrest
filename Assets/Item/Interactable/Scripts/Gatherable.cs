@@ -13,8 +13,10 @@ namespace PolyItem {
 		public float refillTime = 60;
 		public GameObject replacement;
 
-		private int curRepeats = 0;
-		private int curRefills = 0;
+		[SyncVar]
+		public int curRepeats = 0;
+		[SyncVar]
+		public int curRefills = 0;
 		private float runoutTime = -1f;
 
 		/*
@@ -39,7 +41,7 @@ namespace PolyItem {
 			base.Start ();
 		}	
 
-		protected void Update() {
+		protected override void Update() {
 			base.Update ();
 			if (isOut ()) {
 				if (runoutTime + refillTime <= Time.time) {
@@ -49,11 +51,13 @@ namespace PolyItem {
 		}
 
 		protected override void onComplete(Interactor i) {
+			if (isOut ())
+				return;
 			for (int j = 0; j < drops.GetLength (0); j++) {
 				GameObject g = Instantiate (drops [j].gameObject);
-				g.transform.position = i.interactor_getInteractionPosition() + new Vector3(Random.Range(-0.5f,0.5f),Random.Range(-0.5f,0.5f), Random.Range(-0.5f,0.5f));
 				g.GetComponent<Rigidbody> ().velocity = i.interactor_getInteractionNormal () + new Vector3(Random.Range(-0.5f,0.5f),Random.Range(-0.5f,0.5f), Random.Range(-0.5f,0.5f));
 				NetworkServer.Spawn (g);
+				g.GetComponent<Item> ().setPosition( i.interactor_getInteractionPosition() + new Vector3(Random.Range(-0.5f,0.5f),Random.Range(-0.5f,0.5f), Random.Range(-0.5f,0.5f)));
 			}
 			if (replacement != null) {
 				GameObject g = Instantiate(replacement);

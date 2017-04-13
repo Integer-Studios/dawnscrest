@@ -22,10 +22,6 @@ namespace PolyItem {
 		* 
 		*/
 
-		public static MaterialType getMaterial(ItemStack s) {
-			return getMaterial (s.id);
-		}
-
 		public static int getMaxStackSize(ItemStack s) {
 			return getMaxStackSize (s.id);
 		}
@@ -94,16 +90,19 @@ namespace PolyItem {
 			return ((ItemConsumable)getItem(s.id)).nutrition;
 		}
 
-		public static MaterialType getMaterial(int id) {
-			return getItem (id).material;
-		}
 
 		public static int getMaxStackSize(int id) {
 			return getItem (id).maxStackSize;
 		}
 
 		public static int getWeight(int id) {
-			return getItem (id).weight;
+			Item i = getItem (id);
+			if (i != null) {
+				return getItem (id).weight;
+			} else {
+				Debug.Log ("Failed to get weight for id: " + id);
+				return 1;
+			}
 		}
 
 		public static string getName(int id) {
@@ -153,6 +152,8 @@ namespace PolyItem {
 			items = it;
 			foreach (Item i in items) {
 				ClientScene.RegisterPrefab(i.gameObject);
+				if (i.onPlaced != null)
+					ClientScene.RegisterPrefab(i.onPlaced);
 			}
 		}
 

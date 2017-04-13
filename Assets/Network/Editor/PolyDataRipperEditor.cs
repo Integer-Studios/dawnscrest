@@ -3,16 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor; 
 
-[CustomEditor(typeof(PolyNetworkManager))]
-public class PolyDataRipperEditor : Editor {
+namespace PolyNetwork {
 
-	public override void OnInspectorGUI() {
+	[CustomEditor(typeof(PolyNetworkManager))]
+	public class PolyDataRipperEditor : Editor {
 
-		DrawDefaultInspector();
-		PolyNetworkManager manager = (PolyNetworkManager)target;
-		if (GUILayout.Button ("Rip Data")) {
-			PolyDataRipper.rip (manager);
+		public override void OnInspectorGUI() {
+
+			DrawDefaultInspector();
+			PolyNetworkManager manager = (PolyNetworkManager)target;
+			if (GUILayout.Button ("Rip Data")) {
+				PolyDataRipper.rip (manager);
+			}
 		}
-	}
 
+	}
 }

@@ -150,7 +150,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e33c11db2c184820978ad8f037abc09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  material: 5
   maxStrength: 0
   id: 8
   sprite: {fileID: 21300000, guid: b7507bd0991aa4bd0b61cc790d9bab72, type: 3}

@@ -108,14 +108,13 @@ namespace PolyItem {
 		*/
 
 		protected override void onComplete(Interactor i) {
+			if (!isSatisfied())
+				return;
 			useRequirements ();
 			base.onComplete (i);
 		}
 
 		private void useRequirements() {
-			if (!isLoaded ())
-				return;
-			
 			for(int i = 0; i < recipe.input.GetLength (0); i++) {
 				input [i].size -= recipe.input [i].size;
 				if (input [i].size <= 0)
