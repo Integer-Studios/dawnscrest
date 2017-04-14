@@ -49,19 +49,15 @@ namespace PolyEntity {
 		}
 
 		public void setVelocity(Vector3 v) {
-			if (velocity != v) { 
-				velocity = v;
-				anim.SetFloat ("Vertical", speedToAnim (v.z));
-			}
+			velocity = v;
+			anim.SetFloat ("Vertical", speedToAnim(v.z));
 		}
 
 		public void setRotation(float f) {
 			int r = (int)(f * rotationalDownsample);
 			r /= rotationalDownsample;
-			if ((float)r != rotation) {
-				rotation = (float)r;
-				anim.SetFloat ("Horizontal", f/maxRotation);
-			}
+			rotation = (float)r;
+			anim.SetFloat ("Horizontal", f/maxRotation);
 		}
 
 		// Living Interface
@@ -148,7 +144,7 @@ namespace PolyEntity {
 
 		protected virtual void Update() {
 			updateLocomotion ();
-			if (!NetworkServer.active)
+			if (!isServer)
 				return;
 			updateBrain ();
 	
