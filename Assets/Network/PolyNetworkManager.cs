@@ -32,7 +32,6 @@ namespace PolyNetwork {
 		}
 
 		void Start () {
-			Application.targetFrameRate = 60;
 			PolyNetworkManager.self = this;
 			PolyDataManager.initialize(GetComponent<SocketIOComponent>());
 			if (IsHeadless ()) {
