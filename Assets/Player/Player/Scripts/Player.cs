@@ -458,15 +458,15 @@ namespace PolyPlayer {
 
 		// Interaction Commands
 
-		[Command]
-		private void CmdInteract(GameObject g, Vector3 point, Vector3 norms) {
-			if (g == null)
-				return;
-			
-			lookingAtPoint = point;
-			lookingAtNormal = norms;
-			g.GetComponent<Interactable> ().interact (this, Time.deltaTime);
-		}
+//		[Command]
+//		private void CmdInteract(GameObject g, Vector3 point, Vector3 norms) {
+//			if (g == null)
+//				return;
+//			
+//			lookingAtPoint = point;
+//			lookingAtNormal = norms;
+//			g.GetComponent<Interactable> ().interact (this, 1f);
+//		}
 
 		// Inventory Commands
 
@@ -512,12 +512,19 @@ namespace PolyPlayer {
 		// Combat Commands
 
 		[Command]
-		private void CmdOnHit(GameObject g) {
+		private void CmdOnHit(GameObject g, Vector3 point, Vector3 norms) {
 			if (g == null)
 				return;
 			Living l = g.GetComponent<Living> ();
 			if (l != null) {
 				l.living_hurt (this, 5f);
+				return;
+			}
+			Interactable i = g.GetComponent<Interactable> ();
+			if (i != null && i.isInteractable(this)) {
+				lookingAtPoint = point;
+				lookingAtNormal = norms;
+				g.GetComponent<Interactable> ().interact (this, 1f);
 			}
 		}
 
@@ -931,14 +938,15 @@ namespace PolyPlayer {
 			if (!isLookingAtInteractable ()) {
 				swing ();
 			} else {
-				setInteracting (true);
+				if (lookingAtObject.GetComponent<Interactable> ().maxStrength == 0f)
+					CmdOnHit (lookingAtObject, lookingAtPoint, lookingAtNormal);
+				else
+					setInteracting (true);
 			}
 		}
 
 		private void primaryActionUpdate() {
-			if (isLookingAtInteractable (true)) {
-				CmdInteract (lookingAtObject, lookingAtPoint, lookingAtNormal);
-			} else {
+			if (!isLookingAtInteractable (true)) {
 				cancelActions ();
 			}
 		}
@@ -969,6 +977,8 @@ namespace PolyPlayer {
 
 		private void setInteracting(bool i) {
 			anim.SetBool ("Interacting", i);
+			if (isLocalPlayer)
+				crosshair.setHighlighted (i);
 			CmdInteracting (i, rightHandActive);
 		}
 
@@ -1134,7 +1144,7 @@ namespace PolyPlayer {
 				effects.playEffect (WorldTerrain.getMaterialEffects(transform.position).hitEffect, lookingAtPoint, lookingAtNormal, 50f);
 			else if (lookingAtObject.GetComponent<FXMaterial> ())
 				effects.playEffect (lookingAtObject.GetComponent<FXMaterial> ().effects.hitEffect, lookingAtPoint, lookingAtNormal, 50f);
-			CmdOnHit (lookingAtObject);
+			CmdOnHit (lookingAtObject, lookingAtPoint, lookingAtNormal);
 		}
 
 		private bool isConsuming() {
