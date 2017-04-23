@@ -52,6 +52,7 @@ namespace PolyNet {
 
 		public static void receivePlayerLogin(SocketIOEvent e) {
 			int playerId = (int)e.data.GetField ("id").n;
+			Debug.Log (playerId);
 			//this is where node gets back to us with the data
 			JSONObject playerObjectData = e.data.GetField("object");
 			PolyNetPlayer player = PolyServer.getPlayerPId(playerId);
