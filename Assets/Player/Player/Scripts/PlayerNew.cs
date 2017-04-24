@@ -49,6 +49,9 @@ namespace PolyPlayer {
 		public Transform backTransform;
 		public GameObject deadPrefab;
 		public bool opMode;
+		public float maxHealth;
+		public float maxHunger;
+		public float maxThirst;
 
 		private GameObject playerCamera;
 		private float pitch, deltaPitch;
@@ -73,16 +76,9 @@ namespace PolyPlayer {
 		private bool rightHandActive = true;
 		private SoundManager sounds;
 		private EffectListener effects;
-
-		// Syncvars
-		//TODO
-		public float maxHealth;
-		public float maxHunger;
-		public float maxThirst;
 		private float health;
 		private float hunger;
 		private float thirst;
-		public int playerID;
 
 		#endregion
 
@@ -237,19 +233,6 @@ namespace PolyPlayer {
 			}
 		}
 
-		public void polyPlayer_receiveChat(string name, string message, float distance) {
-			if (name != null && name.Length != 0)
-				GUIManager.chat.displayMessage (name + ": " + message, distance);
-			else
-				GUIManager.chat.displayMessage (message, distance);
-
-		}
-
-		public void polyPlayer_setPlayerID(int playerID) {
-			this.playerID = playerID;
-		}
-
-
 		// Multi-Use
 
 		public void loadVitals(float health, float hunger, float thirst) {
@@ -356,6 +339,9 @@ namespace PolyPlayer {
 			} else if (p.id == 12) {
 				PacketPlaceItem o = (PacketPlaceItem)p;
 				cmd_placeItem (o.position, o.rightHand);
+			} else if (p.id == 13) {
+				PacketSyncFloat o = (PacketSyncFloat)p;
+				rpc_syncFloat (o.syncId, o.value);
 			}
 		}
 
@@ -561,6 +547,22 @@ namespace PolyPlayer {
 			}
 		}
 
+		private void rpc_syncFloat(int syncId, float value) {
+			switch (syncId) {
+			case 0:
+				health = value;
+				break;
+			case 1:
+				hunger = value;
+				break;
+			case 2:
+				thirst = value;
+				break;
+			default:
+				break;
+			}
+		}
+
 		#endregion
 
 		/*
@@ -577,13 +579,12 @@ namespace PolyPlayer {
 			health = maxHealth;
 			hunger = maxHunger;
 			thirst = maxThirst;
-			PolyNetWorld.registerPrefab (deadPrefab);
+//			PolyNetWorld.registerPrefab (deadPrefab);
 
 //			sounds = GetComponent <SoundManager> ();
 //			effects = GetComponent<EffectListener> ();
-			//TODO - vitals
-//			if (NetworkServer.active)
-//				StartCoroutine (updateVitals ());
+			if (PolyServer.isActive)
+				StartCoroutine (updateVitals ());
 
 			rigidBody = GetComponent<Rigidbody> ();
 			anim = GetComponent<Animator> ();
@@ -620,11 +621,12 @@ namespace PolyPlayer {
 		}
 
 		private void setUpHair() {
-			if (playerID > 10)
-				return;
-
-			hairMesh.GetComponent<SkinnedMeshRenderer> ().sharedMesh = hairMeshes[playerID-1];
-			hairMesh.GetComponent<SkinnedMeshRenderer> ().material = hairColors [playerID - 1];
+			//TODO - figure out player ID thing
+//			if (playerID > 10)
+//				return;
+//
+//			hairMesh.GetComponent<SkinnedMeshRenderer> ().sharedMesh = hairMeshes[playerID-1];
+//			hairMesh.GetComponent<SkinnedMeshRenderer> ().material = hairColors [playerID - 1];
 		}
 
 		private void setUpCamera() {
@@ -844,7 +846,8 @@ namespace PolyPlayer {
 		private IEnumerator updateVitals() {
 			while (true) {
 
-				float temp = WorldTerrain.getTerrainTempurature (transform.position);
+//				float temp = WorldTerrain.getTerrainTempurature (transform.position);
+				float temp = 1f;
 				if (!heated)
 					hunger -= (hungerMultiple / temp) * vitalsUpdateRate;
 
@@ -871,6 +874,11 @@ namespace PolyPlayer {
 
 				if (health <= 0f)
 					die ();
+				else {
+					identity.sendBehaviourPacket (new PacketSyncFloat (this, 0, health));
+					identity.sendBehaviourPacket (new PacketSyncFloat (this, 1, hunger));
+					identity.sendBehaviourPacket (new PacketSyncFloat (this, 2, thirst));
+				}
 
 				heated = false;
 

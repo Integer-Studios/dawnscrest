@@ -47,6 +47,8 @@ namespace PolyNet {
 				return new PacketMetadata ();
 			case 12:
 				return new PacketPlaceItem ();
+			case 13:
+				return new PacketSyncFloat ();
 			default:
 				return null;
 			}
