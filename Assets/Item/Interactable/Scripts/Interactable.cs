@@ -1,18 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
+using PolyNet;
 
 namespace PolyItem {
 
-	public class Interactable : NetworkBehaviour {
+	public class Interactable : PolyNetBehaviour {
 		
 		// Vars : public, protected, private, hide
 
-		// Syncvars
-		[SyncVar]
+		//TODO - Syncvars
 		protected float strength = 0f;
-		[SyncVar]
 		public float maxStrength = 0f;
 
 		/*
@@ -21,30 +19,12 @@ namespace PolyItem {
 		 * 
 		 */
 
-		[Server]
 		public virtual void interact(Interactor i, float f) {
 			strength -= f;
 			if (strength <= 0)
 				onComplete (i);
-		}
-
-		[Server]
-		public void setTransform(Transform t) {
-			setTransform (t.position, t.localScale, t.eulerAngles);
-		}
-
-		[Server]
-		public void setTransform(Vector3 pos, Vector3 scale, Vector3 rot) {
-			gameObject.transform.position = pos; 
-			gameObject.transform.localScale = scale; 
-			gameObject.transform.eulerAngles = rot; 
-			RpcSetTransform (pos, scale, rot);
-		}
-
-		[Server]
-		public void setPosition(Vector3 pos) {
-			gameObject.transform.position = pos; 
-			RpcSetPosition (pos);
+			else
+				identity.sendBehaviourPacket (new PacketSyncFloat (this, 0, strength));
 		}
 
 		public virtual bool isInteractable(Interactor i) {
@@ -55,25 +35,23 @@ namespace PolyItem {
 			return strength/maxStrength;
 		}
 
+		public override void handleBehaviourPacket (PacketBehaviour p) {
+			base.handleBehaviourPacket (p);
+			if (p.id == 13) {
+				PacketSyncFloat o = (PacketSyncFloat)p;
+				if (o.syncId == 0)
+					strength = o.value;
+				else
+					maxStrength = o.value;
+			}
+		}
+
 		/*
 		* 
 		* Server->Client Networked Interface
 		* 
 		*/
-
-
-
-		[ClientRpc]
-		private void RpcSetTransform(Vector3 pos, Vector3 scale, Vector3 rot) {
-			gameObject.transform.position = pos; 
-			gameObject.transform.localScale = scale; 
-			gameObject.transform.eulerAngles = rot; 
-		}
-
-		[ClientRpc]
-		private void RpcSetPosition(Vector3 pos) {
-			gameObject.transform.position = pos; 
-		}
+	
 
 		/*
 		* 
@@ -82,14 +60,14 @@ namespace PolyItem {
 		*/
 
 		protected virtual void Start() {
-			if (!NetworkServer.active)
+			if (!PolyServer.isActive)
 				return;
 			
 			strength = maxStrength;
 		}
 
 		protected virtual void Update() {
-			if (!NetworkServer.active)
+			if (!PolyServer.isActive)
 				return;
 		}
 
@@ -100,6 +78,8 @@ namespace PolyItem {
 		protected virtual void setMaxStrength(float s) {
 			maxStrength = s;
 			strength = maxStrength;
+			identity.sendBehaviourPacket (new PacketSyncFloat (this, 0, strength));
+			identity.sendBehaviourPacket (new PacketSyncFloat (this, 1, maxStrength));
 		}
 
 	}

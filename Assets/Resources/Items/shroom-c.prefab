@@ -38,8 +38,8 @@ GameObject:
   - component: {fileID: 4969308378602190}
   - component: {fileID: 65824323656390472}
   - component: {fileID: 54100789179417236}
-  - component: {fileID: 114254359440713218}
   - component: {fileID: 114086844016238592}
+  - component: {fileID: 114416262793350246}
   m_Layer: 0
   m_Name: shroom-c
   m_TagString: decoration
@@ -160,7 +160,7 @@ MonoBehaviour:
   quality: 0
   nutrition: 10
   consumableType: 1
---- !u!114 &114254359440713218
+--- !u!114 &114416262793350246
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -168,27 +168,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1577900995797590}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Script: {fileID: 11500000, guid: bedd2bbdc15b94dcfbe10067a533d4d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 144
-    i1: 245
-    i2: 226
-    i3: 204
-    i4: 191
-    i5: 200
-    i6: 116
-    i7: 110
-    i8: 168
-    i9: 144
-    i10: 211
-    i11: 103
-    i12: 190
-    i13: 115
-    i14: 168
-    i15: 222
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
+  prefabId: 112
+  isStatic: 1
+  isLocalPlayer: 0

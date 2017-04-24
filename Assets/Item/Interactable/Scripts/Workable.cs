@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
+using PolyNet;
 
 namespace PolyItem {
 
@@ -33,7 +33,7 @@ namespace PolyItem {
 
 		protected override void onComplete(Interactor i) {
 			if (destroyOnInteract)
-				NetworkServer.Destroy (gameObject);
+				PolyNetWorld.destroy (gameObject);
 			else
 				strength = maxStrength;
 		}

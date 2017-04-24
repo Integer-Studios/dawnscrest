@@ -57,12 +57,10 @@ namespace PolyItem {
 		public static GameObject createItem(ItemStack s) {
 			if (s == null) {
 				GameObject g = Instantiate (nullItem.gameObject);
-				PolyNetWorld.spawnObject (g);
 				return g;
 			} else {
 				GameObject g = Instantiate(getItem (s.id).gameObject);
 				g.GetComponent<Item> ().setQuality(s.quality);
-				PolyNetWorld.spawnObject (g);
 				return g;
 			}
 		}
@@ -70,7 +68,6 @@ namespace PolyItem {
 		public static GameObject createItemForPlacing(ItemStack s) {
 			if (s == null) {
 				GameObject g = Instantiate (nullItem.gameObject);
-				PolyNetWorld.spawnObject (g);
 				return g;
 			} else {
 				Item i = getItem (s.id);
@@ -81,7 +78,6 @@ namespace PolyItem {
 					g = Instantiate (i.gameObject);
 					g.GetComponent<Item> ().setQuality(s.quality);
 				}
-				PolyNetWorld.spawnObject (g);
 				return g;
 			}
 		}

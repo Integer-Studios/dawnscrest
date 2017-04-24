@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
 
 namespace PolyItem {
 
@@ -21,7 +20,6 @@ namespace PolyItem {
 
 		// Server Interface
 
-		[Server]
 		public virtual void setRecipe(Recipe r) {
 			recipe = r;
 			if (recipe != null) {
@@ -32,16 +30,15 @@ namespace PolyItem {
 				input = null;
 			}
 
-			if (r == null)
-				RpcSetRecipe (new NetworkItemStack (null), new NetworkItemStackArray (null));
-			else
-				RpcSetRecipe (new NetworkItemStack (r.output), new NetworkItemStackArray (r.input));
+//			if (r == null)
+//				RpcSetRecipe (new NetworkItemStack (null), new NetworkItemStackArray (null));
+//			else
+//				RpcSetRecipe (new NetworkItemStack (r.output), new NetworkItemStackArray (r.input));
 		}
 
-		[Server]
 		public virtual void setInput(ItemStack[] s) {
 			input = s;
-			RpcSetInput (new NetworkItemStackArray (s));
+//			RpcSetInput (new NetworkItemStackArray (s));
 		}
 
 		// General Interface
@@ -87,8 +84,7 @@ namespace PolyItem {
 		* 
 		*/
 
-		[ClientRpc]
-		private void RpcSetRecipe(NetworkItemStack o, NetworkItemStackArray i) {
+		private void rpc_setRecipe(NetworkItemStack o, NetworkItemStackArray i) {
 			recipe = Recipe.unwrapRecipe(o,i);
 			if (recipe != null)
 				input = new ItemStack[recipe.input.GetLength (0)];
@@ -96,8 +92,7 @@ namespace PolyItem {
 				input = null;
 		}
 
-		[ClientRpc]
-		private void RpcSetInput(NetworkItemStackArray i) {
+		private void rpc_setInput(NetworkItemStackArray i) {
 			input = ItemStack.unwrapNetworkStackArray(i);
 		}
 
@@ -121,7 +116,7 @@ namespace PolyItem {
 					input [i] = null;
 			}
 
-			RpcSetInput (new NetworkItemStackArray (input));
+//			RpcSetInput (new NetworkItemStackArray (input));
 		}
 
 		public virtual JSONObject write () {

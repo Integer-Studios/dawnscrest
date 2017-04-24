@@ -17,7 +17,8 @@ namespace PolyItem {
 				return;
 			for (int j = 0; j < recipe.output.size; j++) {
 				GameObject g = ItemManager.createItem (recipe.output);
-				g.GetComponent<Item> ().setPosition (transform.position + transform.up * 2f);
+				g.transform.position = transform.position + transform.up * 2f;
+//				PolyServer.spawnObject (g);
 			}
 			base.onComplete (i);
 		}

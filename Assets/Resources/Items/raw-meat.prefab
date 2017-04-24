@@ -38,8 +38,8 @@ GameObject:
   - component: {fileID: 4845340399870162}
   - component: {fileID: 65632127484501172}
   - component: {fileID: 54077595996285664}
-  - component: {fileID: 114851564543183902}
   - component: {fileID: 114930095982578594}
+  - component: {fileID: 114624069639590264}
   m_Layer: 0
   m_Name: raw-meat
   m_TagString: Untagged
@@ -139,7 +139,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.5, y: 0.3, z: 0.7}
   m_Center: {x: 0, y: 0.1, z: 0}
---- !u!114 &114851564543183902
+--- !u!114 &114624069639590264
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -147,30 +147,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1768839809474872}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Script: {fileID: 11500000, guid: bedd2bbdc15b94dcfbe10067a533d4d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 234
-    i1: 6
-    i2: 42
-    i3: 42
-    i4: 224
-    i5: 7
-    i6: 148
-    i7: 246
-    i8: 123
-    i9: 192
-    i10: 51
-    i11: 76
-    i12: 135
-    i13: 109
-    i14: 182
-    i15: 243
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
+  prefabId: 107
+  isStatic: 1
+  isLocalPlayer: 0
 --- !u!114 &114930095982578594
 MonoBehaviour:
   m_ObjectHideFlags: 1

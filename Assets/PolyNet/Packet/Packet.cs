@@ -51,6 +51,8 @@ namespace PolyNet {
 				return new PacketSyncFloat ();
 			case 14:
 				return new PacketSlotUpdate ();
+			case 15:
+				return new PacketPlayerSetSlot ();
 			default:
 				return null;
 			}

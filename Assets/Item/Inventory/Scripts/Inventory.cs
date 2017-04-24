@@ -32,7 +32,8 @@ namespace PolyItem {
 				
 				for (int j = 0; j < slots [i].stack.size; j++) {
 					GameObject g = ItemManager.createItem (slots [i].stack);
-					g.GetComponent<Item> ().setPosition(pos);
+					g.transform.position = pos;
+					//PolyServer.spawnObject(g);
 				}
 				setSlot (i, null);
 			}

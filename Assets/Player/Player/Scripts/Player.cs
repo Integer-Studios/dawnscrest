@@ -185,11 +185,12 @@ namespace PolyPlayer {
 			Camera.main.GetComponent<Antialiasing> ().enabled = b;
 		}
 
-		//TODO - after inventory and craftables are in
 
 		public void onSlotUpdate(int bindingID, int slotID, ItemStack s) {
-			//			CmdSetSlot (bindingID, slotID, new NetworkItemStack (s));
+			identity.sendBehaviourPacket(new PacketPlayerSetSlot(this, bindingID, slotID, s));
 		}
+
+		//TODO - craftable stuff
 
 		public void setCraftableRecipe(Craftable c, Recipe r) {
 			//			if (r == null)
@@ -342,6 +343,9 @@ namespace PolyPlayer {
 			} else if (p.id == 13) {
 				PacketSyncFloat o = (PacketSyncFloat)p;
 				rpc_syncFloat (o.syncId, o.value);
+			} else if (p.id == 15) {
+				PacketPlayerSetSlot o = (PacketPlayerSetSlot)p;
+				cmd_setSlot (o.bindingId, o.slotId, o.stack);
 			}
 		}
 
@@ -400,8 +404,7 @@ namespace PolyPlayer {
 
 		// Inventory Commands
 
-		private void cmd_setSlot(int inventoryID, int slotID, NetworkItemStack stack) {
-			ItemStack s = ItemStack.unwrapNetworkStack(stack);
+		private void cmd_setSlot(int inventoryID, int slotID, ItemStack s) {
 			switch (inventoryID) {
 			case 0:
 				hotbarInventory.setSlot (slotID, s);
@@ -477,7 +480,8 @@ namespace PolyPlayer {
 				slot = 2;
 
 			GameObject g = ItemManager.createItemForPlacing (hotbarInventory.getSlotCopy (slot));
-			g.GetComponent<Interactable> ().setPosition (p);
+			g.transform.position = p;
+			PolyNetWorld.spawnObject (g);
 			hotbarInventory.decreaseSlot (slot);
 		}
 
@@ -1069,8 +1073,10 @@ namespace PolyPlayer {
 				}
 			}
 
-			GameObject g = ItemManager.createItem (stack);
-			g.GetComponent<Item> ().setHolder (this, hid);
+			//TODO fix item holding
+//			GameObject g = ItemManager.createItem (stack);
+//			PolyNetWorld.spawnObject (g);
+//			g.GetComponent<Item> ().setHolder (this, hid);
 		}
 
 

@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
+using PolyNet;
 
 namespace PolyItem {
 
@@ -13,10 +13,11 @@ namespace PolyItem {
 		public float refillTime = 60;
 		public GameObject replacement;
 
-		[SyncVar]
+		//TODO - syncvars
 		public int curRepeats = 0;
-		[SyncVar]
 		public int curRefills = 0;
+
+
 		private float runoutTime = -1f;
 
 		/*
@@ -37,7 +38,7 @@ namespace PolyItem {
 
 		protected override void Start() {
 			if (replacement != null)
-				ClientScene.RegisterPrefab(replacement);
+				PolyNetWorld.registerPrefab(replacement);
 			base.Start ();
 		}	
 
@@ -56,16 +57,16 @@ namespace PolyItem {
 			for (int j = 0; j < drops.GetLength (0); j++) {
 				GameObject g = Instantiate (drops [j].gameObject);
 				g.GetComponent<Rigidbody> ().velocity = i.interactor_getInteractionNormal () + new Vector3(Random.Range(-0.5f,0.5f),Random.Range(-0.5f,0.5f), Random.Range(-0.5f,0.5f));
-				NetworkServer.Spawn (g);
-				g.GetComponent<Item> ().setPosition( i.interactor_getInteractionPosition() + new Vector3(Random.Range(-0.5f,0.5f),Random.Range(-0.5f,0.5f), Random.Range(-0.5f,0.5f)));
+				g.transform.position = i.interactor_getInteractionPosition() + new Vector3(Random.Range(-0.5f,0.5f),Random.Range(-0.5f,0.5f), Random.Range(-0.5f,0.5f));
+//				PolyServer.spawnObject (g);
 			}
 			if (replacement != null) {
 				GameObject g = Instantiate(replacement);
 				g.transform.position = transform.position;
 				g.transform.localScale = transform.localScale;
 				g.transform.rotation = transform.rotation;
-				NetworkServer.Spawn (g);
-				Destroy (gameObject);
+				PolyNetWorld.spawnObject (g);
+				PolyNetWorld.destroy (gameObject);
 			} else {
 				curRepeats++;
 				if (curRepeats == repeats) {

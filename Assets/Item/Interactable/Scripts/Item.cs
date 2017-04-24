@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
+using PolyNet;
 
 namespace PolyItem {
 
@@ -19,8 +19,7 @@ namespace PolyItem {
 		private ItemHolder holder;
 		private int heldID = -1;
 
-		//Syncvars
-		[SyncVar]
+		//TODO Syncvars
 		public int quality = 0;
 
 		/*
@@ -32,23 +31,20 @@ namespace PolyItem {
 		// Server Interface
 
 		//TODO we need a custom network manager to call this
-		[Server]
 		public void OnPlayerConnected() {
-			if (holder != null)
-				RpcOnLoginInfo (holder.itemHolder_getGameObject (), heldID);
-			else
-				RpcOnLoginInfo (null, heldID);
+//			if (holder != null)
+//				RpcOnLoginInfo (holder.itemHolder_getGameObject (), heldID);
+//			else
+//				RpcOnLoginInfo (null, heldID);
 		}
 
-		[Server]
 		public virtual void setQuality(int i) {
 			quality = i;
 		}
 
-		[Server]
 		public virtual void setHolder(ItemHolder h, int hid) {
 			convertToHeldItem (h, hid);
-			RpcSetHolder (h.itemHolder_getGameObject (), hid);
+//			RpcSetHolder (h.itemHolder_getGameObject (), hid);
 		}
 
 		// General Interface
@@ -69,9 +65,10 @@ namespace PolyItem {
 		* 
 		*/
 
-		[ClientRpc]
-		private void RpcOnLoginInfo(GameObject holder, int hid) {
-			if (!NetworkServer.active) {
+		//TODO in-hand rpc's
+
+		private void rpc_onLoginInfo(GameObject holder, int hid) {
+			if (!PolyServer.isActive) {
 				
 				if (holder == null)
 					return;
@@ -81,9 +78,8 @@ namespace PolyItem {
 			}
 		}
 
-		[ClientRpc]
-		private void RpcSetHolder(GameObject holder, int hid) {
-			if (!NetworkServer.active) {
+		private void rpc_setHolder(GameObject holder, int hid) {
+			if (!PolyServer.isActive) {
 				ItemHolder h = holder.GetComponent<ItemHolder> ();
 				convertToHeldItem (h, hid);
 			}
@@ -102,8 +98,8 @@ namespace PolyItem {
 
 		protected virtual void convertToHeldItem(ItemHolder h, int hid) {
 			heldID = hid;
-			if (GetComponent<NetworkTransform> ())
-				Destroy(GetComponent<NetworkTransform> ());
+			if (GetComponent<PolyNetTransform> ())
+				Destroy(GetComponent<PolyNetTransform> ());
 
 			if (GetComponent<Rigidbody> ())
 				Destroy(GetComponent<Rigidbody> ());

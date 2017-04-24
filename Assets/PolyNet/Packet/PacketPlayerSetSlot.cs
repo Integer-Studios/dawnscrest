@@ -6,22 +6,25 @@ using PolyItem;
 
 namespace PolyNet {
 
-	public class PacketSlotUpdate : PacketBehaviour {
+	public class PacketPlayerSetSlot : PacketBehaviour {
 
+		public int bindingId;
 		public int slotId;
 		public ItemStack stack;
 
-		public PacketSlotUpdate() {
-			id = 14;
+		public PacketPlayerSetSlot() {
+			id = 15;
 		}
 
-		public PacketSlotUpdate(PolyNetBehaviour b, int sid, ItemStack s) : base(b){
-			id = 14;
+		public PacketPlayerSetSlot(PolyNetBehaviour b, int bid, int sid, ItemStack s) : base(b){
+			id = 15;
+			bindingId = bid;
 			slotId = sid;
 			stack = s;
 		}
 
 		public override void read(ref BinaryReader reader, PolyNetPlayer sender) {
+			bindingId = reader.ReadInt32 ();
 			slotId = reader.ReadInt32 ();
 			int id = reader.ReadInt32 ();
 			if (id != -1)
@@ -32,6 +35,7 @@ namespace PolyNet {
 		}
 
 		public override void write(ref BinaryWriter writer) {
+			writer.Write (bindingId);
 			writer.Write (slotId);
 
 			if (stack != null) {
