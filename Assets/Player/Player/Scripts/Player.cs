@@ -1148,9 +1148,9 @@ namespace PolyPlayer {
 
 		private void die() {
 			// copy out inventory into a dead body
-			GameObject g = PolyNetWorld.instantiate(deadPrefab);
+			GameObject g = Instantiate(deadPrefab);
 			g.transform.position = transform.position;
-			//			NetworkServer.Spawn (g);
+			PolyNetWorld.spawnObject (g);
 			StartCoroutine (deathTransferInventory (g));
 
 			// drop things in hands

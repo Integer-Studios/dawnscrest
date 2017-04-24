@@ -66,7 +66,7 @@ namespace PolyNet {
 		public void createObject(ref BinaryReader reader) {
 			GameObject prefab = PolyNetWorld.getPrefab(prefabId);
 			if (prefab != null) {
-				GameObject instance = PolyNetWorld.instantiate (prefab, instanceId);
+				GameObject instance = GameObject.Instantiate (prefab);
 				instance.transform.position = position;
 				instance.transform.localScale = scale;
 				instance.transform.eulerAngles = euler;
@@ -75,6 +75,7 @@ namespace PolyNet {
 					identity.isLocalPlayer = true;
 
 				identity.readSpawnData(ref reader);
+				PolyNetWorld.spawnObject (identity, instanceId);
 			} else {
 				Debug.Log ("Object spawn error: prefab not found for id: " + prefabId + ", ignoring spawn.");
 			}

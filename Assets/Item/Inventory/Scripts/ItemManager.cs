@@ -56,28 +56,32 @@ namespace PolyItem {
 
 		public static GameObject createItem(ItemStack s) {
 			if (s == null) {
-				GameObject g = PolyNetWorld.instantiate (nullItem.gameObject);
+				GameObject g = Instantiate (nullItem.gameObject);
+				PolyNetWorld.spawnObject (g);
 				return g;
 			} else {
-				GameObject g = PolyNetWorld.instantiate (getItem (s.id).gameObject);
+				GameObject g = Instantiate(getItem (s.id).gameObject);
 				g.GetComponent<Item> ().setQuality(s.quality);
+				PolyNetWorld.spawnObject (g);
 				return g;
 			}
 		}
 
 		public static GameObject createItemForPlacing(ItemStack s) {
 			if (s == null) {
-				GameObject g = PolyNetWorld.instantiate (nullItem.gameObject);
+				GameObject g = Instantiate (nullItem.gameObject);
+				PolyNetWorld.spawnObject (g);
 				return g;
 			} else {
 				Item i = getItem (s.id);
 				GameObject g;
 				if (i.onPlaced != null)
-					g = PolyNetWorld.instantiate (i.onPlaced);
+					g = Instantiate (i.onPlaced);
 				else {
-					g = PolyNetWorld.instantiate (i.gameObject);
+					g = Instantiate (i.gameObject);
 					g.GetComponent<Item> ().setQuality(s.quality);
 				}
+				PolyNetWorld.spawnObject (g);
 				return g;
 			}
 		}

@@ -97,20 +97,10 @@ namespace PolyNet {
 				return null;
 		}
 
-		public static GameObject instantiate(GameObject o) {
-			GameObject g = GameObject.Instantiate (o);
+		public static void spawnObject(GameObject g) {
 			PolyNetIdentity i = g.GetComponent<PolyNetIdentity> ();
 			if (i != null)
 				spawnObject (i);
-			return g;
-		}
-
-		public static GameObject instantiate(GameObject o, int instanceId) {
-			GameObject g = GameObject.Instantiate (o);
-			PolyNetIdentity i = g.GetComponent<PolyNetIdentity> ();
-			if (i != null)
-				spawnObject (i, instanceId);
-			return g;
 		}
 
 		public static void spawnObject(PolyNetIdentity i) {
