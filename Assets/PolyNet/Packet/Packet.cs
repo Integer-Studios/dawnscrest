@@ -57,6 +57,8 @@ namespace PolyNet {
 				return new PacketSyncInt ();
 			case 17:
 				return new PacketHotbarSwitch ();
+			case 18:
+				return new PacketOpenInventory ();
 			default:
 				return null;
 			}

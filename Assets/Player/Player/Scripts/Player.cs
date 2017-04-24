@@ -349,6 +349,9 @@ namespace PolyPlayer {
 			} else if (p.id == 17) {
 				PacketHotbarSwitch o = (PacketHotbarSwitch)p;
 				cmd_hotbarSwitch (o.rightHand);
+			} else if (p.id == 18) {
+				PacketOpenInventory o = (PacketOpenInventory)p;
+				cmd_openInventory (o.invObj);
 			}
 		}
 
@@ -1009,10 +1012,9 @@ namespace PolyPlayer {
 
 			if (inv == null)
 				return false;
-
+			Debug.Log ("yoo");
 			openInventory = inv;
-			//TODO - after inventory
-			//			CmdOpenInventory (lookingAtObject);
+			identity.sendBehaviourPacket(new PacketOpenInventory(this, lookingAtObject));
 			GUIManager.pushScreen (GUIManager.inventoryScreen);
 			return true;
 		}

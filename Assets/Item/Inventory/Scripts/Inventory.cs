@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using PolyNet;
+using System.IO;
 
 namespace PolyItem {
 
@@ -15,7 +16,6 @@ namespace PolyItem {
 
 		protected JSONObject data; 
 
-		// Syncvars
 
 		/*
 		 * 
@@ -33,7 +33,7 @@ namespace PolyItem {
 				for (int j = 0; j < slots [i].stack.size; j++) {
 					GameObject g = ItemManager.createItem (slots [i].stack);
 					g.transform.position = pos;
-					//PolyServer.spawnObject(g);
+					PolyNetWorld.spawnObject(g);
 				}
 				setSlot (i, null);
 			}
@@ -132,12 +132,49 @@ namespace PolyItem {
 			Debug.Log ("=================");
 		}
 
+		/*
+		 * 
+		 * Netorking
+		 * 
+		 */ 
+
 		public override void handleBehaviourPacket (PacketBehaviour p) {
 			base.handleBehaviourPacket (p);
 			if (p.id == 14) {
 				PacketSlotUpdate o = (PacketSlotUpdate)p;
 				rpc_slotUpdate (o.slotId, o.stack);
 			}
+		}
+
+		public override void writeBehaviourSpawnData(ref BinaryWriter writer) {
+			for (int i = 0; i < size; i++) {
+				writeStack (ref writer, i);
+			}
+		}
+
+		private void writeStack(ref BinaryWriter writer, int i) {
+			ItemStack stack = getSlotCopy(i);
+			if (stack != null) {
+				writer.Write (stack.id);
+				writer.Write (stack.quality);
+				writer.Write (stack.size);
+			} else
+				writer.Write (-1);
+		}
+
+		public override void readBehaviourSpawnData(ref BinaryReader reader) {
+			initializeSlots ();
+			for (int i = 0; i < size; i++) {
+				readStack (ref reader, i);
+			}
+		}
+
+		private void readStack(ref BinaryReader reader, int i) {
+			int id = reader.ReadInt32 ();
+			if (id != -1) {
+				slots [i].stack = new ItemStack (id, reader.ReadInt32 (), reader.ReadInt32 ());
+			} else
+				slots [i].stack = null;
 		}
 
 		/*
@@ -159,9 +196,9 @@ namespace PolyItem {
 		*/
 
 		public virtual void Start() {
-			initializeSlots ();
-			if (data != null)
-				this.read (data);
+			if (PolyServer.isActive) {
+				initializeSlots ();
+			}
 		}
 
 		protected virtual void initializeSlots() {
@@ -195,7 +232,6 @@ namespace PolyItem {
 
 		private void onSlotUpdate(int i) {
 			identity.sendBehaviourPacket (new PacketSlotUpdate (this, i, slots [i].stack));
-//			RpcSlotUpdate (networkID, i, new NetworkItemStack(slots[i].stack));
 			updateListeneners (i, slots[i].stack);
 		}
 
