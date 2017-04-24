@@ -1,11 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
+using PolyNet;
 using PolyItem;
 
 namespace PolyPlayer {
-	public class SoundManager : NetworkBehaviour {
+	public class SoundManager : PolyNetBehaviour {
 
 		public AudioClip itemPickupSound;
 		public AudioClip hurtSound;
@@ -18,7 +18,7 @@ namespace PolyPlayer {
 		public void rpcPlaySound(PlayerSound i) {
 			int s;
 			playerSoundsEncode.TryGetValue (i, out s);
-			RpcPlaySound_o (s);
+			identity.sendBehaviourPacket (new PacketMetadata (this, s));
 		}
 
 		public void playSound(AudioClip c) {
@@ -45,6 +45,14 @@ namespace PolyPlayer {
 			playSound (c);
 		} 
 
+		public override void handleBehaviourPacket (PacketBehaviour p) {
+			base.handleBehaviourPacket (p);
+			if (p.id == 10) {
+				PacketMetadata o = (PacketMetadata)p;
+				rpc_playSound_o (o.metadata);
+			}
+		}
+
 		private void createSoundDictionaries() {
 			int i = 0;
 			PlayerSound s = PlayerSound.ItemPickup;
@@ -67,8 +75,7 @@ namespace PolyPlayer {
 		 * 
 		 */
 
-		[ClientRpc]
-		private void RpcPlaySound_o(int sound) {
+		private void rpc_playSound_o(int sound) {
 			PlayerSound s;
 			playerSoundsDecode.TryGetValue (sound, out s);
 			playSound (s);

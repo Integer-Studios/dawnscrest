@@ -7,18 +7,13 @@ using PolyItem;
 using PolyEntity;
 using PolyWorld;
 using PolyEffects;
-using PolyNet;
+using UnityEngine.Networking;
+using PolyNetwork;
 
 namespace PolyPlayer {
 
-	public class PlayerNew : PolyNetBehaviour, Interactor, InventoryListener, ItemHolder, Living {
+	public class PlayerOld : NetworkBehaviour, Interactor, InventoryListener, ItemHolder, Living {
 
-		/*
-		 * Spawn Data Ideas
-		 * 
-		 * Player ID
-		 * 
-		 */
 
 		// Vars : public, protected, private, hide
 		#region
@@ -49,9 +44,6 @@ namespace PolyPlayer {
 		public Transform backTransform;
 		public GameObject deadPrefab;
 		public bool opMode;
-		public float maxHealth;
-		public float maxHunger;
-		public float maxThirst;
 
 		private GameObject playerCamera;
 		private float pitch, deltaPitch;
@@ -76,32 +68,42 @@ namespace PolyPlayer {
 		private bool rightHandActive = true;
 		private SoundManager sounds;
 		private EffectListener effects;
+		private bool dataLoaded = false;
+
+		// Syncvars
+		[SyncVar]
+		public float maxHealth;
+		[SyncVar]
+		public float maxHunger;
+		[SyncVar]
+		public float maxThirst;
+		[SyncVar]
 		private float health;
+		[SyncVar]
 		private float hunger;
+		[SyncVar]
 		private float thirst;
+		[SyncVar]
+		public int playerID;
 
 		#endregion
-
 		/*
 		 * 
 		 * Public Interface
 		 * 
 		 */
-
 		#region
-
 		// Living Interface
 
+		[Server]
 		public void living_hurt(Living l, float d) {
 			health -= d * (maxHunger / hunger);
 			if (health <= 0f)
 				die ();
-
-			anim.SetTrigger ("Hurt");
-			sounds.playSound(PlayerSound.Hurt);
-			identity.sendBehaviourPacket (new PacketAnimTrigger (this, 1));
+			RpcHurt ();
 		}
 
+		[Server]
 		public void living_setHeated(bool h) {
 			heated = h;
 		}
@@ -115,6 +117,7 @@ namespace PolyPlayer {
 				return hotbarInventory.getSlotCopy(0);
 		}
 
+		[Server]
 		public void interactor_giveItem(Item i) {
 			if (!hotbarInventory.insert (i)) {
 				if (!mainInventory.insert (i)) {
@@ -122,13 +125,15 @@ namespace PolyPlayer {
 				}
 			}
 			sounds.rpcPlaySound (PlayerSound.ItemPickup);
-			PolyNetWorld.destroy (i.gameObject);
+			NetworkServer.Destroy (i.gameObject);
 		}
 
+		[Server]
 		public Vector3 interactor_getInteractionPosition() {
 			return lookingAtPoint;
 		}
 
+		[Server]
 		public Vector3 interactor_getInteractionNormal() {
 			return lookingAtNormal;
 		}
@@ -137,6 +142,11 @@ namespace PolyPlayer {
 		public void inventoryListener_onSlotChange(Inventory inv, int i, ItemStack s) {
 			if (inv == hotbarInventory)
 				updateHolding (s, i);
+		}
+
+		[Server]
+		public void polyPlayer_sendPlayerData(int playerID) {
+			RpcPlayerData (playerID);
 		}
 
 		// Item Holder Interface
@@ -171,11 +181,12 @@ namespace PolyPlayer {
 		}
 
 		public bool itemHolder_isLocalPlayer() {
-			return identity.isLocalPlayer;
+			return isLocalPlayer;
 		}
 
 		// GUI Interface
 
+		[Client]
 		public void setFancyGraphics(bool b) {
 			Camera.main.GetComponent<FlareLayer> ().enabled = b;
 			Camera.main.GetComponent<Bloom> ().enabled = b;
@@ -185,23 +196,25 @@ namespace PolyPlayer {
 			Camera.main.GetComponent<Antialiasing> ().enabled = b;
 		}
 
-		//TODO - after inventory and craftables are in
-
+		[Client]
 		public void onSlotUpdate(int bindingID, int slotID, ItemStack s) {
-//			CmdSetSlot (bindingID, slotID, new NetworkItemStack (s));
+			CmdSetSlot (bindingID, slotID, new NetworkItemStack (s));
 		}
 
+		[Client]
 		public void setCraftableRecipe(Craftable c, Recipe r) {
-//			if (r == null)
-//				CmdSetCraftableRecipe (c.gameObject, new NetworkItemStack (null), new NetworkItemStackArray (null));
-//			else
-//				CmdSetCraftableRecipe (c.gameObject, new NetworkItemStack (r.output), new NetworkItemStackArray (r.input));
+			if (r == null)
+				CmdSetCraftableRecipe (c.gameObject, new NetworkItemStack (null), new NetworkItemStackArray (null));
+			else
+				CmdSetCraftableRecipe (c.gameObject, new NetworkItemStack (r.output), new NetworkItemStackArray (r.input));
 		}
 
+		[Client]
 		public void setCraftableInput(Craftable c, ItemStack[] i) {
-//			CmdSetCraftableInput (c.gameObject, new NetworkItemStackArray (i));
+			CmdSetCraftableInput (c.gameObject, new NetworkItemStackArray (i));
 		}
 
+		[Client]
 		public void bindInventoryToGUI(int invID, GUIBoundInventory g) {
 			switch (invID) {
 			case 0:
@@ -216,6 +229,7 @@ namespace PolyPlayer {
 			}
 		}
 
+		[Client]
 		public void syncVital(int vitalID, Slider s) {
 			switch (vitalID) {
 			case 0:
@@ -232,6 +246,21 @@ namespace PolyPlayer {
 				break;
 			}
 		}
+
+		[Client]
+		public void polyPlayer_receiveChat(string name, string message, float distance) {
+			if (name != null && name.Length != 0)
+				GUIManager.chat.displayMessage (name + ": " + message, distance);
+			else
+				GUIManager.chat.displayMessage (message, distance);
+
+		}
+
+		[Client]
+		public void polyPlayer_setPlayerID(int playerID) {
+			this.playerID = playerID;
+		}
+
 
 		// Multi-Use
 
@@ -266,141 +295,184 @@ namespace PolyPlayer {
 			return velocity != Vector3.zero;
 		}
 
-		// Packet Handling
-
-		public override void handleBehaviourPacket (PacketBehaviour p) {
-			base.handleBehaviourPacket (p);
-			if (p.id == 4) {
-				PacketPlayerTransform o = (PacketPlayerTransform)p;
-				if (PolyServer.isActive)
-					cmd_updateTransform (o.velocity, o.rotationalVelocity, o.position, o.euler, o.pitch);
-				else
-					rpc_updateTransform_Broadcast (o.velocity, o.rotationalVelocity, o.position, o.euler, o.pitch);
-			} else if (p.id == 5) {
-				PacketPlayerTransformDenied o = (PacketPlayerTransformDenied)p;
-				rpc_transformDenied (o.position);
-			} else if (p.id == 6) {
-				PacketAnimTrigger o = (PacketAnimTrigger)p;
-				switch (o.triggerId) {
-				case 0:
-					if (PolyServer.isActive)
-						cmd_jump ();
-					else
-						rpc_jump_Broadcast ();
-					break;
-				case 1:
-					rpc_hurt ();
-					break;
-				default:
-					break;
-				}
-			} else if (p.id == 8) {
-				PacketAnim2HandedTrigger o = (PacketAnim2HandedTrigger)p;
-				switch (o.triggerId) {
-				case 0:
-					if (PolyServer.isActive)
-						cmd_swing (o.rightHand);
-					else
-						rpc_swing_Broadcast (o.rightHand);
-					break;
-				default:
-					break;
-				}
-			} else if (p.id == 9) {
-				PacketAnim2HandedBool o = (PacketAnim2HandedBool)p;
-				switch (o.boolId) {
-				case 0:
-					if (PolyServer.isActive)
-						cmd_interacting (o.value, o.rightHand);
-					else
-						rpc_interacting_Broadcast (o.value, o.rightHand);
-					break;
-				case 1:
-					if (PolyServer.isActive)
-						cmd_consuming (o.value, o.rightHand);
-					else
-						rpc_consuming_Broadcast (o.value, o.rightHand);
-					break;
-				default:
-					break;
-				}
-			} else if (p.id == 10) {
-				PacketPlayerHit o = (PacketPlayerHit)p;
-				cmd_onHit (o.hitObject, o.hitPoint, o.hitNormal);
-			} else if (p.id == 11) {
-				PacketMetadata o = (PacketMetadata)p;
-				switch (o.metadata) {
-				case 0:
-					cmd_completeConsuming ();
-					break;
-				default:
-					break;
-				} 
-			} else if (p.id == 12) {
-				PacketPlaceItem o = (PacketPlaceItem)p;
-				cmd_placeItem (o.position, o.rightHand);
-			} else if (p.id == 13) {
-				PacketSyncFloat o = (PacketSyncFloat)p;
-				rpc_syncFloat (o.syncId, o.value);
-			}
+		public void sendChat(string message) {
+			if (message.Length > 0)
+				CmdSendChat (message);
 		}
 
 		#endregion
-
 		/*
 		 * 
-		 * Client->Server Networked Interface
+		 * Server->Client Networked Interface
 		 * 
 		 */
-
 		#region
+		// Server Auth
 
+		[ClientRpc]
+		private void RpcHurt() {
+			anim.SetTrigger ("Hurt");
+			sounds.playSound(PlayerSound.Hurt);
+		}
+
+		// Broadcasts
+
+		[ClientRpc]
+		private void RpcInteracting_Broadcast(bool i, bool rightHand) {
+			if (!isLocalPlayer) {
+				setRightHand (rightHand);
+				anim.SetBool ("Interacting", i);
+			}
+		}
+
+		[ClientRpc]
+		private void RpcConsuming_Broadcast(bool e, bool rightHand) {
+			if (!isLocalPlayer) {
+				setRightHand (rightHand);
+				anim.SetBool ("Consuming", e);
+			}
+		}
+
+		[ClientRpc]
+		private void RpcSwing_Broadcast(bool rightHand) {
+			if (!isLocalPlayer) {
+				setRightHand (rightHand);
+				anim.SetTrigger ("Swing");
+			}
+		}
+
+		[ClientRpc]
+		private void RpcJump_Broadcast() {
+			if (!isLocalPlayer) {
+				anim.SetTrigger ("Jump");
+				shouldJump = true;
+			}
+		}
+
+		[ClientRpc]
+		private void RpcVelocity_Broadcast(Vector3 v) {
+			if (!isLocalPlayer)
+				velocity = v;
+		}
+
+		[ClientRpc]
+		private void RpcRotation_Broadcast(float f) {
+			if (!isLocalPlayer)
+				rotationalVelocity = f;
+		}
+
+		[ClientRpc]
+		private void RpcPitch_Broadcast(float f) {
+			if (!isLocalPlayer)
+				pitch = f;
+		}
+
+		[ClientRpc]
+		private void RpcUpdateTransform_Broadcast(Vector3 v, float rv, Vector3 p, Quaternion r, float pi) {
+			if (isLocalPlayer)
+				return;
+			velocity = v;
+			rotationalVelocity = rv;
+			pitch = Mathf.Lerp(pitch, pi, 0.5f);
+			if (Vector3.Distance(transform.position, p) > ipPositionAllowance)
+				transform.position = Vector3.Lerp(transform.position, p, 0.5f);
+			if (Mathf.Abs (transform.rotation.y - r.y) > ipRotationAllowance)
+				transform.rotation = Quaternion.Lerp (transform.rotation, r, 0.5f);
+			transform.rotation = r;
+		}
+
+		[ClientRpc]
+		private void RpcTransformDenied(Vector3 pos) {
+			if (isLocalPlayer)
+				transform.position = pos;
+		}
+
+		[ClientRpc]
+		private void RpcPlayerData(int playerID) {
+			this.playerID = playerID;
+			setUpHair ();
+		}
+
+		#endregion
+		/*
+		* 
+		* Client->Server Networked Interface
+		* 
+		*/
+		#region
 		// Animation Commands
 
-		private void cmd_interacting(bool i, bool rightHand) {
-			setRightHand (rightHand);
-			anim.SetBool ("Interacting", i);
-			identity.sendBehaviourPacket (new PacketAnim2HandedBool (this, 0, i, rightHand));
+		[Command]
+		private void CmdInteracting(bool i, bool rightHand) {
+			if (!isLocalPlayer && !NetworkClient.active) {
+				setRightHand (rightHand);
+				anim.SetBool ("Interacting", i);
+			}
+			RpcInteracting_Broadcast (i, rightHand);
 		}
 
-		private void cmd_consuming(bool e, bool rightHand) {
-			setRightHand (rightHand);
-			anim.SetBool ("Consuming", e);
-			identity.sendBehaviourPacket (new PacketAnim2HandedBool (this, 1, e, rightHand));
+		[Command]
+		private void CmdConsuming(bool e, bool rightHand) {
+			if (!isLocalPlayer && !NetworkClient.active) {
+				setRightHand (rightHand);
+				anim.SetBool ("Consuming", e);
+			}
+			RpcConsuming_Broadcast (e, rightHand);
 		}
 
-		private void cmd_swing(bool rightHand) {
-			setRightHand (rightHand);
-			anim.SetTrigger ("Swing");
-			identity.sendBehaviourPacket (new PacketAnim2HandedTrigger (this, 0, rightHand));
+		[Command]
+		private void CmdSwing(bool rightHand) {
+			if (!isLocalPlayer && !NetworkClient.active) {
+				setRightHand (rightHand);
+				anim.SetTrigger ("Swing");
+			}
+			RpcSwing_Broadcast (rightHand);
 		}
 
-		private void cmd_jump() {
-			anim.SetTrigger ("Jump");
-			shouldJump = true;
-			identity.sendBehaviourPacket (new PacketAnimTrigger (this, 0));
+		[Command]
+		private void CmdJump() {
+			if (!isLocalPlayer && !NetworkClient.active) {
+				anim.SetTrigger ("Jump");
+				shouldJump = true;
+			}
+			RpcJump_Broadcast ();
 		}
 
 		// Locomotion Commands
 
-		private void cmd_updateTransform (Vector3 v, float rv, Vector3 p, Vector3 e, float pi) {
+		[Command]
+		private void CmdUpdateTransform (Vector3 v, float rv, Vector3 p, Quaternion r, float pi) {
 			if (Vector3.Distance (transform.position, p) > ipPositionServerAuth) {
 				p = transform.position;
-				identity.sendBehaviourPacket (new PacketPlayerTransformDenied (this, p));
+				RpcTransformDenied (p);
 			}
 
-			velocity = v;
-			rotationalVelocity = rv;
-			transform.position = p;
-			transform.eulerAngles = e;
-			pitch = pi;
-
-			identity.sendBehaviourPacket (new PacketPlayerTransform (this, v, rv, p, e, pi));
+			if (!NetworkClient.active) {
+				velocity = v;
+				rotationalVelocity = rv;
+				transform.position = p;
+				transform.rotation = r;
+				pitch = pi;
+			}
+			RpcUpdateTransform_Broadcast (v, rv, p, r, pi);
 		}
+
+		// Interaction Commands
+
+		//		[Command]
+		//		private void CmdInteract(GameObject g, Vector3 point, Vector3 norms) {
+		//			if (g == null)
+		//				return;
+		//			
+		//			lookingAtPoint = point;
+		//			lookingAtNormal = norms;
+		//			g.GetComponent<Interactable> ().interact (this, 1f);
+		//		}
 
 		// Inventory Commands
 
-		private void cmd_setSlot(int inventoryID, int slotID, NetworkItemStack stack) {
+		[Command]
+		private void CmdSetSlot(int inventoryID, int slotID, NetworkItemStack stack) {
 			ItemStack s = ItemStack.unwrapNetworkStack(stack);
 			switch (inventoryID) {
 			case 0:
@@ -417,26 +489,31 @@ namespace PolyPlayer {
 			}
 		}
 
-		private void cmd_openInventory(GameObject g) {
+		[Command]
+		private void CmdOpenInventory(GameObject g) {
 			openInventory = g.GetComponent<Inventory> ();
 		}
 
-		private void cmd_setCraftableRecipe(GameObject g, NetworkItemStack o, NetworkItemStackArray i) {
+		[Command]
+		private void CmdSetCraftableRecipe(GameObject g, NetworkItemStack o, NetworkItemStackArray i) {
 			Recipe r = Recipe.unwrapRecipe(o,i);
 			g.GetComponent<Craftable> ().setRecipe (r);
 		}
 
-		private void cmd_setCraftableInput(GameObject g, NetworkItemStackArray i) {
+		[Command]
+		private void CmdSetCraftableInput(GameObject g, NetworkItemStackArray i) {
 			g.GetComponent<Craftable> ().setInput (ItemStack.unwrapNetworkStackArray (i));
 		}
 
-		private void cmd_hotbarSwitch(bool rightHand) {
+		[Command]
+		private void CmdHotbarSwitch(bool rightHand) {
 			hotbarInventory.switchBack (rightHand);
 		}
 
 		// Combat Commands
 
-		private void cmd_onHit(GameObject g, Vector3 point, Vector3 norms) {
+		[Command]
+		private void CmdOnHit(GameObject g, Vector3 point, Vector3 norms) {
 			if (g == null)
 				return;
 			Living l = g.GetComponent<Living> ();
@@ -454,7 +531,8 @@ namespace PolyPlayer {
 
 		// Eating Commands
 
-		private void cmd_completeConsuming() {
+		[Command]
+		private void CmdCompleteConsuming() {
 			int slot = 0;
 			if (rightHandActive)
 				slot = 2;
@@ -470,7 +548,8 @@ namespace PolyPlayer {
 
 		// Item Placing Commands
 
-		private void cmd_placeItem(Vector3 p, bool rightHand) {
+		[Command]
+		private void CmdPlaceItem(Vector3 p, bool rightHand) {
 
 			int slot = 0;
 			if (rightHand)
@@ -481,109 +560,48 @@ namespace PolyPlayer {
 			hotbarInventory.decreaseSlot (slot);
 		}
 
-		#endregion
+		// Chat Commands
 
-		/*
-		 * 
-		 * Server->Client Networked Interface
-		 * 
-		 */
-
-		#region
-
-		// Server Auth
-
-		private void rpc_hurt() {
-			anim.SetTrigger ("Hurt");
-			sounds.playSound(PlayerSound.Hurt);
+		[Command]
+		private void CmdSendChat(string message) {
+			PolyChatManager.handleSend (playerID, message);
 		}
 
-		// Broadcasts
+		// Networking / Saving Commands
 
-		private void rpc_interacting_Broadcast(bool i, bool rightHand) {
-			if (!identity.isLocalPlayer) {
-				setRightHand (rightHand);
-				anim.SetBool ("Interacting", i);
+		[Command]
+		private void CmdOverwriteSave() {
+
+			PolyDataManager.overwriteSave (playerID);
+		}
+
+		[Command]
+		private void CmdOnPlayerLoaded(int id) {
+			if (id > 0) {
+				StartCoroutine (PolyDataManager.ReadPlayerData (id));
 			}
 		}
 
-		private void rpc_consuming_Broadcast(bool e, bool rightHand) {
-			if (!identity.isLocalPlayer) {
-				setRightHand (rightHand);
-				anim.SetBool ("Consuming", e);
-			}
-		}
-
-		private void rpc_swing_Broadcast(bool rightHand) {
-			if (!identity.isLocalPlayer) {
-				setRightHand (rightHand);
-				anim.SetTrigger ("Swing");
-			}
-		}
-
-		private void rpc_updateTransform_Broadcast(Vector3 v, float rv, Vector3 p, Vector3 e, float pi) {
-			if (identity.isLocalPlayer)
-				return;
-			
-			velocity = v;
-			rotationalVelocity = rv;
-			pitch = Mathf.Lerp(pitch, pi, 0.5f);
-			if (Vector3.Distance(transform.position, p) > ipPositionAllowance)
-				transform.position = Vector3.Lerp(transform.position, p, 0.5f);
-			if (Mathf.Abs (transform.eulerAngles.y - e.y) > ipRotationAllowance)
-				transform.rotation = Quaternion.Lerp (transform.rotation, Quaternion.Euler(e), 0.5f);
-			transform.eulerAngles = e;
-		}
-
-		private void rpc_transformDenied(Vector3 pos) {
-			if (identity.isLocalPlayer)
-				transform.position = pos;
-		}
-
-		private void rpc_jump_Broadcast() {
-			if (!identity.isLocalPlayer) {
-				anim.SetTrigger ("Jump");
-				shouldJump = true;
-			}
-		}
-
-		private void rpc_syncFloat(int syncId, float value) {
-			switch (syncId) {
-			case 0:
-				health = value;
-				break;
-			case 1:
-				hunger = value;
-				break;
-			case 2:
-				thirst = value;
-				break;
-			default:
-				break;
-			}
-		}
 
 		#endregion
-
-		/*
+		/* 
 		 * 
 		 * Private
 		 * 
 		 */
-
 		#region
-
 		// Start
 
 		private void Start() {
 			health = maxHealth;
 			hunger = maxHunger;
 			thirst = maxThirst;
-//			PolyNetWorld.registerPrefab (deadPrefab);
 
-//			sounds = GetComponent <SoundManager> ();
-//			effects = GetComponent<EffectListener> ();
-			if (PolyServer.isActive)
+			ClientScene.RegisterPrefab (deadPrefab);
+			sounds = GetComponent <SoundManager> ();
+			effects = GetComponent<EffectListener> ();
+
+			if (NetworkServer.active)
 				StartCoroutine (updateVitals ());
 
 			rigidBody = GetComponent<Rigidbody> ();
@@ -592,23 +610,25 @@ namespace PolyPlayer {
 			foreach (Recipe r in defaultRecipes) {
 				recipes.Add (r);
 			}
-			//TODO - after inventory
-//			foreach (Inventory i in GetComponents<Inventory> ()) {
-//				if (i is HotBarInventory)
-//					hotbarInventory = (HotBarInventory)i;
-//				else
-//					mainInventory = i;
-//
-//			}
+
+			foreach (Inventory i in GetComponents<Inventory> ()) {
+				if (i is HotBarInventory)
+					hotbarInventory = (HotBarInventory)i;
+				else
+					mainInventory = i;
+
+			}
 
 			StartCoroutine(lateStart ());
 
-			if (!identity.isLocalPlayer) {
-				//TODO - spawn data player id
-//				if (playerID != 0)
-//					setUpHair ();
+			if (!isLocalPlayer) {
+				if (playerID != 0)
+					setUpHair ();
 				return;
 			}
+
+//			PolyNetworkManager.setLocalPlayer (this);
+
 
 			rigidBody.interpolation = RigidbodyInterpolation.Interpolate;
 			setUpCamera ();
@@ -616,17 +636,15 @@ namespace PolyPlayer {
 			crosshair = FindObjectOfType<Crosshair> ();
 			GUIManager.closeGUI ();
 			StartCoroutine(networkTransformUpdate ());
-			//TODO - connect sound manager
-//			StartCoroutine(footstepSoundPlay ());
+			StartCoroutine(footstepSoundPlay ());
 		}
 
 		private void setUpHair() {
-			//TODO - figure out player ID thing
-//			if (playerID > 10)
-//				return;
-//
-//			hairMesh.GetComponent<SkinnedMeshRenderer> ().sharedMesh = hairMeshes[playerID-1];
-//			hairMesh.GetComponent<SkinnedMeshRenderer> ().material = hairColors [playerID - 1];
+			if (playerID > 10)
+				return;
+
+			hairMesh.GetComponent<SkinnedMeshRenderer> ().sharedMesh = hairMeshes[playerID-1];
+			hairMesh.GetComponent<SkinnedMeshRenderer> ().material = hairColors [playerID - 1];
 		}
 
 		private void setUpCamera() {
@@ -651,15 +669,14 @@ namespace PolyPlayer {
 		private IEnumerator lateStart() {
 			yield return new WaitForSeconds (1f);
 
-			//TODO - connect gui, get inventory working
-//			if (identity.isLocalPlayer)
+//			if (isLocalPlayer)
 //				GUIManager.setPlayer (this);
-//			if (PolyServer.isActive)
-//				hotbarInventory.startListening (this, true);
+			if (NetworkServer.active)
+				hotbarInventory.startListening (this, true);
 
 			// TODO delete this when we have a network manager doing on login notifications
 			//
-			if (PolyServer.isActive) {
+			if (NetworkServer.active) {
 				Item[] items = FindObjectsOfType<Item> ();
 				foreach (Item i in items) {
 					i.OnPlayerConnected ();
@@ -668,14 +685,20 @@ namespace PolyPlayer {
 			//
 			//
 		}
-		
+
 		// Update
 
-		private void Update () {
+		private void Update() {
+
 			updateLocomotion ();
 
-			if (!identity.isLocalPlayer)
+			if (!isLocalPlayer)
 				return;
+
+			if (!dataLoaded && playerID != 0) {
+				dataLoaded = true;
+				CmdOnPlayerLoaded (playerID);
+			}
 
 			updateLookingAt ();
 			if (!GUIManager.processInput()) {
@@ -781,34 +804,38 @@ namespace PolyPlayer {
 				Cursor.lockState = CursorLockMode.None;
 				Cursor.visible = true;
 			}
-			//TODO - connect gui
-//			if (Input.GetKeyDown (KeyCode.Z)) {
-//				GUIManager.pushScreen (GUIManager.characterScreen);
-//			}
-//			if (Input.GetKeyDown (KeyCode.C)) {
-//				GUIManager.recipesScreen.openWithRecipes(getRecipes(CraftingType.Hand));
-//			}
-//			if (Input.GetKeyDown(KeyCode.Q)) {
-//				CmdHotbarSwitch (false);
-//			}
-//			if (Input.GetKeyDown(KeyCode.E)) {
-//				CmdHotbarSwitch (true);
-//			}
-//
-//			if (Input.GetKeyDown(KeyCode.Alpha1)) {
-//				attemptPlaceItem (false);
-//			}
-//			if (Input.GetKeyDown(KeyCode.Alpha3)) {
-//				attemptPlaceItem (true);
-//			}
+			if (Input.GetKeyDown (KeyCode.Z)) {
+				GUIManager.pushScreen (GUIManager.characterScreen);
+			}
+			if (Input.GetKeyDown (KeyCode.C)) {
+				GUIManager.recipesScreen.openWithRecipes(getRecipes(CraftingType.Hand));
+			}
+			if (Input.GetKeyDown(KeyCode.Q)) {
+				CmdHotbarSwitch (false);
+			}
+			if (Input.GetKeyDown(KeyCode.E)) {
+				CmdHotbarSwitch (true);
+			}
 
-//			if (Input.GetKeyDown(KeyCode.T)) {
-//				GUIManager.setChatOpen (true);
-//			}
-//
-//			if (Input.GetKeyDown(KeyCode.Tab)) {
-//				GUIManager.pushScreen (GUIManager.settingsScreen);
-//			}
+			if (Input.GetKeyDown(KeyCode.Alpha1)) {
+				attemptPlaceItem (false);
+			}
+			if (Input.GetKeyDown(KeyCode.Alpha3)) {
+				attemptPlaceItem (true);
+			}
+
+			if (Input.GetKeyDown(KeyCode.T)) {
+				GUIManager.setChatOpen (true);
+			}
+
+			if (Input.GetKeyDown(KeyCode.Tab)) {
+				GUIManager.pushScreen (GUIManager.settingsScreen);
+			}
+
+			if (Input.GetKeyDown(KeyCode.O)) {
+				transform.position = WorldTerrain.toTerrainSurface (transform.position);
+				//				WorldTerrain.flattenTerrain(transform.position);
+			}
 
 			deltaPitch = mouseSensitivity * Input.GetAxis ("Mouse Y");
 			if (pitch - deltaPitch < 72f && pitch - deltaPitch > -72f) {
@@ -834,11 +861,14 @@ namespace PolyPlayer {
 				jumpSpeed = 7f;
 			}
 
+			if (Input.GetKeyDown(KeyCode.RightBracket)) {
+				CmdOverwriteSave ();
+			}
 		}
 
 		private IEnumerator networkTransformUpdate() {
 			while (true) {
-				identity.sendBehaviourPacket (new PacketPlayerTransform (this, downsampleVelocity (velocity), rotationalVelocity, transform.position, transform.eulerAngles, pitch));
+				CmdUpdateTransform (downsampleVelocity(velocity), rotationalVelocity, transform.position, transform.rotation, pitch);
 				yield return new WaitForSeconds (1/interpolationRate);
 			}
 		}
@@ -846,8 +876,7 @@ namespace PolyPlayer {
 		private IEnumerator updateVitals() {
 			while (true) {
 
-//				float temp = WorldTerrain.getTerrainTempurature (transform.position);
-				float temp = 1f;
+				float temp = WorldTerrain.getTerrainTempurature (transform.position);
 				if (!heated)
 					hunger -= (hungerMultiple / temp) * vitalsUpdateRate;
 
@@ -874,11 +903,6 @@ namespace PolyPlayer {
 
 				if (health <= 0f)
 					die ();
-				else {
-					identity.sendBehaviourPacket (new PacketSyncFloat (this, 0, health));
-					identity.sendBehaviourPacket (new PacketSyncFloat (this, 1, hunger));
-					identity.sendBehaviourPacket (new PacketSyncFloat (this, 2, thirst));
-				}
 
 				heated = false;
 
@@ -916,7 +940,7 @@ namespace PolyPlayer {
 				swing ();
 			} else {
 				if (lookingAtObject.GetComponent<Interactable> ().maxStrength == 0f)
-					identity.sendBehaviourPacket (new PacketPlayerHit (this, lookingAtObject, lookingAtPoint, lookingAtNormal));
+					CmdOnHit (lookingAtObject, lookingAtPoint, lookingAtNormal);
 				else
 					setInteracting (true);
 			}
@@ -954,9 +978,9 @@ namespace PolyPlayer {
 
 		private void setInteracting(bool i) {
 			anim.SetBool ("Interacting", i);
-			if (identity.isLocalPlayer)
+			if (isLocalPlayer)
 				crosshair.setHighlighted (i);
-			identity.sendBehaviourPacket(new PacketAnim2HandedBool(this, 0, i, rightHandActive));
+			CmdInteracting (i, rightHandActive);
 		}
 
 		private void setRightHand(bool b) {
@@ -1005,8 +1029,7 @@ namespace PolyPlayer {
 				return false;
 
 			openInventory = inv;
-			//TODO - after inventory
-//			CmdOpenInventory (lookingAtObject);
+			CmdOpenInventory (lookingAtObject);
 			GUIManager.pushScreen (GUIManager.inventoryScreen);
 			return true;
 		}
@@ -1028,7 +1051,7 @@ namespace PolyPlayer {
 		private void startConsuming() {
 			anim.SetBool ("Consuming", true);
 			timeConsumeStart = Time.time;
-			identity.sendBehaviourPacket(new PacketAnim2HandedBool(this, 1, true, rightHandActive));
+			CmdConsuming (true, rightHandActive);
 		}
 
 		private void updateConsuming() {
@@ -1038,7 +1061,7 @@ namespace PolyPlayer {
 
 		private void stopConsuming() {
 			anim.SetBool ("Consuming", false);
-			identity.sendBehaviourPacket(new PacketAnim2HandedBool(this, 1, false, rightHandActive));
+			CmdConsuming (false, rightHandActive);
 			timeConsumeStart = -1f;
 		}
 
@@ -1046,8 +1069,8 @@ namespace PolyPlayer {
 			//play burp sound
 			sounds.playSound(PlayerSound.ConsumeFinish);
 			anim.SetBool ("Consuming", false);
-			identity.sendBehaviourPacket (new PacketMetadata (this, 1));
-			identity.sendBehaviourPacket(new PacketAnim2HandedBool(this, 1, true, rightHandActive));
+			CmdCompleteConsuming ();
+			CmdConsuming (false, rightHandActive);
 			timeConsumeStart = -1f;
 		}
 
@@ -1058,21 +1081,21 @@ namespace PolyPlayer {
 			if (rightHand && hotbarInventory.getSlotCopy (2) == null)
 				return false;
 
-			identity.sendBehaviourPacket(new PacketPlaceItem(this, lookingAtPoint + lookingAtNormal*0.01f, rightHand));
+			//TODO finsih this - send it throguh the command
+			CmdPlaceItem (lookingAtPoint + lookingAtNormal*0.01f, rightHand);
 			return true;
 		}
 
 		private void updateHolding (ItemStack stack, int hid) {
 			foreach (Transform t in itemHolder_getHolderTransform(hid)) {
 				if (t.GetComponent<Item> () != null) {
-					PolyNetWorld.destroy (t.gameObject);
+					NetworkServer.Destroy (t.gameObject);
 				}
 			}
 
 			GameObject g = ItemManager.createItem (stack);
 			g.GetComponent<Item> ().setHolder (this, hid);
 		}
-
 
 		private bool isLookingAtInteractable(bool inter) {
 			if (lookingAtObject == null)
@@ -1098,7 +1121,7 @@ namespace PolyPlayer {
 			if (!grounded)
 				return;
 
-			identity.sendBehaviourPacket (new PacketAnimTrigger(this, 0));
+			CmdJump ();
 			anim.SetTrigger ("Jump");
 			shouldJump = true;
 		}
@@ -1110,9 +1133,8 @@ namespace PolyPlayer {
 				effects.playEffect (groundObject.GetComponent<FXMaterial> ().effects.stepEffect, transform.position, Vector3.up, 50f);
 		}
 
-
 		private void swing() {
-			identity.sendBehaviourPacket(new PacketAnim2HandedTrigger(this, 0, rightHandActive));
+			CmdSwing (rightHandActive);
 			anim.SetTrigger ("Swing");
 		}
 
@@ -1123,7 +1145,7 @@ namespace PolyPlayer {
 				effects.playEffect (WorldTerrain.getMaterialEffects(transform.position).hitEffect, lookingAtPoint, lookingAtNormal, 50f);
 			else if (lookingAtObject.GetComponent<FXMaterial> ())
 				effects.playEffect (lookingAtObject.GetComponent<FXMaterial> ().effects.hitEffect, lookingAtPoint, lookingAtNormal, 50f);
-			identity.sendBehaviourPacket (new PacketPlayerHit (this, lookingAtObject, lookingAtPoint, lookingAtNormal));
+			CmdOnHit (lookingAtObject, lookingAtPoint, lookingAtNormal);
 		}
 
 		private bool isConsuming() {
@@ -1146,11 +1168,12 @@ namespace PolyPlayer {
 			}
 		}
 
+		[Server]
 		private void die() {
 			// copy out inventory into a dead body
-			GameObject g = PolyNetWorld.instantiate(deadPrefab);
+			GameObject g = Instantiate(deadPrefab);
 			g.transform.position = transform.position;
-//			NetworkServer.Spawn (g);
+			NetworkServer.Spawn (g);
 			StartCoroutine (deathTransferInventory (g));
 
 			// drop things in hands

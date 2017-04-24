@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
+using PolyNet;
 using UnityEngine.Rendering;
 
 namespace PolyItem {
@@ -56,12 +56,10 @@ namespace PolyItem {
 
 		public static GameObject createItem(ItemStack s) {
 			if (s == null) {
-				GameObject g = Instantiate (nullItem.gameObject);
-				NetworkServer.Spawn (g);
+				GameObject g = PolyNetWorld.instantiate (nullItem.gameObject);
 				return g;
 			} else {
-				GameObject g = Instantiate (getItem (s.id).gameObject);
-				NetworkServer.Spawn (g);
+				GameObject g = PolyNetWorld.instantiate (getItem (s.id).gameObject);
 				g.GetComponent<Item> ().setQuality(s.quality);
 				return g;
 			}
@@ -69,19 +67,17 @@ namespace PolyItem {
 
 		public static GameObject createItemForPlacing(ItemStack s) {
 			if (s == null) {
-				GameObject g = Instantiate (nullItem.gameObject);
-				NetworkServer.Spawn (g);
+				GameObject g = PolyNetWorld.instantiate (nullItem.gameObject);
 				return g;
 			} else {
 				Item i = getItem (s.id);
 				GameObject g;
 				if (i.onPlaced != null)
-					g = Instantiate (i.onPlaced);
+					g = PolyNetWorld.instantiate (i.onPlaced);
 				else {
-					g = Instantiate (i.gameObject);
+					g = PolyNetWorld.instantiate (i.gameObject);
 					g.GetComponent<Item> ().setQuality(s.quality);
 				}
-				NetworkServer.Spawn (g);
 				return g;
 			}
 		}
@@ -144,16 +140,16 @@ namespace PolyItem {
 		private void Start() {
 			animationSets = animationSetRegister;
 			nullItem = nullItemObj;
-			ClientScene.RegisterPrefab(nullItem.gameObject);
+			PolyNetWorld.registerPrefab(nullItem.gameObject);
 			setItems (itemRegister);
 		}
 
 		private static void setItems(Item[] it) {
 			items = it;
 			foreach (Item i in items) {
-				ClientScene.RegisterPrefab(i.gameObject);
+				PolyNetWorld.registerPrefab(i.gameObject);
 				if (i.onPlaced != null)
-					ClientScene.RegisterPrefab(i.onPlaced);
+					PolyNetWorld.registerPrefab(i.onPlaced);
 			}
 		}
 

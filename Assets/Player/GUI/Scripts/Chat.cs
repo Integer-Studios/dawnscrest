@@ -31,7 +31,7 @@ namespace PolyPlayer {
 		}
 
 		public void onInputSubmitted(string s) {
-			GUIManager.player.sendChat(s);
+//			GUIManager.player.sendChat(s);
 //			displayMessage("User: " + s);
 			GUIManager.setChatOpen (false);
 		}

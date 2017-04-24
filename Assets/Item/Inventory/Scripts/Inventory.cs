@@ -1,11 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
+using PolyNet;
 
 namespace PolyItem {
 
-	public class Inventory : NetworkBehaviour, ISaveable {
+	public class Inventory : PolyNetBehaviour, ISaveable {
 
 		// Vars : public, protected, private, hide
 		public int networkID;
@@ -23,7 +23,8 @@ namespace PolyItem {
 		 * 
 		 */
 
-		[Server]
+		//server only 
+
 		public virtual void dropAll(Vector3 pos) {
 			for (int i = 0; i < slots.GetLength(0); i++) {
 				if (slots [i].stack == null)
@@ -37,14 +38,12 @@ namespace PolyItem {
 			}
 		}
 
-		[Server]
 		public virtual void clearAll() {
 			for (int i = 0; i < slots.GetLength (0); i++) {
 				setSlot (i, null);
 			}
 		}
 
-		[Server]
 		public virtual void transfer(Inventory other) {
 			foreach (ItemSlot s in other.slots) {
 				if (s.stack != null)
@@ -52,12 +51,10 @@ namespace PolyItem {
 			}
 		}
 
-		[Server]
 		public virtual bool insert(Item item) {
 			return insert(new ItemStack (item));
 		}
 
-		[Server]
 		public virtual bool insert(ItemStack stack) {
 			if (slots == null)
 				initializeSlots ();
@@ -75,7 +72,6 @@ namespace PolyItem {
 			return false;
 		}
 
-		[Server]
 		public void setSlot(int i, ItemStack s) {
 			if (s != null && s.size != 0) {
 				slots [i].stack = s;
@@ -85,7 +81,6 @@ namespace PolyItem {
 			onSlotUpdate (i);
 		}
 
-		[Server]
 		public void decreaseSlot(int i) {
 			if (slots [i].stack == null)
 				return;
@@ -136,30 +131,23 @@ namespace PolyItem {
 			Debug.Log ("=================");
 		}
 
+		public override void handleBehaviourPacket (PacketBehaviour p) {
+			base.handleBehaviourPacket (p);
+			if (p.id == 14) {
+				PacketSlotUpdate o = (PacketSlotUpdate)p;
+				rpc_slotUpdate (o.slotId, o.stack);
+			}
+		}
+
 		/*
 		* 
 		* Server->Client Networked Interface
 		* 
 		*/
 
-		[ClientRpc]
-		private void RpcSlotUpdate(int netID, int i, NetworkItemStack ns) {
-			
-			if (NetworkServer.active)
-				return;
-
-			// redirect RPC to correct Inventory
-			foreach (Inventory inv in GetComponents<Inventory>()) {
-				if (inv.networkID == netID) {
-					inv.directed_RpcSlotUpdate (i, ns);
-				}
-			}
-
-		}
-
 		// called in the correct inventory
-		private void directed_RpcSlotUpdate(int i, NetworkItemStack ns) {
-			slots [i].stack = ItemStack.unwrapNetworkStack(ns);
+		private void rpc_slotUpdate(int i, ItemStack s) {
+			slots [i].stack = s;
 			updateListeneners (i, slots[i].stack);
 		}
 
@@ -205,7 +193,8 @@ namespace PolyItem {
 		}
 
 		private void onSlotUpdate(int i) {
-			RpcSlotUpdate (networkID, i, new NetworkItemStack(slots[i].stack));
+			identity.sendBehaviourPacket (new PacketSlotUpdate (this, i, slots [i].stack));
+//			RpcSlotUpdate (networkID, i, new NetworkItemStack(slots[i].stack));
 			updateListeneners (i, slots[i].stack);
 		}
 

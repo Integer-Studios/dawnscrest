@@ -84,8 +84,13 @@ GameObject:
   - component: {fileID: 54293233063691198}
   - component: {fileID: 136142212462808230}
   - component: {fileID: 82555624699089000}
-  - component: {fileID: 114325257718733582}
   - component: {fileID: 114556338368701086}
+  - component: {fileID: 114279078103043366}
+  - component: {fileID: 114031582248395992}
+  - component: {fileID: 114451682206425540}
+  - component: {fileID: 114034502469414620}
+  - component: {fileID: 114405446964129346}
+  - component: {fileID: 114817884882452602}
   m_Layer: 0
   m_Name: human-new
   m_TagString: Player
@@ -740,7 +745,7 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &114325257718733582
+--- !u!114 &114031582248395992
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -748,18 +753,69 @@ MonoBehaviour:
   m_GameObject: {fileID: 1282339028826058}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9fc170be305ce423dbeaad150c2b092d, type: 3}
+  m_Script: {fileID: 11500000, guid: 57e3d12fe47cc4d37a201fc1a287e724, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interpolationRate: 9
+--- !u!114 &114034502469414620
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1282339028826058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11eb8acd47c934639b60e87a2cf56a51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  effects:
+    hitEffect:
+      clips:
+      - {fileID: 8300000, guid: df7c64cd5250141ebb9b49a9fcde0906, type: 3}
+      particles: {fileID: 198660948010905948, guid: 0c1e60a0cd87644ba9eeb71fafb4887c,
+        type: 2}
+    stepEffect:
+      clips: []
+      particles: {fileID: 0}
+--- !u!114 &114279078103043366
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1282339028826058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fce2dcd69338441c9240aefddbac9c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interpolationRate: 15
   ipPositionAllowance: 0.1
-  ipPositionServerAuth: 1
+  ipPositionServerAuth: 5
   ipRotationAllowance: 1
   vitalsUpdateRate: 5
   mouseSensitivity: 8
   hairMesh: {fileID: 1601406426032068}
-  hairMeshes: []
-  hairColors: []
+  hairMeshes:
+  - {fileID: 4300004, guid: a4c3dfbfb1e41442c98c4848dfe86e22, type: 3}
+  - {fileID: 4300010, guid: a4c3dfbfb1e41442c98c4848dfe86e22, type: 3}
+  - {fileID: 4300010, guid: a4c3dfbfb1e41442c98c4848dfe86e22, type: 3}
+  - {fileID: 4300008, guid: a4c3dfbfb1e41442c98c4848dfe86e22, type: 3}
+  - {fileID: 4300012, guid: a4c3dfbfb1e41442c98c4848dfe86e22, type: 3}
+  - {fileID: 4300010, guid: a4c3dfbfb1e41442c98c4848dfe86e22, type: 3}
+  - {fileID: 4300004, guid: a4c3dfbfb1e41442c98c4848dfe86e22, type: 3}
+  - {fileID: 4300006, guid: a4c3dfbfb1e41442c98c4848dfe86e22, type: 3}
+  - {fileID: 4300008, guid: a4c3dfbfb1e41442c98c4848dfe86e22, type: 3}
+  - {fileID: 4300012, guid: a4c3dfbfb1e41442c98c4848dfe86e22, type: 3}
+  hairColors:
+  - {fileID: 2100000, guid: 2ad4b7c65274b4c27a8ce9e34264306a, type: 2}
+  - {fileID: 2100000, guid: 6022fa8e02e69409aaa0b9cb35c00f94, type: 2}
+  - {fileID: 2100000, guid: 04c8c842ae68b424faa0517071a56420, type: 2}
+  - {fileID: 2100000, guid: f0006dc56603241d2928ede45374e544, type: 2}
+  - {fileID: 2100000, guid: f53b0d67cada94941aa897a2f09d64a5, type: 2}
+  - {fileID: 2100000, guid: 2ad4b7c65274b4c27a8ce9e34264306a, type: 2}
+  - {fileID: 2100000, guid: c7b4eda93f5174eea8015e162d82e9ef, type: 2}
+  - {fileID: 2100000, guid: f53b0d67cada94941aa897a2f09d64a5, type: 2}
+  - {fileID: 2100000, guid: 6022fa8e02e69409aaa0b9cb35c00f94, type: 2}
+  - {fileID: 2100000, guid: f0006dc56603241d2928ede45374e544, type: 2}
   bodyMesh: {fileID: 1318294091723294}
   fpsMesh: {fileID: 4300000, guid: a4c3dfbfb1e41442c98c4848dfe86e22, type: 3}
   pivot: {fileID: 1037369410354412}
@@ -770,18 +826,95 @@ MonoBehaviour:
   jumpSpeed: 7
   hungerMultiple: 0.1
   thirstMultiple: 0.1
-  healthMultiple: 0.003
-  hip: {fileID: 1287477547474674}
-  defaultRecipes: []
-  rightHandTransform: {fileID: 4935162812231872}
-  leftHandTransform: {fileID: 4874893225880576}
-  backTransform: {fileID: 4721252324770450}
-  deadPrefab: {fileID: 0}
-  opMode: 0
+  healthMultiple: 0.03
+  hip: {fileID: 1287477547474674, guid: e0ae6efc01ca0409c90732adf7f7f10c, type: 2}
+  defaultRecipes:
+  - output:
+      id: 0
+      quality: 0
+      size: 1
+    input:
+    - id: 2
+      quality: 0
+      size: 6
+    - id: 3
+      quality: 0
+      size: 2
+    type: 0
+  - output:
+      id: 10
+      quality: 0
+      size: 1
+    input:
+    - id: 1
+      quality: 0
+      size: 6
+    - id: 3
+      quality: 0
+      size: 9
+    - id: 4
+      quality: 0
+      size: 4
+    type: 0
+  - output:
+      id: 11
+      quality: 0
+      size: 1
+    input:
+    - id: 3
+      quality: 0
+      size: 6
+    type: 1
+  - output:
+      id: 12
+      quality: 0
+      size: 1
+    input:
+    - id: 13
+      quality: 0
+      size: 1
+    type: 2
+  rightHandTransform: {fileID: 4935162812231872, guid: e0ae6efc01ca0409c90732adf7f7f10c,
+    type: 2}
+  leftHandTransform: {fileID: 4874893225880576, guid: e0ae6efc01ca0409c90732adf7f7f10c,
+    type: 2}
+  backTransform: {fileID: 4721252324770450, guid: e0ae6efc01ca0409c90732adf7f7f10c,
+    type: 2}
+  deadPrefab: {fileID: 1282339028826058, guid: 8a26f8d1487224aab905fa5ee24f607d, type: 2}
+  opMode: 1
   maxHealth: 100
   maxHunger: 100
   maxThirst: 100
-  playerID: 1
+--- !u!114 &114405446964129346
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1282339028826058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7c01400dcd304be8a3d77338dbf4c46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  networkID: 0
+  size: 3
+  ones: 0
+  twos: 0
+  threes: 0
+--- !u!114 &114451682206425540
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1282339028826058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffe5effadb9fe4ea5bad8c31bf48c909, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemPickupSound: {fileID: 8300000, guid: 08a01ac33f3604aec8780925a4870239, type: 3}
+  hurtSound: {fileID: 8300000, guid: 5c6762c1847364f8b940834bfa5170d8, type: 3}
+  burpSound: {fileID: 8300000, guid: 255422777b0e54128a6d80bd4724c439, type: 3}
 --- !u!114 &114556338368701086
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -828,6 +961,22 @@ MonoBehaviour:
     i15: 10
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 1
+--- !u!114 &114817884882452602
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1282339028826058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4de04dd9f90c4f26a0480947abdf7ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  networkID: 1
+  size: 16
+  ones: 12
+  twos: 4
+  threes: 0
 --- !u!136 &136142212462808230
 CapsuleCollider:
   m_ObjectHideFlags: 1
