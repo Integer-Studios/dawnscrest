@@ -75,6 +75,7 @@ namespace PolyPlayer {
 		private EffectListener effects;
 
 		// Syncvars
+		//TODO
 		public float maxHealth;
 		public float maxHunger;
 		public float maxThirst;
@@ -99,7 +100,10 @@ namespace PolyPlayer {
 			health -= d * (maxHunger / hunger);
 			if (health <= 0f)
 				die ();
-//			RpcHurt ();
+
+			anim.SetTrigger ("Hurt");
+			sounds.playSound(PlayerSound.Hurt);
+			identity.sendBehaviourPacket (new PacketAnimTrigger (this, 1));
 		}
 
 		public void living_setHeated(bool h) {
@@ -122,7 +126,7 @@ namespace PolyPlayer {
 				}
 			}
 			sounds.rpcPlaySound (PlayerSound.ItemPickup);
-//			NetworkServer.Destroy (i.gameObject);
+			PolyNetWorld.destroy (i.gameObject);
 		}
 
 		public Vector3 interactor_getInteractionPosition() {
@@ -184,6 +188,8 @@ namespace PolyPlayer {
 			Camera.main.GetComponent<DepthOfField> ().enabled = b;
 			Camera.main.GetComponent<Antialiasing> ().enabled = b;
 		}
+
+		//TODO - after inventory and craftables are in
 
 		public void onSlotUpdate(int bindingID, int slotID, ItemStack s) {
 //			CmdSetSlot (bindingID, slotID, new NetworkItemStack (s));
@@ -277,11 +283,6 @@ namespace PolyPlayer {
 			return velocity != Vector3.zero;
 		}
 
-		public void sendChat(string message) {
-//			if (message.Length > 0)
-//				CmdSendChat (message);
-		}
-
 		// Packet Handling
 
 		public override void handleBehaviourPacket (PacketBehaviour p) {
@@ -304,9 +305,57 @@ namespace PolyPlayer {
 					else
 						rpc_jump_Broadcast ();
 					break;
+				case 1:
+					rpc_hurt ();
+					break;
 				default:
 					break;
 				}
+			} else if (p.id == 8) {
+				PacketAnim2HandedTrigger o = (PacketAnim2HandedTrigger)p;
+				switch (o.triggerId) {
+				case 0:
+					if (PolyServer.isActive)
+						cmd_swing (o.rightHand);
+					else
+						rpc_swing_Broadcast (o.rightHand);
+					break;
+				default:
+					break;
+				}
+			} else if (p.id == 9) {
+				PacketAnim2HandedBool o = (PacketAnim2HandedBool)p;
+				switch (o.boolId) {
+				case 0:
+					if (PolyServer.isActive)
+						cmd_interacting (o.value, o.rightHand);
+					else
+						rpc_interacting_Broadcast (o.value, o.rightHand);
+					break;
+				case 1:
+					if (PolyServer.isActive)
+						cmd_consuming (o.value, o.rightHand);
+					else
+						rpc_consuming_Broadcast (o.value, o.rightHand);
+					break;
+				default:
+					break;
+				}
+			} else if (p.id == 10) {
+				PacketPlayerHit o = (PacketPlayerHit)p;
+				cmd_onHit (o.hitObject, o.hitPoint, o.hitNormal);
+			} else if (p.id == 11) {
+				PacketMetadata o = (PacketMetadata)p;
+				switch (o.metadata) {
+				case 0:
+					cmd_completeConsuming ();
+					break;
+				default:
+					break;
+				} 
+			} else if (p.id == 12) {
+				PacketPlaceItem o = (PacketPlaceItem)p;
+				cmd_placeItem (o.position, o.rightHand);
 			}
 		}
 
@@ -325,19 +374,19 @@ namespace PolyPlayer {
 		private void cmd_interacting(bool i, bool rightHand) {
 			setRightHand (rightHand);
 			anim.SetBool ("Interacting", i);
-//			RpcInteracting_Broadcast (i, rightHand);
+			identity.sendBehaviourPacket (new PacketAnim2HandedBool (this, 0, i, rightHand));
 		}
 
 		private void cmd_consuming(bool e, bool rightHand) {
 			setRightHand (rightHand);
 			anim.SetBool ("Consuming", e);
-//			RpcConsuming_Broadcast (e, rightHand);
+			identity.sendBehaviourPacket (new PacketAnim2HandedBool (this, 1, e, rightHand));
 		}
 
 		private void cmd_swing(bool rightHand) {
 			setRightHand (rightHand);
 			anim.SetTrigger ("Swing");
-//			RpcSwing_Broadcast (rightHand);
+			identity.sendBehaviourPacket (new PacketAnim2HandedTrigger (this, 0, rightHand));
 		}
 
 		private void cmd_jump() {
@@ -528,22 +577,21 @@ namespace PolyPlayer {
 			health = maxHealth;
 			hunger = maxHunger;
 			thirst = maxThirst;
-			//TODO
-//			ClientScene.RegisterPrefab (deadPrefab);
+			PolyNetWorld.registerPrefab (deadPrefab);
+
 //			sounds = GetComponent <SoundManager> ();
 //			effects = GetComponent<EffectListener> ();
-			//TODO
+			//TODO - vitals
 //			if (NetworkServer.active)
 //				StartCoroutine (updateVitals ());
 
 			rigidBody = GetComponent<Rigidbody> ();
 			anim = GetComponent<Animator> ();
-			//TODO
-//			recipes = new List<Recipe> ();
-//			foreach (Recipe r in defaultRecipes) {
-//				recipes.Add (r);
-//			}
-			//TODO
+			recipes = new List<Recipe> ();
+			foreach (Recipe r in defaultRecipes) {
+				recipes.Add (r);
+			}
+			//TODO - after inventory
 //			foreach (Inventory i in GetComponents<Inventory> ()) {
 //				if (i is HotBarInventory)
 //					hotbarInventory = (HotBarInventory)i;
@@ -551,11 +599,11 @@ namespace PolyPlayer {
 //					mainInventory = i;
 //
 //			}
-			//TODO
+
 			StartCoroutine(lateStart ());
 
 			if (!identity.isLocalPlayer) {
-				//TODO
+				//TODO - spawn data player id
 //				if (playerID != 0)
 //					setUpHair ();
 				return;
@@ -567,7 +615,7 @@ namespace PolyPlayer {
 			crosshair = FindObjectOfType<Crosshair> ();
 			GUIManager.closeGUI ();
 			StartCoroutine(networkTransformUpdate ());
-			//TODO
+			//TODO - connect sound manager
 //			StartCoroutine(footstepSoundPlay ());
 		}
 
@@ -601,6 +649,7 @@ namespace PolyPlayer {
 		private IEnumerator lateStart() {
 			yield return new WaitForSeconds (1f);
 
+			//TODO - connect gui, get inventory working
 //			if (identity.isLocalPlayer)
 //				GUIManager.setPlayer (this);
 //			if (PolyServer.isActive)
@@ -730,6 +779,7 @@ namespace PolyPlayer {
 				Cursor.lockState = CursorLockMode.None;
 				Cursor.visible = true;
 			}
+			//TODO - connect gui
 //			if (Input.GetKeyDown (KeyCode.Z)) {
 //				GUIManager.pushScreen (GUIManager.characterScreen);
 //			}
@@ -819,8 +869,8 @@ namespace PolyPlayer {
 				thirst = Mathf.Max (0f, thirst);
 				thirst = Mathf.Min (100f, thirst);
 
-//				if (health <= 0f)
-//					die ();
+				if (health <= 0f)
+					die ();
 
 				heated = false;
 
@@ -838,7 +888,7 @@ namespace PolyPlayer {
 				return;
 			}
 
-//			setRightHand (rightHand);
+			setRightHand (rightHand);
 
 			if (Input.GetKey (KeyCode.LeftControl))
 				secondaryAction ();
@@ -857,9 +907,9 @@ namespace PolyPlayer {
 			if (!isLookingAtInteractable ()) {
 				swing ();
 			} else {
-//				if (lookingAtObject.GetComponent<Interactable> ().maxStrength == 0f)
-//					CmdOnHit (lookingAtObject, lookingAtPoint, lookingAtNormal);
-//				else
+				if (lookingAtObject.GetComponent<Interactable> ().maxStrength == 0f)
+					identity.sendBehaviourPacket (new PacketPlayerHit (this, lookingAtObject, lookingAtPoint, lookingAtNormal));
+				else
 					setInteracting (true);
 			}
 		}
@@ -871,25 +921,25 @@ namespace PolyPlayer {
 		}
 
 		private void secondaryAction() {
-//			if (attemptCraft ())
-//				return;
-//
-//			if (attemptOpenInventory ())
-//				return;
-//
-//			if (attemptConsume ())
-//				return;
+			if (attemptCraft ())
+				return;
+
+			if (attemptOpenInventory ())
+				return;
+
+			if (attemptConsume ())
+				return;
 		}
 
 		private void secondaryActionUpdate() {
-//			if (isConsuming ())
-//				updateConsuming ();
+			if (isConsuming ())
+				updateConsuming ();
 		}
 
 		private void cancelActions() {
-//			setInteracting (false);
-//			if (isConsuming ())
-//				stopConsuming ();
+			setInteracting (false);
+			if (isConsuming ())
+				stopConsuming ();
 		}
 
 		// Animation
@@ -898,7 +948,7 @@ namespace PolyPlayer {
 			anim.SetBool ("Interacting", i);
 			if (identity.isLocalPlayer)
 				crosshair.setHighlighted (i);
-//			CmdInteracting (i, rightHandActive);
+			identity.sendBehaviourPacket(new PacketAnim2HandedBool(this, 0, i, rightHandActive));
 		}
 
 		private void setRightHand(bool b) {
@@ -947,6 +997,7 @@ namespace PolyPlayer {
 				return false;
 
 			openInventory = inv;
+			//TODO - after inventory
 //			CmdOpenInventory (lookingAtObject);
 			GUIManager.pushScreen (GUIManager.inventoryScreen);
 			return true;
@@ -969,7 +1020,7 @@ namespace PolyPlayer {
 		private void startConsuming() {
 			anim.SetBool ("Consuming", true);
 			timeConsumeStart = Time.time;
-//			CmdConsuming (true, rightHandActive);
+			identity.sendBehaviourPacket(new PacketAnim2HandedBool(this, 1, true, rightHandActive));
 		}
 
 		private void updateConsuming() {
@@ -979,7 +1030,7 @@ namespace PolyPlayer {
 
 		private void stopConsuming() {
 			anim.SetBool ("Consuming", false);
-//			CmdConsuming (false, rightHandActive);
+			identity.sendBehaviourPacket(new PacketAnim2HandedBool(this, 1, false, rightHandActive));
 			timeConsumeStart = -1f;
 		}
 
@@ -987,8 +1038,8 @@ namespace PolyPlayer {
 			//play burp sound
 			sounds.playSound(PlayerSound.ConsumeFinish);
 			anim.SetBool ("Consuming", false);
-//			CmdCompleteConsuming ();
-//			CmdConsuming (false, rightHandActive);
+			identity.sendBehaviourPacket (new PacketMetadata (this, 1));
+			identity.sendBehaviourPacket(new PacketAnim2HandedBool(this, 1, true, rightHandActive));
 			timeConsumeStart = -1f;
 		}
 
@@ -999,15 +1050,14 @@ namespace PolyPlayer {
 			if (rightHand && hotbarInventory.getSlotCopy (2) == null)
 				return false;
 
-			//TODO finsih this - send it throguh the command
-//			CmdPlaceItem (lookingAtPoint + lookingAtNormal*0.01f, rightHand);
+			identity.sendBehaviourPacket(new PacketPlaceItem(this, lookingAtPoint + lookingAtNormal*0.01f, rightHand));
 			return true;
 		}
 
 		private void updateHolding (ItemStack stack, int hid) {
 			foreach (Transform t in itemHolder_getHolderTransform(hid)) {
 				if (t.GetComponent<Item> () != null) {
-//					NetworkServer.Destroy (t.gameObject);
+					PolyNetWorld.destroy (t.gameObject);
 				}
 			}
 
@@ -1017,14 +1067,13 @@ namespace PolyPlayer {
 
 
 		private bool isLookingAtInteractable(bool inter) {
-			return false;
-			//			if (lookingAtObject == null)
-			//				return false;
-			//
-			//			Interactable i = lookingAtObject.GetComponent<Interactable> ();
-			//			if (inter)
-			//				return (i && i.isInteractable(this));
-			//			else return i;
+			if (lookingAtObject == null)
+				return false;
+
+			Interactable i = lookingAtObject.GetComponent<Interactable> ();
+			if (inter)
+				return (i && i.isInteractable(this));
+			else return i;
 		}
 
 		private bool isLookingAtInteractable() {
@@ -1055,7 +1104,7 @@ namespace PolyPlayer {
 
 
 		private void swing() {
-			//			CmdSwing (rightHandActive);
+			identity.sendBehaviourPacket(new PacketAnim2HandedTrigger(this, 0, rightHandActive));
 			anim.SetTrigger ("Swing");
 		}
 
@@ -1066,7 +1115,7 @@ namespace PolyPlayer {
 				effects.playEffect (WorldTerrain.getMaterialEffects(transform.position).hitEffect, lookingAtPoint, lookingAtNormal, 50f);
 			else if (lookingAtObject.GetComponent<FXMaterial> ())
 				effects.playEffect (lookingAtObject.GetComponent<FXMaterial> ().effects.hitEffect, lookingAtPoint, lookingAtNormal, 50f);
-//			CmdOnHit (lookingAtObject, lookingAtPoint, lookingAtNormal);
+			identity.sendBehaviourPacket (new PacketPlayerHit (this, lookingAtObject, lookingAtPoint, lookingAtNormal));
 		}
 
 		private bool isConsuming() {
@@ -1091,7 +1140,7 @@ namespace PolyPlayer {
 
 		private void die() {
 			// copy out inventory into a dead body
-			GameObject g = Instantiate(deadPrefab);
+			GameObject g = PolyNetWorld.instantiate(deadPrefab);
 			g.transform.position = transform.position;
 //			NetworkServer.Spawn (g);
 			StartCoroutine (deathTransferInventory (g));

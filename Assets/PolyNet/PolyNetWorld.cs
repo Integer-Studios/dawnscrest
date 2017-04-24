@@ -97,6 +97,22 @@ namespace PolyNet {
 				return null;
 		}
 
+		public static GameObject instantiate(GameObject o) {
+			GameObject g = GameObject.Instantiate (o);
+			PolyNetIdentity i = g.GetComponent<PolyNetIdentity> ();
+			if (i != null)
+				spawnObject (i);
+			return g;
+		}
+
+		public static GameObject instantiate(GameObject o, int instanceId) {
+			GameObject g = GameObject.Instantiate (o);
+			PolyNetIdentity i = g.GetComponent<PolyNetIdentity> ();
+			if (i != null)
+				spawnObject (i, instanceId);
+			return g;
+		}
+
 		public static void spawnObject(PolyNetIdentity i) {
 			spawnObject (i, nextInstanceId);
 			nextInstanceId++;
@@ -109,10 +125,22 @@ namespace PolyNet {
 			objects.Add (instanceId, i);
 		}
 
+		public static void destroy(GameObject o) {
+			PolyNetIdentity i = o.GetComponent<PolyNetIdentity> ();
+			if (i != null)
+				despawnObject (i);
+			GameObject.Destroy (o);
+		}
+
 		public static void despawnObject(PolyNetIdentity i) {
 			if (PolyServer.isActive)
 				getChunk (i.transform.position).despawnObject (i);
 			objects.Remove (i.getInstanceId());
+		}
+
+		public static void registerPrefab(GameObject g) {
+			if (g.GetComponent<PolyNetIdentity> () != null)
+				prefabs.Add (g.GetComponent<PolyNetIdentity> ().prefabId, g);
 		}
 
 	}

@@ -30,8 +30,7 @@ namespace PolyNet {
 		public void despawnObject(int instanceId) {
 			PolyNetIdentity obj = PolyNetWorld.getObject(instanceId);
 			if (obj != null) {
-				PolyNetWorld.despawnObject (obj);
-				GameObject.Destroy (obj.gameObject);
+				PolyNetWorld.destroy (obj.gameObject);
 			} else {
 				Debug.Log ("Object despawn error: instance not found for id: " + instanceId + ", ignoring despawn.");
 			}
