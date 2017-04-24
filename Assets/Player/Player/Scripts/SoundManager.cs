@@ -16,9 +16,10 @@ namespace PolyPlayer {
 		private Dictionary<int, PlayerSound> playerSoundsDecode = new Dictionary<int, PlayerSound>();
 
 		public void rpcPlaySound(PlayerSound i) {
-			int s;
+			int s = -1;
 			playerSoundsEncode.TryGetValue (i, out s);
 			identity.sendBehaviourPacket (new PacketMetadata (this, s));
+			Debug.Log (s);
 		}
 
 		public void playSound(AudioClip c) {
@@ -47,7 +48,7 @@ namespace PolyPlayer {
 
 		public override void handleBehaviourPacket (PacketBehaviour p) {
 			base.handleBehaviourPacket (p);
-			if (p.id == 10) {
+			if (p.id == 11) {
 				PacketMetadata o = (PacketMetadata)p;
 				rpc_playSound_o (o.metadata);
 			}

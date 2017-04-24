@@ -10,11 +10,11 @@ namespace PolyNet {
 		public int metadata;
 
 		public PacketMetadata() {
-			id = 10;
+			id = 11;
 		}
 
 		public PacketMetadata(PolyNetBehaviour b, int m) : base(b){
-			id = 10;
+			id = 11;
 			metadata = m;
 		}
 
