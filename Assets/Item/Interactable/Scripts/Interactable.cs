@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using PolyNet;
+using System.IO;
 
 namespace PolyItem {
 
@@ -9,7 +10,6 @@ namespace PolyItem {
 		
 		// Vars : public, protected, private, hide
 
-		//TODO - Syncvars
 		protected float strength = 0f;
 		public float maxStrength = 0f;
 
@@ -21,10 +21,9 @@ namespace PolyItem {
 
 		public virtual void interact(Interactor i, float f) {
 			strength -= f;
+			identity.sendBehaviourPacket (new PacketSyncFloat (this, 0, strength));
 			if (strength <= 0)
 				onComplete (i);
-			else
-				identity.sendBehaviourPacket (new PacketSyncFloat (this, 0, strength));
 		}
 
 		public virtual bool isInteractable(Interactor i) {
@@ -44,6 +43,14 @@ namespace PolyItem {
 				else if (o.syncId == 1)
 					maxStrength = o.value;
 			}
+		}
+
+		public override void writeBehaviourSpawnData(ref BinaryWriter writer) {
+			writer.Write (strength);
+		}
+
+		public override void readBehaviourSpawnData(ref BinaryReader reader) {
+			strength = reader.ReadInt32 ();
 		}
 
 		/*

@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 65919092583433580}
   - component: {fileID: 23251565963892854}
   - component: {fileID: 114080632029580134}
-  - component: {fileID: 114782289130320196}
+  - component: {fileID: 114479163364591000}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -38,7 +38,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1025882632470590}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -21.5, y: 0.5, z: 12}
+  m_LocalPosition: {x: 14.1, y: 0.5, z: 12}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -108,7 +108,7 @@ MonoBehaviour:
   prefabId: 2
   isStatic: 1
   isLocalPlayer: 0
---- !u!114 &114782289130320196
+--- !u!114 &114479163364591000
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -116,11 +116,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 1025882632470590}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a4de04dd9f90c4f26a0480947abdf7ab, type: 3}
+  m_Script: {fileID: 11500000, guid: d59c217d16c2a48198c5b8e471808671, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  networkID: 0
-  size: 16
-  ones: 16
-  twos: 0
-  threes: 0
+  maxStrength: 5
+  type: 0
+  destroyOnInteract: 0
+  drops:
+  - {fileID: 114820388541141892, guid: 3317280d4d3a4495db2fd43f7abda948, type: 2}
+  repeats: 3
+  refills: 5
+  refillTime: 60
+  replacement: {fileID: 0}
+  curRepeats: 0
+  curRefills: 0

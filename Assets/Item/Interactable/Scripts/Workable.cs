@@ -34,8 +34,10 @@ namespace PolyItem {
 		protected override void onComplete(Interactor i) {
 			if (destroyOnInteract)
 				PolyNetWorld.destroy (gameObject);
-			else
+			else {
 				strength = maxStrength;
+				identity.sendBehaviourPacket (new PacketSyncFloat (this, 0, strength));
+			}
 		}
 
 		private bool isCompatable(Interactor i) {
