@@ -46,11 +46,13 @@ namespace PolyItem {
 		}
 
 		public override void writeBehaviourSpawnData(ref BinaryWriter writer) {
-			writer.Write (strength);
+			writer.Write ((decimal)strength);
+			writer.Write ((decimal)maxStrength);
 		}
 
 		public override void readBehaviourSpawnData(ref BinaryReader reader) {
-			strength = reader.ReadInt32 ();
+			strength = (float) reader.ReadDecimal ();
+			maxStrength = (float) reader.ReadDecimal ();
 		}
 
 		/*
