@@ -23,15 +23,12 @@ namespace PolyNet {
 			switch (port) {
 			case 0:
 				serverPort = 8888;
-				clientPort = 8889;
 				break;
 			case 1:
 				serverPort = 8890;
-				clientPort = 8891;
 				break;
 			case 2:
 				serverPort = 8892;
-				clientPort = 8893;
 				break;
 			}
 

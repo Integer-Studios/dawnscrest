@@ -11,11 +11,11 @@ namespace PolyNet {
 		public int scriptId;
 
 		public PacketBehaviour() {
-			id = 1;
+			id = -1;
 		}
 
 		public PacketBehaviour(PolyNetBehaviour b) {
-			id = 1;
+			id = -1;
 			instanceId = b.getInstanceId();
 			scriptId = b.getScriptId();
 		}

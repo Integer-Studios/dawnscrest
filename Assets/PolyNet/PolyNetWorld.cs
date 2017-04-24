@@ -50,28 +50,25 @@ namespace PolyNet {
 		}
 
 		public static PolyNetChunk getChunk(Vector3 position) {
-			ChunkIndex i = getChunkIndex (position);
+			return getChunk (getChunkIndex (position));
+		}
+
+		public static PolyNetChunk getChunk(ChunkIndex i) {
 			PolyNetChunk chunk;
 			if (chunks.TryGetValue (i, out chunk))
 				return chunk;
 			else {
-				chunk = new PolyNetChunk (i);
-				chunks.Add (i, chunk);
-				return chunk;
+				chunks.Add (i, new PolyNetChunk (i));
+				return getChunk(i);
 			}
 		}
 			
 		public static List<PolyNetChunk> getLoadedChunks(Vector3 position) {
 			List<PolyNetChunk> chunkList = new List<PolyNetChunk> ();
 			ChunkIndex i = getChunkIndex (position);
-			ChunkIndex temp = new ChunkIndex(0,0);
-			PolyNetChunk chunk;
 			for (int z = -1 * manager.chunkLoadRadius + 1; z < manager.chunkLoadRadius; z++) {
 				for (int x = -1 * manager.chunkLoadRadius + 1; x < manager.chunkLoadRadius; x++) {
-					temp.z = z + i.z;
-					temp.x = x + i.x;
-					if (chunks.TryGetValue (temp, out chunk))
-						chunkList.Add (chunk);
+					chunkList.Add (getChunk (new ChunkIndex(x + i.x,z + i.z)));
 				}
 			}
 			return chunkList;

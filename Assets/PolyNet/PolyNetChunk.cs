@@ -9,7 +9,7 @@ namespace PolyNet {
 
 		private List<PolyNetIdentity> objects;
 		private List<PolyNetPlayer> players;
-		private ChunkIndex index;
+		public ChunkIndex index;
 
 		public PolyNetChunk(ChunkIndex i) {
 			index = i;

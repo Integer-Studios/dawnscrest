@@ -29,6 +29,14 @@ namespace PolyNet {
 				return new PacketTransform ();
 			case 3:
 				return new PacketLogin ();
+			case 4:
+				return new PacketPlayerTransform ();
+			case 5:
+				return new PacketPlayerTransformDenied ();
+			case 6:
+				return new PacketAnimTrigger ();
+			case 7:
+				return new PacketAnimBool ();
 			default:
 				return null;
 			}
