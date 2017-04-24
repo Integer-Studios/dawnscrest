@@ -41,7 +41,7 @@ namespace PolyItem {
 				PacketSyncFloat o = (PacketSyncFloat)p;
 				if (o.syncId == 0)
 					strength = o.value;
-				else
+				else if (o.syncId == 1)
 					maxStrength = o.value;
 			}
 		}

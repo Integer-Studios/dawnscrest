@@ -53,6 +53,10 @@ namespace PolyNet {
 				return new PacketSlotUpdate ();
 			case 15:
 				return new PacketPlayerSetSlot ();
+			case 16:
+				return new PacketSyncInt ();
+			case 17:
+				return new PacketHotbarSwitch ();
 			default:
 				return null;
 			}

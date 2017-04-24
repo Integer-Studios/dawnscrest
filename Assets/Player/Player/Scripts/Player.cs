@@ -346,6 +346,9 @@ namespace PolyPlayer {
 			} else if (p.id == 15) {
 				PacketPlayerSetSlot o = (PacketPlayerSetSlot)p;
 				cmd_setSlot (o.bindingId, o.slotId, o.stack);
+			} else if (p.id == 17) {
+				PacketHotbarSwitch o = (PacketHotbarSwitch)p;
+				cmd_hotbarSwitch (o.rightHand);
 			}
 		}
 
@@ -792,11 +795,10 @@ namespace PolyPlayer {
 				GUIManager.recipesScreen.openWithRecipes(getRecipes(CraftingType.Hand));
 			}
 			if (Input.GetKeyDown(KeyCode.Q)) {
-				//TODO - hotbar switch cmd
-//				CmdHotbarSwitch (false);
+				identity.sendBehaviourPacket(new PacketHotbarSwitch(this, false));
 			}
 			if (Input.GetKeyDown(KeyCode.E)) {
-//				CmdHotbarSwitch (true);
+				identity.sendBehaviourPacket(new PacketHotbarSwitch(this, true));
 			}
 
 			if (Input.GetKeyDown(KeyCode.Alpha1)) {

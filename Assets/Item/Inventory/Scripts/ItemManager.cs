@@ -60,7 +60,7 @@ namespace PolyItem {
 				return g;
 			} else {
 				GameObject g = Instantiate(getItem (s.id).gameObject);
-				g.GetComponent<Item> ().setQuality(s.quality);
+				g.GetComponent<Item> ().quality = s.quality;
 				return g;
 			}
 		}
@@ -76,7 +76,7 @@ namespace PolyItem {
 					g = Instantiate (i.onPlaced);
 				else {
 					g = Instantiate (i.gameObject);
-					g.GetComponent<Item> ().setQuality(s.quality);
+					g.GetComponent<Item> ().quality = s.quality;
 				}
 				return g;
 			}

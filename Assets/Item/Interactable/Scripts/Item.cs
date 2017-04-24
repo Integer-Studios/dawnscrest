@@ -13,14 +13,12 @@ namespace PolyItem {
 		public int weight = 1;
 		public int maxStackSize = 1;
 		public ItemType type = ItemType.Default;
-
+		public int quality = 0;
 		public GameObject onPlaced;
 
 		private ItemHolder holder;
 		private int heldID = -1;
 
-		//TODO Syncvars
-		public int quality = 0;
 
 		/*
 		* 
@@ -38,10 +36,6 @@ namespace PolyItem {
 //				RpcOnLoginInfo (null, heldID);
 		}
 
-		public virtual void setQuality(int i) {
-			quality = i;
-		}
-
 		public virtual void setHolder(ItemHolder h, int hid) {
 			convertToHeldItem (h, hid);
 //			RpcSetHolder (h.itemHolder_getGameObject (), hid);
@@ -49,14 +43,21 @@ namespace PolyItem {
 
 		// General Interface
 
-		public virtual int getQuality() {
-			return quality;
-		}
-
 		// Interactable Interface Overrides
 
 		public override bool isInteractable(Interactor i) {
 			return holder == null;
+		}
+
+		// Networking Interface
+
+		public override void handleBehaviourPacket (PacketBehaviour p) {
+			base.handleBehaviourPacket (p);
+			if (p.id == 16) {
+				PacketSyncInt o = (PacketSyncInt)p;
+				if (o.syncId == 0)
+					quality = o.value;
+			}
 		}
 
 		/*
