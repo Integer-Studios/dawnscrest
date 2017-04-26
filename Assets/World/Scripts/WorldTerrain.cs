@@ -116,8 +116,8 @@ namespace PolyWorld {
 		}
 
 		public void editor_ripHeightMap() {
-			if (!Application.isEditor)
-				return;
+//			if (!Application.isEditor)
+//				return;
 			var info = new System.IO.FileInfo(rawFile);
 			int rawHeightMapSize = Mathf.RoundToInt(Mathf.Sqrt(info.Length / sizeof(System.UInt16)));
 

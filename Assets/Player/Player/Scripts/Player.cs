@@ -193,14 +193,11 @@ namespace PolyPlayer {
 		//TODO - craftable stuff
 
 		public void setCraftableRecipe(Craftable c, Recipe r) {
-			//			if (r == null)
-			//				CmdSetCraftableRecipe (c.gameObject, new NetworkItemStack (null), new NetworkItemStackArray (null));
-			//			else
-			//				CmdSetCraftableRecipe (c.gameObject, new NetworkItemStack (r.output), new NetworkItemStackArray (r.input));
+			identity.sendBehaviourPacket(new PacketSetCraftableRecipe(this, c.gameObject, r));
 		}
 
 		public void setCraftableInput(Craftable c, ItemStack[] i) {
-			//			CmdSetCraftableInput (c.gameObject, new NetworkItemStackArray (i));
+			identity.sendBehaviourPacket(new PacketSetCraftableInput(this, c.gameObject, i));
 		}
 
 		public void bindInventoryToGUI(int invID, GUIBoundInventory g) {
@@ -352,6 +349,12 @@ namespace PolyPlayer {
 			} else if (p.id == 18) {
 				PacketOpenInventory o = (PacketOpenInventory)p;
 				cmd_openInventory (o.invObj);
+			} else if (p.id == 21) {
+				PacketSetCraftableInput o = (PacketSetCraftableInput)p;
+				cmd_setCraftableInput (o.target, o.stacks);
+			} else if (p.id == 22) {
+				PacketSetCraftableRecipe o = (PacketSetCraftableRecipe)p;
+				cmd_setCraftableRecipe (o.target, o.recipe);
 			}
 		}
 
@@ -430,13 +433,12 @@ namespace PolyPlayer {
 			openInventory = g.GetComponent<Inventory> ();
 		}
 
-		private void cmd_setCraftableRecipe(GameObject g, NetworkItemStack o, NetworkItemStackArray i) {
-			Recipe r = Recipe.unwrapRecipe(o,i);
+		private void cmd_setCraftableRecipe(GameObject g, Recipe r) {
 			g.GetComponent<Craftable> ().setRecipe (r);
 		}
 
-		private void cmd_setCraftableInput(GameObject g, NetworkItemStackArray i) {
-			g.GetComponent<Craftable> ().setInput (ItemStack.unwrapNetworkStackArray (i));
+		private void cmd_setCraftableInput(GameObject g, ItemStack[] s) {
+			g.GetComponent<Craftable> ().setInput (s);
 		}
 
 		private void cmd_hotbarSwitch(bool rightHand) {

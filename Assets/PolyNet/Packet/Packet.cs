@@ -59,27 +59,17 @@ namespace PolyNet {
 				return new PacketHotbarSwitch ();
 			case 18:
 				return new PacketOpenInventory ();
+			case 19:
+				return new PacketItemStackArray ();
+			case 20:
+				return new PacketRecipe ();
+			case 21:
+				return new PacketSetCraftableInput ();
+			case 22:
+				return new PacketSetCraftableRecipe ();
 			default:
 				return null;
 			}
-		}
-
-		public static int packageObject(GameObject g) {
-			int i = -1;
-			PolyNetIdentity identity = g.GetComponent<PolyNetIdentity> ();
-			if (identity != null)
-				i = identity.getInstanceId ();
-			else
-				Debug.Log ("SERIOUS FUCK UP: you can't send objects without a network identity over the network dipshit. Well, I sent a -1 as the id in its place - have fun.");
-			return i;
-		}
-
-		public static GameObject unpackageObject(int i) {
-			PolyNetIdentity identity = PolyNetWorld.getObject(i);
-			if (identity != null)
-				return identity.gameObject;
-			else
-				return null;
 		}
 
 	}

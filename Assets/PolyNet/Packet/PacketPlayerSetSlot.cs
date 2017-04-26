@@ -26,25 +26,14 @@ namespace PolyNet {
 		public override void read(ref BinaryReader reader, PolyNetPlayer sender) {
 			bindingId = reader.ReadInt32 ();
 			slotId = reader.ReadInt32 ();
-			int id = reader.ReadInt32 ();
-			if (id != -1)
-				stack = new ItemStack (id, reader.ReadInt32 (), reader.ReadInt32 ());
-			else
-				stack = null;
+			PacketHelper.read (ref reader, ref stack);
 			base.read (ref reader, sender);
 		}
 
 		public override void write(ref BinaryWriter writer) {
 			writer.Write (bindingId);
 			writer.Write (slotId);
-
-			if (stack != null) {
-				writer.Write (stack.id);
-				writer.Write (stack.quality);
-				writer.Write (stack.size);
-			} else
-				writer.Write (-1);
-
+			PacketHelper.write (ref writer, stack);
 			base.write (ref writer);
 		}
 

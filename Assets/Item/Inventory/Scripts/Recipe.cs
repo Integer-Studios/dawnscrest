@@ -17,6 +17,9 @@ namespace PolyItem {
 		* 
 		*/
 
+		public Recipe() {
+		}
+
 		public Recipe(ItemStack o, ItemStack[] i) {
 			output = o;
 			input = i;

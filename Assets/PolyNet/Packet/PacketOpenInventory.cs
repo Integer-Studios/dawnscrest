@@ -19,12 +19,12 @@ namespace PolyNet {
 		}
 
 		public override void read(ref BinaryReader reader, PolyNetPlayer sender) {
-			invObj = Packet.unpackageObject(reader.ReadInt32 ());
+			PacketHelper.read (ref reader, ref invObj);
 			base.read (ref reader, sender);
 		}
 
 		public override void write(ref BinaryWriter writer) {
-			writer.Write (Packet.packageObject(invObj));
+			PacketHelper.write (ref writer, invObj);
 			base.write (ref writer);
 		}
 

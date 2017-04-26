@@ -23,14 +23,14 @@ namespace PolyNet {
 		}
 
 		public override void read(ref BinaryReader reader, PolyNetPlayer sender) {
-			hitObject = Packet.unpackageObject(reader.ReadInt32 ());
+			PacketHelper.read (ref reader, ref hitObject);
 			hitPoint = new Vector3 ((float)reader.ReadDecimal (), (float)reader.ReadDecimal (), (float)reader.ReadDecimal ());
 			hitNormal = new Vector3 ((float)reader.ReadDecimal (), (float)reader.ReadDecimal (), (float)reader.ReadDecimal ());
 			base.read (ref reader, sender);
 		}
 
 		public override void write(ref BinaryWriter writer) {
-			writer.Write (Packet.packageObject(hitObject));
+			PacketHelper.write (ref writer, hitObject);
 		
 			writer.Write ((decimal)hitPoint.x);
 			writer.Write ((decimal)hitPoint.y);
