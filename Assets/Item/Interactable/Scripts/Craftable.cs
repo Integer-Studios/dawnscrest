@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using PolyNet;
+using System.IO;
 
 namespace PolyItem {
 
@@ -75,6 +76,18 @@ namespace PolyItem {
 
 		public ItemStack[] getInput() {
 			return input;
+		}
+
+		public override void writeBehaviourSpawnData(ref BinaryWriter writer) {
+			PacketHelper.write (ref writer, recipe);
+			PacketHelper.write (ref writer, input);
+			base.writeBehaviourSpawnData (ref writer);
+		}
+
+		public override void readBehaviourSpawnData(ref BinaryReader reader) {
+			PacketHelper.read (ref reader, ref recipe);
+			PacketHelper.read (ref reader, ref input);
+			base.readBehaviourSpawnData (ref reader);
 		}
 
 		public override void handleBehaviourPacket (PacketBehaviour p) {

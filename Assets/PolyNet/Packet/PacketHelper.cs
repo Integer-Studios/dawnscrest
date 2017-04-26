@@ -29,16 +29,25 @@ namespace PolyNet {
 		}
 
 		public static void read(ref BinaryReader reader, ref ItemStack[] stacks) {
-			stacks = new ItemStack [reader.ReadInt32 ()];
-			for (int i = 0; i < stacks.GetLength (0); i++) {
-				read (ref reader, ref stacks [i]);
-			}
+			int x = reader.ReadInt32 ();
+			if (x != -1) {
+				stacks = new ItemStack [reader.ReadInt32 ()];
+				for (int i = 0; i < stacks.GetLength (0); i++) {
+					read (ref reader, ref stacks [i]);
+				}
+			} else
+				stacks = null;
 		}
 
 		public static void write(ref BinaryWriter writer, ItemStack[] stacks) {
-			writer.Write (stacks.GetLength (0));
-			for (int i = 0; i < stacks.GetLength (0); i++) {
-				write (ref writer, stacks [i]);
+			if (stacks == null)
+				writer.Write (-1);
+			else {
+				writer.Write (1);
+				writer.Write (stacks.GetLength (0));
+				for (int i = 0; i < stacks.GetLength (0); i++) {
+					write (ref writer, stacks [i]);
+				}
 			}
 		}
 
