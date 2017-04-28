@@ -38,30 +38,18 @@ namespace PolyNet {
 				PolyNodeHandler.initialize (this);
 				PolyServer.start (serverPort);
 			}
-
-			StartCoroutine (socketListenerUpdate ());
-			StartCoroutine (packetWriterUpdate ());
 		}
 
 		void Start() {
 			PolyNetWorld.initialize (this);
 		}
 
-		private IEnumerator socketListenerUpdate() {
-			while (true) {
-				if (isClient)
-					PolyClient.update ();
-				else
-					PolyServer.update ();
-				yield return new WaitForSeconds(0f);
-			}
-		}
-
-		private IEnumerator packetWriterUpdate() {
-			while (true) {
-				PacketHandler.update ();
-				yield return new WaitForSeconds(0f);
-			}
+		void Update() {
+			PacketHandler.update ();
+			if (isClient)
+				PolyClient.update ();
+			else
+				PolyServer.update ();
 		}
 
 	}

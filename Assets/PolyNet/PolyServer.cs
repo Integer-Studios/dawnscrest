@@ -11,7 +11,7 @@ namespace PolyNet {
 
 		private static int port;
 		private static int reliableChannelId, socketId;
-		private static Dictionary<int, PolyNetPlayer> players = new Dictionary<int, PolyNetPlayer> ();
+		public static Dictionary<int, PolyNetPlayer> players = new Dictionary<int, PolyNetPlayer> ();
 		private static Dictionary<int, int> playerIdMap = new Dictionary<int, int> ();
 
 		public static void start (int sPort) {
@@ -70,7 +70,7 @@ namespace PolyNet {
 				return null;
 			}
 		}
-
+			
 		public static void onLogin(PolyNetPlayer p) {
 			playerIdMap.Add (p.playerId, p.connectionId);
 			PolyNodeHandler.sendPlayerLogin(p);

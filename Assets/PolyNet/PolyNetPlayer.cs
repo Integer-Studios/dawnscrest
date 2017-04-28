@@ -12,9 +12,14 @@ namespace PolyNet {
 		public Vector3 position;
 		public List<PolyNetChunk> loadedChunks;
 		public PolyNetIdentity identity;
+		public Queue<Packet> packetQueue;
+		public bool isAccepting;
+		public int blastCount = 0;
 
 		public PolyNetPlayer(int i) {
 			loadedChunks = new List<PolyNetChunk> ();
+			packetQueue = new Queue<Packet>();
+			isAccepting = true;
 			connectionId = i;
 		}
 
@@ -45,6 +50,7 @@ namespace PolyNet {
 				c.removePlayer (this);
 			}
 		}
+
 	}
 
 }

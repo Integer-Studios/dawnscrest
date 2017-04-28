@@ -7,36 +7,47 @@ namespace PolyNet {
 
 	public class PacketHandler {
 
-		private static List<PacketEntry> packetQueue = new List<PacketEntry>();
+		private static Queue<Packet> packetQueue = new Queue<Packet>();
+		private static int blastMax = 20;
 
 		public static void queuePacket(Packet p, PolyNetPlayer[] r) {
-			packetQueue.Add (new PacketEntry(p, r));
+			if (PolyServer.isActive) {
+				foreach (PolyNetPlayer pl in r) {
+					pl.packetQueue.Enqueue (p);
+				}
+			} else
+				packetQueue.Enqueue (p);
 		}
 
 		public static void update() {
-			PacketEntry[] packets = packetQueue.ToArray ();
-			packetQueue.Clear ();
-
-			foreach (PacketEntry entry in packets) {
-				deliverPacketEntry (entry);
+			if (PolyServer.isActive) {
+				foreach (PolyNetPlayer p in PolyServer.players.Values) {
+					if (!p.isAccepting)
+						continue;
+				
+					int i = 0;
+					while (i < blastMax) {
+						if (p.packetQueue.Count == 0)
+							break;
+						deliverPacket (p.packetQueue.Dequeue (), p);
+						i++;
+					}
+					if (i == blastMax) {
+						p.isAccepting = false;
+						deliverPacket (new PacketBlast (), p);
+					}
+				}
+			} else {
+				for (int j = 0; j < packetQueue.Count; j++) {
+					deliverPacket (packetQueue.Dequeue(), null);
+				}
 			}
-		}
-
-		public static void serverSendPacket(byte[] buffer, PolyNetPlayer[] players) {
-			foreach (PolyNetPlayer player in players) {
-				PolyServer.sendMessage (buffer, player);
-			}
-		}
-
-		public static void clientSendPacket(byte[] buffer) {
-			PolyClient.sendMessage (buffer);
 		}
 
 		public static void handlePacket(byte[] buffer, PolyNetPlayer player) {
 			MemoryStream stream = new MemoryStream (buffer);
 			BinaryReader reader = new BinaryReader (stream);
 			int id = reader.ReadInt32 ();
-			Debug.Log ("recieved: " + id);
 			Packet p = Packet.getPacket (id);
 			if (p == null)
 				Debug.Log ("Unknown packet id: " + id);
@@ -44,26 +55,22 @@ namespace PolyNet {
 				p.read (ref reader, player);
 		}
 
-		private static void deliverPacketEntry(PacketEntry entry) {
-			if (PolyServer.isActive && entry.recipients.GetLength (0) == 0)
-				return;
-			
+		private static void deliverPacket(Packet packet, PolyNetPlayer recipient) {
 			//Routing
 			MemoryStream s = new MemoryStream (new byte[1024]);
 			BinaryWriter writer = new BinaryWriter(s);
-			writer.Write (entry.packet.id);
+			writer.Write (packet.id);
 
 			//Packet Data
-			entry.packet.write (ref writer);
-
-			Debug.Log ("send: " + entry.packet.id);
+			packet.write (ref writer);
 
 			//Socket Send
 			if (PolyClient.isActive)
-				clientSendPacket (s.ToArray());
+				PolyClient.sendMessage (s.ToArray());
 			else if (PolyServer.isActive)
-				serverSendPacket (s.ToArray(), entry.recipients);
+				PolyServer.sendMessage (s.ToArray(), recipient);
 		}
+
 	}
 
 	public struct PacketEntry {

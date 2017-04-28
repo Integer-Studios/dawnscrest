@@ -67,6 +67,8 @@ namespace PolyNet {
 				return new PacketSetCraftableInput ();
 			case 22:
 				return new PacketSetCraftableRecipe ();
+			case 23:
+				return new PacketBlast ();
 			default:
 				return null;
 			}
