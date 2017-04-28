@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-namespace PolyWorld {
+namespace PolyWorldOld {
 	
 	[CustomEditor(typeof(WorldTerrain))]
 	public class WorldTerrainEditor : Editor {
@@ -25,12 +25,18 @@ namespace PolyWorld {
 			if (GUILayout.Button ("Generate Chunks")) {
 				terrain.editor_generateChunks ();
 			}
-//			if (GUILayout.Button ("Destroy Chunks")) {
-//				terrain.editor_destroyChunks ();
-//			}
-//			if (GUILayout.Button ("Rip Height Map")) {
-//				terrain.editor_ripHeightMap ();
-//			}
+			if (GUILayout.Button ("Destroy Chunks")) {
+				terrain.editor_destroyChunks ();
+			}
+			if (GUILayout.Button ("Chunkify")) {
+				terrain.editor_chunkify ();
+			}
+			if (GUILayout.Button ("Combine")) {
+				terrain.editor_combine ();
+			}
+			if (GUILayout.Button ("Rip Height Map")) {
+				terrain.editor_ripHeightMap ();
+			}
 		}
 
 	}

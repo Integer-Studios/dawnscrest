@@ -97,8 +97,8 @@ GameObject:
   - component: {fileID: 95461402547075764}
   - component: {fileID: 54039557947465334}
   - component: {fileID: 136942053446350920}
-  - component: {fileID: 114747932411917504}
   - component: {fileID: 114556829121778522}
+  - component: {fileID: 114034149086814312}
   m_Layer: 20
   m_Name: Fox Orange Dead
   m_TagString: Player
@@ -1123,6 +1123,20 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114034149086814312
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1279174189599448}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bedd2bbdc15b94dcfbe10067a533d4d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabId: 201
+  isStatic: 1
+  isLocalPlayer: 0
 --- !u!114 &114556829121778522
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1134,7 +1148,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d59c217d16c2a48198c5b8e471808671, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  material: 1
   maxStrength: 5
   type: 0
   destroyOnInteract: 1
@@ -1144,38 +1157,8 @@ MonoBehaviour:
   refills: 5
   refillTime: 60
   replacement: {fileID: 0}
---- !u!114 &114747932411917504
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1279174189599448}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 181
-    i1: 82
-    i2: 80
-    i3: 131
-    i4: 75
-    i5: 137
-    i6: 36
-    i7: 85
-    i8: 10
-    i9: 103
-    i10: 220
-    i11: 236
-    i12: 146
-    i13: 144
-    i14: 234
-    i15: 73
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
+  curRepeats: 0
+  curRefills: 0
 --- !u!136 &136942053446350920
 CapsuleCollider:
   m_ObjectHideFlags: 1

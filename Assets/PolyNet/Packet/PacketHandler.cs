@@ -36,6 +36,7 @@ namespace PolyNet {
 			MemoryStream stream = new MemoryStream (buffer);
 			BinaryReader reader = new BinaryReader (stream);
 			int id = reader.ReadInt32 ();
+			Debug.Log ("recieved: " + id);
 			Packet p = Packet.getPacket (id);
 			if (p == null)
 				Debug.Log ("Unknown packet id: " + id);
@@ -44,6 +45,9 @@ namespace PolyNet {
 		}
 
 		private static void deliverPacketEntry(PacketEntry entry) {
+			if (PolyServer.isActive && entry.recipients.GetLength (0) == 0)
+				return;
+			
 			//Routing
 			MemoryStream s = new MemoryStream (new byte[1024]);
 			BinaryWriter writer = new BinaryWriter(s);
@@ -51,6 +55,8 @@ namespace PolyNet {
 
 			//Packet Data
 			entry.packet.write (ref writer);
+
+			Debug.Log ("send: " + entry.packet.id);
 
 			//Socket Send
 			if (PolyClient.isActive)

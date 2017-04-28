@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityStandardAssets.ImageEffects;
 using PolyItem;
 using PolyEntity;
-using PolyWorld;
+using PolyWorldOld;
 using PolyEffects;
 using UnityEngine.Networking;
 using PolyNetwork;

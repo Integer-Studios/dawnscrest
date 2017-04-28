@@ -34,6 +34,10 @@ namespace PolyNet {
 			prefabId = reader.ReadInt32 ();
 			instanceId = reader.ReadInt32 ();
 			ownerPlayerId = reader.ReadInt32 ();
+			if (ownerPlayerId != -1)
+				Debug.Log ("YOOOOOOOOO");
+			else
+				Debug.Log ("lo");
 
 			position = new Vector3 ((float)reader.ReadDecimal (), (float)reader.ReadDecimal (), (float)reader.ReadDecimal ());
 			scale = new Vector3 ((float)reader.ReadDecimal (), (float)reader.ReadDecimal (), (float)reader.ReadDecimal ());
@@ -46,6 +50,10 @@ namespace PolyNet {
 			writer.Write (prefabId);
 			writer.Write (instanceId);
 			writer.Write (ownerPlayerId);
+			if (ownerPlayerId != -1)
+				Debug.Log ("YOOOOOOOOO");
+			else
+				Debug.Log ("lo");
 
 			writer.Write ((decimal)position.x);
 			writer.Write ((decimal)position.y);

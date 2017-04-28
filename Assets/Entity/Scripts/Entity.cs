@@ -1,13 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
+using PolyNet;
 using PolyPlayer;
 using System;
 
 namespace PolyEntity {
 
-	public class Entity : NetworkBehaviour, Living {
+	public class Entity : PolyNetBehaviour, Living {
 
 		// Vars : public, protected, private, hide
 		public float maxHealth;
@@ -28,10 +28,8 @@ namespace PolyEntity {
 		private List<Action> currentActions;
 		private List<Action> completedActions;
 
-		// Syncvars
-		[SyncVar]
+		//TODO Syncvars
 		private Vector3 velocity;
-		[SyncVar]
 		private float rotation;
 
 		/*
@@ -66,30 +64,27 @@ namespace PolyEntity {
 
 		// Living Interface
 
-		[Server]
 		public void living_hurt(Living l, float d) {
-			if (!NetworkClient.active) {
+			if (!PolyClient.isActive) {
 				anim.SetTrigger ("Hurt");
 			}
 			health -= d;
 			if (health <= 0)
 				die ();
-			RpcHurt ();
+//			RpcHurt ();
 		}
 
-		[Server]
 		public void living_setHeated(bool h) {
 			
 		}
 
-		[Server]
 		public void setAttacking(bool b) {
 			anim.SetBool ("Attacking", b);
-			RpcAttacking (b);
+//			RpcAttacking (b);
 		}
 
 		public void onAttackHit() {
-			if (!NetworkServer.active)
+			if (!PolyServer.isActive)
 				return;
 			
 			Debug.Log ("yeeee");
@@ -102,23 +97,19 @@ namespace PolyEntity {
 		* 
 		*/
 
-		[ClientRpc]
-		private void RpcInteracting(bool b) {
+		private void rpc_interacting(bool b) {
 			anim.SetBool ("Interacting", b);
 		}
 
-		[ClientRpc]
-		private void RpcConsuming(bool b) {
+		private void rpc_consuming(bool b) {
 			anim.SetBool ("Eating", b);
 		}
 
-		[ClientRpc]
-		private void RpcHurt() {
+		private void rpc_urt() {
 			anim.SetTrigger ("Hurt");
 		}
 
-		[ClientRpc]
-		private void RpcAttacking(bool b) {
+		private void rpc_attacking(bool b) {
 			anim.SetBool ("Attacking", b);
 		}
 
@@ -131,9 +122,9 @@ namespace PolyEntity {
 		protected virtual void Start() {
 			anim = GetComponent<Animator> ();
 			rigidBody = GetComponent<Rigidbody> ();
-			ClientScene.RegisterPrefab(deadPrefab);
+			PolyNetWorld.registerPrefab(deadPrefab);
 
-			if (!NetworkServer.active)
+			if (!PolyServer.isActive)
 				return;
 
 			health = maxHealth;
@@ -148,7 +139,7 @@ namespace PolyEntity {
 
 		protected virtual void Update() {
 			updateLocomotion ();
-			if (!isServer)
+			if (!PolyServer.isActive)
 				return;
 			updateBrain ();
 	
@@ -195,17 +186,17 @@ namespace PolyEntity {
 		}
 
 		private void setInteracting(bool b) {
-			if (!NetworkClient.active) {
+			if (!PolyClient.isActive) {
 				anim.SetBool ("Interacting", b);
 			}
-			RpcInteracting (b);
+//			RpcInteracting (b);
 		}
 
 		private void setConsuming(bool b) {
-			if (!NetworkClient.active) {
+			if (!PolyClient.isActive) {
 				anim.SetBool ("Eating", b);
 			}
-			RpcConsuming (b);
+//			RpcConsuming (b);
 		}
 
 		private void die() {
@@ -213,8 +204,8 @@ namespace PolyEntity {
 			g.transform.position = transform.position;
 			g.transform.localScale = transform.localScale;
 			g.transform.rotation = transform.rotation;
-			NetworkServer.Destroy (gameObject);
-			NetworkServer.Spawn (g);
+			PolyNetWorld.destroy (gameObject);
+			PolyNetWorld.spawnObject (g);
 		}
 
 		private float speedToAnim(float f) {

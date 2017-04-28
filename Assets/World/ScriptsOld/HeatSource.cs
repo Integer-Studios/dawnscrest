@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using PolyEntity;
 
-namespace PolyWorld {
+namespace PolyWorldOld {
 
 	public class HeatSource : MonoBehaviour {
 		public float radius;

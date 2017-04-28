@@ -1,11 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using PolyNet;
+using UnityEngine.Networking;
 
-namespace PolyWorld {
+namespace PolyWorldOld {
 
-	public class WorldTime : PolyNetBehaviour {
+	public class WorldTime : NetworkBehaviour {
 
 		// Vars : public, protected, private, hide
 		public GameObject sun;
@@ -16,7 +16,9 @@ namespace PolyWorld {
 		private static WorldTime worldTime;
 		private static float tempVolatility;
 
-		//TODO Syncvars
+		// Syncvars
+
+		[SyncVar]
 		private float time = 0f;
 	
 
@@ -73,7 +75,7 @@ namespace PolyWorld {
 		private void Update() {
 			sun.transform.eulerAngles = new Vector3 (360f * getDayPercent(), 0f, 0f);
 
-			if (!PolyServer.isActive)
+			if (!NetworkServer.active)
 				return;
 			
 			time += Time.deltaTime;

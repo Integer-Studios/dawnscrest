@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-namespace PolyWorld {
+namespace PolyWorldOld {
 
 	[CustomEditor(typeof(WorldGenerator))]
 	public class WorldGeneratorEditor : Editor {

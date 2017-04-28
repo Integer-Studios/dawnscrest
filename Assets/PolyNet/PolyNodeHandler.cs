@@ -52,12 +52,12 @@ namespace PolyNet {
 
 		public static void receivePlayerLogin(SocketIOEvent e) {
 			int playerId = (int)e.data.GetField ("id").n;
-			Debug.Log (playerId);
+			Debug.Log ("Player login with ID:" + playerId);
 			//this is where node gets back to us with the data
 			JSONObject playerObjectData = e.data.GetField("object");
 			PolyNetPlayer player = PolyServer.getPlayerPId(playerId);
 			//eventually any player data that node wants to set can get thrown in here
-			player.setData(new Vector3(0,0,0));
+			player.setData(new Vector3(5,5,5));
 	//		player.setData (readVector(playerObjectData, "position"));
 			PolyServer.onLoginData(PolyServer.getPlayerPId(playerId));
 		}

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace PolyWorld {
+namespace PolyWorldOld {
 
 	public class WorldGenerator : MonoBehaviour {
 

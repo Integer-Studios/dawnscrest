@@ -37,6 +37,18 @@ namespace PolyNet {
 			i.setOwner(p);
 			p.identity = i;
 			spawnObject (i);
+//			GameObject.FindObjectOfType<PolyNetManager> ().StartCoroutine (test (p));
+		}
+
+		static IEnumerator test(PolyNetPlayer p) {
+			yield return new WaitForSeconds(10f);
+			//spawn player
+			GameObject g = GameObject.Instantiate(manager.playerPrefab.gameObject);
+			g.transform.position = p.position;
+			PolyNetIdentity i = g.GetComponent<PolyNetIdentity> ();
+			i.setOwner(p);
+			p.identity = i;
+			spawnObject (i);
 		}
 
 		public static void removePlayer(PolyNetPlayer p) {
