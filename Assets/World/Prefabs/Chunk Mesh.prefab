@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 33009801928252954}
   - component: {fileID: 23690705932187136}
   - component: {fileID: 114858904938686074}
+  - component: {fileID: 114515125112448044}
   m_Layer: 0
   m_Name: Chunk Mesh
   m_TagString: Untagged
@@ -95,6 +96,17 @@ MeshCollider:
   m_InflateMesh: 0
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 0}
+--- !u!114 &114515125112448044
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1817784262469390}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2c9731e3f051478ea88f60bf01b6557, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114858904938686074
 MonoBehaviour:
   m_ObjectHideFlags: 1

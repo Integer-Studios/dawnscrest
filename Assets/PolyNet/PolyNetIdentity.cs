@@ -31,6 +31,11 @@ namespace PolyNet {
 			}
 		}
 
+		private void Start() {
+			if (!isStatic)
+				StartCoroutine (updateChunk());
+		}
+
 		public void routeBehaviourPacket(PacketBehaviour p) {
 			PolyNetBehaviour b;
 			if (behaviours.TryGetValue (p.scriptId, out b))
@@ -83,16 +88,18 @@ namespace PolyNet {
 			chunk = c;
 		}
 
-		private void Update() {
-			if (isStatic || !PolyServer.isActive)
-				return;
-			if (owner != null)
-				owner.position = transform.position;
-
-			if (!chunk.inChunk(transform.position)) {
-				chunk.migrateChunk (this);
+		private IEnumerator updateChunk() {
+			yield return new WaitForSeconds (10f);
+			while (PolyServer.isActive) {
 				if (owner != null)
-					owner.refreshLoadedChunks ();
+					owner.position = transform.position;
+
+				if (!chunk.inChunk (transform.position)) {
+					chunk.migrateChunk (this);
+					if (owner != null)
+						owner.refreshLoadedChunks ();
+				}
+				yield return new WaitForSeconds (1f);
 			}
 		}
 

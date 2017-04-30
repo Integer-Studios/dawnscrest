@@ -64,17 +64,28 @@ namespace PolyItem {
 			if (replacement != null)
 				PolyNetWorld.registerPrefab(replacement);
 			base.Start ();
-		}	
+		}
 
-		protected override void Update() {
-			base.Update ();
-			if (isOut ()) {
+		protected IEnumerator refillUpdate() {
+			while (isOut ()) {
 				if (runoutTime + refillTime <= Time.time) {
 					curRepeats = 0;
 					identity.sendBehaviourPacket (new PacketSyncInt (this, 0, curRepeats));
 				}
+				yield return new WaitForSeconds (5f);
 			}
 		}
+
+//		protected void Update() {
+//			if (!PolyServer.isActive)
+//				return;
+//			if (isOut ()) {
+//				if (runoutTime + refillTime <= Time.time) {
+//					curRepeats = 0;
+//					identity.sendBehaviourPacket (new PacketSyncInt (this, 0, curRepeats));
+//				}
+//			}
+//		}
 
 		protected override void onComplete(Interactor i) {
 			if (isOut ())
@@ -100,8 +111,10 @@ namespace PolyItem {
 					curRefills++;
 					if (curRefills == refills)
 						Destroy (this);
-					else
+					else {
 						identity.sendBehaviourPacket (new PacketSyncInt (this, 1, curRefills));
+						StartCoroutine (refillUpdate ());
+					}
 
 					runoutTime = Time.time;
 				}

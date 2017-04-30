@@ -75,11 +75,6 @@ namespace PolyItem {
 			strength = maxStrength;
 		}
 
-		protected virtual void Update() {
-			if (!PolyServer.isActive)
-				return;
-		}
-
 		protected virtual void onComplete(Interactor i) {
 			
 		}

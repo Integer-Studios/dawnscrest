@@ -7,6 +7,7 @@ public class ResourceTester : MonoBehaviour {
 
 	public float size;
 	public float density;
+	public bool chill = false;
 
 	public GameObject[] prefabs;
 
@@ -20,11 +21,15 @@ public class ResourceTester : MonoBehaviour {
 	private IEnumerator test() {
 		yield return new WaitForSeconds (1f);
 		for (int i = 0; i < (int)(density * Mathf.Pow(size,2)); i++) {
-			GameObject g = Instantiate (prefabs [Random.Range (0, prefabs.GetLength (0))]);
-			g.transform.position = new Vector3 (Random.Range (size / -2f, size / 2f), 0f, Random.Range (size / -2f, size / 2f));
-			PolyNetWorld.spawnObject (g);
-			if (i % 25 == 0)
+			if (chill)
 				yield return null;
+			else {
+				GameObject g = Instantiate (prefabs [Random.Range (0, prefabs.GetLength (0))]);
+				g.transform.position = new Vector3 (Random.Range (size / -2f, size / 2f), 0f, Random.Range (size / -2f, size / 2f));
+				PolyNetWorld.spawnObject (g);
+				if (i % 1000 == 0)
+					yield return null;
+			}
 		}
 	}
 
