@@ -30,6 +30,10 @@ namespace PolyNet {
 			euler = i.transform.eulerAngles;
 		}
 
+		public override int getSize() {
+			return identity.getSpawnSize ();
+		}
+
 		public override void read(ref BinaryReader reader, PolyNetPlayer sender) {
 			prefabId = reader.ReadInt32 ();
 			instanceId = reader.ReadInt32 ();

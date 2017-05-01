@@ -34,7 +34,7 @@ namespace PolyNet {
 
 		private static void deliverPacket(Packet packet, PolyNetPlayer recipient) {
 			//Routing
-			MemoryStream s = new MemoryStream (new byte[1024]);
+			MemoryStream s = new MemoryStream (new byte[packet.getSize()+4]);
 			BinaryWriter writer = new BinaryWriter(s);
 			writer.Write (packet.id);
 

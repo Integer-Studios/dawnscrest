@@ -8,11 +8,17 @@ namespace PolyNet {
 	public class Packet {
 		
 		public int id;
-		public PolyNetPlayer[] recipients;
+		public int size;
 
 		public Packet() {
 			id = -1;
+			size = 512;
 		}
+
+		public virtual int getSize() {
+			return size;
+		}
+
 		public virtual void read(ref BinaryReader reader, PolyNetPlayer sender) {
 		}
 

@@ -51,6 +51,18 @@ namespace PolyNet {
 				PacketHandler.sendPacket (p, null);
 		}
 
+		public int getSpawnSize() {
+			PolyNetBehaviour b;
+			int i = 0;
+			int size = 0;
+			while (behaviours.TryGetValue (i, out b)) {
+				size += b.getBehaviourSpawnSize ();
+				i++;
+			}
+			//give it some room to write the transform
+			return Mathf.Max(512,size);
+		}
+
 		public void writeSpawnData(ref BinaryWriter writer) {
 			PolyNetBehaviour b;
 			int i = 0;

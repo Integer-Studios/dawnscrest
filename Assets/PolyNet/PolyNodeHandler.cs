@@ -57,7 +57,7 @@ namespace PolyNet {
 			JSONObject playerObjectData = e.data.GetField("object");
 			PolyNetPlayer player = PolyServer.getPlayer(playerId);
 			//eventually any player data that node wants to set can get thrown in here
-			player.setData(new Vector3(5,5,5));
+			player.setData(new Vector3(5,100,5));
 	//		player.setData (readVector(playerObjectData, "position"));
 			PolyServer.onLoginData(PolyServer.getPlayer(playerId));
 		}

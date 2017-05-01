@@ -1015,7 +1015,7 @@ namespace PolyPlayer {
 
 			if (inv == null)
 				return false;
-			Debug.Log ("yoo");
+
 			openInventory = inv;
 			identity.sendBehaviourPacket(new PacketOpenInventory(this, lookingAtObject));
 			GUIManager.pushScreen (GUIManager.inventoryScreen);

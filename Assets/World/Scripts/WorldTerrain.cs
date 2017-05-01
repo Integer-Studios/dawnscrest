@@ -51,6 +51,8 @@ namespace PolyWorld {
 		private void Start() {
 			terrain = this;
 			Block.setBlocks (blockRegister);
+			if (!PolyServer.isActive)
+				return;
 			generateHeightmap ();
 			generateBlockmap ();
 
@@ -94,7 +96,11 @@ namespace PolyWorld {
 		}
 
 		private float getTempurature(HeightmapIndex h, bool time) {
-			float ele = (height - getHeight (h))/height;
+			return getTempurature (h, time, getHeight (h));
+		}
+
+		private float getTempurature(HeightmapIndex h, bool time, float indexHeight) {
+			float ele = (height - indexHeight)/height;
 			//south = 1 north = 0
 			float lat = (float)(heightmapSize - h.z) / (float)heightmapSize;
 			ele *= elevationTempurature;
@@ -112,23 +118,27 @@ namespace PolyWorld {
 			return blockMap [h.x,h.z];
 		}
 
-		private float getSteepness(HeightmapIndex h) {
-			if (!isInBounds (h))
-				return 0f;
-			float up = getHeight (new HeightmapIndex (h.x, h.z + 1));
-			float down = getHeight (new HeightmapIndex (h.x, h.z - 1));
-			float right = getHeight (new HeightmapIndex (h.x + 1, h.z));
-			float left = getHeight (new HeightmapIndex (h.x - 1, h.z));
-			float mid = getHeight (h);
-			float max = Mathf.Max (Mathf.Abs (mid - up), Mathf.Abs (mid - down));
-			max = Mathf.Max (max, Mathf.Abs (mid - left));
-			max = Mathf.Max (max, Mathf.Abs (mid - right));
-			return max;
-		}
+//		private float getSteepness(HeightmapIndex h) {
+//			if (!isInBounds (h))
+//				return 0f;
+//			float up = getHeight (new HeightmapIndex (h.x, h.z + 1));
+//			float down = getHeight (new HeightmapIndex (h.x, h.z - 1));
+//			float right = getHeight (new HeightmapIndex (h.x + 1, h.z));
+//			float left = getHeight (new HeightmapIndex (h.x - 1, h.z));
+//			float mid = getHeight (h);
+//			float max = Mathf.Max (Mathf.Abs (mid - up), Mathf.Abs (mid - down));
+//			max = Mathf.Max (max, Mathf.Abs (mid - left));
+//			max = Mathf.Max (max, Mathf.Abs (mid - right));
+//			return max;
+//		}
 
 		public Color getColor(HeightmapIndex h) {
+			return getColor(h, getHeight(h));
+		}
+
+		public Color getColor(HeightmapIndex h, float indexHeight) {
 			//get full humidity color
-			float t = getTempurature(h, false);
+			float t = getTempurature(h, false, indexHeight);
 
 			Color c;
 			if (t > grassPoint) {
@@ -200,6 +210,10 @@ namespace PolyWorld {
 
 		public Vector3 toPosition(HeightmapIndex h) {
 			return new Vector3 (h.x * resolution + transform.position.x, heightmap [h.x, h.z] + transform.position.y, h.z * resolution + transform.position.z);
+		}
+
+		public Vector3 toPosition(HeightmapIndex h, float indexHeight) {
+			return new Vector3 (h.x * resolution + transform.position.x, indexHeight + transform.position.y, h.z * resolution + transform.position.z);
 		}
 
 		private bool isInBounds(HeightmapIndex h) {

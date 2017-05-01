@@ -12,10 +12,12 @@ namespace PolyNet {
 
 		public PacketAnim2HandedTrigger() {
 			id = 8;
+			size = 8;
 		}
 
 		public PacketAnim2HandedTrigger(PolyNetBehaviour b, int tid, bool rHand) : base(b){
 			id = 8;
+			size += 8;
 			triggerId = tid;
 			rightHand = rHand;
 		}

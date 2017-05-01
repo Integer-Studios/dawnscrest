@@ -30,6 +30,10 @@ namespace PolyNet {
 
 		}
 
+		public virtual int getBehaviourSpawnSize() {
+			return 0;
+		}
+
 		public virtual void writeBehaviourSpawnData(ref BinaryWriter writer) {
 			
 		}

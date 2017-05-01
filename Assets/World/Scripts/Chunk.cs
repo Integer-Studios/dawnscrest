@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using PolyNet;
+using System.IO;
 
 namespace PolyWorld {
 
-	public class Chunk : MonoBehaviour {
+	public class Chunk : PolyNetBehaviour {
 
 		private ChunkIndex index;
 		private HeightmapIndex start;
@@ -13,11 +15,52 @@ namespace PolyWorld {
 
 		public void instantiate(ChunkIndex i, float[,] worldHeight, BlockID[,] worldBlock, int worldMapSize) {
 			index = i;
-			start = WorldTerrain.terrain.toHMI (i);
-			transform.position = WorldTerrain.terrain.toPosition (i);
+			start = WorldTerrain.terrain.toHMI (index);
+			transform.position = WorldTerrain.terrain.toPosition (index);
 			refreshMaps (worldHeight, worldBlock, worldMapSize);
 			refreshMesh ();
 		}
+
+		public override int getBehaviourSpawnSize() {
+			return 50000;
+		}
+
+		public override void writeBehaviourSpawnData(ref BinaryWriter writer) {
+			writer.Write(index.x);
+			writer.Write(index.z);
+			writer.Write(heightmap.GetLength (0));
+			writer.Write(heightmap.GetLength (1));
+			for (int z = 0; z < heightmap.GetLength (1); z++) {
+				for (int x = 0; x < heightmap.GetLength (0); x++) {
+					writer.Write ((decimal)heightmap [x, z]);
+					writer.Write (blockMap [x, z].id1);
+					writer.Write (blockMap [x, z].id2);
+				}
+			}
+		}
+
+		public override void readBehaviourSpawnData(ref BinaryReader reader) {
+			index = new ChunkIndex (reader.ReadInt32 (), reader.ReadInt32 ());
+			start = WorldTerrain.terrain.toHMI (index);
+			int xw = reader.ReadInt32();
+			int zw = reader.ReadInt32();
+			heightmap = new float[xw, zw];
+			blockMap = new BlockID[xw, zw];
+			for (int z = 0; z < heightmap.GetLength (1); z++) {
+				for (int x = 0; x < heightmap.GetLength (0); x++) {
+					heightmap [x, z] = (float)reader.ReadDecimal ();
+					BlockID b = new BlockID (reader.ReadInt32 (), reader.ReadInt32 ());
+					blockMap [x, z] = b;
+				}
+			}
+			refreshMesh ();
+		}
+
+		/*
+		 * 
+		 * Private
+		 * 
+		 */
 
 		private void refreshMaps(float[,] worldHeight, BlockID[,] worldBlock, int worldMapSize) {
 			int chunkSizeX = (WorldTerrain.terrain.chunkSize / WorldTerrain.terrain.resolution) + 1;
@@ -133,12 +176,12 @@ namespace PolyWorld {
 			if (c != Color.black)
 				color.Add (c);
 			else
-				color.Add (WorldTerrain.terrain.getColor (toWorld(temp)));
+				color.Add (WorldTerrain.terrain.getColor (toWorld(temp), heightmap[temp.x,temp.z]));
 			i++;
 		}
 
 		private Vector3 toPosition(HeightmapIndex h) {
-			Vector3 t = WorldTerrain.terrain.toPosition (toWorld (h));
+			Vector3 t = WorldTerrain.terrain.toPosition (toWorld (h), heightmap[h.x,h.z]);
 			t.x -= transform.position.x;
 			t.z -= transform.position.z;
 			t.y -= transform.position.y;
