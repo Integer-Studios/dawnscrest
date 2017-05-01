@@ -6,7 +6,7 @@ namespace PolyItem {
 
 	public class HotBarInventory : WeightedInventory, ISaveable {
 
-		public override void Start() {
+		protected override void initializeSlots() {
 			slots = new WeightedSlot[3];
 			slots [0] = new WeightedSlot (2);
 			slots [1] = new WeightedSlot (3);

@@ -32,16 +32,16 @@ namespace PolyNet {
 			removeObject (i);
 			newChunk.addObject (i);
 			PolyNetPlayer[] rec = players.Except (newChunk.players).ToArray ();
-			PacketHandler.queuePacket (new PacketObjectDespawn (i), rec);
+			PacketHandler.sendPacket (new PacketObjectDespawn (i), rec);
 			rec = newChunk.players.Except (players).ToArray ();
-			PacketHandler.queuePacket (new PacketObjectSpawn (i), rec);
+			PacketHandler.sendPacket (new PacketObjectSpawn (i), rec);
 		}
 
 		public void addPlayer(PolyNetPlayer i) {
 			players.Add (i);
 			PolyNetPlayer[] rec = new PolyNetPlayer[]{ i };
 			foreach(PolyNetIdentity o in objects) {
-				PacketHandler.queuePacket (new PacketObjectSpawn (o), rec);
+				PacketHandler.sendPacket (new PacketObjectSpawn (o), rec);
 			}
 		}
 
@@ -49,12 +49,12 @@ namespace PolyNet {
 			players.Remove (i);
 			PolyNetPlayer[] rec = new PolyNetPlayer[]{ i };
 			foreach(PolyNetIdentity o in objects) {
-				PacketHandler.queuePacket (new PacketObjectDespawn (o), rec);
+				PacketHandler.sendPacket (new PacketObjectDespawn (o), rec);
 			}
 		}
 
 		public void sendPacket(Packet p) {
-			PacketHandler.queuePacket (p, players.ToArray());
+			PacketHandler.sendPacket (p, players.ToArray());
 		}
 
 		public bool inChunk(Vector3 position) {

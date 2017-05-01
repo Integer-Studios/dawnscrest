@@ -1,5 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Net.Sockets;
+using System.Net;
+using System;
+using System.Text;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -9,59 +13,71 @@ namespace PolyNet {
 
 		public static bool isActive = false;
 
-		private static int port;
-		private static int reliableChannelId, socketId, connectionId;
+		private static Socket clientSocket;
+		private static PolySocket socket;
+		private static int playerId;
 
-		public static void start (int cPort, int sPort, string sAddress) {
-			port = cPort;
-			NetworkTransport.Init();
-			ConnectionConfig config = new ConnectionConfig();
-			reliableChannelId  = config.AddChannel(QosType.Reliable);
-			HostTopology topology = new HostTopology(config, 1);
-			socketId = NetworkTransport.AddHost(topology, port);
-			Debug.Log ("PolyNet Client Started on Port: "+ port +", socketId: " + socketId);
-			byte error; connectionId = NetworkTransport.Connect(socketId, sAddress, sPort, 0, out error);
+		/*
+		 * 
+		 * Public
+		 * 
+		 */
+
+		public static void start (int sPort, string sAddress) {
+			attemptConnection (sAddress, sPort);
+			playerId = GameObject.FindObjectOfType<PolyNetManager> ().playerId;
 			isActive = true;
 		}
 
-		public static void update() {
-			int recHostId, recConnectionId, recChannelId;
-			byte[] recBuffer = new byte[1024];
-			int bufferSize = 1024;
-			int dataSize;
-			byte error;
-			NetworkEventType recNetworkEvent = NetworkTransport.Receive (out recHostId, out recConnectionId, out recChannelId, recBuffer, bufferSize, out dataSize, out error);
-			switch (recNetworkEvent) {
-			case NetworkEventType.Nothing:
-				break;
-			case NetworkEventType.ConnectEvent:
-				if (recConnectionId == connectionId)
-					onConnect ();
-				break;
-			case NetworkEventType.DataEvent:
-				onRecieveMessage (recBuffer);
-				break;
-			case NetworkEventType.DisconnectEvent:
-				onDisconnect ();
-				break;
-			}
+		public static void stop () {
+			socket.stop ();
 		}
 
-		public static void sendMessage(byte[] buffer) {
-			byte error; NetworkTransport.Send(socketId, connectionId, reliableChannelId, buffer, buffer.GetLength(0), out error);
+		// thread safe, queued
+		public static void sendMessage (byte[] b) {
+			socket.queueMessage (b);
 		}
 
-		private static void onRecieveMessage(byte[] buffer) {
-			PacketHandler.handlePacket (buffer, null);
-		}
+		/*
+		 * 
+		 * Private
+		 * 
+		 */
 
-		private static void onConnect() {
-			Debug.Log ("Connected to Server");
-			PacketHandler.queuePacket (new PacketLogin (GameObject.FindObjectOfType<PolyNetManager>().playerId), null);
+		// not main thread
+		private static void handleMessage(byte[] b) {
+			PacketHandler.receivePacket (b, null);
 		}
 
 		private static void onDisconnect() {
-			Debug.Log ("Client Disconnected");
+			Debug.Log ("Disconnected from server");
+		}
+
+		/*
+		 * 
+		 * Sockets
+		 * 
+		 */
+
+		private static void attemptConnection(string ip, int port) {
+			try {
+				clientSocket = new Socket (AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+				clientSocket.BeginConnect(new IPEndPoint(IPAddress.Parse(ip), port), new AsyncCallback(onConnect), null);
+			} catch (Exception e) {
+				Debug.LogError (e.Message);
+			}
+		}
+
+		private static void onConnect(IAsyncResult result) {
+			try {
+				Debug.Log ("Connected to Server");
+				clientSocket.EndAccept(result);
+				socket = new PolySocket(clientSocket, handleMessage, onDisconnect);
+				socket.start();
+				PacketHandler.sendPacket(new PacketLogin(playerId), null);
+			} catch (Exception e) {
+				Debug.LogError (e.Message);
+			}
 		}
 	}
 

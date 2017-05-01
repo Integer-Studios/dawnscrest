@@ -46,7 +46,7 @@ namespace PolyNet {
 			//this will send to node
 			JSONObject playerJSON = new JSONObject (JSONObject.Type.OBJECT);
 			playerJSON.AddField ("id", player.playerId);
-
+			playerJSON.AddField ("world", -1);
 			emit ("playerLogin", playerJSON);
 		}
 
@@ -55,11 +55,11 @@ namespace PolyNet {
 			Debug.Log ("Player login with ID:" + playerId);
 			//this is where node gets back to us with the data
 			JSONObject playerObjectData = e.data.GetField("object");
-			PolyNetPlayer player = PolyServer.getPlayerPId(playerId);
+			PolyNetPlayer player = PolyServer.getPlayer(playerId);
 			//eventually any player data that node wants to set can get thrown in here
 			player.setData(new Vector3(5,5,5));
 	//		player.setData (readVector(playerObjectData, "position"));
-			PolyServer.onLoginData(PolyServer.getPlayerPId(playerId));
+			PolyServer.onLoginData(PolyServer.getPlayer(playerId));
 		}
 
 		public static void emit(string identifier, JSONObject data) {

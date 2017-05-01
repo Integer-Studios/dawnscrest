@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using PolyNet;
 using System.IO;
+using System;
 
 namespace PolyItem {
 
@@ -195,7 +196,7 @@ namespace PolyItem {
 		* 
 		*/
 
-		public virtual void Start() {
+		public virtual void Awake() {
 			if (PolyServer.isActive) {
 				initializeSlots ();
 			}

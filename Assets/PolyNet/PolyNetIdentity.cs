@@ -48,7 +48,7 @@ namespace PolyNet {
 			if (PolyServer.isActive)
 				chunk.sendPacket (p);
 			else
-				PacketHandler.queuePacket (p, null);
+				PacketHandler.sendPacket (p, null);
 		}
 
 		public void writeSpawnData(ref BinaryWriter writer) {

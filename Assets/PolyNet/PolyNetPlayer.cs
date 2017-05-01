@@ -7,20 +7,14 @@ namespace PolyNet {
 
 	public class PolyNetPlayer {
 
-		public int connectionId;
+		public PolyServlet servlet;
 		public int playerId;
 		public Vector3 position;
 		public List<PolyNetChunk> loadedChunks;
 		public PolyNetIdentity identity;
-		public Queue<Packet> packetQueue;
-		public bool isAccepting;
-		public int blastCount = 0;
 
-		public PolyNetPlayer(int i) {
+		public PolyNetPlayer() {
 			loadedChunks = new List<PolyNetChunk> ();
-			packetQueue = new Queue<Packet>();
-			isAccepting = true;
-			connectionId = i;
 		}
 
 		public void setData(Vector3 p) {

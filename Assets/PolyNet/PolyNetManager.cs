@@ -33,7 +33,7 @@ namespace PolyNet {
 			}
 
 			if (isClient)
-				PolyClient.start (clientPort, serverPort, serverAddress);
+				PolyClient.start (serverPort, serverAddress);
 			else {
 				PolyNodeHandler.initialize (this);
 				PolyServer.start (serverPort);
@@ -46,10 +46,6 @@ namespace PolyNet {
 
 		void Update() {
 			PacketHandler.update ();
-			if (isClient)
-				PolyClient.update ();
-			else
-				PolyServer.update ();
 		}
 
 	}

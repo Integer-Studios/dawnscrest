@@ -857,7 +857,9 @@ namespace PolyPlayer {
 		private IEnumerator updateVitals() {
 			while (true) {
 
-				//				float temp = WorldTerrain.getTerrainTempurature (transform.position);
+				yield return new WaitForSeconds (vitalsUpdateRate);
+
+//				float temp = WorldTerrain.getTerrainTempurature (transform.position);
 				float temp = 1f;
 				if (!heated)
 					hunger -= (hungerMultiple / temp) * vitalsUpdateRate;
@@ -893,7 +895,6 @@ namespace PolyPlayer {
 
 				heated = false;
 
-				yield return new WaitForSeconds (vitalsUpdateRate);
 			}
 		}
 
