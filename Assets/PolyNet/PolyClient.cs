@@ -74,7 +74,7 @@ namespace PolyNet {
 				clientSocket.EndAccept(result);
 				socket = new PolySocket(clientSocket, handleMessage, onDisconnect);
 				socket.start();
-				PacketHandler.sendPacket(new PacketLogin(playerId), null);
+				PacketHandler.sendPacket(new PacketLogin(playerId, ""), null);
 			} catch (Exception e) {
 				Debug.LogError (e.Message);
 			}

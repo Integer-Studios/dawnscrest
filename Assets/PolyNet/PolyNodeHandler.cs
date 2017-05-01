@@ -46,20 +46,28 @@ namespace PolyNet {
 			//this will send to node
 			JSONObject playerJSON = new JSONObject (JSONObject.Type.OBJECT);
 			playerJSON.AddField ("id", player.playerId);
+			playerJSON.AddField ("session", player.session);
 			playerJSON.AddField ("world", -1);
 			emit ("playerLogin", playerJSON);
 		}
 
 		public static void receivePlayerLogin(SocketIOEvent e) {
-			int playerId = (int)e.data.GetField ("id").n;
-			Debug.Log ("Player login with ID:" + playerId);
-			//this is where node gets back to us with the data
-			JSONObject playerObjectData = e.data.GetField("object");
-			PolyNetPlayer player = PolyServer.getPlayer(playerId);
-			//eventually any player data that node wants to set can get thrown in here
-			player.setData(new Vector3(5,400,5));
-	//		player.setData (readVector(playerObjectData, "position"));
-			PolyServer.onLoginData(PolyServer.getPlayer(playerId));
+			bool status = e.data.GetField ("status").b;
+			if (status) {
+				JSONObject data = e.data.GetField ("player");
+				int playerId = (int)data.GetField ("id").n;
+				Debug.Log ("Player login with ID:" + playerId);
+				//this is where node gets back to us with the data
+				JSONObject playerObjectData = data.GetField ("object");
+				PolyNetPlayer player = PolyServer.getPlayer (playerId);
+				//eventually any player data that node wants to set can get thrown in here
+				player.setData (new Vector3 (5, 400, 5));
+				//		player.setData (readVector(playerObjectData, "position"));
+				PolyServer.onLoginData (PolyServer.getPlayer (playerId));
+			} else {
+				//login failed
+				Debug.Log("Login failed!");
+			}
 		}
 
 		public static void emit(string identifier, JSONObject data) {

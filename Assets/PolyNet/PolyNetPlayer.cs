@@ -12,6 +12,7 @@ namespace PolyNet {
 		public Vector3 position;
 		public List<PolyNetChunk> loadedChunks;
 		public PolyNetIdentity identity;
+		public string session;
 
 		public PolyNetPlayer() {
 			loadedChunks = new List<PolyNetChunk> ();
