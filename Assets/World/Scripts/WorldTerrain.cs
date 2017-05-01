@@ -40,7 +40,7 @@ namespace PolyWorld {
 		public static WorldTerrain terrain;
 		private float[,] heightmap;
 		private BlockID[,] blockMap;
-		private int heightmapSize;
+		public int heightmapSize;
 
 		/*
 		 * 
@@ -91,6 +91,15 @@ namespace PolyWorld {
 			return humidityMultiplier* ((ele + lat)/(elevationHumidity + latitudeHumidity));
 		}
 
+		private float getHumidity(HeightmapIndex h, float indexHeight) {
+			float ele = (height - indexHeight)/height;
+			//south = 0 north = 1
+			float lat = (float)(h.z) / (float)heightmapSize;
+			ele *= elevationHumidity;
+			lat *= latitudeHumidity;
+			return humidityMultiplier* ((ele + lat)/(elevationHumidity + latitudeHumidity));
+		}
+
 		private float getTempurature(HeightmapIndex h) {
 			return getTempurature(h, false);
 		}
@@ -101,6 +110,7 @@ namespace PolyWorld {
 
 		private float getTempurature(HeightmapIndex h, bool time, float indexHeight) {
 			float ele = (height - indexHeight)/height;
+
 			//south = 1 north = 0
 			float lat = (float)(heightmapSize - h.z) / (float)heightmapSize;
 			ele *= elevationTempurature;
@@ -143,13 +153,13 @@ namespace PolyWorld {
 			Color c;
 			if (t > grassPoint) {
 				c = grass;
-				c = mix (sand,c, getHumidity (h));
+				c = mix (sand,c, getHumidity (h, indexHeight));
 			} else if (t > dirtPoint) {
 				c = mix (dirt, grass, getGradientPoint (dirtPoint, grassPoint, t));
-				c = mix (sand,c, getHumidity (h));
+				c = mix (sand,c, getHumidity (h, indexHeight));
 			} else if (t > stonePoint) {
 				c = mix (stone, dirt, getGradientPoint (stonePoint, dirtPoint, t));
-				c = mix (sand,c, getHumidity (h));
+				c = mix (sand,c, getHumidity (h, indexHeight));
 			} else if (t > snowPoint) {
 				c = mix (snow, stone, getGradientPoint (snowPoint, stonePoint, t));
 			} else

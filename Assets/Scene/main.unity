@@ -17237,7 +17237,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 73782025}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a94ec540c7ed54570bd0f656196a6d9d, type: 3}
   m_Name: 
@@ -17247,7 +17247,7 @@ MonoBehaviour:
   resolution: 4
   size: 2048
   chunkSize: 64
-  height: 400
+  height: 200
   grass: {r: 0.2794118, g: 1, b: 0.49310344, a: 0}
   grassPoint: 0.8
   dirt: {r: 0.86764705, g: 0.43787134, b: 0.15949394, a: 0}
@@ -17262,7 +17262,7 @@ MonoBehaviour:
   elevationHumidity: 0
   latitudeHumidity: 1
   humidityMultiplier: 3
-  tempuratureMultiplier: 1
+  tempuratureMultiplier: 2
   renderDistanceTerrain: 100
   renderDistanceDecorations: 100
   blockRegister:
@@ -17278,6 +17278,7 @@ MonoBehaviour:
   blockOffset: {x: 0, y: 1, z: 0}
   chunkPrefab: {fileID: 1817784262469390, guid: c01401ffd9e9640e7b334a33d5b398a7,
     type: 2}
+  heightmapSize: 512
 --- !u!4 &73782027
 Transform:
   m_ObjectHideFlags: 0
