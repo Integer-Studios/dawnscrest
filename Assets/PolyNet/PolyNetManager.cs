@@ -52,6 +52,17 @@ namespace PolyNet {
 			PacketHandler.update ();
 		}
 
+		void OnApplicationQuit() {
+			stop ();
+		}
+
+		private void stop() {
+			if (isClient)
+				PolyClient.start ();
+			else 
+				PolyServer.start ();
+		}
+
 	}
 
 
