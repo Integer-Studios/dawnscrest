@@ -4,6 +4,7 @@ using System.Net.Sockets;
 using System.Net;
 using System;
 using System.Text;
+using System.Threading;
 using UnityEngine;
 
 namespace PolyNet {
@@ -74,6 +75,7 @@ namespace PolyNet {
 		}
 
 		private void onSendComplete() {
+			Thread.Sleep (2);
 			if (messages.Count > 0) {
 				lock (messages) {
 					send (messages.Dequeue ());
@@ -109,6 +111,7 @@ namespace PolyNet {
 		private void onReceiveData(IAsyncResult result) {
 			if (!isActive)
 				return;
+			Debug.Log ("data");
 			try {
 				socket.EndReceive(result);
 				handleData();
@@ -126,6 +129,7 @@ namespace PolyNet {
 			
 			if (!isActive)
 				return;
+			Debug.Log ("size");
 			try {
 				socket.EndReceive(result);
 				setBufferSize(BitConverter.ToInt32(buffer, 0));
