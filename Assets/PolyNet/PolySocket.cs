@@ -75,7 +75,7 @@ namespace PolyNet {
 		}
 
 		private void onSendComplete() {
-			Thread.Sleep (2);
+			Thread.Sleep (10);
 			if (messages.Count > 0) {
 				lock (messages) {
 					send (messages.Dequeue ());

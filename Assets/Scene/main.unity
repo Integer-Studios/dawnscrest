@@ -3636,7 +3636,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 1402}
-  m_IndirectSpecularColor: {r: 0.43882856, g: 0.5011679, b: 0.5650366, a: 1}
+  m_IndirectSpecularColor: {r: 0.43881392, g: 0.50115246, b: 0.56503356, a: 1}
 --- !u!108 &1402
 Light:
   m_ObjectHideFlags: 0
@@ -15761,7 +15761,7 @@ MonoBehaviour:
   serverAddress: 10.0.0.10
   serverPort: 8888
   clientPort: 8889
-  isClient: 1
+  isClient: 0
   playerId: 1
   chunkSize: 64
   chunkLoadRadius: 2
@@ -17306,7 +17306,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b637a4f19fd0481caeb42cc9dbd60b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  size: 2048
+  size: 20
   density: 0.5
   chill: 0
   prefabs:
