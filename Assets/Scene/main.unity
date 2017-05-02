@@ -17306,8 +17306,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b637a4f19fd0481caeb42cc9dbd60b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  size: 20
-  density: 0.5
+  size: 128
+  density: 0.3
   chill: 0
   prefabs:
   - {fileID: 1025882632470590, guid: 8a463b77d1dbb49e7bf968f8d16e4979, type: 2}

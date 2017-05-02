@@ -78,7 +78,7 @@ namespace PolyNet {
 		public static void requestHeightmap() {
 			JSONObject jsonObj = new JSONObject (JSONObject.Type.OBJECT);
 			jsonObj.AddField ("world", manager.worldID);
-//			emit("heightmap", jsonObj);
+			emit("heightmap", jsonObj);
 			Debug.Log ("Requesting Height Map...");
 		}
 

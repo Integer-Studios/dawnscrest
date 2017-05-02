@@ -40,7 +40,7 @@ namespace PolyNet {
 			}
 			yield return new WaitForSeconds (0.1f);
 
-//			PolyWorld.WorldTerrain.terrain.initializeHeightmap (heightmap);
+			PolyWorld.WorldTerrain.terrain.initializeHeightmap (heightmap);
 
 		}
 
