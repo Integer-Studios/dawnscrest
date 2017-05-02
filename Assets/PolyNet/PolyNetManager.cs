@@ -58,9 +58,9 @@ namespace PolyNet {
 
 		private void stop() {
 			if (isClient)
-				PolyClient.start ();
+				PolyClient.stop ();
 			else 
-				PolyServer.start ();
+				PolyServer.stop ();
 		}
 
 	}
