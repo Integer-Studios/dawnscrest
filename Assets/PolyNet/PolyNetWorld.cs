@@ -27,6 +27,23 @@ namespace PolyNet {
 			}
 		}
 
+		public static IEnumerator loadHeightMap(JSONObject mapObj) {
+			int size = PolyWorld.WorldTerrain.terrain.size;
+			int resolution = PolyWorld.WorldTerrain.terrain.resolution;
+			int heightmapSize = (int)(size / resolution);
+			float[,] heightmap = new float[heightmapSize, heightmapSize];
+			foreach (JSONObject ind in mapObj.list) {
+				int x = (int)ind.list [0].n;
+				int z = (int)ind.list [1].n;
+				float height = ind.list [2].n;
+				heightmap [x, z] = height;
+			}
+			yield return new WaitForSeconds (0.1f);
+
+			PolyWorld.WorldTerrain.terrain.initializeHeightmap (heightmap);
+
+		}
+
 		public static void addPlayer(PolyNetPlayer p) {
 			//load world
 			p.refreshLoadedChunks ();
