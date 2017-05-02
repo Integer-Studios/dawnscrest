@@ -82,7 +82,7 @@ namespace PolyNet {
 		private static void attemptListen() {
 			try {
 				serverSocket = new Socket (AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-				serverSocket.Bind(new IPEndPoint(IPAddress.Parse("127.0.0.1"), port));
+				serverSocket.Bind(new IPEndPoint(IPAddress.Parse("10.0.0.10"), port));
 				serverSocket.Listen (0);
 				serverSocket.BeginAccept (new AsyncCallback (onConnection), null);
 			} catch (Exception e) {
