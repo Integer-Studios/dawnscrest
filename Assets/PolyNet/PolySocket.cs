@@ -111,7 +111,6 @@ namespace PolyNet {
 		private void onReceiveData(IAsyncResult result) {
 			if (!isActive)
 				return;
-			Debug.Log ("data");
 			try {
 				socket.EndReceive(result);
 				handleData();
@@ -129,7 +128,6 @@ namespace PolyNet {
 			
 			if (!isActive)
 				return;
-			Debug.Log ("size");
 			try {
 				socket.EndReceive(result);
 				setBufferSize(BitConverter.ToInt32(buffer, 0));
