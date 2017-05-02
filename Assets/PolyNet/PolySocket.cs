@@ -16,6 +16,7 @@ namespace PolyNet {
 
 		private Socket socket;
 		private byte[] buffer;
+		private int bufferSize;
 		private byte[] toSend;
 		private MessageHandler handler;
 		private DisconnectHandler onDisconnect;
@@ -91,6 +92,7 @@ namespace PolyNet {
 			if (!isActive)
 				return;
 			try {
+				
 				toSend = b;
 				byte[] sizeBuf = BitConverter.GetBytes(toSend.Length);
 				socket.BeginSend (sizeBuf, 0, 4, SocketFlags.None, new AsyncCallback (onBufferSizeSent), null);
@@ -103,8 +105,14 @@ namespace PolyNet {
 		}
 
 		private void setBufferSize(int i) {
-			buffer = new byte[i];
+			bufferSize = i;
+			ressetBufferSize ();
 		}
+
+		private void ressetBufferSize() {
+			buffer = new byte[bufferSize];
+		}
+
 
 		// Low Level Callbacks
 
@@ -112,10 +120,15 @@ namespace PolyNet {
 			if (!isActive)
 				return;
 			try {
-				socket.EndReceive(result);
-				handleData();
-				setBufferSize(4);
-				socket.BeginReceive (buffer, 0, buffer.Length, SocketFlags.None, new AsyncCallback (onReceiveBufferSize), null);
+				if (buffer.Length == 0) {
+					socket.BeginReceive (buffer, 0, buffer.Length, SocketFlags.None, new AsyncCallback (onReceiveData), null);
+					ressetBufferSize();
+				} else {
+					socket.EndReceive(result);
+					handleData();
+					setBufferSize(4);
+					socket.BeginReceive (buffer, 0, buffer.Length, SocketFlags.None, new AsyncCallback (onReceiveBufferSize), null);
+				}
 			} catch (SocketException e) {
 				if (isActive)
 					stop ();
@@ -129,9 +142,14 @@ namespace PolyNet {
 			if (!isActive)
 				return;
 			try {
-				socket.EndReceive(result);
-				setBufferSize(BitConverter.ToInt32(buffer, 0));
-				socket.BeginReceive (buffer, 0, buffer.Length, SocketFlags.None, new AsyncCallback (onReceiveData), null);
+				if (buffer.Length == 0) {
+					ressetBufferSize();
+					socket.BeginReceive (buffer, 0, buffer.Length, SocketFlags.None, new AsyncCallback (onReceiveBufferSize), null);
+				} else {
+					socket.EndReceive(result);
+					setBufferSize(BitConverter.ToInt32(buffer, 0));
+					socket.BeginReceive (buffer, 0, buffer.Length, SocketFlags.None, new AsyncCallback (onReceiveData), null);
+				}
 			} catch (SocketException e) {
 				if (isActive)
 					stop ();

@@ -59,7 +59,6 @@ namespace PolyNet {
 			MemoryStream stream = new MemoryStream (buffer);
 			BinaryReader reader = new BinaryReader (stream);
 			int id = reader.ReadInt32 ();
-			Debug.Log (id);
 			Packet p = Packet.getPacket (id);
 			if (p == null)
 				Debug.Log ("Unknown packet id: " + id);
