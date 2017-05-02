@@ -49,15 +49,17 @@ namespace PolyWorld {
 		 */
 
 		private void Start() {
+			heightmapSize = (int)(size / resolution);
 			terrain = this;
 			Block.setBlocks (blockRegister);
 			if (!PolyServer.isActive)
 				return;
-			generateHeightmap ();
+		}
+
+		public void initializeHeightmap(float[,] map) {
+			heightmap = map;
 			generateBlockmap ();
-
 			StartCoroutine (generateChunks ());
-
 		}
 
 		private IEnumerator generateChunks() {
@@ -71,6 +73,7 @@ namespace PolyWorld {
 					yield return null;
 				}
 			}
+
 		}
 
 		// World Info
@@ -259,6 +262,7 @@ namespace PolyWorld {
 				for (int xi = 0; xi < heightmapSize; ++xi) {
 					float u = ((float)xi) / ((float)heightmapSize);
 					float v = ((float)zi) / ((float)heightmapSize);
+
 					heightmap [xi, zi] = height * rawHeightmap [(int)(u * rawHeightMapSize), (int)(v * rawHeightMapSize)];
 				}
 			}

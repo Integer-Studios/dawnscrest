@@ -37,7 +37,12 @@ namespace PolyNet {
 				Application.Quit ();
 			} else {
 				socket.On ("playerLogin", receivePlayerLogin);
+				socket.On ("heightmap", receiveHeightmap);
+
 				socket.On ("disconnect", receiveDisconnect);
+
+				requestHeightmap ();
+
 			}
 		}
 
@@ -70,6 +75,20 @@ namespace PolyNet {
 			}
 		}
 
+		public static void requestHeightmap() {
+			JSONObject jsonObj = new JSONObject (JSONObject.Type.OBJECT);
+			jsonObj.AddField ("world", manager.worldID);
+			emit("heightmap", jsonObj);
+			Debug.Log ("Requesting Height Map...");
+		}
+
+		public static void receiveHeightmap(SocketIOEvent e) {
+			JSONObject mapObj = JSONObject.Create (e.data.GetField("map").str, 1, true, true);
+			Debug.Log ("Loading Height Map...");
+
+			manager.StartCoroutine (PolyNetWorld.loadHeightMap(mapObj));
+		}
+	
 		public static void emit(string identifier, JSONObject data) {
 			if (socket.IsConnected) {
 				socket.Emit (identifier, data);
@@ -89,6 +108,5 @@ namespace PolyNet {
 		}
 
 	}
-
 
 }

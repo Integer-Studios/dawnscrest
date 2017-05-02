@@ -15,7 +15,11 @@ namespace PolyNet {
 		public float chunkSize;
 		public int chunkLoadRadius;
 		public int port = 0;
+		public string rawFile;
 		public PolyNetIdentity playerPrefab;
+
+		[HideInInspector]
+		public int worldID = -1;
 
 		// Use this for initialization
 		void Awake () {

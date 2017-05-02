@@ -3636,7 +3636,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 1402}
-  m_IndirectSpecularColor: {r: 0.43882856, g: 0.5011679, b: 0.5650366, a: 1}
+  m_IndirectSpecularColor: {r: 0.43881392, g: 0.50115246, b: 0.56503356, a: 1}
 --- !u!108 &1402
 Light:
   m_ObjectHideFlags: 0
@@ -15761,13 +15761,15 @@ MonoBehaviour:
   serverAddress: 127.0.0.1
   serverPort: 8888
   clientPort: 8889
-  isClient: 1
+  isClient: 0
   playerId: 1
   chunkSize: 64
   chunkLoadRadius: 2
-  port: 1
+  port: 2
+  rawFile: /Users/quinnfinney/Desktop/Work/Realms/realms/Assets/Resources/World/Raws/delon.raw
   playerPrefab: {fileID: 114556338368701086, guid: 89883fb31b4a84a25bda6bd650ec220a,
     type: 2}
+  worldID: -1
 --- !u!114 &2046
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17242,7 +17244,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a94ec540c7ed54570bd0f656196a6d9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rawFile: /Users/trefethen/Documents/unity/realms/Assets/World/Resources/Raws/64.raw
+  rawFile: /Users/quinnfinney/Desktop/Work/Realms/realms/Assets/Resources/World/Raws/delon.raw
   rawHeightMapOrder: 1
   resolution: 4
   size: 2048
