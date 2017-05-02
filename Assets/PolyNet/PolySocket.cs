@@ -16,7 +16,6 @@ namespace PolyNet {
 
 		private Socket socket;
 		private byte[] buffer;
-		private int bufferSize;
 		private byte[] toSend;
 		private MessageHandler handler;
 		private DisconnectHandler onDisconnect;
@@ -76,8 +75,15 @@ namespace PolyNet {
 		}
 
 		private void onSendComplete() {
-			Thread.Sleep (10);
+
+
 			if (messages.Count > 0) {
+				Thread.Sleep (2);
+
+				if (!socket.Poll (0, SelectMode.SelectWrite)) {
+					onSendComplete ();
+					return;
+				}
 				lock (messages) {
 					send (messages.Dequeue ());
 				}
@@ -105,14 +111,8 @@ namespace PolyNet {
 		}
 
 		private void setBufferSize(int i) {
-			bufferSize = i;
-			ressetBufferSize ();
+			buffer = new byte[i];
 		}
-
-		private void ressetBufferSize() {
-			buffer = new byte[bufferSize];
-		}
-
 
 		// Low Level Callbacks
 
@@ -120,15 +120,11 @@ namespace PolyNet {
 			if (!isActive)
 				return;
 			try {
-				if (buffer.Length == 0) {
-					socket.BeginReceive (buffer, 0, buffer.Length, SocketFlags.None, new AsyncCallback (onReceiveData), null);
-					ressetBufferSize();
-				} else {
-					socket.EndReceive(result);
-					handleData();
-					setBufferSize(4);
-					socket.BeginReceive (buffer, 0, buffer.Length, SocketFlags.None, new AsyncCallback (onReceiveBufferSize), null);
-				}
+				
+				socket.EndReceive(result);
+				handleData();
+				setBufferSize(4);
+				socket.BeginReceive (buffer, 0, buffer.Length, SocketFlags.None, new AsyncCallback (onReceiveBufferSize), null);
 			} catch (SocketException e) {
 				if (isActive)
 					stop ();
@@ -142,14 +138,9 @@ namespace PolyNet {
 			if (!isActive)
 				return;
 			try {
-				if (buffer.Length == 0) {
-					ressetBufferSize();
-					socket.BeginReceive (buffer, 0, buffer.Length, SocketFlags.None, new AsyncCallback (onReceiveBufferSize), null);
-				} else {
-					socket.EndReceive(result);
-					setBufferSize(BitConverter.ToInt32(buffer, 0));
-					socket.BeginReceive (buffer, 0, buffer.Length, SocketFlags.None, new AsyncCallback (onReceiveData), null);
-				}
+				socket.EndReceive(result);
+				setBufferSize(BitConverter.ToInt32(buffer, 0));
+				socket.BeginReceive (buffer, 0, buffer.Length, SocketFlags.None, new AsyncCallback (onReceiveData), null);
 			} catch (SocketException e) {
 				if (isActive)
 					stop ();
