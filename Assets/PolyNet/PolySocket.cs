@@ -7,176 +7,202 @@ using System.Text;
 using System.Threading;
 using UnityEngine;
 
-namespace PolyNet {
+//namespace PolyNet {
 
-	public class PolySocket {
+public class PolySocket {
 
-		public delegate void MessageHandler(byte[] b);
-		public delegate void DisconnectHandler();
+	public delegate void MessageHandler(byte[] b);
+	public delegate void DisconnectHandler();
 
-		private Socket socket;
-		private byte[] buffer;
-		private byte[] toSend;
-		private MessageHandler handler;
-		private DisconnectHandler onDisconnect;
-		private Queue<byte[]> messages;
-		private bool busy = false;
-		private bool isActive = false;
+	private Socket socket;
+	private MessageHandler handler;
+	private DisconnectHandler onDisconnect;
+	private Queue<byte[]> messages;
+	private bool busy = false;
+	private byte[] toSend;
+	private bool receivingSize;
+	private bool sendingSize;
+	private bool isActive;
 
-		/*
-		 * 
-		 * Public Interface
-		 * 
-		 */
+	private byte[] finalReceiveBuffer;
+	private byte[] receiveBuffer;
+	private int receiveBufferSize;
+	private int currentReceived;
+	private byte[] sendBuffer;
+	private int sendBufferSize;
+	private int currentSent;
 
-		public PolySocket(Socket s, MessageHandler h, DisconnectHandler d) {
-			socket = s;
-			handler = h;
-			onDisconnect = d;
-			messages = new Queue<byte[]> ();
-			buffer = new byte[4];
-		}
+	/*
+	 * 
+	 * Public Interface
+	 * 
+	 */
 
-		public void start() {
-			isActive = true;
-			socket.BeginReceive (buffer, 0, buffer.Length, SocketFlags.None, new AsyncCallback (onReceiveBufferSize), null);
-		}
+	public PolySocket(Socket s, MessageHandler h, DisconnectHandler d) {
+		socket = s;
+		handler = h;
+		onDisconnect = d;
+		messages = new Queue<byte[]> ();
+		isActive = false;
+	}
 
-		public void stop () {
-			isActive = false;
-			socket.Close ();
-			onDisconnect ();
-		}
+	public void start() {
+		isActive = true;
+		setReceiveSize (4);
+		receivingSize = true;
+		socket.BeginReceive (receiveBuffer, 0, receiveBufferSize, SocketFlags.None, new AsyncCallback (receiveCallback), null);
+	}
 
-		public void queueMessage(byte[] b) {
-			if (!busy) {
-				busy = true;
-				send (b);
-			} else {
-				busy = true;
-				lock (messages) {
-					messages.Enqueue (b);
-				}
-			}
-		}
+	public void stop () {
+		isActive = false;
+		socket.Close ();
+		onDisconnect ();
+	}
 
-		/*
-		 * 
-		 * Private
-		 * 
-		 */
-
-		// Abstract
-
-		private void handleData() {
-			byte[] data = new byte[buffer.Length];
-			Array.Copy (buffer, data, buffer.Length);
-			handler(data);
-		}
-
-		private void onSendComplete() {
-
-
-			if (messages.Count > 0) {
-				Thread.Sleep (2);
-
-				if (!socket.Poll (0, SelectMode.SelectWrite)) {
-					onSendComplete ();
-					return;
-				}
-				lock (messages) {
-					send (messages.Dequeue ());
-				}
-			} else {
-				busy = false;
-			}
-		}
-
-		// Low Level
-
-		private void send(byte[] b) {
-			if (!isActive)
-				return;
-			try {
-				
-				toSend = b;
-				byte[] sizeBuf = BitConverter.GetBytes(toSend.Length);
-				socket.BeginSend (sizeBuf, 0, 4, SocketFlags.None, new AsyncCallback (onBufferSizeSent), null);
-			} catch (SocketException e) {
-				if (isActive)
-					stop ();
-			} catch (Exception e) {
-					Debug.LogError (e.Message);
-			}
-		}
-
-		private void setBufferSize(int i) {
-			buffer = new byte[i];
-		}
-
-		// Low Level Callbacks
-
-		private void onReceiveData(IAsyncResult result) {
-			if (!isActive)
-				return;
-			try {
-				
-				socket.EndReceive(result);
-				handleData();
-				setBufferSize(4);
-				socket.BeginReceive (buffer, 0, buffer.Length, SocketFlags.None, new AsyncCallback (onReceiveBufferSize), null);
-			} catch (SocketException e) {
-				if (isActive)
-					stop ();
-			} catch (Exception e) {
-					Debug.LogError (e.Message);
-			}
-		}
-
-		private void onReceiveBufferSize(IAsyncResult result) {
-			
-			if (!isActive)
-				return;
-			try {
-				socket.EndReceive(result);
-				setBufferSize(BitConverter.ToInt32(buffer, 0));
-				socket.BeginReceive (buffer, 0, buffer.Length, SocketFlags.None, new AsyncCallback (onReceiveData), null);
-			} catch (SocketException e) {
-				if (isActive)
-					stop ();
-			}
-			catch (Exception e) {
-					Debug.LogError (e.Message);
-			}
-		}
-
-		private void onBufferSizeSent(IAsyncResult result) {
-			if (!isActive)
-				return;
-			try {
-				socket.EndSend(result);
-				socket.BeginSend (toSend, 0, toSend.Length, SocketFlags.None, new AsyncCallback (onDataSent), null);
-			} catch (SocketException e) {
-				if (isActive)
-					stop ();
-			} catch (Exception e) {
-					Debug.LogError (e.Message);
-			}
-		}
-
-		private void onDataSent(IAsyncResult result) {
-			if (!isActive)
-				return;
-			try {
-				socket.EndSend(result);
-				onSendComplete();
-			} catch (SocketException e) {
-				if (isActive)
-					stop ();
-			} catch (Exception e) {
-					Debug.LogError (e.Message);
+	public void queueMessage(byte[] b) {
+		if (!isActive)
+			return;
+		if (!busy) {
+			busy = true;
+			send (b);
+		} else {
+			busy = true;
+			lock (messages) {
+				messages.Enqueue (b);
 			}
 		}
 	}
 
+	/*
+	 * 
+	 * Private
+	 * 
+	 */
+
+	// Abstraction 2
+
+	private void send(byte[] b) {
+		if (!isActive)
+			return;
+		toSend = b;
+		// send size packet
+		sendingSize = true;
+		setSend (BitConverter.GetBytes(toSend.Length));
+		socket.BeginSend(sendBuffer, 0, sendBufferSize, SocketFlags.None, new AsyncCallback(sendCallback), null); 
+	}
+
+	private void onSendComplete() {
+		if (!isActive)
+			return;
+		if (messages.Count > 0) {
+			if (!socket.Poll (0, SelectMode.SelectWrite)) {
+				Thread.Sleep (2);
+				onSendComplete ();
+			} else {
+				lock (messages) {
+					send (messages.Dequeue ());
+				}
+			}
+		} else {
+			busy = false;
+		}
+	}
+
+	private void onReceiveComplete() {
+		if (!isActive)
+			return;
+		byte[] data = new byte[finalReceiveBuffer.Length];
+		Array.Copy (finalReceiveBuffer, data, finalReceiveBuffer.Length);
+		handler(data);
+
+		// begin listening for size again
+		setReceiveSize (4);
+		receivingSize = true;
+		socket.BeginReceive (receiveBuffer, 0, receiveBufferSize, SocketFlags.None, new AsyncCallback (receiveCallback), null);
+	}
+
+	// Abstraction 1
+
+	private void onReceived() {
+		if (!isActive)
+			return;
+		// final receive buffer is filled
+		if (receivingSize) {
+			receivingSize = false;
+			setReceiveSize (BitConverter.ToInt32 (finalReceiveBuffer, 0));
+			socket.BeginReceive (receiveBuffer, 0, receiveBufferSize, SocketFlags.None, new AsyncCallback (receiveCallback), null);
+		} else {
+			onReceiveComplete ();
+		}
+	}
+
+	private void onSent() {
+		if (!isActive)
+			return;
+		// send buffer fully sent
+		if (sendingSize) {
+			// send data packet
+			sendingSize = false;
+			setSend (toSend);
+			socket.BeginSend (sendBuffer, 0, sendBufferSize, SocketFlags.None, new AsyncCallback (sendCallback), null); 
+		} else {
+			onSendComplete ();
+		}
+	}
+
+	// Low Level
+
+	private void receiveCallback(IAsyncResult ar) {
+		if (!isActive)
+			return;
+		try {
+			int prev = currentReceived;
+			currentReceived += socket.EndReceive (ar);
+			Buffer.BlockCopy(receiveBuffer, 0, finalReceiveBuffer, prev, currentReceived-prev);
+			if (currentReceived < receiveBufferSize) {
+				socket.BeginReceive (receiveBuffer, 0, receiveBufferSize-currentReceived, SocketFlags.None, new AsyncCallback (receiveCallback), null);
+			} else {
+				onReceived ();
+			}
+		} catch (SocketException e) {
+			if (isActive)
+				stop ();
+		} catch (Exception e) {
+			Debug.LogError (e.Message);
+		}
+	}
+
+	private void sendCallback(IAsyncResult ar) {
+		if (!isActive)
+			return;
+		try {
+			currentSent += socket.EndSend (ar);
+			if (currentSent < sendBufferSize) {
+				socket.BeginSend(sendBuffer, currentSent, sendBufferSize-currentSent, SocketFlags.None, new AsyncCallback(sendCallback), null);
+			} else {
+				onSent ();
+			}
+		} catch (SocketException e) {
+			if (isActive)
+				stop ();
+		} catch (Exception e) {
+			Debug.LogError (e.Message);
+		}
+	}
+
+	private void setReceiveSize(int i) {
+		receiveBufferSize = i;
+		currentReceived = 0;
+		receiveBuffer = new byte[receiveBufferSize];
+		finalReceiveBuffer = new byte[receiveBufferSize];
+	}
+
+	private void setSend(byte[] b) {
+		sendBufferSize = b.Length;
+		sendBuffer = b;
+	}
+
 }
+
+
+//}

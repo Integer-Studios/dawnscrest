@@ -24,9 +24,9 @@ namespace PolyNet {
 		 * 
 		 */
 
-		public static void start (int sPort) {
+		public static void start (int sPort, string sAddress) {
 			port = sPort;
-			attemptListen ();
+			attemptListen (sAddress);
 			isActive = true;
 		}
 
@@ -79,10 +79,10 @@ namespace PolyNet {
 		 * 
 		 */
 
-		private static void attemptListen() {
+		private static void attemptListen(string sAddress) {
 			try {
 				serverSocket = new Socket (AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-				serverSocket.Bind(new IPEndPoint(IPAddress.Parse("10.0.0.10"), port));
+				serverSocket.Bind(new IPEndPoint(IPAddress.Parse(sAddress), port));
 				serverSocket.Listen (0);
 				serverSocket.BeginAccept (new AsyncCallback (onConnection), null);
 			} catch (Exception e) {

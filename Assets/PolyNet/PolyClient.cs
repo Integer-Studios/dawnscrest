@@ -23,8 +23,8 @@ namespace PolyNet {
 		 * 
 		 */
 
-		public static void start (int sPort, string sAddress) {
-			attemptConnection (sAddress, sPort);
+		public static void start (int sPort, string cAddress) {
+			attemptConnection (cAddress, sPort);
 			playerId = GameObject.FindObjectOfType<PolyNetManager> ().playerId;
 			isActive = true;
 		}

@@ -8,8 +8,8 @@ namespace PolyNet {
 	public class PolyNetManager : MonoBehaviour {
 
 		public string serverAddress;
+		public string externalAddress;
 		public int serverPort;
-		public int clientPort;
 		public bool isClient;
 		public int playerId;
 		public float chunkSize;
@@ -37,10 +37,10 @@ namespace PolyNet {
 			}
 
 			if (isClient)
-				PolyClient.start (serverPort, serverAddress);
+				PolyClient.start (serverPort, externalAddress);
 			else {
 				PolyNodeHandler.initialize (this);
-				PolyServer.start (serverPort);
+				PolyServer.start (serverPort, serverAddress);
 			}
 		}
 
