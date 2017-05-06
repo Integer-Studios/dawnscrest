@@ -17,16 +17,21 @@ namespace PolyNet {
 		private static PolySocket socket;
 		private static int playerId;
 
+		private static PolyNetManager.StartSequenceDelegate onConnectDelegate;
+		private static int startSequenceId;
+		private static PolyNetManager manager;
 		/*
 		 * 
 		 * Public
 		 * 
 		 */
 
-		public static void start (int sPort, string cAddress) {
+		public static void start (PolyNetManager man, PolyNetManager.StartSequenceDelegate del, int ssid, int sPort, string cAddress) {
+			manager = man;
+			onConnectDelegate = del;
+			startSequenceId = ssid;
 			attemptConnection (cAddress, sPort);
 			playerId = GameObject.FindObjectOfType<PolyNetManager> ().playerId;
-			isActive = true;
 		}
 
 		public static void stop () {
@@ -70,11 +75,11 @@ namespace PolyNet {
 
 		private static void onConnect(IAsyncResult result) {
 			try {
-				Debug.Log ("Connected to Server");
 				clientSocket.EndAccept(result);
 				socket = new PolySocket(clientSocket, handleMessage, onDisconnect);
 				socket.start();
-				PacketHandler.sendPacket(new PacketLogin(playerId, ""), null);
+				Debug.Log ("Startup[" + startSequenceId + "]: Connected to Server");
+				onConnectDelegate(startSequenceId);
 			} catch (Exception e) {
 				Debug.LogError (e.Message);
 			}

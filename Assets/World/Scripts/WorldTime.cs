@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using PolyNet;
+using Borodar.FarlandSkies.LowPoly;
 
 namespace PolyWorld {
 
 	public class WorldTime : PolyNetBehaviour {
 
 		// Vars : public, protected, private, hide
-		public GameObject sun;
 		public float dayLength;
 		public float startTime;
 		public float tempuratureVolatility = 1f;
@@ -71,10 +71,10 @@ namespace PolyWorld {
 		}
 
 		private void Update() {
-			sun.transform.eulerAngles = new Vector3 (360f * getDayPercent(), 0f, 0f);
+			SkyboxDayNightCycle.Instance.TimeOfDay = getDayPercent()*100f;
 
-			if (!PolyServer.isActive)
-				return;
+//			if (!PolyServer.isActive)
+//				return;
 			
 			time += Time.deltaTime;
 

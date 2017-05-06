@@ -14,7 +14,9 @@ namespace PolyNet {
 			manager = m;
 			onComplete = del;
 			startSequenceId = ssid;
-			loadHeightmap ();
+
+			PolyWorld.WorldTerrain.terrain.createTerrain (null, onTerrainGenerated);
+//			loadHeightmap ();
 		}
 
 		private static void loadHeightmap() {

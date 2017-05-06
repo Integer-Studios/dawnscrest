@@ -27,7 +27,6 @@ namespace PolyNet {
 		public static void initialize (PolyNetManager m, PolyNetManager.StartSequenceDelegate onConnect, int ssid) {
 			manager = m;
 			attemptListen ();
-			isActive = true;
 			Debug.Log ("Startup[" + ssid + "]: Server Successfully Started.");
 			onConnect (ssid);
 		}
@@ -78,7 +77,7 @@ namespace PolyNet {
 				return;
 			}
 			PolyNetPlayer player = JSONHelper.unwrap (obj.GetField ("player"));
-			player.setData (new Vector3 (5, 400, 5));
+			player.setData (new Vector3 (5, 50, 5));
 			Debug.Log ("Player login with ID:" + player.playerId);
 			PolyNetWorld.addPlayer (player);
 		}

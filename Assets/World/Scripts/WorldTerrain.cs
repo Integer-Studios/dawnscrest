@@ -59,7 +59,8 @@ namespace PolyWorld {
 		}
 
 		public void createTerrain(float[,] map, TerrainGenerated g) {
-			heightmap = map;
+//			heightmap = map;
+			generateHeightmap();
 			generateBlockmap ();
 			StartCoroutine (generateChunks (g));
 		}
@@ -71,7 +72,7 @@ namespace PolyWorld {
 					GameObject g = Instantiate (chunkPrefab);
 					Chunk c = g.GetComponent<Chunk> ();
 					c.instantiate (new ChunkIndex (x, z), heightmap, blockMap, heightmapSize);
-					PolyNetWorld.spawnObject (g);
+//					PolyNetWorld.spawnObject (g);
 					yield return null;
 				}
 			}

@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 23690705932187136}
   - component: {fileID: 114858904938686074}
   - component: {fileID: 114515125112448044}
+  - component: {fileID: 114996883516341084}
   m_Layer: 0
   m_Name: Chunk Mesh
   m_TagString: Untagged
@@ -121,3 +122,26 @@ MonoBehaviour:
   prefabId: 1
   isStatic: 1
   isLocalPlayer: 0
+--- !u!114 &114996883516341084
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1817784262469390}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11eb8acd47c934639b60e87a2cf56a51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  effects:
+    hitEffect:
+      clips: []
+      particles: {fileID: 0}
+    stepEffect:
+      clips:
+      - {fileID: 8300000, guid: 9421169b231874293918e738c073e538, type: 3}
+      - {fileID: 8300000, guid: b19860f3d34e748a98303a5529ee1dba, type: 3}
+      - {fileID: 8300000, guid: 67dc2f6c5d50e4b978fdd09e8e9b1b73, type: 3}
+      - {fileID: 8300000, guid: eee1e62809cdc4d89b496183d177869d, type: 3}
+      - {fileID: 8300000, guid: 554bc1af3e2644701bbee2565fcaea87, type: 3}
+      particles: {fileID: 0}

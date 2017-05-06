@@ -21,7 +21,7 @@ public class PolyNetEditor : Editor {
 		DrawDefaultInspector();
 		manager = (PolyNetManager)target;
 		if (GUILayout.Button ("Rip Heightmap")) {
-			generateHeightmap ();
+			ripHeightmap ();
 		}
 		EditorGUILayout.BeginHorizontal();
 		EditorGUILayout.TextField("Raw-16 Heightmap", System.IO.Path.GetFileName(manager.rawFile));
@@ -33,7 +33,7 @@ public class PolyNetEditor : Editor {
 		EditorGUILayout.EndHorizontal();
 	}
 
-	public void generateHeightmap() {
+	public void ripHeightmap() {
 		var info = new System.IO.FileInfo(manager.rawFile);
 		int rawHeightMapSize = Mathf.RoundToInt(Mathf.Sqrt(info.Length / sizeof(System.UInt16)));
 

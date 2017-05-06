@@ -23,6 +23,9 @@ namespace PolyNet {
 		[HideInInspector]
 		public int worldID = -1;
 
+		private bool clientThreadFixer = false;
+		private int clientThreadFixStage = -1;
+
 		// Use this for initialization
 		void Awake () {
 
@@ -38,27 +41,29 @@ namespace PolyNet {
 				break;
 			}
 
-			if (isClient)
-				PolyClient.start (serverPort, externalAddress);
-			else {
-				continueStartSequence (-1);
+			if (isClient) {
+				PolyClient.isActive = true;
+				clientStartSequence (-1);
+			} else {
+				PolyServer.isActive = true;
+				serverStartSequence (-1);
 			}
 		}
 
-		private void continueStartSequence(int stage) {
+		private void serverStartSequence(int stage) {
 			stage++;
 			switch (stage) {
 			case 0:
-				PolyNodeHandler.initialize (this, continueStartSequence, stage);
+				PolyNodeHandler.initialize (this, serverStartSequence, stage);
 				break;
 			case 1:
-				PolySaveManager.initialize (this, continueStartSequence, stage);
+				PolySaveManager.initialize (this, serverStartSequence, stage);
 				break;
 			case 2:
-				PolyServer.initialize (this, continueStartSequence, stage);
+				PolyServer.initialize (this, serverStartSequence, stage);
 				break;
 			case 3:
-				PolyNetWorld.initialize (this, continueStartSequence, stage);
+				PolyNetWorld.initialize (this, serverStartSequence, stage);
 				break;
 			default:
 				Debug.Log ("Realms Server Started Successfully!");
@@ -66,8 +71,41 @@ namespace PolyNet {
 			}
 		}
 
+		private void clientStartSequence(int stage) {
+			stage++;
+			switch (stage) {
+			case 0:
+				PolyClient.start (this, clientStartSequence, stage, serverPort, externalAddress);
+				break;
+			case 1:
+				// get back on main thread
+				clientThreadFixer = true;
+				clientThreadFixStage = stage;
+				break;
+			case 2:
+				PolyNetWorld.initialize (this, clientStartSequence, stage);
+				break;
+			case 3:
+				PacketHandler.sendPacket (new PacketLogin (playerId, ""), null);
+				clientStartSequence (stage);
+				break;
+			default:
+				Debug.Log ("Realms Client Started Successfully!");
+				break;
+			}
+		}
+
+		private IEnumerator clientStartSequenceThreadFix(int stage) {
+			yield return null;
+			clientStartSequence (stage);
+		}
+
 		void Update() {
 			PacketHandler.update ();
+			if (clientThreadFixer) {
+				clientThreadFixer = false;
+				clientStartSequence (clientThreadFixStage);
+			}
 		}
 
 		void OnApplicationQuit() {
