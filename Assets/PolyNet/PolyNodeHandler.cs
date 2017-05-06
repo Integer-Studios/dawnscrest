@@ -10,7 +10,15 @@ namespace PolyNet {
 		private static SocketIOComponent socket;
 		private static PolyNetManager manager;
 
-		public static void initialize(PolyNetManager m) {
+		// delegates
+		public delegate void NodeRequestHandler(JSONObject obj);
+		private static Dictionary<string, NodeRequestHandler> handlers = new Dictionary<string, NodeRequestHandler>();
+		private static PolyNetManager.StartSequenceDelegate onConnect;
+		public static int startSequenceId;
+
+		public static void initialize(PolyNetManager m, PolyNetManager.StartSequenceDelegate del, int id) {
+			onConnect = del;
+			startSequenceId = id;
 			manager = m;
 			socket = m.GetComponent<SocketIOComponent> ();
 
@@ -25,71 +33,32 @@ namespace PolyNet {
 				socket.url = "ws://server.integerstudios.com:4205/socket.io/?EIO=4&transport=websocket";
 				break;
 			}
-			Debug.Log ("Connecting to Node Server...");
 			socket.Connect ();
 			manager.StartCoroutine (Connect ());
 		}
 
-		public static IEnumerator Connect() {
+		/*
+		 * 
+		 * SocketIO
+		 * 
+		 */
+
+		private static IEnumerator Connect() {
 			yield return new WaitForSeconds (1f);
 			if (!socket.IsConnected) {
 				Debug.Log ("Failed to Connect to Node."); 
 				Application.Quit ();
 			} else {
-				socket.On ("playerLogin", receivePlayerLogin);
-				socket.On ("heightmap", receiveHeightmap);
+				socket.On ("playerLogin", onReceive);
+				socket.On ("heightmap", onReceive);
+				socket.On ("disconnect", onReceiveDisconnect);
 
-				socket.On ("disconnect", receiveDisconnect);
-
-				requestHeightmap ();
-
+				Debug.Log ("Startup[" + startSequenceId + "]: Connected to Node.");
+				onConnect (startSequenceId);
 			}
-		}
-
-		public static void sendPlayerLogin(PolyNetPlayer player) {
-			//player.playerId is working now so you send that to node
-			//this will send to node
-			JSONObject playerJSON = new JSONObject (JSONObject.Type.OBJECT);
-			playerJSON.AddField ("id", player.playerId);
-			playerJSON.AddField ("session", player.session);
-			playerJSON.AddField ("world", -1);
-			emit ("playerLogin", playerJSON);
-		}
-
-		public static void receivePlayerLogin(SocketIOEvent e) {
-			bool status = e.data.GetField ("status").b;
-			if (status) {
-				JSONObject data = e.data.GetField ("player");
-				int playerId = (int)data.GetField ("id").n;
-				Debug.Log ("Player login with ID:" + playerId);
-				//this is where node gets back to us with the data
-				JSONObject playerObjectData = data.GetField ("object");
-				PolyNetPlayer player = PolyServer.getPlayer (playerId);
-				//eventually any player data that node wants to set can get thrown in here
-				player.setData (new Vector3 (5, 400, 5));
-				//		player.setData (readVector(playerObjectData, "position"));
-				PolyServer.onLoginData (PolyServer.getPlayer (playerId));
-			} else {
-				//login failed
-				Debug.Log("Login failed!");
-			}
-		}
-
-		public static void requestHeightmap() {
-			JSONObject jsonObj = new JSONObject (JSONObject.Type.OBJECT);
-			jsonObj.AddField ("world", manager.worldID);
-			emit("heightmap", jsonObj);
-			Debug.Log ("Requesting Height Map...");
-		}
-
-		public static void receiveHeightmap(SocketIOEvent e) {
-			JSONObject mapObj = JSONObject.Create (e.data.GetField("map").str, 1, true, true);
-			Debug.Log ("Loading Height Map...");
-
-			manager.StartCoroutine (PolyNetWorld.loadHeightMap(mapObj));
 		}
 	
-		public static void emit(string identifier, JSONObject data) {
+		private static void emit(string identifier, JSONObject data) {
 			if (socket.IsConnected) {
 				socket.Emit (identifier, data);
 			} else {
@@ -97,14 +66,44 @@ namespace PolyNet {
 			}
 		}
 
-		public static void receiveDisconnect(SocketIOEvent e) {
+
+		/*
+		 * 
+		 * Public Requests
+		 * 
+		 */
+
+		public static void sendRequest(string request, JSONObject data, NodeRequestHandler handler) {
+			handlers.Add (request, handler);
+			emit (request, data);
+		}
+
+		/*
+		 * 
+		 * Handlers
+		 * 
+		 */
+			
+		private static void onReceive(SocketIOEvent e) {
+			NodeRequestHandler h;
+			if (handlers.TryGetValue(e.name, out h)) {
+				h(e.data);
+				handlers.Remove(e.name);
+			}
+		}
+
+		private static void onReceiveDisconnect(SocketIOEvent e) {
 			socket.Close ();
 		}
 
-		public static Vector3 readVector(JSONObject json, string identifier) {
+		/*
+		 * 
+		 * Private Helpers
+		 * 
+		 */
 
+		private static Vector3 readVector(JSONObject json, string identifier) {
 			return new Vector3(json.GetField(identifier + "-x").n, json.GetField(identifier + "-y").n, json.GetField(identifier + "-z").n);
-
 		}
 
 	}

@@ -7,6 +7,8 @@ namespace PolyNet {
 
 	public class PolyNetManager : MonoBehaviour {
 
+		public delegate void StartSequenceDelegate(int stage);
+
 		public string serverAddress;
 		public string externalAddress;
 		public int serverPort;
@@ -39,13 +41,29 @@ namespace PolyNet {
 			if (isClient)
 				PolyClient.start (serverPort, externalAddress);
 			else {
-				PolyNodeHandler.initialize (this);
-				PolyServer.start (serverPort, serverAddress);
+				continueStartSequence (-1);
 			}
 		}
 
-		void Start() {
-			PolyNetWorld.initialize (this);
+		private void continueStartSequence(int stage) {
+			stage++;
+			switch (stage) {
+			case 0:
+				PolyNodeHandler.initialize (this, continueStartSequence, stage);
+				break;
+			case 1:
+				PolySaveManager.initialize (this, continueStartSequence, stage);
+				break;
+			case 2:
+				PolyServer.initialize (this, continueStartSequence, stage);
+				break;
+			case 3:
+				PolyNetWorld.initialize (this, continueStartSequence, stage);
+				break;
+			default:
+				Debug.Log ("Realms Server Started Successfully!");
+				break;
+			}
 		}
 
 		void Update() {

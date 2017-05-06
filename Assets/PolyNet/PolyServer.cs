@@ -10,13 +10,13 @@ using UnityEngine.Networking;
 namespace PolyNet {
 
 	public class PolyServer {
-
+		
 		public static bool isActive = false;
 		public static Dictionary<int, PolyNetPlayer> players = new Dictionary<int, PolyNetPlayer> ();
 
-		private static int port;
 		private static Socket serverSocket;
 		private static List<PolyServlet> unidentifiedClients = new List<PolyServlet>();
+		private static PolyNetManager manager;
 
 		/*
 		 * 
@@ -24,10 +24,12 @@ namespace PolyNet {
 		 * 
 		 */
 
-		public static void start (int sPort, string sAddress) {
-			port = sPort;
-			attemptListen (sAddress);
+		public static void initialize (PolyNetManager m, PolyNetManager.StartSequenceDelegate onConnect, int ssid) {
+			manager = m;
+			attemptListen ();
 			isActive = true;
+			Debug.Log ("Startup[" + ssid + "]: Server Successfully Started.");
+			onConnect (ssid);
 		}
 
 		public static void stop () {
@@ -66,11 +68,19 @@ namespace PolyNet {
 		public static void onLogin(PolyNetPlayer p) {
 			players.Add (p.playerId, p);
 			unidentifiedClients.Remove (p.servlet);
-			PolyNodeHandler.sendPlayerLogin(p);
+			PolyNodeHandler.sendRequest ("playerLogin", JSONHelper.wrap (p), onLoginData);
 		}
 
-		public static void onLoginData(PolyNetPlayer p) {
-			PolyNetWorld.addPlayer (p);
+		public static void onLoginData(JSONObject obj) {
+			bool successful = obj.GetField ("status").b;
+			if (!successful) {
+				Debug.Log ("Login failed!");
+				return;
+			}
+			PolyNetPlayer player = JSONHelper.unwrap (obj.GetField ("player"));
+			player.setData (new Vector3 (5, 400, 5));
+			Debug.Log ("Player login with ID:" + player.playerId);
+			PolyNetWorld.addPlayer (player);
 		}
 
 		/*
@@ -79,10 +89,10 @@ namespace PolyNet {
 		 * 
 		 */
 
-		private static void attemptListen(string sAddress) {
+		private static void attemptListen() {
 			try {
 				serverSocket = new Socket (AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-				serverSocket.Bind(new IPEndPoint(IPAddress.Parse(sAddress), port));
+				serverSocket.Bind(new IPEndPoint(IPAddress.Parse(manager.serverAddress), manager.serverPort));
 				serverSocket.Listen (0);
 				serverSocket.BeginAccept (new AsyncCallback (onConnection), null);
 			} catch (Exception e) {

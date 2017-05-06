@@ -54,9 +54,14 @@ namespace PolyWorld {
 			Block.setBlocks (blockRegister);
 			if (!PolyServer.isActive)
 				return;
+			
+//			if (heightmap != null)
+//				StartCoroutine (generateChunks ());
+//			else
+//				Debug.Log ("Terrain has no heightmap, maybe node never responded?");
 		}
 
-		public void initializeHeightmap(float[,] map) {
+		public void setHeightmap(float[,] map) {
 			heightmap = map;
 			generateBlockmap ();
 			StartCoroutine (generateChunks ());
