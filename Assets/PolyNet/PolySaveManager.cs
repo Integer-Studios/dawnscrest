@@ -35,10 +35,10 @@ namespace PolyNet {
 				float height = ind.list [2].n;
 				heightmap [x, z] = height;
 			}
-			PolyWorld.WorldTerrain.terrain.createTerrain (heightmap);
+			PolyWorld.WorldTerrain.terrain.createTerrain (heightmap, onTerrainGenerated);
 		}
 
-		public static void onTerrainGenerated() {
+		private static void onTerrainGenerated() {
 			finishLoad ();
 		}
 

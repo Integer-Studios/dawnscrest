@@ -10,6 +10,8 @@ namespace PolyWorld {
 
 	public class WorldTerrain : PolyNetBehaviour {
 
+		public delegate void TerrainGenerated();
+
 		public string rawFile;
 		public ByteOrder rawHeightMapOrder = ByteOrder.Windows;
 		public int resolution = 1;
@@ -56,13 +58,13 @@ namespace PolyWorld {
 				return;
 		}
 
-		public void createTerrain(float[,] map) {
+		public void createTerrain(float[,] map, TerrainGenerated g) {
 			heightmap = map;
 			generateBlockmap ();
-			StartCoroutine (generateChunks ());
+			StartCoroutine (generateChunks (g));
 		}
 
-		private IEnumerator generateChunks() {
+		private IEnumerator generateChunks(TerrainGenerated onTerrainGenerated) {
 			int chunkLength = size / chunkSize;
 			for (int z = 0; z < chunkLength; z++) {
 				for (int x = 0; x < chunkLength; x++) {
@@ -73,7 +75,7 @@ namespace PolyWorld {
 					yield return null;
 				}
 			}
-			PolySaveManager.onTerrainGenerated ();
+			onTerrainGenerated ();
 		}
 
 		// World Info
