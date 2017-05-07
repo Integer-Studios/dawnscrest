@@ -51,6 +51,8 @@ namespace PolyNet {
 			} else {
 				socket.On ("playerLogin", onReceive);
 				socket.On ("heightmap", onReceive);
+				socket.On ("objects", onReceive);
+
 				socket.On ("disconnect", onReceiveDisconnect);
 
 				Debug.Log ("Startup[" + startSequenceId + "]: Connected to Node.");

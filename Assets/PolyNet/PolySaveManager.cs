@@ -9,14 +9,16 @@ namespace PolyNet {
 		private static PolyNetManager.StartSequenceDelegate onComplete;
 		private static int startSequenceId;
 		private static PolyNetManager manager;
+		private static PrefabRegistry registry; 
 
 		public static void initialize(PolyNetManager m, PolyNetManager.StartSequenceDelegate del, int ssid) {
 			manager = m;
 			onComplete = del;
 			startSequenceId = ssid;
-
-			PolyWorld.WorldTerrain.terrain.createTerrain (null, onTerrainGenerated);
-//			loadHeightmap ();
+			registry = m.GetComponent<PrefabRegistry> ();
+//			PolyWorld.WorldTerrain.terrain.createTerrain (null, onTerrainGenerated);
+			loadHeightmap ();
+			loadObjects ();
 		}
 
 		private static void loadHeightmap() {
@@ -38,6 +40,25 @@ namespace PolyNet {
 				heightmap [x, z] = height;
 			}
 			PolyWorld.WorldTerrain.terrain.createTerrain (heightmap, onTerrainGenerated);
+		}
+
+		private static void loadObjects() {
+			JSONObject jsonObj = new JSONObject (JSONObject.Type.OBJECT);
+			jsonObj.AddField ("world", manager.worldID);
+			PolyNodeHandler.sendRequest ("objects", jsonObj, onObjectsData);
+		}
+
+		private static void onObjectsData(JSONObject data) {
+			foreach (JSONObject objJSON in data.list) {
+				int p = (int)objJSON.GetField ("prefab").n;
+				int id = (int)objJSON.GetField ("id").n;
+
+				GameObject obj = GameObject.Instantiate (registry.prefabs [p].gameObject, JSONHelper.unwrap(objJSON, "position"), Quaternion.Euler(JSONHelper.unwrap(objJSON, "rotation")));
+				PolyNetIdentity i = obj.GetComponent<PolyNetIdentity> ();
+				i.initialize (id);
+				i.prefabId = p;
+			}
+
 		}
 
 		private static void onTerrainGenerated() {

@@ -59,8 +59,8 @@ namespace PolyWorld {
 		}
 
 		public void createTerrain(float[,] map, TerrainGenerated g) {
-//			heightmap = map;
-			generateHeightmap();
+			heightmap = map;
+//			generateHeightmap();
 			generateBlockmap ();
 			StartCoroutine (generateChunks (g));
 		}
