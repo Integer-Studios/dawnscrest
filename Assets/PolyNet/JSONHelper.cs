@@ -19,6 +19,17 @@ namespace PolyNet {
 			return PolyServer.getPlayer(playerId);
 		}
 
+//		public static JSONObject wrap(Vector3 vector) {
+//
+//		}
+
+		public static Vector3 unwrap(JSONObject data, string prefix) {
+			float x = data.GetField (prefix + "-x").n;
+			float y = data.GetField (prefix + "-y").n;
+			float z = data.GetField (prefix + "-z").n;
+			return new Vector3 (x, y, z);
+		}
+
 	}
 			
 }
