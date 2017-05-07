@@ -79,6 +79,25 @@ namespace PolyWorld {
 			onTerrainGenerated ();
 		}
 
+		public void createEditorTerrain(float[,] map, ChunkIndex min, ChunkIndex max) {
+			heightmapSize = (int)(size / resolution);
+			terrain = this;
+			Block.setBlocks (blockRegister);
+			heightmap = map;
+			generateBlockmap ();
+			generateEditorChunks (min, max);
+		}
+
+		private void generateEditorChunks(ChunkIndex min, ChunkIndex max) {
+			for (int z = min.z; z < max.z; z++) {
+				for (int x = min.x; x < max.x; x++) {
+					GameObject g = Instantiate (chunkPrefab);
+					Chunk c = g.GetComponent<Chunk> ();
+					c.instantiate (new ChunkIndex (x, z), heightmap, blockMap, heightmapSize);
+				}
+			}
+		}
+
 		// World Info
 
 		private float getHeight(HeightmapIndex h) {

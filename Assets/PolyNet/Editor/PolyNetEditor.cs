@@ -99,6 +99,7 @@ public class PolyNetEditor : Editor {
 	}
 
 	public void loadHeightmap() {
+		
 
 		WWWForm form = new WWWForm ();
 		form.AddField ("world", manager.worldID);
@@ -119,7 +120,7 @@ public class PolyNetEditor : Editor {
 					float height = ind.list [2].n;
 					heightmap [x, z] = height;
 				}
-//				PolyNetManager.FindObjectOfType<WorldTerrain>().generateEditorChunks(heightmap, 32, 30, 35, 33);
+				PolyNetManager.FindObjectOfType<WorldTerrain> ().createEditorTerrain (heightmap, new PolyWorld.ChunkIndex(xMin, zMin), new PolyWorld.ChunkIndex(xMax, zMax));
 			}
 		});
 
