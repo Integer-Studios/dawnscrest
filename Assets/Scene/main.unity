@@ -7602,7 +7602,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 0.98469377}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -17074,12 +17074,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a94ec540c7ed54570bd0f656196a6d9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rawFile: /Users/trefethen/Documents/unity/realms/Assets/World/Resources/Raws/island.raw
+  rawFile: /Users/trefethen/Documents/unity/realms/Assets/World/Resources/Raws/updated-island.raw
   rawHeightMapOrder: 1
   resolution: 4
-  size: 1024
+  size: 4096
   chunkSize: 64
-  height: 200
+  height: 600
   grass: {r: 0, g: 0.6838235, b: 0.20278904, a: 0}
   grassPoint: 0.8
   dirt: {r: 0.86764705, g: 0.43787134, b: 0.15949394, a: 0}
@@ -17180,8 +17180,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 97331929}
-  m_LocalRotation: {x: -0.2101032, y: 0.21083057, z: 0.046588063, w: 0.9535391}
-  m_LocalPosition: {x: 160.1911, y: -244.80836, z: -341.18457}
+  m_LocalRotation: {x: -0.14756511, y: 0.23206687, z: 0.035643697, w: 0.9607805}
+  m_LocalPosition: {x: -4669.3506, y: -3209.4285, z: -9575.912}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
