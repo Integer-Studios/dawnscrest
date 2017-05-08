@@ -1,3 +1,5 @@
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
 Shader "Skybox/Farland Skies/Low Poly" {		
 
 	Properties{
@@ -151,7 +153,7 @@ Shader "Skybox/Farland Skies/Low Poly" {
 			v2f vert(appdata_base v)
 			{
 				v2f OUT;
-				OUT.position = mul(UNITY_MATRIX_MVP, v.vertex);
+				OUT.position = UnityObjectToClipPos(v.vertex);
 				OUT.vertex = v.vertex;
 
 				#if !SUN_OFF
