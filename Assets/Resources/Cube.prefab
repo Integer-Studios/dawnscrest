@@ -105,7 +105,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bedd2bbdc15b94dcfbe10067a533d4d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabId: 2
+  prefabId: 1
   isStatic: 1
   isLocalPlayer: 0
 --- !u!114 &114303189983657656

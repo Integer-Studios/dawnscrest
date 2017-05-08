@@ -19,7 +19,11 @@ namespace PolyNet {
 		public int port = 0;
 		public string rawFile;
 		public PolyNetIdentity playerPrefab;
-
+		public bool limit = false;
+		public int xMax = 10;
+		public int xMin = 0;
+		public int zMax = 10;
+		public int zMin = 0;
 		[HideInInspector]
 		public int worldID = -1;
 

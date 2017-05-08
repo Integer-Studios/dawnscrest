@@ -14,11 +14,7 @@ public class PolyNetEditor : Editor {
 	public int size = 4096;
 	public float height = 600f;
 
-	public bool limit = true;
-	public int xMax = 4;
-	public int xMin = 2;
-	public int zMax = 4;
-	public int zMin = 2;
+
 
 	private float[,] heightmap;
 	private BlockID[,] blockMap;
@@ -35,6 +31,9 @@ public class PolyNetEditor : Editor {
 		}
 		if (GUILayout.Button ("Load Objects")) {
 			loadObjects ();
+		}
+		if (GUILayout.Button ("Save Objects")) {
+			saveObjects ();
 		}
 		EditorGUILayout.BeginHorizontal();
 		EditorGUILayout.TextField("Raw-16 Heightmap", System.IO.Path.GetFileName(manager.rawFile));
@@ -99,7 +98,7 @@ public class PolyNetEditor : Editor {
 	}
 
 	public void loadHeightmap() {
-		
+		Debug.Log ("Requesting Heightmap...");
 
 		WWWForm form = new WWWForm ();
 		form.AddField ("world", manager.worldID);
@@ -120,7 +119,36 @@ public class PolyNetEditor : Editor {
 					float height = ind.list [2].n;
 					heightmap [x, z] = height;
 				}
-				PolyNetManager.FindObjectOfType<WorldTerrain> ().createEditorTerrain (heightmap, new PolyWorld.ChunkIndex(xMin, zMin), new PolyWorld.ChunkIndex(xMax, zMax));
+				PolyNetManager.FindObjectOfType<WorldTerrain> ().createEditorTerrain (heightmap, new PolyWorld.ChunkIndex(manager.xMin, manager.zMin), new PolyWorld.ChunkIndex(manager.xMax, manager.zMax));
+			}
+		});
+
+	}
+
+	public void saveObjects() {
+
+		PolyNetIdentity[] identities = PolyNetManager.FindObjectsOfType<PolyNetIdentity> ();
+		JSONObject arr = new JSONObject (JSONObject.Type.ARRAY);
+
+		foreach (PolyNetIdentity i in identities) {
+
+			JSONObject o = i.writeSaveData ();
+			arr.Add (o);
+		}
+
+		WWWForm form = new WWWForm ();
+		form.AddField ("world", "-1");
+		form.AddField ("limit", "False");
+
+		form.AddField ("objects", arr.ToString ());
+		string url = "http://server.integerstudios.com:4206/objects/save";
+		WWW www = new WWW(url, form);
+		ContinuationManager.Add(() => www.isDone, () => {
+			if (!string.IsNullOrEmpty(www.error)) {
+				Debug.Log("WWW failed: " + www.error);
+			} else {
+				Debug.Log("WWW result : " + www.text);
+
 			}
 		});
 
@@ -128,14 +156,22 @@ public class PolyNetEditor : Editor {
 
 	public void loadObjects() {
 
-		WWWForm form = new WWWForm ();
-		form.AddField ("world", manager.worldID);
-		form.AddField ("limit", "" +limit);
+		PolyNetIdentity[] identities = PolyNetManager.FindObjectsOfType<PolyNetIdentity> ();
 
-		form.AddField ("x-max", "" + (xMax * 64));
-		form.AddField ("x-min",  "" + (xMin * 64));
-		form.AddField ("z-max",  "" + (zMax * 64)); 
-		form.AddField ("z-min",  "" + (zMin * 64));
+		foreach (PolyNetIdentity i in identities) {
+
+			PolyNetManager.DestroyImmediate (i.gameObject);
+		}
+
+
+		WWWForm form = new WWWForm ();
+		form.AddField ("world", "-1");
+		form.AddField ("limit", "" +manager.limit);
+
+		form.AddField ("x-max", "" + (manager.xMax * 64));
+		form.AddField ("x-min",  "" + (manager.xMin * 64));
+		form.AddField ("z-max",  "" + (manager.zMax * 64)); 
+		form.AddField ("z-min",  "" + (manager.zMin * 64));
 
 
 		string url = "http://server.integerstudios.com:4206/objects/load";
@@ -144,8 +180,9 @@ public class PolyNetEditor : Editor {
 			if (!string.IsNullOrEmpty(www.error)) {
 				Debug.Log("WWW failed: " + www.error);
 			} else {
-				Debug.Log("WWW result : " + www.text);
 				JSONObject jsonObj = new JSONObject(www.text);
+				Debug.Log("Received Objects: " + jsonObj.list.Count);
+
 				foreach (JSONObject objJSON in jsonObj.list) {
 					int p = (int)objJSON.GetField ("prefab").n;
 					int id = (int)objJSON.GetField ("id").n;

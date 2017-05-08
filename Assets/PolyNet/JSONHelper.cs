@@ -19,9 +19,12 @@ namespace PolyNet {
 			return PolyServer.getPlayer(playerId);
 		}
 
-//		public static JSONObject wrap(Vector3 vector) {
-//
-//		}
+		public static JSONObject wrap(JSONObject data, Vector3 vector, string prefix) {
+			data.AddField (prefix + "-x", vector.x);
+			data.AddField (prefix + "-y", vector.y);
+			data.AddField (prefix + "-z", vector.z);
+			return data;
+		}
 
 		public static Vector3 unwrap(JSONObject data, string prefix) {
 			float x = data.GetField (prefix + "-x").n;

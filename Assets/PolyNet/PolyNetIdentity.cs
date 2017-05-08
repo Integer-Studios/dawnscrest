@@ -13,7 +13,7 @@ namespace PolyNet {
 
 		private PolyNetChunk chunk;
 		private PolyNetPlayer owner;
-		private int instanceId;
+		private int instanceId = -1;
 		private Dictionary<int, PolyNetBehaviour> behaviours;
 
 		public void initialize (int i) {
@@ -79,6 +79,17 @@ namespace PolyNet {
 				b.readBehaviourSpawnData (ref reader);
 				i++;
 			}
+		}
+
+		public JSONObject writeSaveData() {
+			JSONObject obj = new JSONObject (JSONObject.Type.OBJECT);
+			obj.AddField ("id", instanceId);
+			obj.AddField ("prefab", prefabId);
+			JSONHelper.wrap (obj, transform.position, "position");
+			JSONHelper.wrap (obj, transform.eulerAngles, "rotation");
+			JSONHelper.wrap (obj, transform.localScale, "scale");
+
+			return obj;
 		}
 
 		public int getOwnerId() {
