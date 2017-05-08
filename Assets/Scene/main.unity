@@ -15639,14 +15639,14 @@ MonoBehaviour:
   chunkSize: 64
   chunkLoadRadius: 10
   port: 2
-  rawFile: /Users/trefethen/Documents/unity/realms/Assets/World/Resources/Raws/island.raw
+  rawFile: /Users/quinnfinney/Desktop/Work/Realms/realms/Assets/World/Resources/Raws/terrace.raw
   playerPrefab: {fileID: 114556338368701086, guid: 89883fb31b4a84a25bda6bd650ec220a,
     type: 2}
-  limit: 0
-  xMax: 22
-  xMin: 0
-  zMax: 22
-  zMin: 0
+  limit: 1
+  xMax: 32
+  xMin: 28
+  zMax: 32
+  zMin: 28
   worldID: -1
 --- !u!114 &2046
 MonoBehaviour:
@@ -17208,8 +17208,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 97331929}
-  m_LocalRotation: {x: -0.25705475, y: 0.40976772, z: 0.12152727, w: 0.86674356}
-  m_LocalPosition: {x: 85.198105, y: -111.451996, z: 24.563004}
+  m_LocalRotation: {x: -0.02789348, y: 0.5461508, z: 0.018201094, w: 0.8370245}
+  m_LocalPosition: {x: -1608.3644, y: -243.9139, z: -512.5794}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

@@ -20,9 +20,13 @@ namespace PolyNet {
 		public string rawFile;
 		public PolyNetIdentity playerPrefab;
 		public bool limit = false;
+		[Range(0, 64)]
 		public int xMax = 10;
+		[Range(0, 64)]
 		public int xMin = 0;
+		[Range(0, 64)]
 		public int zMax = 10;
+		[Range(0, 64)]
 		public int zMin = 0;
 		[HideInInspector]
 		public int worldID = -1;
