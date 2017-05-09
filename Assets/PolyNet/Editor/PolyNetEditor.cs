@@ -13,7 +13,7 @@ public class PolyNetEditor : Editor {
 	public int resolution = 4;
 	public int size = 4096;
 	public float height = 600f;
-
+	public int maxChunkX;
 
 
 	private float[,] heightmap;
@@ -26,16 +26,20 @@ public class PolyNetEditor : Editor {
 		if (GUILayout.Button ("Rip Heightmap")) {
 			ripHeightmap ();
 		}
-		if (GUILayout.Button ("Load Heightmap")) {
-			loadHeightmap();
-		}
+//		if (GUILayout.Button ("Load Heightmap")) {
+//			loadHeightmap();
+//		}
 		if (GUILayout.Button ("Load Objects")) {
+			clearObjects ();
+			loadHeightmap ();
 			loadObjects ();
 		}
 		if (GUILayout.Button ("Save Objects")) {
 			saveObjects ();
 		}
+
 		EditorGUILayout.BeginHorizontal();
+
 		EditorGUILayout.TextField("Raw-16 Heightmap", System.IO.Path.GetFileName(manager.rawFile));
 		if (GUILayout.Button("Select", EditorStyles.miniButton, GUILayout.Width(45.0f)))
 		{
@@ -43,6 +47,17 @@ public class PolyNetEditor : Editor {
 
 		}
 		EditorGUILayout.EndHorizontal();
+	}
+
+	public void clearObjects() {
+
+		PolyNetIdentity[] identities = PolyNetManager.FindObjectsOfType<PolyNetIdentity> ();
+
+		foreach (PolyNetIdentity i in identities) {
+
+			PolyNetManager.DestroyImmediate (i.gameObject);
+		}
+
 	}
 
 	public void ripHeightmap() {
@@ -99,18 +114,26 @@ public class PolyNetEditor : Editor {
 
 	public void loadHeightmap() {
 		Debug.Log ("Requesting Heightmap...");
+	
 
 		WWWForm form = new WWWForm ();
 		form.AddField ("world", manager.worldID);
+		form.AddField ("limit", "" +manager.limit);
+
+		form.AddField ("x-max", "" + (manager.xMax * (64 / 4)));
+		form.AddField ("x-min",  "" + (manager.xMin * (64 / 4)));
+		form.AddField ("z-max",  "" + (manager.zMax * (64 / 4))); 
+		form.AddField ("z-min",  "" + (manager.zMin * (64 / 4)));
 		string url = "http://server.integerstudios.com:4206/heightmap/load";
 		WWW www = new WWW(url, form);
 		ContinuationManager.Add(() => www.isDone, () => {
 			if (!string.IsNullOrEmpty(www.error)) {
 				Debug.Log("WWW failed: " + www.error);
 			} else {
-//				Debug.Log("WWW result : " + www.text);
+				Debug.Log("Got Result for Heightmap.");
 				JSONObject jsonObj = new JSONObject(www.text);
 				JSONObject mapObj = JSONObject.Create (jsonObj.GetField("map").str, 1, true, true);
+				if (mapObj.IsArray) {
 				int heightmapSize = (int)(size / resolution);
 				float[,] heightmap = new float[heightmapSize, heightmapSize];
 				foreach (JSONObject ind in mapObj.list) {
@@ -120,25 +143,36 @@ public class PolyNetEditor : Editor {
 					heightmap [x, z] = height;
 				}
 				PolyNetManager.FindObjectOfType<WorldTerrain> ().createEditorTerrain (heightmap, new PolyWorld.ChunkIndex(manager.xMin, manager.zMin), new PolyWorld.ChunkIndex(manager.xMax, manager.zMax));
-			}
+				} else {
+					Debug.Log("Empty Heightmap returned.");
+				}
+			} 
 		});
 
 	}
 
 	public void saveObjects() {
+		Debug.Log ("Saving Objects...");
 
 		PolyNetIdentity[] identities = PolyNetManager.FindObjectsOfType<PolyNetIdentity> ();
 		JSONObject arr = new JSONObject (JSONObject.Type.ARRAY);
 
 		foreach (PolyNetIdentity i in identities) {
 
-			JSONObject o = i.writeSaveData ();
-			arr.Add (o);
+			if (i.isSaveable) {
+				JSONObject o = i.writeSaveData ();
+				arr.Add (o);
+			}
 		}
 
 		WWWForm form = new WWWForm ();
 		form.AddField ("world", "-1");
-		form.AddField ("limit", "False");
+		form.AddField ("limit", "" +manager.limit);
+
+		form.AddField ("x-max", "" + (manager.xMax * 64));
+		form.AddField ("x-min",  "" + (manager.xMin * 64));
+		form.AddField ("z-max",  "" + (manager.zMax * 64)); 
+		form.AddField ("z-min",  "" + (manager.zMin * 64));
 
 		form.AddField ("objects", arr.ToString ());
 		string url = "http://server.integerstudios.com:4206/objects/save";
@@ -148,21 +182,17 @@ public class PolyNetEditor : Editor {
 				Debug.Log("WWW failed: " + www.error);
 			} else {
 				Debug.Log("WWW result : " + www.text);
+				clearObjects ();
 
+				loadHeightmap();
+				loadObjects();
 			}
 		});
 
 	}
 
 	public void loadObjects() {
-
-		PolyNetIdentity[] identities = PolyNetManager.FindObjectsOfType<PolyNetIdentity> ();
-
-		foreach (PolyNetIdentity i in identities) {
-
-			PolyNetManager.DestroyImmediate (i.gameObject);
-		}
-
+		Debug.Log ("Requesting Objects...");
 
 		WWWForm form = new WWWForm ();
 		form.AddField ("world", "-1");
@@ -186,6 +216,8 @@ public class PolyNetEditor : Editor {
 				foreach (JSONObject objJSON in jsonObj.list) {
 					int p = (int)objJSON.GetField ("prefab").n;
 					int id = (int)objJSON.GetField ("id").n;
+
+			
 
 					GameObject obj = GameObject.Instantiate (manager.GetComponent<PrefabRegistry>().prefabs [p].gameObject, JSONHelper.unwrap(objJSON, "position"), Quaternion.Euler(JSONHelper.unwrap(objJSON, "rotation")));
 

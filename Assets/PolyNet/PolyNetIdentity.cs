@@ -10,6 +10,7 @@ namespace PolyNet {
 		public int prefabId;
 		public bool isStatic = true;
 		public bool isLocalPlayer = false;
+		public bool isSaveable = false;
 
 		private PolyNetChunk chunk;
 		private PolyNetPlayer owner;
