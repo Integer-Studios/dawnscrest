@@ -5,6 +5,7 @@ using UnityEngine;
 using System.IO;
 using PolyWorld;
 using PolyNet;
+using System.Text.RegularExpressions;
 
 [CustomEditor(typeof(PolyNetManager))]
 public class PolyNetEditor : Editor {
@@ -61,6 +62,7 @@ public class PolyNetEditor : Editor {
 	}
 
 	public void ripHeightmap() {
+		Debug.Log ("Beginning Heightmap Rip...");
 		var info = new System.IO.FileInfo(manager.rawFile);
 		int rawHeightMapSize = Mathf.RoundToInt(Mathf.Sqrt(info.Length / sizeof(System.UInt16)));
 
@@ -100,6 +102,7 @@ public class PolyNetEditor : Editor {
 		WWWForm form = new WWWForm ();
 		form.AddField ("heightmap", heightmapJSON.ToString());
 		form.AddField ("world", manager.worldID);
+		Debug.Log ("Sending Heightmap Rip...");
 
 		string url = "http://server.integerstudios.com:4206/heightmap/save";
 		WWW www = new WWW(url, form);
@@ -107,32 +110,41 @@ public class PolyNetEditor : Editor {
 			if (!string.IsNullOrEmpty(www.error)) {
 				Debug.Log("WWW failed: " + www.error);
 			} else {
-				Debug.Log("WWW result : " + www.text);
+				Debug.Log ("Heightmap Rip Completed : " + www.text);
+
 			}
 		});
+	}
+
+	public WWWForm generateWorldForm(int multiplier) {
+		WWWForm form = new WWWForm ();
+		form.AddField ("world", manager.worldID);
+		form.AddField ("limit", "" +manager.limit);
+
+		form.AddField ("x-max", "" + (manager.xMax * multiplier));
+		form.AddField ("x-min",  "" + (manager.xMin * multiplier));
+		form.AddField ("z-max",  "" + (manager.zMax * multiplier)); 
+		form.AddField ("z-min",  "" + (manager.zMin * multiplier));
+		return form;
 	}
 
 	public void loadHeightmap() {
 		Debug.Log ("Requesting Heightmap...");
 	
+		WWWForm form = generateWorldForm (64 / 4);
 
-		WWWForm form = new WWWForm ();
-		form.AddField ("world", manager.worldID);
-		form.AddField ("limit", "" +manager.limit);
-
-		form.AddField ("x-max", "" + (manager.xMax * (64 / 4)));
-		form.AddField ("x-min",  "" + (manager.xMin * (64 / 4)));
-		form.AddField ("z-max",  "" + (manager.zMax * (64 / 4))); 
-		form.AddField ("z-min",  "" + (manager.zMin * (64 / 4)));
-		string url = "http://server.integerstudios.com:4206/heightmap/load";
+		string url = "http://cdn.polytechni.ca/heightmap.php";
 		WWW www = new WWW(url, form);
 		ContinuationManager.Add(() => www.isDone, () => {
 			if (!string.IsNullOrEmpty(www.error)) {
 				Debug.Log("WWW failed: " + www.error);
 			} else {
-				Debug.Log("Got Result for Heightmap.");
-				JSONObject jsonObj = new JSONObject(www.text);
-				JSONObject mapObj = JSONObject.Create (jsonObj.GetField("map").str, 1, true, true);
+				Debug.Log ("Heightmap Load Completed ");
+				string text = Regex.Replace(www.text, "(\"(?:[^\"\\\\]|\\\\.)*\")|\\s+", "$1");
+
+					JSONObject jsonObj = new JSONObject(text);
+				JSONObject mapObj = jsonObj.GetField("map");
+//				JSONObject mapObj = JSONObject.Create (jsonObj.GetField("map").str, 2, true, true);
 				if (mapObj.IsArray) {
 				int heightmapSize = (int)(size / resolution);
 				float[,] heightmap = new float[heightmapSize, heightmapSize];
@@ -165,14 +177,8 @@ public class PolyNetEditor : Editor {
 			}
 		}
 
-		WWWForm form = new WWWForm ();
-		form.AddField ("world", "-1");
-		form.AddField ("limit", "" +manager.limit);
+		WWWForm form = generateWorldForm (64);
 
-		form.AddField ("x-max", "" + (manager.xMax * 64));
-		form.AddField ("x-min",  "" + (manager.xMin * 64));
-		form.AddField ("z-max",  "" + (manager.zMax * 64)); 
-		form.AddField ("z-min",  "" + (manager.zMin * 64));
 
 		form.AddField ("objects", arr.ToString ());
 		string url = "http://server.integerstudios.com:4206/objects/save";
@@ -181,7 +187,7 @@ public class PolyNetEditor : Editor {
 			if (!string.IsNullOrEmpty(www.error)) {
 				Debug.Log("WWW failed: " + www.error);
 			} else {
-				Debug.Log("WWW result : " + www.text);
+				Debug.Log ("Object Save Completed : " + www.text);
 				clearObjects ();
 
 				loadHeightmap();
@@ -194,29 +200,23 @@ public class PolyNetEditor : Editor {
 	public void loadObjects() {
 		Debug.Log ("Requesting Objects...");
 
-		WWWForm form = new WWWForm ();
-		form.AddField ("world", "-1");
-		form.AddField ("limit", "" +manager.limit);
+		WWWForm form = generateWorldForm (64);
 
-		form.AddField ("x-max", "" + (manager.xMax * 64));
-		form.AddField ("x-min",  "" + (manager.xMin * 64));
-		form.AddField ("z-max",  "" + (manager.zMax * 64)); 
-		form.AddField ("z-min",  "" + (manager.zMin * 64));
-
-
-		string url = "http://server.integerstudios.com:4206/objects/load";
+		string url = "http://cdn.polytechni.ca/objects.php";
 		WWW www = new WWW(url, form);
 		ContinuationManager.Add(() => www.isDone, () => {
 			if (!string.IsNullOrEmpty(www.error)) {
 				Debug.Log("WWW failed: " + www.error);
 			} else {
-				JSONObject jsonObj = new JSONObject(www.text);
+				string text = Regex.Replace(www.text, "(\"(?:[^\"\\\\]|\\\\.)*\")|\\s+", "$1");
+
+				JSONObject jsonObj = new JSONObject(text);
+
 				Debug.Log("Received Objects: " + jsonObj.list.Count);
 
 				foreach (JSONObject objJSON in jsonObj.list) {
 					int p = (int)objJSON.GetField ("prefab").n;
 					int id = (int)objJSON.GetField ("id").n;
-
 			
 
 					GameObject obj = GameObject.Instantiate (manager.GetComponent<PrefabRegistry>().prefabs [p].gameObject, JSONHelper.unwrap(objJSON, "position"), Quaternion.Euler(JSONHelper.unwrap(objJSON, "rotation")));
