@@ -10,6 +10,7 @@ namespace PolyNet {
 		private static int startSequenceId;
 		private static PolyNetManager manager;
 		private static PrefabRegistry registry; 
+		private static Dictionary<int, GameObject> prefabs = new Dictionary<int, GameObject>();
 
 		public static void initialize(PolyNetManager m, PolyNetManager.StartSequenceDelegate del, int ssid) {
 			manager = m;
@@ -43,6 +44,7 @@ namespace PolyNet {
 		}
 
 		private static void loadObjects() {
+			ripPrefabs ();
 			JSONObject jsonObj = new JSONObject (JSONObject.Type.OBJECT);
 			jsonObj.AddField ("world", manager.worldID);
 			PolyNodeHandler.sendRequest ("objects", jsonObj, onObjectsData);
@@ -53,12 +55,24 @@ namespace PolyNet {
 				int p = (int)objJSON.GetField ("prefab").n;
 				int id = (int)objJSON.GetField ("id").n;
 
-				GameObject obj = GameObject.Instantiate (registry.prefabs [p].gameObject, JSONHelper.unwrap(objJSON, "position"), Quaternion.Euler(JSONHelper.unwrap(objJSON, "rotation")));
-				PolyNetIdentity i = obj.GetComponent<PolyNetIdentity> ();
-				i.initialize (id);
-				i.prefabId = p;
-			}
+				GameObject pre;
 
+				if (prefabs.TryGetValue (p, out pre)) {
+					GameObject obj = GameObject.Instantiate (registry.prefabs [p].gameObject, JSONHelper.unwrap (objJSON, "position"), Quaternion.Euler (JSONHelper.unwrap (objJSON, "rotation")));
+					PolyNetIdentity i = obj.GetComponent<PolyNetIdentity> ();
+					i.initialize (id);
+					i.prefabId = p;
+				} else {
+					Debug.Log ("Fuck");
+				}
+			}
+		}
+
+		public static void ripPrefabs() {
+			PrefabRegistry registry = GameObject.FindObjectOfType<PrefabRegistry> ();
+			foreach (PolyNetIdentity g in registry.prefabs) {
+				prefabs.Add (g.prefabId, g.gameObject);
+			}
 		}
 
 		private static void onTerrainGenerated() {

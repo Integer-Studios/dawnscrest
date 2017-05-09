@@ -12,10 +12,11 @@ public class PolyNetEditor : Editor {
 	PolyNetManager manager;
 	public ByteOrder rawHeightMapOrder = ByteOrder.Windows;
 	public int resolution = 4;
-	public int size = 4096;
-	public float height = 600f;
+	public int size = 512;
+	public float height = 100f;
 	public int maxChunkX;
 
+	private Dictionary<int, GameObject> prefabs;
 
 	private float[,] heightmap;
 	private BlockID[,] blockMap;
@@ -227,6 +228,16 @@ public class PolyNetEditor : Editor {
 				}
 			}
 		});
+	}
+
+	public void ripPrefabs() {
+		if (prefabs == null) {
+			prefabs = new Dictionary<int, GameObject>();
+			PrefabRegistry registry = GameObject.FindObjectOfType<PrefabRegistry> ();
+			foreach (PolyNetIdentity g in registry.prefabs) {
+				prefabs.Add (g.prefabId, g.gameObject);
+			}
+		}
 	}
 
 }

@@ -3528,7 +3528,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 1411879131}
-  m_IndirectSpecularColor: {r: 0.008148047, g: 0.02646815, b: 0.105192564, a: 1}
+  m_IndirectSpecularColor: {r: 0.007965359, g: 0.026141737, b: 0.1045515, a: 1}
 --- !u!124 &1403
 Behaviour:
   m_ObjectHideFlags: 0
@@ -15643,10 +15643,10 @@ MonoBehaviour:
   playerPrefab: {fileID: 114556338368701086, guid: 89883fb31b4a84a25bda6bd650ec220a,
     type: 2}
   limit: 1
-  xMax: 32
-  xMin: 28
-  zMax: 32
-  zMin: 28
+  xMax: 0
+  xMin: 0
+  zMax: 0
+  zMin: 0
   worldID: -1
 --- !u!114 &2046
 MonoBehaviour:
@@ -17102,9 +17102,9 @@ MonoBehaviour:
   rawFile: /Users/trefethen/Documents/unity/realms/Assets/World/Resources/Raws/island-new.raw
   rawHeightMapOrder: 1
   resolution: 4
-  size: 4096
+  size: 512
   chunkSize: 64
-  height: 600
+  height: 100
   grass: {r: 0, g: 0.6838235, b: 0.20278904, a: 0}
   grassPoint: 0.8
   dirt: {r: 0.86764705, g: 0.43787134, b: 0.15949394, a: 0}
@@ -17208,8 +17208,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 97331929}
-  m_LocalRotation: {x: -0.02789348, y: 0.5461508, z: 0.018201094, w: 0.8370245}
-  m_LocalPosition: {x: -1608.3644, y: -243.9139, z: -512.5794}
+  m_LocalRotation: {x: -0.0866077, y: 0.89569765, z: 0.20019972, w: 0.38748533}
+  m_LocalPosition: {x: -111.60138, y: -178.99225, z: 543.1638}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
