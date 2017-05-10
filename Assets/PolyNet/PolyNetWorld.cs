@@ -123,12 +123,33 @@ namespace PolyNet {
 			nextInstanceId++;
 		}
 
-		public static void spawnObject(PolyNetIdentity i, int instanceId) {
-			i.initialize (instanceId);
-			if (PolyServer.isActive)
-				getChunk (i.transform.position).spawnObject (i);
-			objects.Add (instanceId, i);
+
+
+		private struct SpawnRequest {
+			public PolyNetIdentity i; 
+			public int instanceId;
+			public SpawnRequest(PolyNetIdentity obj, int instId) {
+				i = obj;
+				instanceId = instId;
+			}
 		}
+		private static Queue<SpawnRequest> spawnQueue = new Queue<SpawnRequest> ();
+
+		public static void spawnObject(PolyNetIdentity i, int instanceId) {
+			spawnQueue.Enqueue(new SpawnRequest(i, instanceId));
+		}
+
+		public static void update() {
+			if (spawnQueue.Count > 0) {
+				SpawnRequest r = spawnQueue.Dequeue ();
+				r.i.initialize (r.instanceId);
+				if (PolyServer.isActive)
+					getChunk (r.i.transform.position).spawnObject (r.i);
+				objects.Add (r.instanceId, r.i);
+			}
+		}
+
+
 
 		public static void destroy(GameObject o) {
 			PolyNetIdentity i = o.GetComponent<PolyNetIdentity> ();

@@ -15,7 +15,7 @@ namespace PolyNet {
 
 		private static Socket clientSocket;
 		private static PolySocket socket;
-		private static int playerId;
+		public static int playerId;
 
 		private static PolyNetManager.StartSequenceDelegate onConnectDelegate;
 		private static int startSequenceId;

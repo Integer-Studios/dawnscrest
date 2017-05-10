@@ -75,7 +75,7 @@ namespace PolyNet {
 				instance.transform.localScale = scale;
 				instance.transform.eulerAngles = euler;
 				identity = instance.GetComponent<PolyNetIdentity> ();
-				if (ownerPlayerId == GameObject.FindObjectOfType<PolyNetManager>().playerId)
+				if (ownerPlayerId == PolyClient.playerId)
 					identity.isLocalPlayer = true;
 
 				identity.readSpawnData(ref reader);

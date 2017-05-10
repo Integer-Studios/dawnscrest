@@ -15813,7 +15813,7 @@ MonoBehaviour:
   serverPort: 8888
   isClient: 0
   playerId: 1
-  chunkSize: 64
+  chunkSize: 128
   chunkLoadRadius: 2
   port: 1
   rawFile: /Users/quinnfinney/Desktop/Work/Realms/realms/Assets/World/Resources/Raws/terrace.raw
@@ -15836,7 +15836,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0520dfd18d31f425db523c95e3052710, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nextID: 178
+  nextID: 179
   prefabs:
   - {fileID: 114556338368701086, guid: 89883fb31b4a84a25bda6bd650ec220a, type: 2}
   - {fileID: 114298611163056384, guid: 4493a2b2ee7a34e40a2d6eff7e5e7045, type: 2}
@@ -17408,7 +17408,7 @@ MonoBehaviour:
   rawHeightMapOrder: 1
   resolution: 4
   size: 512
-  chunkSize: 64
+  chunkSize: 128
   height: 100
   grass: {r: 0, g: 0.6838235, b: 0.20278904, a: 0}
   grassPoint: 0.8
@@ -17513,8 +17513,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 97331929}
-  m_LocalRotation: {x: 0.103733115, y: 0.75381774, z: 0.12273268, w: -0.63713026}
-  m_LocalPosition: {x: 630.95544, y: -168.06685, z: 292.7632}
+  m_LocalRotation: {x: 0.061260086, y: 0.88370526, z: 0.12083885, w: -0.44800702}
+  m_LocalPosition: {x: 7193.592, y: -2438.0583, z: 5331.178}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -18001,8 +18001,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1664368240}
-  m_LocalRotation: {x: 0.22270454, y: 0.7608145, z: 0.3310335, w: -0.51184064}
-  m_LocalPosition: {x: 508.63876, y: -359.86932, z: 339.80182}
+  m_LocalRotation: {x: 0, y: 0.9907543, z: 0, w: 0.13566831}
+  m_LocalPosition: {x: 224.39, y: 13.509999, z: -582.32}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

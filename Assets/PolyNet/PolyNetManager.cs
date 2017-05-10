@@ -110,6 +110,7 @@ namespace PolyNet {
 
 		void Update() {
 			PacketHandler.update ();
+			PolyNetWorld.update ();
 			if (clientThreadFixer) {
 				clientThreadFixer = false;
 				clientStartSequence (clientThreadFixStage);
