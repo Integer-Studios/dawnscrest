@@ -19,6 +19,8 @@ namespace PolyNet {
 		public int port = 0;
 		public string rawFile;
 		public PolyNetIdentity playerPrefab;
+		public int worldID = -1;
+
 		public bool limit = false;
 		[Range(0, 64)]
 		public int xMax = 10;
@@ -28,8 +30,6 @@ namespace PolyNet {
 		public int zMax = 10;
 		[Range(0, 64)]
 		public int zMin = 0;
-		[HideInInspector]
-		public int worldID = -1;
 
 		private bool clientThreadFixer = false;
 		private int clientThreadFixStage = -1;
