@@ -49,14 +49,18 @@ namespace PolyNet {
 				Debug.Log ("Failed to Connect to Node."); 
 				Application.Quit ();
 			} else {
+				socket.On ("initialize", onReceive);
+
 				socket.On ("playerLogin", onReceive);
+				socket.On ("playerSave", onReceive);
+
 				socket.On ("heightmap", onReceive);
 				socket.On ("objects", onReceive);
 
 				socket.On ("disconnect", onReceiveDisconnect);
 
-				Debug.Log ("Startup[" + startSequenceId + "]: Connected to Node.");
-				onConnect (startSequenceId);
+				sendRequest ("initialize", new JSONObject (JSONObject.Type.OBJECT), onInitialize);
+
 			}
 		}
 	
@@ -91,7 +95,16 @@ namespace PolyNet {
 			if (handlers.TryGetValue(e.name, out h)) {
 				h(e.data);
 				handlers.Remove(e.name);
-			}
+			} 
+		}
+
+		public static void onInitialize(JSONObject obj) {
+
+			manager.worldID = (int)obj.GetField ("world").n;
+
+			onConnect (startSequenceId);
+			Debug.Log ("Startup[" + startSequenceId + "]: Connected to Node with world ID: " + manager.worldID + ".");
+
 		}
 
 		private static void onReceiveDisconnect(SocketIOEvent e) {
