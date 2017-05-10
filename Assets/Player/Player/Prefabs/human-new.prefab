@@ -928,6 +928,7 @@ MonoBehaviour:
   prefabId: 0
   isStatic: 0
   isLocalPlayer: 0
+  isSaveable: 0
 --- !u!114 &114817884882452602
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -987,6 +988,7 @@ SkinnedMeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 0
   serializedVersion: 2
   m_Quality: 0
@@ -1046,6 +1048,7 @@ SkinnedMeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 0
   serializedVersion: 2
   m_Quality: 0

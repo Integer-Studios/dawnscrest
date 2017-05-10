@@ -42,6 +42,9 @@ public class PolyNetEditor : Editor {
 		if (GUILayout.Button ("Register Prefabs")) {
 			registerPrefabsFromAssets ();
 		}
+		if (GUILayout.Button ("Wipe Prefab ID's")) {
+			wipePrefabIDs ();
+		}
 
 		EditorGUILayout.BeginHorizontal();
 
@@ -256,7 +259,6 @@ public class PolyNetEditor : Editor {
 		string[] prefabs = AssetDatabase.FindAssets ("l:Identity", null);
 		PrefabRegistry registry = FindObjectOfType<PrefabRegistry> ();
 		registry.prefabs = new PolyNetIdentity[prefabs.Length];
-		List<PolyNetIdentity> newIdentities = new List<PolyNetIdentity> ();
 		for (int i = 0; i < prefabs.Length; i++) {
 			GameObject prefab = AssetDatabase.LoadAssetAtPath (AssetDatabase.GUIDToAssetPath(prefabs[i]), typeof(GameObject)) as GameObject;
 			PolyNetIdentity id = prefab.GetComponent<PolyNetIdentity> ();
@@ -265,6 +267,18 @@ public class PolyNetEditor : Editor {
 				registry.nextID++;
 			}
 			registry.prefabs [i] = prefab.GetComponent<PolyNetIdentity> ();
+		}
+	}
+
+	public void wipePrefabIDs() {
+		string[] prefabs = AssetDatabase.FindAssets ("l:Identity", null);
+		PrefabRegistry registry = FindObjectOfType<PrefabRegistry> ();
+		registry.prefabs = new PolyNetIdentity[0];
+		registry.nextID = 0;
+		for (int i = 0; i < prefabs.Length; i++) {
+			GameObject prefab = AssetDatabase.LoadAssetAtPath (AssetDatabase.GUIDToAssetPath(prefabs[i]), typeof(GameObject)) as GameObject;
+			PolyNetIdentity id = prefab.GetComponent<PolyNetIdentity> ();
+			id.prefabId = 0;
 		}
 	}
 

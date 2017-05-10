@@ -8,7 +8,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 481578}
-  - component: {fileID: 114459416755860160}
   m_Layer: 0
   m_Name: FlowerBush_h_m_03
   m_TagString: Untagged
@@ -110,18 +109,3 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 157642}
   m_IsPrefabParent: 1
---- !u!114 &114459416755860160
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 157642}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bedd2bbdc15b94dcfbe10067a533d4d1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  prefabId: 38
-  isStatic: 1
-  isLocalPlayer: 0
-  isSaveable: 1
