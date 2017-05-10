@@ -87,13 +87,14 @@ namespace PolyNet {
 		}
 
 		public static void onLoginData(JSONObject obj) {
+			Debug.Log ("Received Player Login...");
 			bool successful = obj.GetField ("status").b;
 			if (!successful) {
 				Debug.Log ("Login failed!");
 				return;
 			}
 			PolyNetPlayer player = JSONHelper.unwrap (obj.GetField ("player"));
-			player.setData (JSONHelper.unwrap(obj.GetField("player"), "position"));
+			player.setData (new Vector3(200,200,200));
 			Debug.Log ("Player login with ID:" + player.playerId);
 			PolyNetWorld.addPlayer (player);
 		}
