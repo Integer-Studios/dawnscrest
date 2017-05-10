@@ -455,11 +455,11 @@ namespace PolyPlayer {
 				l.living_hurt (this, 5f);
 				return;
 			}
-			Interactable i = g.GetComponent<Interactable> ();
-			if (i != null && i.isInteractable(this)) {
+			Interactable i = g.GetComponentInParent<Interactable> ();
+			if (i != null && i.isInteractable (this)) {
 				lookingAtPoint = point;
 				lookingAtNormal = norms;
-				g.GetComponent<Interactable> ().interact (this, 1f);
+				g.GetComponentInParent<Interactable> ().interact (this, 1f);
 			}
 		}
 
@@ -705,7 +705,7 @@ namespace PolyPlayer {
 		private void updateCrosshair () {
 			if (isLookingAtInteractable ()) {
 				crosshair.expand ();
-				crosshair.setFill (lookingAtObject.GetComponent<Interactable> ().getPercent ());
+				crosshair.setFill (lookingAtObject.GetComponentInParent<Interactable> ().getPercent ());
 			} else {
 				crosshair.minimize ();
 			}
@@ -927,7 +927,7 @@ namespace PolyPlayer {
 			if (!isLookingAtInteractable ()) {
 				swing ();
 			} else {
-				if (lookingAtObject.GetComponent<Interactable> ().maxStrength == 0f)
+				if (lookingAtObject.GetComponentInParent<Interactable> ().maxStrength == 0f)
 					identity.sendBehaviourPacket (new PacketPlayerHit (this, lookingAtObject, lookingAtPoint, lookingAtNormal));
 				else
 					setInteracting (true);
@@ -1091,7 +1091,7 @@ namespace PolyPlayer {
 			if (lookingAtObject == null)
 				return false;
 
-			Interactable i = lookingAtObject.GetComponent<Interactable> ();
+			Interactable i = lookingAtObject.GetComponentInParent<Interactable> ();
 			if (inter)
 				return (i && i.isInteractable(this));
 			else return i;
@@ -1134,8 +1134,8 @@ namespace PolyPlayer {
 				return;
 			if (lookingAtObject.layer == 8)
 				effects.playEffect (WorldTerrain.getMaterialEffects(transform.position).hitEffect, lookingAtPoint, lookingAtNormal, 50f);
-			else if (lookingAtObject.GetComponent<FXMaterial> ())
-				effects.playEffect (lookingAtObject.GetComponent<FXMaterial> ().effects.hitEffect, lookingAtPoint, lookingAtNormal, 50f);
+			else if (lookingAtObject.GetComponentInParent<FXMaterial> ())
+				effects.playEffect (lookingAtObject.GetComponentInParent<FXMaterial> ().effects.hitEffect, lookingAtPoint, lookingAtNormal, 50f);
 			identity.sendBehaviourPacket (new PacketPlayerHit (this, lookingAtObject, lookingAtPoint, lookingAtNormal));
 		}
 

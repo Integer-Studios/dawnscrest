@@ -19,7 +19,6 @@ namespace PolyPlayer {
 			int s = -1;
 			playerSoundsEncode.TryGetValue (i, out s);
 			identity.sendBehaviourPacket (new PacketMetadata (this, s));
-			Debug.Log (s);
 		}
 
 		public void playSound(AudioClip c) {

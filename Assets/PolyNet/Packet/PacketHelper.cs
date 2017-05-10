@@ -78,7 +78,7 @@ namespace PolyNet {
 
 		public static void write(ref BinaryWriter writer, GameObject obj) {
 			int i = -1;
-			PolyNetIdentity identity = obj.GetComponent<PolyNetIdentity>();
+			PolyNetIdentity identity = obj.GetComponentInParent<PolyNetIdentity>();
 			if (identity != null)
 				i = identity.getInstanceId ();
 			writer.Write (i);

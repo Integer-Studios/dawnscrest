@@ -19,7 +19,6 @@ namespace PolyNet {
 			registry = m.GetComponent<PrefabRegistry> ();
 //			PolyWorld.WorldTerrain.terrain.createTerrain (null, onTerrainGenerated);
 			loadHeightmap ();
-			loadObjects ();
 		}
 
 		private static void loadHeightmap() {
@@ -56,16 +55,16 @@ namespace PolyNet {
 				int id = (int)objJSON.GetField ("id").n;
 
 				GameObject pre;
-
 				if (prefabs.TryGetValue (p, out pre)) {
-					GameObject obj = GameObject.Instantiate (registry.prefabs [p].gameObject, JSONHelper.unwrap (objJSON, "position"), Quaternion.Euler (JSONHelper.unwrap (objJSON, "rotation")));
+					GameObject obj = GameObject.Instantiate (pre, JSONHelper.unwrap (objJSON, "position"), Quaternion.Euler (JSONHelper.unwrap (objJSON, "rotation")));
 					PolyNetIdentity i = obj.GetComponent<PolyNetIdentity> ();
 					i.initialize (id);
 					i.prefabId = p;
 				} else {
-					Debug.Log ("Fuck");
+					Debug.Log ("Unrecognized Prefab ID: " + p + " Skipping Spawn");
 				}
 			}
+			finishLoad ();
 		}
 
 		public static void ripPrefabs() {
@@ -76,7 +75,7 @@ namespace PolyNet {
 		}
 
 		private static void onTerrainGenerated() {
-			finishLoad ();
+			loadObjects ();
 		}
 
 		private static void finishLoad() {

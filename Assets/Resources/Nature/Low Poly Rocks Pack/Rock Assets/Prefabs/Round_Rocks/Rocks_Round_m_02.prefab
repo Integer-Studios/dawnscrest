@@ -8,6 +8,9 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 453054}
+  - component: {fileID: 114924368010614060}
+  - component: {fileID: 114881740182167592}
+  - component: {fileID: 114519539350857322}
   m_Layer: 0
   m_Name: Rocks_Round_m_02
   m_TagString: decoration
@@ -26,9 +29,6 @@ GameObject:
   - component: {fileID: 3359260}
   - component: {fileID: 2322542}
   - component: {fileID: 6455342}
-  - component: {fileID: 114220301554086014}
-  - component: {fileID: 114664580355493048}
-  - component: {fileID: 114065840181962992}
   m_Layer: 0
   m_Name: Rocks_Round_m_02
   m_TagString: Untagged
@@ -93,6 +93,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 0
 --- !u!33 &3359260
 MeshFilter:
@@ -126,12 +127,12 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 150774}
   m_IsPrefabParent: 1
---- !u!114 &114065840181962992
+--- !u!114 &114519539350857322
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 170118}
+  m_GameObject: {fileID: 150774}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 11eb8acd47c934639b60e87a2cf56a51, type: 3}
@@ -166,44 +167,12 @@ MonoBehaviour:
       - {fileID: 8300000, guid: eee1e62809cdc4d89b496183d177869d, type: 3}
       particles: {fileID: 198050472945075162, guid: 17a4b574dcc9b44f9b676921d1b85a21,
         type: 2}
---- !u!114 &114220301554086014
+--- !u!114 &114881740182167592
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 170118}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 152
-    i1: 116
-    i2: 150
-    i3: 19
-    i4: 89
-    i5: 5
-    i6: 109
-    i7: 196
-    i8: 91
-    i9: 93
-    i10: 245
-    i11: 19
-    i12: 66
-    i13: 34
-    i14: 230
-    i15: 45
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
---- !u!114 &114664580355493048
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 170118}
+  m_GameObject: {fileID: 150774}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d59c217d16c2a48198c5b8e471808671, type: 3}
@@ -218,3 +187,20 @@ MonoBehaviour:
   refills: 5
   refillTime: 60
   replacement: {fileID: 0}
+  curRepeats: 0
+  curRefills: 0
+--- !u!114 &114924368010614060
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 150774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bedd2bbdc15b94dcfbe10067a533d4d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabId: 2038
+  isStatic: 1
+  isLocalPlayer: 0
+  isSaveable: 1

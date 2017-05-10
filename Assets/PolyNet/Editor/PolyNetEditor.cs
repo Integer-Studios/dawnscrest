@@ -199,6 +199,7 @@ public class PolyNetEditor : Editor {
 	}
 
 	public void loadObjects() {
+		ripPrefabs ();
 		Debug.Log ("Requesting Objects...");
 
 		WWWForm form = generateWorldForm (64);
@@ -218,13 +219,21 @@ public class PolyNetEditor : Editor {
 				foreach (JSONObject objJSON in jsonObj.list) {
 					int p = (int)objJSON.GetField ("prefab").n;
 					int id = (int)objJSON.GetField ("id").n;
-			
 
-					GameObject obj = GameObject.Instantiate (manager.GetComponent<PrefabRegistry>().prefabs [p].gameObject, JSONHelper.unwrap(objJSON, "position"), Quaternion.Euler(JSONHelper.unwrap(objJSON, "rotation")));
+					GameObject pre;
+					if (prefabs.TryGetValue(p, out pre)) {
 
-					PolyNetIdentity i = obj.GetComponent<PolyNetIdentity> ();
-					i.initialize (id);
-					i.prefabId = p;
+						GameObject obj = GameObject.Instantiate (pre, JSONHelper.unwrap(objJSON, "position"), Quaternion.Euler(JSONHelper.unwrap(objJSON, "rotation")));
+
+						PolyNetIdentity i = obj.GetComponent<PolyNetIdentity> ();
+						i.initialize (id);
+						i.prefabId = p;
+
+					} else {
+
+						Debug.Log("fuck");
+
+					}
 				}
 			}
 		});

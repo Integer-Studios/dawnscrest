@@ -40,12 +40,12 @@ Material:
     m_Floats:
     - _BottomExponent: 1
     - _CloudsHeight: 0
-    - _CloudsRotation: 11
+    - _CloudsRotation: 0
     - _Exponent: 1
-    - _Exposure: 0.86
+    - _Exposure: 0.98
     - _MoonSize: 0.75
-    - _StarsExtinction: 2
-    - _StarsTwinklingSpeed: 10
+    - _StarsExtinction: 2.2
+    - _StarsTwinklingSpeed: 8.8
     - _SunSize: 0.75
     - _TopExponent: 1
     m_Colors:

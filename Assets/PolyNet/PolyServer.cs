@@ -77,7 +77,7 @@ namespace PolyNet {
 				return;
 			}
 			PolyNetPlayer player = JSONHelper.unwrap (obj.GetField ("player"));
-			player.setData (new Vector3 (5, 50, 5));
+			player.setData (new Vector3 (260, 72, 193));
 			Debug.Log ("Player login with ID:" + player.playerId);
 			PolyNetWorld.addPlayer (player);
 		}

@@ -8,6 +8,9 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 462008}
+  - component: {fileID: 114875830354563580}
+  - component: {fileID: 114220845205971898}
+  - component: {fileID: 114169938320995782}
   m_Layer: 0
   m_Name: Rock_Round_l_08
   m_TagString: decoration
@@ -26,9 +29,6 @@ GameObject:
   - component: {fileID: 3355892}
   - component: {fileID: 2364740}
   - component: {fileID: 6482254}
-  - component: {fileID: 114792794523163720}
-  - component: {fileID: 114008606041253842}
-  - component: {fileID: 114448207535201456}
   m_Layer: 0
   m_Name: Rock_Round_l_08
   m_TagString: Untagged
@@ -93,6 +93,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 0
 --- !u!33 &3355892
 MeshFilter:
@@ -126,32 +127,12 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 162282}
   m_IsPrefabParent: 1
---- !u!114 &114008606041253842
+--- !u!114 &114169938320995782
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 199488}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d59c217d16c2a48198c5b8e471808671, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxStrength: 5
-  type: 0
-  destroyOnInteract: 0
-  drops:
-  - {fileID: 114820388541141892, guid: 3317280d4d3a4495db2fd43f7abda948, type: 2}
-  repeats: 3
-  refills: 5
-  refillTime: 60
-  replacement: {fileID: 0}
---- !u!114 &114448207535201456
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 199488}
+  m_GameObject: {fileID: 162282}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 11eb8acd47c934639b60e87a2cf56a51, type: 3}
@@ -186,35 +167,40 @@ MonoBehaviour:
       - {fileID: 8300000, guid: eee1e62809cdc4d89b496183d177869d, type: 3}
       particles: {fileID: 198050472945075162, guid: 17a4b574dcc9b44f9b676921d1b85a21,
         type: 2}
---- !u!114 &114792794523163720
+--- !u!114 &114220845205971898
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 199488}
+  m_GameObject: {fileID: 162282}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Script: {fileID: 11500000, guid: d59c217d16c2a48198c5b8e471808671, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 156
-    i1: 202
-    i2: 187
-    i3: 63
-    i4: 0
-    i5: 73
-    i6: 203
-    i7: 52
-    i8: 121
-    i9: 126
-    i10: 79
-    i11: 200
-    i12: 144
-    i13: 81
-    i14: 55
-    i15: 10
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
+  maxStrength: 5
+  type: 0
+  destroyOnInteract: 0
+  drops:
+  - {fileID: 114820388541141892, guid: 3317280d4d3a4495db2fd43f7abda948, type: 2}
+  repeats: 3
+  refills: 5
+  refillTime: 60
+  replacement: {fileID: 0}
+  curRepeats: 0
+  curRefills: 0
+--- !u!114 &114875830354563580
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 162282}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bedd2bbdc15b94dcfbe10067a533d4d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabId: 2012
+  isStatic: 1
+  isLocalPlayer: 0
+  isSaveable: 1
