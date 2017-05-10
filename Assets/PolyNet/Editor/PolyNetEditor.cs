@@ -39,6 +39,9 @@ public class PolyNetEditor : Editor {
 		if (GUILayout.Button ("Save Objects")) {
 			saveObjects ();
 		}
+		if (GUILayout.Button ("Register Prefabs")) {
+			registerPrefabsFromAssets ();
+		}
 
 		EditorGUILayout.BeginHorizontal();
 
@@ -246,6 +249,22 @@ public class PolyNetEditor : Editor {
 			foreach (PolyNetIdentity g in registry.prefabs) {
 				prefabs.Add (g.prefabId, g.gameObject);
 			}
+		}
+	}
+
+	public void registerPrefabsFromAssets() {
+		string[] prefabs = AssetDatabase.FindAssets ("l:Identity", null);
+		PrefabRegistry registry = FindObjectOfType<PrefabRegistry> ();
+		registry.prefabs = new PolyNetIdentity[prefabs.Length];
+		List<PolyNetIdentity> newIdentities = new List<PolyNetIdentity> ();
+		for (int i = 0; i < prefabs.Length; i++) {
+			GameObject prefab = AssetDatabase.LoadAssetAtPath (AssetDatabase.GUIDToAssetPath(prefabs[i]), typeof(GameObject)) as GameObject;
+			PolyNetIdentity id = prefab.GetComponent<PolyNetIdentity> ();
+			if (id.prefabId == 0) {
+				id.prefabId = registry.nextID;
+				registry.nextID++;
+			}
+			registry.prefabs [i] = prefab.GetComponent<PolyNetIdentity> ();
 		}
 	}
 
