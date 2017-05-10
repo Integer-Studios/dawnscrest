@@ -35,6 +35,7 @@ namespace PolyNet {
 			foreach (PolyNetPlayer p in players.Values) {
 				p.servlet.stop ();
 			}
+			serverSocket.Shutdown (SocketShutdown.Both);
 			serverSocket.Close ();
 		}
 

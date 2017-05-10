@@ -55,6 +55,7 @@ namespace PolyNet {
 
 		public void stop () {
 			isActive = false;
+			socket.Shutdown (SocketShutdown.Both);
 			socket.Close ();
 			onDisconnect ();
 		}

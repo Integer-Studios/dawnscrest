@@ -6,7 +6,9 @@ namespace PolyNet {
 
 	public class PrefabRegistry : MonoBehaviour {
 
+		public int nextID;
 		public PolyNetIdentity[] prefabs;
+
 
 	}
 
