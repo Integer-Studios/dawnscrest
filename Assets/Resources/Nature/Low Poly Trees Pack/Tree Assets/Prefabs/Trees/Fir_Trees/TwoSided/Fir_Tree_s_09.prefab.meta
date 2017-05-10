@@ -1,8 +1,11 @@
 fileFormatVersion: 2
 guid: 8cee4bbd89ec6864e91b4d405a8ccfb8
+labels:
+- Identity
 timeCreated: 1475763975
 licenseType: Store
 NativeFormatImporter:
+  mainObjectFileID: -1
   userData: 
   assetBundleName: 
   assetBundleVariant: 

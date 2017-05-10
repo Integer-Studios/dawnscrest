@@ -25,10 +25,10 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 401696}
-  - component: {fileID: 114509505437316264}
   - component: {fileID: 114711250849360782}
   - component: {fileID: 65617962816257618}
   - component: {fileID: 114839234216339378}
+  - component: {fileID: 114871095411212526}
   m_Layer: 0
   m_Name: Grass_f_TwoS_01
   m_TagString: decoration
@@ -93,6 +93,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 0
 --- !u!33 &3315386
 MeshFilter:
@@ -124,38 +125,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.5, y: 0.5, z: 0.5}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &114509505437316264
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 172522}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 72
-    i1: 176
-    i2: 206
-    i3: 90
-    i4: 96
-    i5: 38
-    i6: 169
-    i7: 196
-    i8: 122
-    i9: 131
-    i10: 112
-    i11: 87
-    i12: 133
-    i13: 231
-    i14: 127
-    i15: 132
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
 --- !u!114 &114711250849360782
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -176,6 +145,8 @@ MonoBehaviour:
   refills: 5
   refillTime: 60
   replacement: {fileID: 0}
+  curRepeats: 0
+  curRefills: 0
 --- !u!114 &114839234216339378
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -216,3 +187,18 @@ MonoBehaviour:
       - {fileID: 8300000, guid: 6ca87357d0d6145ffb822834c20828f2, type: 3}
       particles: {fileID: 198050472945075162, guid: f890f2cadea734656b41d60dafd45f8a,
         type: 2}
+--- !u!114 &114871095411212526
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 172522}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bedd2bbdc15b94dcfbe10067a533d4d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabId: 66
+  isStatic: 1
+  isLocalPlayer: 0
+  isSaveable: 1

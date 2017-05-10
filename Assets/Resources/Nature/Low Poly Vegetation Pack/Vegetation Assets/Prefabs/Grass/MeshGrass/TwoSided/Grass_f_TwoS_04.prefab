@@ -8,10 +8,10 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 475534}
-  - component: {fileID: 114605734732182216}
   - component: {fileID: 114901450707283596}
   - component: {fileID: 65611755175420664}
   - component: {fileID: 114886460056972460}
+  - component: {fileID: 114327085582109068}
   m_Layer: 0
   m_Name: Grass_f_TwoS_04
   m_TagString: decoration
@@ -93,6 +93,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 0
 --- !u!33 &3321104
 MeshFilter:
@@ -124,7 +125,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.5, y: 0.5, z: 0.5}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &114605734732182216
+--- !u!114 &114327085582109068
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -132,30 +133,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 120510}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Script: {fileID: 11500000, guid: bedd2bbdc15b94dcfbe10067a533d4d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 146
-    i1: 148
-    i2: 231
-    i3: 33
-    i4: 224
-    i5: 159
-    i6: 41
-    i7: 36
-    i8: 107
-    i9: 145
-    i10: 125
-    i11: 229
-    i12: 230
-    i13: 70
-    i14: 112
-    i15: 231
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
+  prefabId: 69
+  isStatic: 1
+  isLocalPlayer: 0
+  isSaveable: 1
 --- !u!114 &114886460056972460
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -216,3 +200,5 @@ MonoBehaviour:
   refills: 5
   refillTime: 60
   replacement: {fileID: 0}
+  curRepeats: 0
+  curRefills: 0

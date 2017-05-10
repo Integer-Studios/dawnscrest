@@ -8,10 +8,10 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 425106}
-  - component: {fileID: 114618941856975306}
   - component: {fileID: 114375808343294500}
   - component: {fileID: 65374823215707712}
   - component: {fileID: 114592666218722964}
+  - component: {fileID: 114313468589154644}
   m_Layer: 0
   m_Name: Grass_c_TwoS_04
   m_TagString: decoration
@@ -93,6 +93,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 0
 --- !u!33 &3350820
 MeshFilter:
@@ -124,6 +125,21 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.5, y: 0.5, z: 0.5}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &114313468589154644
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 135662}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bedd2bbdc15b94dcfbe10067a533d4d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabId: 49
+  isStatic: 1
+  isLocalPlayer: 0
+  isSaveable: 1
 --- !u!114 &114375808343294500
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -144,6 +160,8 @@ MonoBehaviour:
   refills: 5
   refillTime: 60
   replacement: {fileID: 0}
+  curRepeats: 0
+  curRefills: 0
 --- !u!114 &114592666218722964
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -184,35 +202,3 @@ MonoBehaviour:
       - {fileID: 8300000, guid: 6ca87357d0d6145ffb822834c20828f2, type: 3}
       particles: {fileID: 198050472945075162, guid: f890f2cadea734656b41d60dafd45f8a,
         type: 2}
---- !u!114 &114618941856975306
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 135662}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 236
-    i1: 146
-    i2: 218
-    i3: 239
-    i4: 186
-    i5: 124
-    i6: 219
-    i7: 228
-    i8: 171
-    i9: 249
-    i10: 253
-    i11: 180
-    i12: 126
-    i13: 159
-    i14: 29
-    i15: 72
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0

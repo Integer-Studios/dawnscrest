@@ -8,10 +8,10 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 409606}
-  - component: {fileID: 114546767273142800}
   - component: {fileID: 114392797702754306}
   - component: {fileID: 65870506857329358}
   - component: {fileID: 114773025869083882}
+  - component: {fileID: 114979269011278240}
   m_Layer: 0
   m_Name: Grass_h_TwoS_02
   m_TagString: decoration
@@ -93,6 +93,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 0
 --- !u!33 &3396434
 MeshFilter:
@@ -144,38 +145,8 @@ MonoBehaviour:
   refills: 5
   refillTime: 60
   replacement: {fileID: 0}
---- !u!114 &114546767273142800
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 144424}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 33
-    i1: 0
-    i2: 90
-    i3: 22
-    i4: 216
-    i5: 182
-    i6: 10
-    i7: 180
-    i8: 88
-    i9: 68
-    i10: 153
-    i11: 140
-    i12: 203
-    i13: 5
-    i14: 122
-    i15: 219
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
+  curRepeats: 0
+  curRefills: 0
 --- !u!114 &114773025869083882
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -216,3 +187,18 @@ MonoBehaviour:
       - {fileID: 8300000, guid: 6ca87357d0d6145ffb822834c20828f2, type: 3}
       particles: {fileID: 198050472945075162, guid: f890f2cadea734656b41d60dafd45f8a,
         type: 2}
+--- !u!114 &114979269011278240
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 144424}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bedd2bbdc15b94dcfbe10067a533d4d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabId: 79
+  isStatic: 1
+  isLocalPlayer: 0
+  isSaveable: 1

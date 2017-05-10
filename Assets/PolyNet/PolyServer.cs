@@ -80,6 +80,7 @@ namespace PolyNet {
 		}
 
 		public static void onLogin(PolyNetPlayer p) {
+			Debug.Log ("Requesting Player Login...");
 			players.Add (p.playerId, p);
 			unidentifiedClients.Remove (p.servlet);
 			PolyNodeHandler.sendRequest ("playerLogin", JSONHelper.wrap (p), onLoginData);

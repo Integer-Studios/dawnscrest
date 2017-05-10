@@ -13,6 +13,7 @@ namespace PolyNet {
 		private static PolyNetManager manager;
 
 		public static void initialize(PolyNetManager m, PolyNetManager.StartSequenceDelegate onComplete, int ssid) {
+			
 			manager = m;
 			ripPrefabs ();
 

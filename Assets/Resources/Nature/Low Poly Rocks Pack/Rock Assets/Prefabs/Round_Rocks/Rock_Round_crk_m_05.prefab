@@ -138,7 +138,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bedd2bbdc15b94dcfbe10067a533d4d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabId: 2004
+  prefabId: 135
   isStatic: 1
   isLocalPlayer: 0
   isSaveable: 1

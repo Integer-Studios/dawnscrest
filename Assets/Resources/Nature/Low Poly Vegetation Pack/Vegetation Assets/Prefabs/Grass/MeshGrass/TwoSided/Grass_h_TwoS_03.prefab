@@ -25,10 +25,10 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 480072}
-  - component: {fileID: 114955461829835866}
   - component: {fileID: 114842631209102246}
   - component: {fileID: 65586430791540288}
   - component: {fileID: 114315152629265736}
+  - component: {fileID: 114367838290756616}
   m_Layer: 0
   m_Name: Grass_h_TwoS_03
   m_TagString: decoration
@@ -93,6 +93,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 0
 --- !u!33 &3349490
 MeshFilter:
@@ -164,6 +165,21 @@ MonoBehaviour:
       - {fileID: 8300000, guid: 6ca87357d0d6145ffb822834c20828f2, type: 3}
       particles: {fileID: 198050472945075162, guid: f890f2cadea734656b41d60dafd45f8a,
         type: 2}
+--- !u!114 &114367838290756616
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 179548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bedd2bbdc15b94dcfbe10067a533d4d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabId: 80
+  isStatic: 1
+  isLocalPlayer: 0
+  isSaveable: 1
 --- !u!114 &114842631209102246
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -184,35 +200,5 @@ MonoBehaviour:
   refills: 5
   refillTime: 60
   replacement: {fileID: 0}
---- !u!114 &114955461829835866
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 179548}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 20
-    i1: 179
-    i2: 4
-    i3: 70
-    i4: 102
-    i5: 139
-    i6: 214
-    i7: 196
-    i8: 26
-    i9: 203
-    i10: 73
-    i11: 28
-    i12: 251
-    i13: 49
-    i14: 207
-    i15: 207
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
+  curRepeats: 0
+  curRefills: 0
