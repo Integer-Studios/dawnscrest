@@ -43,9 +43,23 @@ namespace PolyNet {
 		}
 
 		public static void onDisconnect(PolyNetPlayer p) {
+			JSONObject o = p.identity.writeSaveData ();
+			o.SetField ("id", p.playerId);
+
+			JSONObject send = new JSONObject (JSONObject.Type.OBJECT);
+			send.SetField ("world", manager.worldID);
+			send.SetField ("player", o);
 			PolyNetWorld.removePlayer (p);
-			players.Remove (p.playerId);
+
+			PolyNodeHandler.sendRequest ("playerSave", send, onPlayerSaved);
 			Debug.Log ("Player Disconnected with player ID: " + p.playerId);
+		}
+
+		public static void onPlayerSaved(JSONObject data) {
+			int playerId = (int)data.GetField ("player").n;
+			players.Remove (playerId);
+			Debug.Log ("Player Saved with player ID: " + playerId);
+
 		}
 
 		/*
@@ -77,7 +91,7 @@ namespace PolyNet {
 				return;
 			}
 			PolyNetPlayer player = JSONHelper.unwrap (obj.GetField ("player"));
-			player.setData (new Vector3 (260, 72, 193));
+			player.setData (JSONHelper.unwrap(obj.GetField("player"), "position"));
 			Debug.Log ("Player login with ID:" + player.playerId);
 			PolyNetWorld.addPlayer (player);
 		}

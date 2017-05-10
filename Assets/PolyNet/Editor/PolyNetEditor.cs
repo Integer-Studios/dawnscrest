@@ -11,10 +11,6 @@ using System.Text.RegularExpressions;
 public class PolyNetEditor : Editor {
 	PolyNetManager manager;
 	public ByteOrder rawHeightMapOrder = ByteOrder.Windows;
-	public int resolution = 4;
-	public int size = 512;
-	public float height = 100f;
-	public int maxChunkX;
 
 	private Dictionary<int, GameObject> prefabs;
 
@@ -81,13 +77,14 @@ public class PolyNetEditor : Editor {
 				index += sizeof(System.UInt16);
 			}
 		}
-		heightmapSize = (int)(size / resolution);
+		WorldTerrain t = PolyNetManager.FindObjectOfType<WorldTerrain> ();
+		heightmapSize = (int)(t.size / t.resolution);
 		heightmap = new float[heightmapSize, heightmapSize];
 		for (int zi = 0; zi < heightmapSize; ++zi) {
 			for (int xi = 0; xi < heightmapSize; ++xi) {
 				float u = ((float)xi) / ((float)heightmapSize);
 				float v = ((float)zi) / ((float)heightmapSize);
-				heightmap [xi, zi] = height * rawHeightmap [(int)(u * rawHeightMapSize), (int)(v * rawHeightMapSize)];
+				heightmap [xi, zi] = t.height * rawHeightmap [(int)(u * rawHeightMapSize), (int)(v * rawHeightMapSize)];
 			}
 		}
 		JSONObject heightmapJSON = new JSONObject (JSONObject.Type.ARRAY);
@@ -146,8 +143,10 @@ public class PolyNetEditor : Editor {
 					JSONObject jsonObj = new JSONObject(text);
 				JSONObject mapObj = jsonObj.GetField("map");
 //				JSONObject mapObj = JSONObject.Create (jsonObj.GetField("map").str, 2, true, true);
+				WorldTerrain t = PolyNetManager.FindObjectOfType<WorldTerrain> ();
+
 				if (mapObj.IsArray) {
-				int heightmapSize = (int)(size / resolution);
+				int heightmapSize = (int)(t.size / t.resolution);
 				float[,] heightmap = new float[heightmapSize, heightmapSize];
 				foreach (JSONObject ind in mapObj.list) {
 					int x = (int)ind.list [0].n;
@@ -155,7 +154,7 @@ public class PolyNetEditor : Editor {
 					float height = ind.list [2].n;
 					heightmap [x, z] = height;
 				}
-				PolyNetManager.FindObjectOfType<WorldTerrain> ().createEditorTerrain (heightmap, new PolyWorld.ChunkIndex(manager.xMin, manager.zMin), new PolyWorld.ChunkIndex(manager.xMax, manager.zMax));
+				t.createEditorTerrain (heightmap, new PolyWorld.ChunkIndex(manager.xMin, manager.zMin), new PolyWorld.ChunkIndex(manager.xMax, manager.zMax));
 				} else {
 					Debug.Log("Empty Heightmap returned.");
 				}
@@ -182,7 +181,7 @@ public class PolyNetEditor : Editor {
 
 
 		form.AddField ("objects", arr.ToString ());
-		string url = "http://server.integerstudios.com:4206/objects/save";
+		string url = "http://cdn.polytechni.ca/save_objects.php";
 		WWW www = new WWW(url, form);
 		ContinuationManager.Add(() => www.isDone, () => {
 			if (!string.IsNullOrEmpty(www.error)) {
