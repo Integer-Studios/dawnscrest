@@ -9,6 +9,7 @@ namespace PolyNet {
 
 		public delegate void StartSequenceDelegate(int stage);
 
+		public bool local;
 		public string serverAddress;
 		public string externalAddress;
 		public int serverPort;
@@ -37,7 +38,11 @@ namespace PolyNet {
 
 		// Use this for initialization
 		void Awake () {
-
+			if (local) {
+				serverAddress = "127.0.0.1";
+				externalAddress = "127.0.0.1";
+			}
+				
 			switch (port) {
 			case 0:
 				serverPort = 8888;

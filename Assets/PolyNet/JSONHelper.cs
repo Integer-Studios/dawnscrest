@@ -10,7 +10,6 @@ namespace PolyNet {
 			JSONObject playerJSON = new JSONObject (JSONObject.Type.OBJECT);
 			playerJSON.AddField ("id", player.playerId);
 			playerJSON.AddField ("session", player.session);
-			playerJSON.AddField ("world", -1);
 			return playerJSON;
 		}
 

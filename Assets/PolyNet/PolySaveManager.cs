@@ -22,12 +22,14 @@ namespace PolyNet {
 		}
 
 		private static void loadHeightmap() {
+			Debug.Log ("Startup[" + startSequenceId + "]: Requesting Heightmap...");
 			JSONObject jsonObj = new JSONObject (JSONObject.Type.OBJECT);
 			jsonObj.AddField ("world", manager.worldID);
 			PolyNodeHandler.sendRequest ("heightmap", jsonObj, onHeightmapData);
 		}
 
 		private static void onHeightmapData(JSONObject data) {
+			Debug.Log ("Startup[" + startSequenceId + "]: Heightmap Successfully Received, Generating....");
 			JSONObject mapObj = JSONObject.Create (data.GetField("map").str, 1, true, true);
 			int size = PolyWorld.WorldTerrain.terrain.size;
 			int resolution = PolyWorld.WorldTerrain.terrain.resolution;
@@ -50,6 +52,7 @@ namespace PolyNet {
 		}
 
 		private static void onObjectsData(JSONObject data) {
+			Debug.Log ("Startup[" + startSequenceId + "]: Objects Received, Instantiating Prefabs...");
 			foreach (JSONObject objJSON in data.list) {
 				int p = (int)objJSON.GetField ("prefab").n;
 				int id = (int)objJSON.GetField ("id").n;
@@ -75,6 +78,7 @@ namespace PolyNet {
 		}
 
 		private static void onTerrainGenerated() {
+			Debug.Log ("Startup[" + startSequenceId + "]: Heightmap Successfully Generated, Requesting Objects...");
 			loadObjects ();
 		}
 

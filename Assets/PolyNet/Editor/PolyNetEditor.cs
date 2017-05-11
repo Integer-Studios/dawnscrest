@@ -23,26 +23,26 @@ public class PolyNetEditor : Editor {
 		WorldTerrain t = PolyNetManager.FindObjectOfType<WorldTerrain> ();
 
 		DrawDefaultInspector();
-		minX = (float)manager.xMin;
-		minX = (float)manager.xMax;
-		minZ = (float)manager.zMin;
-		maxZ = (float)manager.zMax;
-
 		manager = (PolyNetManager)target;
+//		minX = (float)manager.xMin;
+//		minX = (float)manager.xMax;
+//		minZ = (float)manager.zMin;
+//		maxZ = (float)manager.zMax;
+
 		EditorGUILayout.LabelField("X Min:", manager.xMin.ToString());
 		EditorGUILayout.LabelField("X Max:", manager.xMax.ToString());
 		EditorGUILayout.MinMaxSlider(ref minX,ref maxX, 0, (t.size/t.chunkSize));
-		manager.xMax = (int)maxX;
-		manager.xMin = (int)minX;
+
 		EditorGUILayout.LabelField("Z Min:", manager.zMin.ToString());
 		EditorGUILayout.LabelField("Z Max:", manager.zMax.ToString());
 		EditorGUILayout.MinMaxSlider(ref minZ,ref maxZ, 0, (t.size/t.chunkSize));
-		manager.zMax = (int)maxZ;
-		manager.zMin = (int)minZ;
+
+		ripChunkRange ();
+
 		// Danger button
-//		if (GUILayout.Button ("Rip Heightmap")) {
-//			ripHeightmap ();
-//		}
+		if (GUILayout.Button ("Rip Heightmap")) {
+			ripHeightmap ();
+		}
 //		if (GUILayout.Button ("Load Heightmap")) {
 //			loadHeightmap();
 //		}
@@ -71,6 +71,13 @@ public class PolyNetEditor : Editor {
 
 		}
 		EditorGUILayout.EndHorizontal();
+	}
+
+	public void ripChunkRange() {
+		manager.xMax = (int)maxX;
+		manager.xMin = (int)minX;
+		manager.zMax = (int)maxZ;
+		manager.zMin = (int)minZ;
 	}
 
 	public void clearObjects() {
