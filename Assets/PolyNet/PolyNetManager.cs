@@ -22,6 +22,7 @@ namespace PolyNet {
 		public int worldID = -1;
 
 		public bool limit = false;
+
 		[HideInInspector]
 		public int xMax = 10;
 		[HideInInspector]

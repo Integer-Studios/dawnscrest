@@ -87,7 +87,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 768dd319dde83439f98c0bd68a6e2310, type: 2}
+  - {fileID: 2100000, guid: 6022fa8e02e69409aaa0b9cb35c00f94, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -104,6 +104,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 0
 --- !u!33 &33495837785311144
 MeshFilter:
@@ -156,8 +157,8 @@ MonoBehaviour:
   weight: 1
   maxStackSize: 10
   type: 0
-  onPlaced: {fileID: 0}
   quality: 0
+  onPlaced: {fileID: 0}
 --- !u!114 &114827586191368668
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -169,6 +170,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bedd2bbdc15b94dcfbe10067a533d4d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabId: 115
+  prefabId: 193
   isStatic: 1
   isLocalPlayer: 0
+  isSaveable: 1

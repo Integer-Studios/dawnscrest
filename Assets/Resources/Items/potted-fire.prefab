@@ -59,8 +59,8 @@ MonoBehaviour:
   weight: 1
   maxStackSize: 1
   type: 0
-  onPlaced: {fileID: 1015646184118510, guid: e85e0d823ff50413d97966cb3a1c97b8, type: 2}
   quality: 0
+  onPlaced: {fileID: 1015646184118510, guid: e85e0d823ff50413d97966cb3a1c97b8, type: 2}
 --- !u!114 &114679389464991734
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -72,9 +72,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bedd2bbdc15b94dcfbe10067a533d4d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabId: 106
+  prefabId: 184
   isStatic: 1
   isLocalPlayer: 0
+  isSaveable: 1
 --- !u!135 &135702719959745316
 SphereCollider:
   m_ObjectHideFlags: 1

@@ -53,9 +53,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bedd2bbdc15b94dcfbe10067a533d4d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabId: 101
+  prefabId: 183
   isStatic: 1
   isLocalPlayer: 0
+  isSaveable: 1
 --- !u!114 &114450475430160602
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -73,8 +74,8 @@ MonoBehaviour:
   weight: 0
   maxStackSize: 0
   type: 0
-  onPlaced: {fileID: 0}
   quality: 0
+  onPlaced: {fileID: 0}
 --- !u!135 &135702719959745316
 SphereCollider:
   m_ObjectHideFlags: 1
