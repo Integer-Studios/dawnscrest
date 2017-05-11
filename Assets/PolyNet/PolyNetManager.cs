@@ -22,13 +22,13 @@ namespace PolyNet {
 		public int worldID = -1;
 
 		public bool limit = false;
-		[Range(0, 64)]
+		[HideInInspector]
 		public int xMax = 10;
-		[Range(0, 64)]
+		[HideInInspector]
 		public int xMin = 0;
-		[Range(0, 64)]
+		[HideInInspector]
 		public int zMax = 10;
-		[Range(0, 64)]
+		[HideInInspector]
 		public int zMin = 0;
 
 		private bool clientThreadFixer = false;

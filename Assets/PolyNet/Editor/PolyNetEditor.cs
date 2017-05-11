@@ -17,10 +17,23 @@ public class PolyNetEditor : Editor {
 	private float[,] heightmap;
 	private BlockID[,] blockMap;
 	public int heightmapSize;
+	float maxX,minX,maxZ,minZ;
+
 	public override void OnInspectorGUI() {
+		WorldTerrain t = PolyNetManager.FindObjectOfType<WorldTerrain> ();
 
 		DrawDefaultInspector();
 		manager = (PolyNetManager)target;
+		EditorGUILayout.LabelField("X Min:", manager.xMin.ToString());
+		EditorGUILayout.LabelField("X Max:", manager.xMax.ToString());
+		EditorGUILayout.MinMaxSlider(ref minX,ref maxX, 0, (t.size/t.chunkSize));
+		manager.xMax = (int)maxX;
+		manager.xMin = (int)minX;
+		EditorGUILayout.LabelField("Z Min:", manager.zMin.ToString());
+		EditorGUILayout.LabelField("Z Max:", manager.zMax.ToString());
+		EditorGUILayout.MinMaxSlider(ref minZ,ref maxZ, 0, (t.size/t.chunkSize));
+		manager.zMax = (int)maxZ;
+		manager.zMin = (int)minZ;
 		if (GUILayout.Button ("Rip Heightmap")) {
 			ripHeightmap ();
 		}
