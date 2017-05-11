@@ -39,6 +39,15 @@ namespace PolyNet {
 			serverSocket.Close ();
 		}
 
+		public static void poll() {
+			foreach (PolyNetPlayer p in players.Values) {
+				if (!p.servlet.IsConnected ()) {
+					p.servlet.handleDisconnect ();
+				}
+			}
+
+		}
+
 		public static void sendMessage (byte[] b, PolyNetPlayer player) {
 			player.servlet.send (b);
 		}
@@ -86,15 +95,17 @@ namespace PolyNet {
 			PolyNodeHandler.sendRequest ("playerLogin", JSONHelper.wrap (p), onLoginData);
 		}
 
-		public static void onLoginData(JSONObject obj) {
+		public static void onLoginData(JSONObject data) {
 			Debug.Log ("Received Player Login...");
-			bool successful = obj.GetField ("status").b;
+			bool successful = data.GetField ("status").b;
 			if (!successful) {
 				Debug.Log ("Login failed!");
 				return;
 			}
-			PolyNetPlayer player = JSONHelper.unwrap (obj.GetField ("player"));
-			player.setData (new Vector3(200,200,200));
+			PolyNetPlayer player = JSONHelper.unwrap (data.GetField ("player"));
+
+			JSONObject obj = data.GetField ("player").GetField ("object");
+			player.setData (JSONHelper.unwrap(obj, "position"));
 			Debug.Log ("Player login with ID:" + player.playerId);
 			PolyNetWorld.addPlayer (player);
 		}

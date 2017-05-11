@@ -55,14 +55,29 @@ namespace PolyNet {
 
 		public void stop () {
 			isActive = false;
-			socket.Shutdown (SocketShutdown.Both);
+			if (IsConnected())
+				socket.Shutdown (SocketShutdown.Both);
 			socket.Close ();
 			onDisconnect ();
+		}
+
+		public void handleDisconnect() {
+			isActive = false;
+			socket.Close ();
+			onDisconnect ();
+		}
+
+		public bool IsConnected() {
+			try {
+				return !(socket.Poll(1, SelectMode.SelectRead) && socket.Available == 0);
+			}
+			catch (SocketException) { return false; }
 		}
 
 		public void queueMessage(byte[] b) {
 			if (!isActive)
 				return;
+			
 			if (!busy) {
 				busy = true;
 				send (b);
@@ -158,7 +173,8 @@ namespace PolyNet {
 				return;
 			try {
 				int prev = currentReceived;
-				currentReceived += socket.EndReceive (ar);
+				int curr = socket.EndReceive(ar);
+				currentReceived += curr;
 				Buffer.BlockCopy(receiveBuffer, 0, finalReceiveBuffer, prev, currentReceived-prev);
 				if (currentReceived < receiveBufferSize) {
 					socket.BeginReceive (receiveBuffer, 0, receiveBufferSize-currentReceived, SocketFlags.None, new AsyncCallback (receiveCallback), null);

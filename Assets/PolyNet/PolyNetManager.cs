@@ -108,9 +108,16 @@ namespace PolyNet {
 			clientStartSequence (stage);
 		}
 
+		int pollCount = 0;
+
 		void Update() {
 			PacketHandler.update ();
 			PolyNetWorld.update ();
+			pollCount++;
+			if (pollCount == 10 && PolyServer.isActive) {
+				pollCount = 0;
+				PolyServer.poll ();
+			}
 			if (clientThreadFixer) {
 				clientThreadFixer = false;
 				clientStartSequence (clientThreadFixStage);
