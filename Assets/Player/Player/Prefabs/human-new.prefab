@@ -456,7 +456,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1282339028826058}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 159.28976, y: 1, z: 249.28346}
+  m_LocalPosition: {x: 366.01678, y: 1, z: 358.9259}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4979583766294688}
@@ -826,7 +826,7 @@ MonoBehaviour:
   hungerMultiple: 0.1
   thirstMultiple: 0.1
   healthMultiple: 0.03
-  hip: {fileID: 1287477547474674, guid: e0ae6efc01ca0409c90732adf7f7f10c, type: 2}
+  hip: {fileID: 1287477547474674}
   defaultRecipes:
   - output:
       id: 0
@@ -873,12 +873,9 @@ MonoBehaviour:
       quality: 0
       size: 1
     type: 2
-  rightHandTransform: {fileID: 4935162812231872, guid: e0ae6efc01ca0409c90732adf7f7f10c,
-    type: 2}
-  leftHandTransform: {fileID: 4874893225880576, guid: e0ae6efc01ca0409c90732adf7f7f10c,
-    type: 2}
-  backTransform: {fileID: 4721252324770450, guid: e0ae6efc01ca0409c90732adf7f7f10c,
-    type: 2}
+  rightHandTransform: {fileID: 4935162812231872}
+  leftHandTransform: {fileID: 4874893225880576}
+  backTransform: {fileID: 4721252324770450}
   deadPrefab: {fileID: 1282339028826058, guid: 8a26f8d1487224aab905fa5ee24f607d, type: 2}
   opMode: 1
   maxHealth: 100

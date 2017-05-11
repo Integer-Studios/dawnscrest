@@ -589,6 +589,8 @@ namespace PolyPlayer {
 
 		private void Start() {
 
+			Debug.Log ("spawned");
+
 			health = maxHealth;
 			hunger = maxHunger;
 			thirst = maxThirst;
@@ -669,16 +671,6 @@ namespace PolyPlayer {
 			if (PolyServer.isActive)
 				hotbarInventory.startListening (this, true);
 
-			// TODO delete this when we have a network manager doing on login notifications
-			//
-			if (PolyServer.isActive) {
-				Item[] items = FindObjectsOfType<Item> ();
-				foreach (Item i in items) {
-					i.OnPlayerConnected ();
-				}
-			}
-			//
-			//
 		}
 
 		// Update
@@ -1081,9 +1073,9 @@ namespace PolyPlayer {
 			}
 
 			//TODO fix item holding
-//			GameObject g = ItemManager.createItem (stack);
-//			PolyNetWorld.spawnObject (g);
-//			g.GetComponent<Item> ().setHolder (this, hid);
+			GameObject g = ItemManager.createItem (stack);
+			g.GetComponent<Item> ().setHolder (this, hid, false);
+			PolyNetWorld.spawnObject (g);
 		}
 
 

@@ -9,6 +9,7 @@ namespace PolyNet {
 		private static Dictionary<int, GameObject> prefabs = new Dictionary<int, GameObject>();
 		private static Dictionary<int, PolyNetIdentity> objects = new Dictionary<int, PolyNetIdentity>();
 		private static Dictionary<ChunkIndex, PolyNetChunk> chunks = new Dictionary<ChunkIndex, PolyNetChunk>();
+		private static Queue<SpawnRequest> spawnQueue = new Queue<SpawnRequest> ();
 		private static int nextInstanceId = 0;
 		private static PolyNetManager manager;
 
@@ -119,8 +120,15 @@ namespace PolyNet {
 		}
 
 		public static void spawnObject(PolyNetIdentity i) {
-			spawnObject (i, nextInstanceId);
+			spawnObjectImmediate (i, nextInstanceId);
 			nextInstanceId++;
+		}
+
+		public static void spawnObjectImmediate(PolyNetIdentity i, int instanceId) {
+			i.initialize (instanceId);
+			if (PolyServer.isActive)
+				getChunk (i.transform.position).spawnObject (i);
+			objects.Add (instanceId, i);
 		}
 
 
@@ -133,7 +141,6 @@ namespace PolyNet {
 				instanceId = instId;
 			}
 		}
-		private static Queue<SpawnRequest> spawnQueue = new Queue<SpawnRequest> ();
 
 		public static void spawnObject(PolyNetIdentity i, int instanceId) {
 			spawnQueue.Enqueue(new SpawnRequest(i, instanceId));
@@ -142,10 +149,7 @@ namespace PolyNet {
 		public static void update() {
 			if (spawnQueue.Count > 0) {
 				SpawnRequest r = spawnQueue.Dequeue ();
-				r.i.initialize (r.instanceId);
-				if (PolyServer.isActive)
-					getChunk (r.i.transform.position).spawnObject (r.i);
-				objects.Add (r.instanceId, r.i);
+				spawnObjectImmediate (r.i, r.instanceId);
 			}
 		}
 

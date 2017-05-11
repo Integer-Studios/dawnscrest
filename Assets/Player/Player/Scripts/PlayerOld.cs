@@ -677,12 +677,12 @@ namespace PolyPlayer {
 
 			// TODO delete this when we have a network manager doing on login notifications
 			//
-			if (NetworkServer.active) {
-				Item[] items = FindObjectsOfType<Item> ();
-				foreach (Item i in items) {
-					i.OnPlayerConnected ();
-				}
-			}
+//			if (NetworkServer.active) {
+//				Item[] items = FindObjectsOfType<Item> ();
+//				foreach (Item i in items) {
+//					i.OnPlayerConnected ();
+//				}
+//			}
 			//
 			//
 		}
@@ -1095,7 +1095,7 @@ namespace PolyPlayer {
 			}
 
 			GameObject g = ItemManager.createItem (stack);
-			g.GetComponent<Item> ().setHolder (this, hid);
+			g.GetComponent<Item> ().setHolder (this, hid, false);
 		}
 
 		private bool isLookingAtInteractable(bool inter) {

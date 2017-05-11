@@ -140,19 +140,9 @@ namespace PolyItem {
 		private void Start() {
 			animationSets = animationSetRegister;
 			nullItem = nullItemObj;
-			PolyNetWorld.registerPrefab(nullItem.gameObject);
-			setItems (itemRegister);
+			items = itemRegister;
 		}
-
-		private static void setItems(Item[] it) {
-			items = it;
-			foreach (Item i in items) {
-				PolyNetWorld.registerPrefab(i.gameObject);
-				if (i.onPlaced != null)
-					PolyNetWorld.registerPrefab(i.onPlaced);
-			}
-		}
-
+			
 		private static Item getItem(int id) {
 			foreach (Item i in items) {
 				if (i.id == id)

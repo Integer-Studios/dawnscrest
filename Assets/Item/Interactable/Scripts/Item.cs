@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using PolyNet;
+using System.IO;
 
 namespace PolyItem {
 
@@ -28,17 +29,10 @@ namespace PolyItem {
 
 		// Server Interface
 
-		//TODO we need a custom network manager to call this
-		public void OnPlayerConnected() {
-//			if (holder != null)
-//				RpcOnLoginInfo (holder.itemHolder_getGameObject (), heldID);
-//			else
-//				RpcOnLoginInfo (null, heldID);
-		}
-
-		public virtual void setHolder(ItemHolder h, int hid) {
+		public virtual void setHolder(ItemHolder h, int hid, bool network) {
 			convertToHeldItem (h, hid);
-//			RpcSetHolder (h.itemHolder_getGameObject (), hid);
+			if (network)
+				identity.sendBehaviourPacket (new PacketItemHeld (this, h.itemHolder_getGameObject (), hid));
 		}
 
 		// General Interface
@@ -51,12 +45,34 @@ namespace PolyItem {
 
 		// Networking Interface
 
+		public override void writeBehaviourSpawnData(ref BinaryWriter writer) {
+			base.writeBehaviourSpawnData (ref writer);
+			writer.Write (holder != null);
+			if (holder != null) {
+				PacketHelper.write (ref writer, holder.itemHolder_getGameObject ());
+				writer.Write (heldID);
+			}
+		}
+
+		public override void readBehaviourSpawnData(ref BinaryReader reader) {
+			base.readBehaviourSpawnData (ref reader);
+			bool isHeld = reader.ReadBoolean ();
+			if (isHeld) {
+				GameObject g = null;
+				PacketHelper.read (ref reader, ref g);
+				convertToHeldItem (g.GetComponent<ItemHolder> (), reader.ReadInt32 ());
+			}
+		}
+
 		public override void handleBehaviourPacket (PacketBehaviour p) {
 			base.handleBehaviourPacket (p);
 			if (p.id == 16) {
 				PacketSyncInt o = (PacketSyncInt)p;
 				if (o.syncId == 0)
 					quality = o.value;
+			} else if (p.id == 23) {
+				PacketItemHeld o = (PacketItemHeld)p;
+				rpc_setHolder (o.holder, o.heldId);
 			}
 		}
 
@@ -68,16 +84,16 @@ namespace PolyItem {
 
 		//TODO in-hand rpc's
 
-		private void rpc_onLoginInfo(GameObject holder, int hid) {
-			if (!PolyServer.isActive) {
-				
-				if (holder == null)
-					return;
-				
-				ItemHolder h = holder.GetComponent<ItemHolder> ();
-				convertToHeldItem (h, hid);
-			}
-		}
+//		private void rpc_onLoginInfo(GameObject holder, int hid) {
+//			if (!PolyServer.isActive) {
+//				
+//				if (holder == null)
+//					return;
+//				
+//				ItemHolder h = holder.GetComponent<ItemHolder> ();
+//				convertToHeldItem (h, hid);
+//			}
+//		}
 
 		private void rpc_setHolder(GameObject holder, int hid) {
 			if (!PolyServer.isActive) {
@@ -133,6 +149,7 @@ namespace PolyItem {
 		Hand,
 		Tinder,
 		Axe,
+		Building,
 	}
 
 	public enum ConsumableType {
