@@ -32,6 +32,8 @@ namespace PolyNet {
 		public int zMax = 10;
 		[HideInInspector]
 		public int zMin = 0;
+		[HideInInspector]
+		public float maxX,minX,maxZ,minZ;
 
 		private bool clientThreadFixer = false;
 		private int clientThreadFixStage = -1;
