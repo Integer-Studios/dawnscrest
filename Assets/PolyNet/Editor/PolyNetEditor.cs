@@ -34,9 +34,10 @@ public class PolyNetEditor : Editor {
 		EditorGUILayout.MinMaxSlider(ref minZ,ref maxZ, 0, (t.size/t.chunkSize));
 		manager.zMax = (int)maxZ;
 		manager.zMin = (int)minZ;
-		if (GUILayout.Button ("Rip Heightmap")) {
-			ripHeightmap ();
-		}
+		// Danger button
+//		if (GUILayout.Button ("Rip Heightmap")) {
+//			ripHeightmap ();
+//		}
 //		if (GUILayout.Button ("Load Heightmap")) {
 //			loadHeightmap();
 //		}
@@ -51,9 +52,10 @@ public class PolyNetEditor : Editor {
 		if (GUILayout.Button ("Register Prefabs")) {
 			registerPrefabsFromAssets ();
 		}
-		if (GUILayout.Button ("Wipe Prefab ID's")) {
-			wipePrefabIDs ();
-		}
+		// Danger button
+//		if (GUILayout.Button ("Wipe Prefab ID's")) {
+//			wipePrefabIDs ();
+//		}
 
 		EditorGUILayout.BeginHorizontal();
 

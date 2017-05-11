@@ -589,8 +589,6 @@ namespace PolyPlayer {
 
 		private void Start() {
 
-			Debug.Log ("spawned");
-
 			health = maxHealth;
 			hunger = maxHunger;
 			thirst = maxThirst;

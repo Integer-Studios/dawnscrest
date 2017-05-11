@@ -18,6 +18,7 @@ namespace PolyEntity {
 		public steeringInfo steeringInfo;
 		public GameObject deadPrefab;
 		public GameObject seekTarget;
+		public float syncRate = 9f;
 
 		protected Animator anim;
 		protected Rigidbody rigidBody;
@@ -49,6 +50,7 @@ namespace PolyEntity {
 		public void setVelocity(Vector3 v) {
 			if (velocity != v) {
 				velocity = v;
+				identity.sendBehaviourPacket (new PacketSyncVector (this, 0, velocity));
 				anim.SetFloat ("Vertical", speedToAnim (v.z));
 			}
 		}
@@ -58,6 +60,7 @@ namespace PolyEntity {
 			r /= rotationalDownsample;
 			if (rotation != r) {
 				rotation = (float)r;
+				identity.sendBehaviourPacket (new PacketSyncFloat (this, 0, rotation));
 				anim.SetFloat ("Horizontal", f / maxRotation);
 			}
 		}
@@ -90,6 +93,23 @@ namespace PolyEntity {
 			Debug.Log ("yeeee");
 		}
 
+		public override void handleBehaviourPacket (PacketBehaviour p) {
+			base.handleBehaviourPacket (p);
+			if (p.id == 24) {
+				PacketEntitySync o = (PacketEntitySync)p;
+				anim.SetFloat ("Vertical", o.vertical);
+				anim.SetFloat ("Horizontal", o.horizontal);
+				transform.position = o.position;
+				transform.eulerAngles = o.euler;
+			} else if (p.id == 25) {
+				PacketSyncVector o = (PacketSyncVector)p;
+				velocity = o.value;
+
+			} else if (p.id == 13) {
+				PacketSyncFloat o = (PacketSyncFloat)p;
+				rotation = o.value;
+			}
+		}
 
 		/*
 		* 
@@ -113,6 +133,13 @@ namespace PolyEntity {
 			anim.SetBool ("Attacking", b);
 		}
 
+		private IEnumerator syncUpdate() {
+			while (true) {
+				identity.sendBehaviourPacket (new PacketEntitySync (this, anim.GetFloat ("Vertical"), anim.GetFloat ("Horizontal")));
+				yield return new WaitForSeconds (1 / syncRate);
+			}
+		}
+
 		/*
 		* 
 		* Private
@@ -122,11 +149,11 @@ namespace PolyEntity {
 		protected virtual void Start() {
 			anim = GetComponent<Animator> ();
 			rigidBody = GetComponent<Rigidbody> ();
-			PolyNetWorld.registerPrefab(deadPrefab);
 
 			if (!PolyServer.isActive)
 				return;
 
+			StartCoroutine (syncUpdate());
 			health = maxHealth;
 			queuedActions = new List<Action> ();
 			currentActions = new List<Action> ();

@@ -75,6 +75,10 @@ namespace PolyNet {
 				return new PacketSetCraftableRecipe ();
 			case 23:
 				return new PacketItemHeld ();
+			case 24:
+				return new PacketEntitySync ();
+			case 25:
+				return new PacketEntitySync ();
 			default:
 				return null;
 			}

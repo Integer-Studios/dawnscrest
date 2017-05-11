@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using PolyWorldOld;
+using PolyWorld;
 
 namespace PolyEntity {
 
@@ -59,10 +59,11 @@ namespace PolyEntity {
 		}
 
 		private void getNewTarget() {
-			target = WorldTerrain.toTerrainSurface(basePosition + new Vector3 (Random.Range (-range, range), 0f, Random.Range (-range, range)));
-			while (WorldTerrain.isUnderwater(target)) {
-				target =  WorldTerrain.toTerrainSurface(basePosition + new Vector3 (Random.Range (-range, range), 0f, Random.Range (-range, range)));
-			}
+//			target = WorldTerrain.toTerrainSurface(basePosition + new Vector3 (Random.Range (-range, range), 0f, Random.Range (-range, range)));
+//			while (WorldTerrain.isUnderwater(target)) {
+//				target =  WorldTerrain.toTerrainSurface(basePosition + new Vector3 (Random.Range (-range, range), 0f, Random.Range (-range, range)));
+//			}
+			target = new Vector3 (Random.Range (-range, range), 0f, Random.Range (-range, range));
 			currentIterations++;
 		}
 	}
