@@ -58,13 +58,13 @@ namespace PolyNet {
 			if (IsConnected())
 				socket.Shutdown (SocketShutdown.Both);
 			socket.Close ();
-			onDisconnect ();
+//			onDisconnect ();
 		}
 
 		public void handleDisconnect() {
 			isActive = false;
 			socket.Close ();
-			onDisconnect ();
+//			onDisconnect ();
 		}
 
 		public bool IsConnected() {
@@ -171,6 +171,9 @@ namespace PolyNet {
 		private void receiveCallback(IAsyncResult ar) {
 			if (!isActive)
 				return;
+			if (!IsConnected ()) {
+				handleDisconnect ();
+			}
 			try {
 				int prev = currentReceived;
 				int curr = socket.EndReceive(ar);
@@ -185,7 +188,8 @@ namespace PolyNet {
 				if (isActive)
 					stop ();
 			} catch (Exception e) {
-				Debug.LogError (e.Message);
+				if (e != null && e.Message != null)
+					Debug.LogError (e.Message);
 			}
 		}
 
@@ -217,6 +221,10 @@ namespace PolyNet {
 		private void setSend(byte[] b) {
 			sendBufferSize = b.Length;
 			sendBuffer = b;
+		}
+
+		public bool active(){
+			return isActive;
 		}
 
 	}
