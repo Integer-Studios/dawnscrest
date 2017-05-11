@@ -22,13 +22,14 @@ namespace PolyNet {
 		public int worldID = -1;
 
 		public bool limit = false;
-		[Range(0, 4)]
-		public int xMax = 0;
-		[Range(0, 4)]
+
+		[HideInInspector]
+		public int xMax = 10;
+		[HideInInspector]
 		public int xMin = 0;
-		[Range(0, 4)]
-		public int zMax = 0;
-		[Range(0, 4)]
+		[HideInInspector]
+		public int zMax = 10;
+		[HideInInspector]
 		public int zMin = 0;
 
 		private bool clientThreadFixer = false;
@@ -108,9 +109,16 @@ namespace PolyNet {
 			clientStartSequence (stage);
 		}
 
+		int pollCount = 0;
+
 		void Update() {
 			PacketHandler.update ();
 			PolyNetWorld.update ();
+			pollCount++;
+			if (pollCount == 10 && PolyServer.isActive) {
+				pollCount = 0;
+				PolyServer.poll ();
+			}
 			if (clientThreadFixer) {
 				clientThreadFixer = false;
 				clientStartSequence (clientThreadFixStage);
