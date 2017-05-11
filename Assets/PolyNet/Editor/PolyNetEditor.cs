@@ -134,8 +134,9 @@ public class PolyNetEditor : Editor {
 
 	public void loadHeightmap() {
 		Debug.Log ("Requesting Heightmap...");
-	
-		WWWForm form = generateWorldForm (64 / 4);
+		WorldTerrain t = FindObjectOfType<WorldTerrain> ();
+		int chunkSize = t.chunkSize;
+		WWWForm form = generateWorldForm (chunkSize / t.resolution);
 
 		string url = "http://cdn.polytechni.ca/heightmap.php";
 		WWW www = new WWW(url, form);
@@ -149,7 +150,6 @@ public class PolyNetEditor : Editor {
 					JSONObject jsonObj = new JSONObject(text);
 				JSONObject mapObj = jsonObj.GetField("map");
 //				JSONObject mapObj = JSONObject.Create (jsonObj.GetField("map").str, 2, true, true);
-				WorldTerrain t = PolyNetManager.FindObjectOfType<WorldTerrain> ();
 
 				if (mapObj.IsArray) {
 				int heightmapSize = (int)(t.size / t.resolution);
@@ -171,6 +171,7 @@ public class PolyNetEditor : Editor {
 
 	public void saveObjects() {
 		Debug.Log ("Saving Objects...");
+		WorldTerrain t = FindObjectOfType<WorldTerrain> ();
 
 		PolyNetIdentity[] identities = PolyNetManager.FindObjectsOfType<PolyNetIdentity> ();
 		JSONObject arr = new JSONObject (JSONObject.Type.ARRAY);
@@ -183,7 +184,7 @@ public class PolyNetEditor : Editor {
 			}
 		}
 
-		WWWForm form = generateWorldForm (64);
+		WWWForm form = generateWorldForm (t.chunkSize);
 
 
 		form.AddField ("objects", arr.ToString ());
@@ -206,8 +207,9 @@ public class PolyNetEditor : Editor {
 	public void loadObjects() {
 		ripPrefabs ();
 		Debug.Log ("Requesting Objects...");
+		WorldTerrain t = FindObjectOfType<WorldTerrain> ();
 
-		WWWForm form = generateWorldForm (64);
+		WWWForm form = generateWorldForm (t.chunkSize);
 
 		string url = "http://cdn.polytechni.ca/objects.php";
 		WWW www = new WWW(url, form);
