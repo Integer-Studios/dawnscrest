@@ -23,6 +23,11 @@ public class PolyNetEditor : Editor {
 		WorldTerrain t = PolyNetManager.FindObjectOfType<WorldTerrain> ();
 
 		DrawDefaultInspector();
+		minX = (float)manager.xMin;
+		minX = (float)manager.xMax;
+		minZ = (float)manager.zMin;
+		maxZ = (float)manager.zMax;
+
 		manager = (PolyNetManager)target;
 		EditorGUILayout.LabelField("X Min:", manager.xMin.ToString());
 		EditorGUILayout.LabelField("X Max:", manager.xMax.ToString());

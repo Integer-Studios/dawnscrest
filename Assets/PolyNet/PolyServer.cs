@@ -41,8 +41,8 @@ namespace PolyNet {
 
 		public static void poll() {
 			foreach (PolyNetPlayer p in players.Values) {
-				if (!p.servlet.IsConnected ()) {
-					p.servlet.handleDisconnect ();
+				if (!p.servlet.active()) {
+					onDisconnect (p);
 				}
 			}
 

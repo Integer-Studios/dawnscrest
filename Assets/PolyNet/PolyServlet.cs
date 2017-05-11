@@ -21,16 +21,12 @@ namespace PolyNet {
 			socket.start ();
 		}
 
-		public bool IsConnected() {
-			return socket.IsConnected ();
+		public bool active() {
+			return socket.active ();
 		}
 
 		public void stop () {
 			socket.stop ();
-		}
-
-		public void handleDisconnect () {
-			socket.handleDisconnect ();
 		}
 
 		// thread safe, queued
