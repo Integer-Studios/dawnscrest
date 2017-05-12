@@ -149,33 +149,15 @@ namespace PolyItem {
 
 		public override void writeBehaviourSpawnData(ref BinaryWriter writer) {
 			for (int i = 0; i < size; i++) {
-				writeStack (ref writer, i);
+				PacketHelper.write (ref writer, slots [i].stack);
 			}
-		}
-
-		private void writeStack(ref BinaryWriter writer, int i) {
-			ItemStack stack = getSlotCopy(i);
-			if (stack != null) {
-				writer.Write (stack.id);
-				writer.Write (stack.quality);
-				writer.Write (stack.size);
-			} else
-				writer.Write (-1);
 		}
 
 		public override void readBehaviourSpawnData(ref BinaryReader reader) {
 			initializeSlots ();
 			for (int i = 0; i < size; i++) {
-				readStack (ref reader, i);
+				PacketHelper.read (ref reader, ref slots [i].stack);
 			}
-		}
-
-		private void readStack(ref BinaryReader reader, int i) {
-			int id = reader.ReadInt32 ();
-			if (id != -1) {
-				slots [i].stack = new ItemStack (id, reader.ReadInt32 (), reader.ReadInt32 ());
-			} else
-				slots [i].stack = null;
 		}
 
 		/*

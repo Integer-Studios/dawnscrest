@@ -52,20 +52,20 @@ namespace PolyNet {
 		}
 
 		public static void read (ref BinaryReader reader, ref ItemStack stack) {
-			int id = reader.ReadInt32 ();
-			if (id != -1)
-				stack = new ItemStack (id, reader.ReadInt32 (), reader.ReadInt32 ());
+			if (reader.ReadBoolean ())
+				stack = new ItemStack (reader.ReadInt32 (), reader.ReadInt32 (), reader.ReadInt32 ());
 			else
 				stack = null;
 		}
 
 		public static void write(ref BinaryWriter writer, ItemStack stack) {
 			if (stack != null) {
+				writer.Write (true);
 				writer.Write (stack.id);
 				writer.Write (stack.quality);
 				writer.Write (stack.size);
 			} else
-				writer.Write (-1);
+				writer.Write (false);
 		}
 
 		public static void read (ref BinaryReader reader, ref GameObject obj) {
