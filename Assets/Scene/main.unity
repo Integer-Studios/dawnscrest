@@ -516,16 +516,16 @@ MonoBehaviour:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 2
-      time: 0
-      value: 0.125
-      inSlope: 0.875
-      outSlope: 0.875
+      time: -0.016464233
+      value: 0.11177063
+      inSlope: 0.87384224
+      outSlope: 0.87384224
       tangentMode: 34
     - serializedVersion: 2
       time: 1
       value: 1
-      inSlope: 0.875
-      outSlope: 0.875
+      inSlope: 0.87384224
+      outSlope: 0.87384224
       tangentMode: 34
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -534,17 +534,17 @@ MonoBehaviour:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 2
-      time: 0.0083351135
-      value: 0.0062561035
-      inSlope: 1.1422383
-      outSlope: 1.1422383
-      tangentMode: 34
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
     - serializedVersion: 2
-      time: 1.0041809
-      value: 1.1437492
-      inSlope: 1.1422383
-      outSlope: 1.1422383
-      tangentMode: 34
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
@@ -554,15 +554,15 @@ MonoBehaviour:
     - serializedVersion: 2
       time: 0
       value: 0
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 34
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
     - serializedVersion: 2
       time: 1
       value: 1
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 34
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
@@ -639,7 +639,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  saturation: 0.99
+  saturation: 0.88
   selectiveCc: 0
   selectiveFromColor: {r: 1, g: 1, b: 1, a: 1}
   selectiveToColor: {r: 1, g: 1, b: 1, a: 1}
@@ -3515,7 +3515,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e50e925fb93c78246bf995d9dc3a2330, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 2
+  type: 0
   adaptiveTextureSize: 256
   remapCurve:
     serializedVersion: 2
@@ -3569,7 +3569,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 20}
   m_LocalRotation: {x: -0, y: 0.99075437, z: -0, w: 0.1356683}
-  m_LocalPosition: {x: 224.39, y: 10.63, z: -582.32}
+  m_LocalPosition: {x: 1986.65, y: 377.9, z: 1960.49}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -3739,7 +3739,7 @@ LightmapSettings:
     m_TemporalCoherenceThreshold: 1
     m_EnvironmentLightingMode: 0
     m_EnableBakedLightmaps: 0
-    m_EnableRealtimeLightmaps: 0
+    m_EnableRealtimeLightmaps: 1
   m_LightmapEditorSettings:
     serializedVersion: 8
     m_Resolution: 0.5
@@ -3774,7 +3774,7 @@ LightmapSettings:
     m_PVRFilteringAtrousNormalSigma: 1
     m_PVRFilteringAtrousPositionSigma: 1
   m_LightingDataAsset: {fileID: 0}
-  m_ShadowMaskMode: 2
+  m_ShadowMaskMode: 0
 --- !u!222 &1406
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -7799,7 +7799,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 0.98469377}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -8999,10 +8999,10 @@ MonoBehaviour:
   tweakMode: 0
   screenBlendMode: 1
   hdr: 0
-  sepBlurSpread: 3.1
+  sepBlurSpread: 2.1
   quality: 1
   bloomIntensity: 1
-  bloomThreshold: 0.3
+  bloomThreshold: 0.79
   bloomThresholdColor: {r: 1, g: 1, b: 1, a: 1}
   bloomBlurIterations: 1
   hollywoodFlareBlurIterations: 2
@@ -15812,11 +15812,11 @@ MonoBehaviour:
   serverAddress: 10.0.0.103
   externalAddress: 52.34.152.147
   serverPort: 8888
-  isClient: 0
+  isClient: 1
   playerId: 1
   chunkSize: 128
   chunkLoadRadius: 2
-  port: 2
+  port: 1
   rawFile: /Users/trefethen/Documents/unity/realms/Assets/World/Resources/Raws/terrace.raw
   playerPrefab: {fileID: 114556338368701086, guid: 89883fb31b4a84a25bda6bd650ec220a,
     type: 2}
@@ -17487,7 +17487,7 @@ MonoBehaviour:
   resolution: 4
   size: 4096
   chunkSize: 128
-  height: 600
+  height: 100
   grass: {r: 0, g: 0.6838235, b: 0.20278904, a: 0}
   grassPoint: 0.8
   dirt: {r: 0.86764705, g: 0.43787134, b: 0.15949394, a: 0}
@@ -17591,8 +17591,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 97331929}
-  m_LocalRotation: {x: -0.03715459, y: 0.9626238, z: 0.20004511, w: 0.17876515}
-  m_LocalPosition: {x: 1927.5776, y: -421.53064, z: 2072.9404}
+  m_LocalRotation: {x: 0, y: 0.9907543, z: 0, w: 0.13566831}
+  m_LocalPosition: {x: 1986.65, y: -353.76, z: 1960.49}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -17705,7 +17705,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc205a1ed51b54517ae8bccff7663221, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dayLength: 600
+  dayLength: 60
   startTime: 0
   tempuratureVolatility: 1
 --- !u!1001 &492372874
@@ -18063,6 +18063,14 @@ Prefab:
       propertyPath: _starsExtinction
       value: 2.2
       objectReference: {fileID: 0}
+    - target: {fileID: 10897626, guid: c89c3ec2e7ea9c74fb5413d5fe182ccf, type: 2}
+      propertyPath: m_Shadows.m_Type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 10846822, guid: c89c3ec2e7ea9c74fb5413d5fe182ccf, type: 2}
+      propertyPath: m_Shadows.m_Type
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c89c3ec2e7ea9c74fb5413d5fe182ccf, type: 2}
   m_IsPrefabParent: 0
@@ -18129,8 +18137,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1664368240}
-  m_LocalRotation: {x: 0.008575305, y: 0.91794044, z: 0.3961285, w: -0.019852128}
-  m_LocalPosition: {x: 291.3885, y: -1725.6616, z: 1822.1692}
+  m_LocalRotation: {x: 0, y: 0.9907543, z: 0, w: 0.13566831}
+  m_LocalPosition: {x: 1986.65, y: -353.76, z: 1960.49}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
