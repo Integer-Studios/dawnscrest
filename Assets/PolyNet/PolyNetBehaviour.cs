@@ -42,6 +42,16 @@ namespace PolyNet {
 			
 		}
 
+		public virtual JSONObject writeBehaviourSaveData() {
+			JSONObject obj = new JSONObject (JSONObject.Type.OBJECT);
+			obj.AddField ("id", scriptId);
+			return obj;
+		} 
+
+		public virtual void readBehaviourSaveData(JSONObject data) {
+
+		} 
+
 	}
 
 

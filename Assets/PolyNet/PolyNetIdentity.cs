@@ -89,8 +89,22 @@ namespace PolyNet {
 			JSONHelper.wrap (obj, transform.position, "position");
 			JSONHelper.wrap (obj, transform.eulerAngles, "rotation");
 			JSONHelper.wrap (obj, transform.localScale, "scale");
-
+			JSONObject scripts = new JSONObject (JSONObject.Type.ARRAY);
+			foreach (PolyNetBehaviour b in behaviours.Values) {
+				scripts.Add(b.writeBehaviourSaveData ());
+			}
+			obj.AddField ("scripts", scripts);
 			return obj;
+		}
+
+		public void readSaveData(JSONObject data) {
+			transform.eulerAngles = JSONHelper.unwrap (data, "rotation");
+			transform.localScale = JSONHelper.unwrap (data, "scale");
+			JSONObject scripts = data.GetField ("scripts");
+			foreach(JSONObject s in scripts.list) {
+				int scriptId = (int)s.GetField ("id").n;
+				behaviours [scriptId].readBehaviourSaveData ( s);
+			}
 		}
 
 		public int getOwnerId() {

@@ -103,11 +103,13 @@ namespace PolyNet {
 				return;
 			}
 			PolyNetPlayer player = JSONHelper.unwrap (data.GetField ("player"));
-
-			JSONObject obj = data.GetField ("player").GetField ("object");
+			JSONObject obj = data.GetField ("player");
 			player.setData (JSONHelper.unwrap(obj, "position"));
 			Debug.Log ("Player login with ID:" + player.playerId);
-			PolyNetWorld.addPlayer (player);
+			PolyNetWorld.addPlayer (ref player);
+			player.identity.readSaveData (obj);
+
+			PolyNetWorld.spawnObject (player.identity);
 		}
 
 		/*

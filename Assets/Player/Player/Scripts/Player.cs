@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityStandardAssets.ImageEffects;
@@ -233,12 +234,6 @@ namespace PolyPlayer {
 
 		// Multi-Use
 
-		public void loadVitals(float health, float hunger, float thirst) {
-			this.health = health;
-			this.hunger = hunger;
-			this.thirst = thirst;
-		}
-
 		public float getHealth() {
 			return health;
 		}
@@ -262,6 +257,38 @@ namespace PolyPlayer {
 
 		public bool isMoving() {
 			return velocity != Vector3.zero;
+		}
+
+		public override JSONObject writeBehaviourSaveData() {
+			JSONObject vitals = base.writeBehaviourSaveData ();
+			vitals.AddField ("type", "vitals");
+			vitals.AddField ("health", health);
+			vitals.AddField ("hunger", hunger);
+			vitals.AddField ("thirst", thirst);
+			return vitals;
+		}
+
+		public override void readBehaviourSaveData(JSONObject data) {
+			base.readBehaviourSaveData (data);
+			health = data.GetField ("health").n;
+			hunger = data.GetField ("hunger").n;
+			thirst = data.GetField ("thirst").n;
+		}
+
+		public override void writeBehaviourSpawnData(ref BinaryWriter writer) {
+			base.writeBehaviourSpawnData (ref writer);
+			writer.Write (health);
+			writer.Write (hunger);
+			writer.Write (thirst);
+
+		}
+
+		public override void readBehaviourSpawnData(ref BinaryReader reader) {
+			base.readBehaviourSpawnData (ref reader);
+			health = (float)reader.ReadDecimal ();
+			hunger = (float)reader.ReadDecimal ();
+			thirst = (float)reader.ReadDecimal ();
+
 		}
 
 		// Packet Handling
@@ -589,9 +616,6 @@ namespace PolyPlayer {
 
 		private void Start() {
 
-			health = maxHealth;
-			hunger = maxHunger;
-			thirst = maxThirst;
 			//			PolyNetWorld.registerPrefab (deadPrefab);
 
 			sounds = GetComponent <SoundManager> ();

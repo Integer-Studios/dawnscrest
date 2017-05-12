@@ -35,6 +35,7 @@ namespace PolyNet {
 				if (!loadedChunks.Exists (j => j == c)) {
 					c.addPlayer (this);
 					final.Add (c);
+
 				}
 			}
 			loadedChunks = final;

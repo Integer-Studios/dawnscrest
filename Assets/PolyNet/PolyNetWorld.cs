@@ -31,16 +31,16 @@ namespace PolyNet {
 			onComplete (ssid);
 		}
 
-		public static void addPlayer(PolyNetPlayer p) {
+		public static void addPlayer(ref PolyNetPlayer p) {
 			//load world
 			p.refreshLoadedChunks ();
 			//spawn player
 			GameObject g = GameObject.Instantiate(manager.playerPrefab.gameObject);
 			g.transform.position = p.position;
+
 			PolyNetIdentity i = g.GetComponent<PolyNetIdentity> ();
 			i.setOwner(p);
 			p.identity = i;
-			spawnObject (i);
 //			GameObject.FindObjectOfType<PolyNetManager> ().StartCoroutine (test (p));
 		}
 
@@ -71,9 +71,9 @@ namespace PolyNet {
 
 		public static PolyNetChunk getChunk(ChunkIndex i) {
 			PolyNetChunk chunk;
-			if (chunks.TryGetValue (i, out chunk))
+			if (chunks.TryGetValue (i, out chunk)) {
 				return chunk;
-			else {
+			} else {
 				chunks.Add (i, new PolyNetChunk (i));
 				return getChunk(i);
 			}
