@@ -1,0 +1,64 @@
+{
+  "targets": [
+    {
+      "path": "Assets/Improbable/Sdk/Dll",
+      "type": "unity",
+      "packages": [
+        {
+          "name": "Improbable.Unity.UnityDll"
+        },
+        {
+          "name": "Improbable.Unity.Dependencies"
+        }
+      ]
+    },
+    {
+      "path": "Assets/Improbable/Sdk/Src",
+      "type": "unity",
+      "packages": [
+        {
+          "name": "Improbable.EditorTools"
+        },
+        {
+          "name": "Improbable.Unity"
+        }
+      ]
+    },
+    {
+      "path": "Assets/Improbable/Sdk/Editor/Dll",
+      "type": "unity",
+      "packages": [
+        {
+          "name": "Improbable.Unity.EditorDll"
+        }
+      ]
+    },
+    {
+      "path": "Assets/Improbable/Sdk/Editor/Addons",
+      "type": "unity",
+      "packages": [
+        {
+          "name": "Improbable.Unity.EditorAddon.SpatialBuild"
+        },
+        {
+          "name": "Improbable.Unity.EditorAddon.SpatialConnect"
+        },
+        {
+          "name": "Improbable.Unity.EditorAddon.SpatialLocal"
+        },
+        {
+          "name": "Improbable.Unity.EditorAddon.SpatialUpload"
+        }
+      ]
+    },
+    {
+      "path": ".spatialos/bin",
+      "type": "code_generation",
+      "packages": [
+        {
+          "name": "Improbable.CodeGeneration"
+        }
+      ]
+    }
+  ]
+}

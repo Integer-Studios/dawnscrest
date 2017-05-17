@@ -1,0 +1,662 @@
+2017-05-15 13:19:23,875 INFO  [io.grpc.internal.ManagedChannelImpl] [] [] [] : [ManagedChannelImpl@17e69bbd] Created with target localhost:22000
+2017-05-15 13:19:27,208 INFO  [i.deployment.InternalGameLauncher] [] [] [] : Parsed 366 internal flags at startup
+2017-05-15 13:19:27,258 INFO  [i.deployment.InternalGameLauncher] [] [] [] : SpatialOS runtime version: 10-20170515T124111Z-65dc96e
+2017-05-15 13:19:27,273 INFO  [io.grpc.internal.ManagedChannelImpl] [] [] [] : [ManagedChannelImpl@27979cf9] Created with target 127.0.0.1:22000
+2017-05-15 13:19:27,274 INFO  [io.grpc.internal.ManagedChannelImpl] [] [] [] : [ManagedChannelImpl@2918085a] Created with target 127.0.0.1:22000
+2017-05-15 13:19:27,400 INFO  [i.c.c.f.FlagzFieldRegistryUpdater] [] [] [] : Initialized Fabric flagz registry with 13 set fields.
+2017-05-15 13:19:28,214 INFO  [io.grpc.internal.ManagedChannelImpl] [] [] [] : [ManagedChannelImpl@1c4f9fd9] Created with target localhost:22000
+2017-05-15 13:19:30,145 INFO  [i.core.discovery.server.LocalServer] [] [] [] : Registered Service(improbable.fabric.internal.service.ServiceDiscoveryInternalService) on host: "127.0.0.1"
+port: 5301
+.
+2017-05-15 13:19:30,146 INFO  [i.c.discovery.ServiceDiscoveryImpl] [] [] [] : Service discovery address: improbable.core.discovery.common.SettableServiceAddress@35ca70a5
+2017-05-15 13:19:30,155 INFO  [improbable.module.ModuleNode] [] [] [] : Starting Fabric node as master (IP: 127.0.0.1).
+2017-05-15 13:19:30,161 INFO  [i.core.discovery.server.LocalServer] [] [] [] : Registered Service(improbable.fabric.internal.service.RunLevelInternalService) on host: "127.0.0.1"
+port: 9000
+.
+2017-05-15 13:19:30,166 INFO  [i.core.discovery.server.PublicServer] [] [] [] : Registered Service(improbable.platform.runtime.HealthCheckService) on host: "127.0.0.1"
+port: 9001
+.
+2017-05-15 13:19:30,172 INFO  [i.core.discovery.server.LocalServer] [] [] [] : Registered Service(improbable.fabric.internal.service.PerfInternalService) on host: "127.0.0.1"
+port: 9002
+.
+2017-05-15 13:19:30,175 INFO  [io.grpc.internal.ManagedChannelImpl] [] [] [] : [ManagedChannelImpl@ac3e0e1] Created with target directaddress:///io.grpc.inprocess.InProcessSocketAddress@1fdc0f5e
+2017-05-15 13:19:30,177 INFO  [i.core.discovery.server.LocalServer] [] [] [] : Registered Service(improbable.fabric.internal.service.ContentionInternalService) on host: "127.0.0.1"
+port: 9003
+.
+2017-05-15 13:19:30,184 INFO  [i.core.discovery.server.PublicServer] [] [] [] : Registered Service(improbable.platform.runtime.FeatureService) on host: "127.0.0.1"
+port: 9004
+.
+2017-05-15 13:19:30,200 INFO  [i.c.d.global.GlobalServiceDiscovery] [] [] [] : Global service discovery refreshed 6 server(s) as master (previously: 0)
+2017-05-15 13:19:30,203 INFO  [i.c.config.flagz.WorkerFlagzUpdater] [] [] [] : Initialized worker flagz registry with 0 set fields.
+2017-05-15 13:19:30,203 INFO  [improbable.module.ModuleNode] [] [] [] : Using master node configuration loader.
+2017-05-15 13:19:30,210 INFO  [i.core.discovery.server.LocalServer] [] [] [] : Registered Service(improbable.fabric.internal.service.NodeConfigurationInternalService) on host: "127.0.0.1"
+port: 9005
+.
+2017-05-15 13:19:30,222 INFO  [i.c.c.n.MasterNodeConfigurationLoader] [] [] [] : Using roles [MASTER, GSIM, BRIDGE, WORKER_RUNNER, INSPECTION] for node node_id {
+  deployment_id {
+    project_id {
+      name: "your_project_name_here"
+    }
+    name: "local"
+  }
+  name: "master"
+}
+private_ip: "127.0.0.1"
+roles: MASTER
+roles: GSIM
+roles: BRIDGE
+roles: WORKER_RUNNER
+roles: INSPECTION
+
+2017-05-15 13:19:30,231 INFO  [improbable.core.config.node.GsimGrid] [] [] [] : Created gsim grid configuration of size (1500, 1500) with 1 columns and 1 rows, using gsims of (30, 30) chunks.
+2017-05-15 13:19:30,237 INFO  [i.c.c.n.MasterNodeConfigurationLoader] [] [] [] : Original deployment module configuration (before parsing): {deployment_id {
+  project_id {
+    name: "your_project_name_here"
+  }
+  name: "local"
+}
+name: "master"
+=[name: "ProfilingModule"
+, name: "AssetDatabaseModule"
+, name: "BridgeModuleOracleModule"
+, name: "BridgeOracleModule"
+, name: "EngineStartupModuleOracleModule"
+, name: "PersistenceModule"
+, name: "ReceptionistModule"
+, name: "RouterModule"
+, name: "WorldAppOracleModule"
+, name: "WorldAppSupervisorModule"
+, name: "GSimModule"
+, name: "BridgeModule"
+, name: "EngineStartupModule"
+, name: "DevWorldRestApiModule"
+, name: "InspectionRestModule"
+]}
+2017-05-15 13:19:30,248 INFO  [i.c.c.n.MasterNodeConfigurationLoader] [] [] [] : Master successfully loaded node configurations: {deployment_id {
+  project_id {
+    name: "your_project_name_here"
+  }
+  name: "local"
+}
+name: "master"
+=node_id {
+  deployment_id {
+    project_id {
+      name: "your_project_name_here"
+    }
+    name: "local"
+  }
+  name: "master"
+}
+module_configurations {
+  name: "ProfilingModule"
+}
+module_configurations {
+  name: "AssetDatabaseModule"
+}
+module_configurations {
+  name: "EngineStartupModuleOracleModule"
+}
+module_configurations {
+  name: "PersistenceModule"
+}
+module_configurations {
+  name: "ReceptionistModule"
+}
+module_configurations {
+  name: "WorldAppOracleModule"
+}
+module_configurations {
+  name: "WorldAppSupervisorModule"
+}
+module_configurations {
+  name: "GSimModule"
+}
+module_configurations {
+  name: "EngineStartupModule"
+}
+module_configurations {
+  name: "DevWorldRestApiModule"
+}
+module_configurations {
+  name: "InspectionRestModule"
+}
+gsim_configurations {
+  extent {
+    bottom_left {
+      x_in_chunks: -15
+      z_in_chunks: -15
+    }
+    top_right {
+      x_in_chunks: 15
+      z_in_chunks: 15
+    }
+  }
+}
+start_router: true
+start_bridge_oracle: true
+start_bridge_module_oracle: true
+bridge_modules {
+  name: "BridgeModule"
+}
+}
+2017-05-15 13:19:30,248 INFO  [improbable.module.ModuleNode] [] [] [] : Loaded node configuration: node_id {
+  deployment_id {
+    project_id {
+      name: "your_project_name_here"
+    }
+    name: "local"
+  }
+  name: "master"
+}
+module_configurations {
+  name: "ProfilingModule"
+}
+module_configurations {
+  name: "AssetDatabaseModule"
+}
+module_configurations {
+  name: "EngineStartupModuleOracleModule"
+}
+module_configurations {
+  name: "PersistenceModule"
+}
+module_configurations {
+  name: "ReceptionistModule"
+}
+module_configurations {
+  name: "WorldAppOracleModule"
+}
+module_configurations {
+  name: "WorldAppSupervisorModule"
+}
+module_configurations {
+  name: "GSimModule"
+}
+module_configurations {
+  name: "EngineStartupModule"
+}
+module_configurations {
+  name: "DevWorldRestApiModule"
+}
+module_configurations {
+  name: "InspectionRestModule"
+}
+gsim_configurations {
+  extent {
+    bottom_left {
+      x_in_chunks: -15
+      z_in_chunks: -15
+    }
+    top_right {
+      x_in_chunks: 15
+      z_in_chunks: 15
+    }
+  }
+}
+start_router: true
+start_bridge_oracle: true
+start_bridge_module_oracle: true
+bridge_modules {
+  name: "BridgeModule"
+}
+
+2017-05-15 13:19:30,248 INFO  [improbable.module.ModuleNode] [] [] [] : Using master world extents provider.
+2017-05-15 13:19:30,258 INFO  [i.core.discovery.server.LocalServer] [] [] [] : Registered Service(improbable.fabric.internal.service.WorldExtentsInternalService) on host: "127.0.0.1"
+port: 9006
+.
+2017-05-15 13:19:30,258 INFO  [i.c.world.MasterWorldExtentsProvider] [] [] [] : Successfully initialized world extents with 1 rectangle(s).
+2017-05-15 13:19:30,261 INFO  [improbable.module.ModuleNode] [] [] [] : Loaded world extents: WorldExtents{proto=rectangles {
+  bottom_left {
+    x: -750.0
+    z: -750.0
+  }
+  top_right {
+    x: 750.0
+    z: 750.0
+  }
+  is_fully_simulated: true
+  responsible_gsim_id {
+  }
+}
+bounding_rectangle {
+  bottom_left {
+    x: -750.0
+    z: -750.0
+  }
+  top_right {
+    x: 750.0
+    z: 750.0
+  }
+  is_fully_simulated: true
+}
+}
+2017-05-15 13:19:31,160 INFO  [i.c.d.global.GlobalServiceDiscovery] [] [] [] : Global service discovery refreshed 8 server(s) as master (previously: 6)
+2017-05-15 13:19:32,210 INFO  [i.entity.schema.FabricSchema] [] [] [] : Found components: [improbable.core.WorldTransform, improbable.EntityAcl]
+2017-05-15 13:19:32,210 INFO  [improbable.module.ModuleNode] [] [] [] : Successfully loaded schema for entities
+2017-05-15 13:19:32,211 INFO  [improbable.module.ModuleNode] [] [] [] : Validating snapshot at startup and determining max entity id
+2017-05-15 13:19:32,224 INFO  [improbable.module.ModuleNode] [] [] [] : Determined the first entity id for the id assigner as 1
+2017-05-15 13:19:32,227 INFO  [i.core.discovery.server.LocalServer] [] [] [] : Registered Service(improbable.fabric.internal.service.EntityIdInternalService) on host: "127.0.0.1"
+port: 9007
+.
+2017-05-15 13:19:32,233 INFO  [i.core.discovery.server.LocalServer] [] [] [] : Registered Service(improbable.fabric.internal.service.BridgePositionHintInternalService) on host: "127.0.0.1"
+port: 9008
+.
+2017-05-15 13:19:32,239 INFO  [i.core.discovery.server.LocalServer] [] [] [] : Registered Service(improbable.fabric.internal.service.RouterLookupInternalService) on host: "127.0.0.1"
+port: 9009
+.
+2017-05-15 13:19:32,240 INFO  [i.module.router.ActorSystemFactory$] [] [] [] : Attempting to create ActorSystem akkaFabric with configRecord akkaFabric
+2017-05-15 13:19:32,478 INFO  [akka.event.slf4j.Slf4jLogger] [] [] [] : Slf4jLogger started
+2017-05-15 13:19:33,161 INFO  [i.c.d.global.GlobalServiceDiscovery] [] [] [] : Global service discovery refreshed 11 server(s) as master (previously: 8)
+2017-05-15 13:19:33,413 INFO  [i.w.a.WorkerAssemblyProviderFactory] [] [] [] : Loaded worker assemblies for these workers types: UnityClient, UnityWorker.
+2017-05-15 13:19:33,414 INFO  [improbable.module.ModuleNode] [] [] [] : Loaded worker assemblies: [worker_assembly_id {
+  assembly_id {
+    project_id {
+      name: "your_project_name_here"
+    }
+    name: "local_assembly"
+  }
+  name {
+    name: "UnityClient"
+  }
+}
+bridge_configuration {
+  worker_attribute_set {
+    attribute {
+      name: "visual"
+    }
+  }
+  entity_interest {
+    range_entity_interest {
+      radius: 200.0
+    }
+  }
+  component_delivery {
+    checkout_all_initially: true
+  }
+}
+, worker_assembly_id {
+  assembly_id {
+    project_id {
+      name: "your_project_name_here"
+    }
+    name: "local_assembly"
+  }
+  name {
+    name: "UnityWorker"
+  }
+}
+worker_launch_configuration {
+  platform: WINDOWS
+  worker_zip {
+    command: "UnityWorker@Windows.exe"
+    argument: "+appName"
+    argument: "${IMPROBABLE_PROJECT_NAME}"
+    argument: "+receptionistIp"
+    argument: "${IMPROBABLE_RECEPTIONIST_IP}"
+    argument: "+receptionistPort"
+    argument: "${IMPROBABLE_RECEPTIONIST_PORT}"
+    argument: "+workerType"
+    argument: "${IMPROBABLE_WORKER_NAME}"
+    argument: "+workerId"
+    argument: "${IMPROBABLE_WORKER_ID}"
+    argument: "+useInternalIpForBridge"
+    argument: "true"
+    argument: "+infraServicesUrl"
+    argument: "${IMPROBABLE_API_URL}"
+    argument: "+assemblyName"
+    argument: "${IMPROBABLE_ASSEMBLY_NAME}"
+    argument: "+linkProtocol"
+    argument: "RakNet"
+    argument: "-logfile"
+    argument: "${IMPROBABLE_LOG_FILE}"
+    argument: "-batchmode"
+    argument: "-nographics"
+    worker_location {
+      filename: "UnityWorker@Windows.zip"
+    }
+  }
+}
+worker_launch_configuration {
+  platform: MACOS
+  worker_zip {
+    command: "UnityWorker@Mac.app/Contents/MacOS/UnityWorker@Mac"
+    argument: "+appName"
+    argument: "${IMPROBABLE_PROJECT_NAME}"
+    argument: "+receptionistIp"
+    argument: "${IMPROBABLE_RECEPTIONIST_IP}"
+    argument: "+receptionistPort"
+    argument: "${IMPROBABLE_RECEPTIONIST_PORT}"
+    argument: "+workerType"
+    argument: "${IMPROBABLE_WORKER_NAME}"
+    argument: "+workerId"
+    argument: "${IMPROBABLE_WORKER_ID}"
+    argument: "+useInternalIpForBridge"
+    argument: "true"
+    argument: "+infraServicesUrl"
+    argument: "${IMPROBABLE_API_URL}"
+    argument: "+assemblyName"
+    argument: "${IMPROBABLE_ASSEMBLY_NAME}"
+    argument: "+linkProtocol"
+    argument: "RakNet"
+    argument: "-logfile"
+    argument: "${IMPROBABLE_LOG_FILE}"
+    argument: "-batchmode"
+    argument: "-nographics"
+    worker_location {
+      filename: "UnityWorker@Mac.zip"
+    }
+  }
+}
+worker_launch_configuration {
+  platform: LINUX
+  worker_zip {
+    command: "UnityWorker@Linux"
+    argument: "+appName"
+    argument: "${IMPROBABLE_PROJECT_NAME}"
+    argument: "+receptionistIp"
+    argument: "${IMPROBABLE_RECEPTIONIST_IP}"
+    argument: "+receptionistPort"
+    argument: "${IMPROBABLE_RECEPTIONIST_PORT}"
+    argument: "+workerType"
+    argument: "${IMPROBABLE_WORKER_NAME}"
+    argument: "+workerId"
+    argument: "${IMPROBABLE_WORKER_ID}"
+    argument: "+useInternalIpForBridge"
+    argument: "true"
+    argument: "+infraServicesUrl"
+    argument: "${IMPROBABLE_API_URL}"
+    argument: "+assemblyName"
+    argument: "${IMPROBABLE_ASSEMBLY_NAME}"
+    argument: "+linkProtocol"
+    argument: "RakNet"
+    argument: "-logfile"
+    argument: "${IMPROBABLE_LOG_FILE}"
+    argument: "-batchmode"
+    argument: "-nographics"
+    worker_location {
+      filename: "UnityWorker@Linux.zip"
+    }
+  }
+}
+bridge_configuration {
+  worker_attribute_set {
+    attribute {
+      name: "physics"
+    }
+  }
+  entity_interest {
+    range_entity_interest {
+      radius: 200.0
+    }
+  }
+  component_delivery {
+    checkout_all_initially: true
+  }
+}
+]
+2017-05-15 13:19:33,415 INFO  [i.l.params.LoadbalancerParamsFactory] [] [] [] : Parsed 1 worker loadbalancing configuration(s)
+2017-05-15 13:19:33,418 INFO  [i.l.params.LoadbalancerParamsFactory] [] [] [] : Successfully loaded loadbalancing configurations: {UnityWorker=improbable.loadbalancing.params.AutoHexGridLoadbalancerParams@79bc2021}
+2017-05-15 13:19:33,420 INFO  [i.w.permissions.PermissionsFactory] [] [] [] : Created permissions manager with permissions: {UnityWorker=Permissions{{/sys/CreateEntity=, /sys/DeleteEntity=, /sys/EntityQuery={"component":["*"]}}}, UnityClient=Permissions{{/sys/EntityQuery={"component":["*"]}}}}
+2017-05-15 13:19:35,269 INFO  [improbable.module.ModuleNode] [] [] [] : Starting router on master
+2017-05-15 13:19:35,275 INFO  [i.core.discovery.server.LocalServer] [] [] [] : Registered Service(improbable.fabric.internal.service.RouterInternalService) on host: "127.0.0.1"
+port: 9010
+.
+2017-05-15 13:19:35,275 INFO  [i.c.m.r.RouterInternalServiceImpl] [] [] [] : Attempting to register RouterInternalServiceImpl with RouterLookupInternalService.
+2017-05-15 13:19:35,277 INFO  [io.grpc.internal.ManagedChannelImpl] [] [] [] : [ManagedChannelImpl@6c55ef66] Created with target directaddress:///io.grpc.inprocess.InProcessSocketAddress@5b01bfa8
+2017-05-15 13:19:35,279 INFO  [i.c.m.r.l.RouterLookupInternalServiceImpl] [] [] [] : 1/1 router modules started
+2017-05-15 13:19:35,279 INFO  [i.c.m.r.RouterInternalServiceImpl] [] [] [] : Registered RouterInternalServiceImpl with RouterLookupInternalService.
+2017-05-15 13:19:35,280 INFO  [improbable.module.ModuleNode] [] [] [] : Waiting for all router modules in the deployment to have started
+2017-05-15 13:19:35,281 INFO  [i.routing.proxy.RouterProxyFactory$] [] [] [] : Attempting to get addresses of all RouterModules from master node
+2017-05-15 13:19:35,286 INFO  [i.routing.proxy.RouterProxyFactory$] [] [] [] : Got all RouterModules from master node
+2017-05-15 13:19:35,297 INFO  [i.core.discovery.server.LocalServer] [] [] [] : Registered Service(improbable.fabric.internal.service.RemoteMessageInternalService) on host: "127.0.0.1"
+port: 9011
+.
+2017-05-15 13:19:35,306 INFO  [i.core.discovery.server.LocalServer] [] [] [] : Registered Service(improbable.fabric.internal.service.LocalBrokerInternalService) on host: "127.0.0.1"
+port: 9012
+.
+2017-05-15 13:19:35,311 INFO  [improbable.module.ModuleNode] [] [] [] : All router modules in the deployment started
+2017-05-15 13:19:35,357 INFO  [org.eclipse.jetty.server.Server] [] [] [] : jetty-8.y.z-SNAPSHOT
+2017-05-15 13:19:35,377 INFO  [o.e.jetty.server.AbstractConnector] [] [] [] : Started SelectChannelConnector@0.0.0.0:5006
+2017-05-15 13:19:35,378 INFO  [improbable.http.ServletContainer$] [] [] [] : Servlet container started
+2017-05-15 13:19:35,378 INFO  [improbable.module.ModuleNode] [] [] [] : Starting BridgeOracle on master
+2017-05-15 13:19:35,383 INFO  [improbable.module.ModuleNode] [] [] [] : Waiting for the BridgeOracle to have started
+2017-05-15 13:19:35,517 INFO  [io.grpc.internal.ManagedChannelImpl] [] [] [] : [ManagedChannelImpl@7ea12e57] Created with target directaddress:///io.grpc.inprocess.InProcessSocketAddress@219d8ff6
+2017-05-15 13:19:35,522 INFO  [io.grpc.internal.ManagedChannelImpl] [] [] [] : [ManagedChannelImpl@2816b6b6] Created with target directaddress:///io.grpc.inprocess.InProcessSocketAddress@45848b35
+2017-05-15 13:19:35,525 INFO  [i.core.discovery.server.LocalServer] [] [] [] : Registered Service(improbable.fabric.internal.service.BridgeOracleInternalService) on host: "127.0.0.1"
+port: 9013
+.
+2017-05-15 13:19:36,165 INFO  [improbable.module.ModuleNode] [] [] [] : Received BridgeOracle started
+2017-05-15 13:19:36,165 INFO  [i.c.d.global.GlobalServiceDiscovery] [] [] [] : Global service discovery refreshed 15 server(s) as master (previously: 11)
+2017-05-15 13:19:36,171 INFO  [i.core.discovery.server.LocalServer] [] [] [] : Registered Service(improbable.fabric.internal.service.GlobalBrokerInternalService) on host: "127.0.0.1"
+port: 9014
+.
+2017-05-15 13:19:36,172 INFO  [improbable.module.ModuleNode] [] [] [] : Waiting for the BridgeModuleOracle to have started
+2017-05-15 13:19:36,177 INFO  [i.c.a.e.ExtensibleActorReporter] [] [] [] : Started BridgeModuleOracleActor(Actor[akka://akkaFabric/user/BridgeModuleOracleModule#-971062618]).
+2017-05-15 13:19:36,187 INFO  [i.core.discovery.server.LocalServer] [] [] [] : Registered Service(improbable.fabric.internal.service.BridgeServiceOracleInternalService) on host: "127.0.0.1"
+port: 9015
+.
+2017-05-15 13:19:37,163 INFO  [i.c.d.global.GlobalServiceDiscovery] [] [] [] : Global service discovery refreshed 17 server(s) as master (previously: 15)
+2017-05-15 13:19:37,163 INFO  [improbable.module.ModuleNode] [] [] [] : Received BridgeModuleOracle started
+2017-05-15 13:19:37,166 INFO  [io.grpc.internal.ManagedChannelImpl] [] [] [] : [ManagedChannelImpl@5388cd11] Created with target directaddress:///io.grpc.inprocess.InProcessSocketAddress@5b36742f
+2017-05-15 13:19:37,171 INFO  [improbable.module.ModuleNode] [] [] [] : Waiting for 1 BridgeModules to have started
+2017-05-15 13:19:37,178 INFO  [i.c.a.e.ExtensibleActorReporter] [] [] [] : Started BridgeModuleActor(Actor[akka://akkaFabric/user/BridgeModule:wFicFozt#380512190]).
+2017-05-15 13:19:37,179 INFO  [i.module.bridge.BridgeModuleActor] [] [] [] : Waiting for BridgeModuleOracle service to be available
+2017-05-15 13:19:37,186 INFO  [i.module.bridge.BridgeModuleActor] [] [] [] : Registered(BridgeModuleEndpoint(wFicFozt)) on BridgeModuleOracleService
+2017-05-15 13:19:37,187 INFO  [i.m.b.o.m.BridgeModuleOracleActor] [] [] [] : Registering: BridgeModuleEndpoint(wFicFozt) with BridgeModuleOracleActor
+2017-05-15 13:19:37,198 INFO  [i.core.discovery.server.LocalServer] [] [] [] : Registered Service(improbable.fabric.internal.service.BridgeInternalService) on host: "127.0.0.1"
+port: 9016
+.
+2017-05-15 13:19:37,521 INFO  [i.bridge.oracle.scaling.WorkerScaler] [] [] [] : Skipping reconciliation because no WorkerRunner service is available. This message is expected at startup but should not persist through the deployment
+2017-05-15 13:19:38,166 INFO  [i.c.d.global.GlobalServiceDiscovery] [] [] [] : Global service discovery refreshed 18 server(s) as master (previously: 17)
+2017-05-15 13:19:38,181 INFO  [improbable.module.ModuleNode] [] [] [] : Received 1 BridgeModules started
+2017-05-15 13:19:38,185 INFO  [io.grpc.internal.ManagedChannelImpl] [] [] [] : [ManagedChannelImpl@52fbfcdb] Created with target directaddress:///io.grpc.inprocess.InProcessSocketAddress@8a5d37b
+2017-05-15 13:19:38,190 INFO  [improbable.module.ModuleNode] [] [] [] : Waiting for all modules on this node to start.
+2017-05-15 13:19:38,195 INFO  [i.core.discovery.server.PublicServer] [] [] [] : Registered Service(improbable.platform.runtime.ModuleService) on host: "127.0.0.1"
+port: 9017
+.
+2017-05-15 13:19:38,195 INFO  [i.c.a.e.ExtensibleActorReporter] [] [] [] : Started ModuleManager(Actor[akka://akkaFabric/user/moduleManager#-1763880527]).
+2017-05-15 13:19:38,196 INFO  [i.module.manager.ModuleManager] [] [] [] : Starting modules on master: Buffer(name: "ProfilingModule"
+, name: "AssetDatabaseModule"
+, name: "EngineStartupModuleOracleModule"
+, name: "PersistenceModule"
+, name: "ReceptionistModule"
+, name: "WorldAppOracleModule"
+, name: "WorldAppSupervisorModule"
+, name: "GSimModule"
+, name: "EngineStartupModule"
+, name: "DevWorldRestApiModule"
+, name: "InspectionRestModule"
+)
+2017-05-15 13:19:38,196 INFO  [i.module.manager.ModuleManager] [] [] [] : Starting Module(ProfilingModule) ...
+2017-05-15 13:19:38,198 INFO  [i.module.manager.ModuleManager] [] [] [] : Started Module(ProfilingModule).
+2017-05-15 13:19:38,198 INFO  [i.module.manager.ModuleManager] [] [] [] : Starting Module(AssetDatabaseModule) ...
+2017-05-15 13:19:38,200 INFO  [i.module.manager.ModuleManager] [] [] [] : Started Module(AssetDatabaseModule).
+2017-05-15 13:19:38,200 INFO  [i.module.manager.ModuleManager] [] [] [] : Starting Module(EngineStartupModuleOracleModule) ...
+2017-05-15 13:19:38,200 INFO  [i.c.a.e.ExtensibleActorReporter] [] [] [] : Started ProfilingModuleActor(Actor[akka://akkaFabric/user/moduleManager/ProfilingModule1#594692969]).
+2017-05-15 13:19:38,203 INFO  [i.module.manager.ModuleManager] [] [] [] : Started Module(EngineStartupModuleOracleModule).
+2017-05-15 13:19:38,204 INFO  [i.module.manager.ModuleManager] [] [] [] : Starting Module(PersistenceModule) ...
+2017-05-15 13:19:38,204 INFO  [i.c.a.e.ExtensibleActorReporter] [] [] [] : Started EngineStartupModuleOracleActor(Actor[akka://akkaFabric/user/moduleManager/EngineStartupModuleOracleModule1#-70665848]).
+2017-05-15 13:19:38,205 INFO  [i.module.manager.ModuleManager] [] [] [] : Started Module(PersistenceModule).
+2017-05-15 13:19:38,205 INFO  [i.module.manager.ModuleManager] [] [] [] : Starting Module(ReceptionistModule) ...
+2017-05-15 13:19:38,206 INFO  [i.module.manager.ModuleManager] [] [] [] : Started Module(ReceptionistModule).
+2017-05-15 13:19:38,206 INFO  [i.module.manager.ModuleManager] [] [] [] : Starting Module(WorldAppOracleModule) ...
+2017-05-15 13:19:38,213 INFO  [i.core.discovery.server.LocalServer] [] [] [] : Registered Service(improbable.fabric.internal.service.ReceptionistInternalService) on host: "127.0.0.1"
+port: 9018
+.
+2017-05-15 13:19:38,362 INFO  [i.core.discovery.server.PublicServer] [] [] [] : Registered Service(improbable.platform.runtime.ReceptionistService) on host: "127.0.0.1"
+port: 9019
+.
+2017-05-15 13:19:38,364 INFO  [i.m.r.ReceptionistRestGateway] [] [] [] : Starting receptionist on 0.0.0.0:7777
+2017-05-15 13:19:38,550 INFO  [spray.can.server.HttpListener] [akka://akkaFabric/user/IO-HTTP/listener-0] [akkaFabric-akka.actor.default-dispatcher-4] [] : Bound to /0.0.0.0:1238
+2017-05-15 13:19:38,550 INFO  [spray.can.server.HttpListener] [akka://akkaFabric/user/IO-HTTP/listener-1] [akkaFabric-akka.actor.default-dispatcher-15] [] : Bound to /0.0.0.0:7777
+2017-05-15 13:19:39,160 INFO  [i.c.d.global.GlobalServiceDiscovery] [] [] [] : Global service discovery refreshed 21 server(s) as master (previously: 18)
+2017-05-15 13:19:39,521 INFO  [i.bridge.oracle.scaling.WorkerScaler] [] [] [] : Skipping reconciliation because no WorkerRunner service is available. This message is expected at startup but should not persist through the deployment
+2017-05-15 13:19:39,960 INFO  [i.core.discovery.server.LocalServer] [] [] [] : Registered Service(improbable.fabric.internal.service.WorldAppOracleInternalService) on host: "127.0.0.1"
+port: 9020
+.
+2017-05-15 13:19:39,961 INFO  [i.module.manager.ModuleManager] [] [] [] : Started Module(WorldAppOracleModule).
+2017-05-15 13:19:39,962 INFO  [i.module.manager.ModuleManager] [] [] [] : Starting Module(WorldAppSupervisorModule) ...
+2017-05-15 13:19:39,962 INFO  [i.module.manager.ModuleManager] [] [] [] : Started Module(WorldAppSupervisorModule).
+2017-05-15 13:19:39,963 INFO  [i.module.manager.ModuleManager] [] [] [] : Starting Module(GSimModule) ...
+2017-05-15 13:19:39,964 INFO  [i.module.manager.ModuleManager] [] [] [] : Started Module(GSimModule).
+2017-05-15 13:19:39,964 INFO  [i.module.manager.ModuleManager] [] [] [] : Starting Module(EngineStartupModule) ...
+2017-05-15 13:19:39,964 INFO  [i.c.a.e.ExtensibleActorReporter] [] [] [] : Started WorldAppSupervisorModuleActor(Actor[akka://akkaFabric/user/moduleManager/WorldAppSupervisorModule1#470948007]).
+2017-05-15 13:19:39,968 INFO  [improbable.engine.worker.WorkerStats] [] [] [] : Cannot read /proc/self/stat; worker stats reporting will not work.
+2017-05-15 13:19:39,974 INFO  [i.core.discovery.server.PublicServer] [] [] [] : Registered Service(improbable.platform.inner.worker.WorkerRunner) on host: "127.0.0.1"
+port: 9021
+.
+2017-05-15 13:19:39,975 INFO  [i.module.manager.ModuleManager] [] [] [] : Started Module(EngineStartupModule).
+2017-05-15 13:19:39,975 INFO  [i.module.manager.ModuleManager] [] [] [] : Starting Module(DevWorldRestApiModule) ...
+2017-05-15 13:19:39,976 INFO  [i.module.manager.ModuleManager] [] [] [] : Started Module(DevWorldRestApiModule).
+2017-05-15 13:19:39,976 INFO  [i.module.manager.ModuleManager] [] [] [] : Starting Module(InspectionRestModule) ...
+2017-05-15 13:19:39,978 INFO  [i.module.manager.ModuleManager] [] [] [] : Started Module(InspectionRestModule).
+2017-05-15 13:19:39,979 INFO  [i.module.manager.ModuleManager] [] [] [] : Module bootstrapping complete on master.
+2017-05-15 13:19:39,979 INFO  [improbable.module.ModuleNode] [] [] [] : All modules on this node started, waiting for other nodes to reach the same state.
+2017-05-15 13:19:39,979 INFO  [improbable.module.ModuleNode] [] [] [] : Using master module status checker.
+2017-05-15 13:19:39,989 INFO  [i.c.r.MasterModuleStatusChecker] [] [] [] : All other nodes have all modules started.
+2017-05-15 13:19:39,990 INFO  [improbable.module.ModuleNode] [] [] [] : All modules on all nodes have been started, setting node state to healthy.
+2017-05-15 13:19:39,991 INFO  [i.core.discovery.server.PublicServer] [] [] [] : Registered Service(improbable.fabric.internal.service.ScalingStatsInternalService) on host: "127.0.0.1"
+port: 9022
+.
+2017-05-15 13:19:39,992 INFO  [improbable.module.ModuleNode] [] [] [] : SpatialOS runtime startup complete.
+2017-05-15 13:19:40,013 INFO  [i.core.discovery.server.PublicServer] [] [] [] : Registered Service(improbable.platform.runtime.SnapshotService) on host: "127.0.0.1"
+port: 9023
+.
+2017-05-15 13:19:40,015 INFO  [i.c.a.e.ExtensibleActorReporter] [] [] [] : Started PersistenceModuleActor(Actor[akka://akkaFabric/user/moduleManager/PersistenceModule1#-1986343911]).
+2017-05-15 13:19:40,020 INFO  [i.c.a.e.ExtensibleActorReporter] [] [] [] : Started DevWorldRestApiModuleActor(Actor[akka://akkaFabric/user/moduleManager/DevWorldRestApiModule1#2112070817]).
+2017-05-15 13:19:40,020 INFO  [i.devworld.DevWorldRestServer] [] [] [] : Dev API server starting on 0.0.0.0 : 5000
+2017-05-15 13:19:40,024 INFO  [i.p.gsim.GSimPersistenceWriter] [] [] [] : Transitioning GSimPersistenceActor(0) from State [Idle] to [Idle].  Time Elapsed: 6 milliseconds
+2017-05-15 13:19:40,027 INFO  [i.core.discovery.server.LocalServer] [] [] [] : Registered Service(improbable.fabric.internal.service.EntityQueryInternalService) on host: "127.0.0.1"
+port: 9024
+.
+2017-05-15 13:19:40,031 INFO  [spray.can.server.HttpListener] [akka://akkaFabric/user/IO-HTTP/listener-2] [akkaFabric-akka.actor.default-dispatcher-3] [] : Bound to /0.0.0.0:5000
+2017-05-15 13:19:40,038 INFO  [i.p.g.GSimPersistenceLoadOrchestrator] [] [] [] : Loading snapshot on GSim(0).
+2017-05-15 13:19:40,041 INFO  [i.p.gsim.GSimPersistenceLoader] [] [] [] : Loading snapshot
+2017-05-15 13:19:40,042 INFO  [i.p.g.GSimPersistenceLoadOrchestrator] [] [] [] : Loaded 0 entities on GSim(0).
+2017-05-15 13:19:40,043 INFO  [i.p.c.PersistenceLoaderCoordinatorActor] [] [] [] : All Snapshots loaded. Activating entities.
+2017-05-15 13:19:40,046 INFO  [i.p.g.GSimPersistenceLoadOrchestrator] [] [] [] : Activating 0 entities on GSim(0).
+2017-05-15 13:19:40,050 INFO  [i.p.g.GSimPersistenceLoadOrchestrator] [] [] [] : Activated 0 entities on GSim(0).
+2017-05-15 13:19:40,050 INFO  [i.p.c.PersistenceLoaderCoordinatorActor] [] [] [] : Snapshot Load Complete.
+2017-05-15 13:19:40,053 INFO  [io.grpc.internal.ManagedChannelImpl] [] [] [] : [ManagedChannelImpl@5a1de510] Created with target directaddress:///io.grpc.inprocess.InProcessSocketAddress@1f1f7897
+2017-05-15 13:19:40,075 INFO  [i.core.discovery.server.PublicServer] [] [] [] : Registered Service(improbable.platform.runtime.InspectionService) on host: "127.0.0.1"
+port: 9025
+.
+2017-05-15 13:19:40,151 INFO  [i.c.a.e.ExtensibleActorReporter] [] [] [] : Started InspectionRestModuleActor(Actor[akka://akkaFabric/user/moduleManager/InspectionRestModule1#-1070345005]).
+2017-05-15 13:19:40,160 INFO  [spray.can.server.HttpListener] [akka://akkaFabric/user/IO-HTTP/listener-3] [akkaFabric-akka.actor.default-dispatcher-40] [] : Bound to /0.0.0.0:5005
+2017-05-15 13:19:40,174 INFO  [i.c.d.global.GlobalServiceDiscovery] [] [] [] : Global service discovery refreshed 27 server(s) as master (previously: 21)
+2017-05-15 13:19:40,174 INFO  [io.grpc.internal.ManagedChannelImpl] [] [] [] : [ManagedChannelImpl@6682a72a] Created with target directaddress:///io.grpc.inprocess.InProcessSocketAddress@23802d3e
+2017-05-15 13:19:40,178 INFO  [i.m.a.WorldAppOracleInternalServiceImpl] [] [] [] : Trying to start initial WorldApps
+2017-05-15 13:19:40,178 INFO  [i.m.a.WorldAppOracleInternalServiceImpl] [] [] [] : Waiting for World App supervisors to be ready
+2017-05-15 13:19:40,178 INFO  [i.m.a.WorldAppOracleInternalServiceImpl] [] [] [] : WorldApp Supervisor master registered with the world app oracle
+2017-05-15 13:19:40,178 INFO  [i.m.a.WorldAppOracleInternalServiceImpl] [] [] [] : World App supervisors registered, asking them to start worldapps
+2017-05-15 13:19:41,402 INFO  [io.grpc.internal.ManagedChannelImpl] [] [] [] : [ManagedChannelImpl@20fb208d] Created with target directaddress:///io.grpc.inprocess.InProcessSocketAddress@e4d6dda
+2017-05-15 13:19:45,298 INFO  [io.grpc.internal.ManagedChannelImpl] [] [] [] : [ManagedChannelImpl@7dda16b3] Created with target directaddress:///io.grpc.inprocess.InProcessSocketAddress@242cbe72
+2017-05-15 13:19:45,299 INFO  [io.grpc.internal.ClientCallImpl] [] [] [] : Call timeout set to '29996549044' ns, due to context deadline. Explicit call timeout was '29999220777' ns.
+2017-05-15 13:19:45,357 INFO  [i.i.service.InspectionRestService] [] [] [] : Processing GET request from new source 0:0:0:0:0:0:0:1
+2017-05-15 13:19:46,816 INFO  [io.grpc.internal.ClientCallImpl] [] [] [] : Call timeout set to '29998980192' ns, due to context deadline. Explicit call timeout was '29999529611' ns.
+2017-05-15 13:19:48,325 INFO  [io.grpc.internal.ClientCallImpl] [] [] [] : Call timeout set to '29999391621' ns, due to context deadline. Explicit call timeout was '29999922724' ns.
+2017-05-15 13:19:49,833 INFO  [io.grpc.internal.ClientCallImpl] [] [] [] : Call timeout set to '29999435376' ns, due to context deadline. Explicit call timeout was '29999919320' ns.
+2017-05-15 13:19:51,340 INFO  [io.grpc.internal.ClientCallImpl] [] [] [] : Call timeout set to '29999349467' ns, due to context deadline. Explicit call timeout was '29999916741' ns.
+2017-05-15 13:19:52,849 INFO  [io.grpc.internal.ClientCallImpl] [] [] [] : Call timeout set to '29999368981' ns, due to context deadline. Explicit call timeout was '29999925261' ns.
+2017-05-15 13:19:54,359 INFO  [io.grpc.internal.ClientCallImpl] [] [] [] : Call timeout set to '29998982747' ns, due to context deadline. Explicit call timeout was '29999930358' ns.
+2017-05-15 13:19:55,867 INFO  [io.grpc.internal.ClientCallImpl] [] [] [] : Call timeout set to '29999348201' ns, due to context deadline. Explicit call timeout was '29999927389' ns.
+2017-05-15 13:19:57,377 INFO  [io.grpc.internal.ClientCallImpl] [] [] [] : Call timeout set to '29999358995' ns, due to context deadline. Explicit call timeout was '29999916140' ns.
+2017-05-15 13:19:58,885 INFO  [io.grpc.internal.ClientCallImpl] [] [] [] : Call timeout set to '29999403280' ns, due to context deadline. Explicit call timeout was '29999929144' ns.
+2017-05-15 13:20:00,393 INFO  [io.grpc.internal.ClientCallImpl] [] [] [] : Call timeout set to '29999139463' ns, due to context deadline. Explicit call timeout was '29999909279' ns.
+2017-05-15 13:20:01,903 INFO  [io.grpc.internal.ClientCallImpl] [] [] [] : Call timeout set to '29999291205' ns, due to context deadline. Explicit call timeout was '29999887812' ns.
+2017-05-15 13:20:03,409 INFO  [io.grpc.internal.ClientCallImpl] [] [] [] : Call timeout set to '29999202925' ns, due to context deadline. Explicit call timeout was '29999930553' ns.
+2017-05-15 13:20:04,916 INFO  [io.grpc.internal.ClientCallImpl] [] [] [] : Call timeout set to '29999375319' ns, due to context deadline. Explicit call timeout was '29999916407' ns.
+2017-05-15 13:20:06,423 INFO  [io.grpc.internal.ClientCallImpl] [] [] [] : Call timeout set to '29999411063' ns, due to context deadline. Explicit call timeout was '29999927385' ns.
+2017-05-15 13:20:07,930 INFO  [io.grpc.internal.ClientCallImpl] [] [] [] : Call timeout set to '29999367066' ns, due to context deadline. Explicit call timeout was '29999926838' ns.
+2017-05-15 13:20:09,437 INFO  [io.grpc.internal.ClientCallImpl] [] [] [] : Call timeout set to '29999434305' ns, due to context deadline. Explicit call timeout was '29999929431' ns.
+2017-05-15 13:20:10,943 INFO  [io.grpc.internal.ClientCallImpl] [] [] [] : Call timeout set to '29999390589' ns, due to context deadline. Explicit call timeout was '29999924091' ns.
+2017-05-15 13:20:12,450 INFO  [io.grpc.internal.ClientCallImpl] [] [] [] : Call timeout set to '29999332125' ns, due to context deadline. Explicit call timeout was '29999929381' ns.
+2017-05-15 13:20:13,959 INFO  [io.grpc.internal.ClientCallImpl] [] [] [] : Call timeout set to '29999420084' ns, due to context deadline. Explicit call timeout was '29999927412' ns.
+2017-05-15 13:20:15,465 INFO  [io.grpc.internal.ClientCallImpl] [] [] [] : Call timeout set to '29999429240' ns, due to context deadline. Explicit call timeout was '29999924834' ns.
+2017-05-15 13:20:16,972 INFO  [io.grpc.internal.ClientCallImpl] [] [] [] : Call timeout set to '29999298645' ns, due to context deadline. Explicit call timeout was '29999922127' ns.
+2017-05-15 13:20:18,479 INFO  [io.grpc.internal.ClientCallImpl] [] [] [] : Call timeout set to '29999323814' ns, due to context deadline. Explicit call timeout was '29999926774' ns.
+2017-05-15 13:20:19,985 INFO  [io.grpc.internal.ClientCallImpl] [] [] [] : Call timeout set to '29999402755' ns, due to context deadline. Explicit call timeout was '29999932879' ns.
+2017-05-15 13:20:21,492 INFO  [io.grpc.internal.ClientCallImpl] [] [] [] : Call timeout set to '29999350122' ns, due to context deadline. Explicit call timeout was '29999923978' ns.
+2017-05-15 13:20:21,676 INFO  [i.c.discovery.ServiceDiscoveryImpl] [] [] [] : Shutting down all services
+2017-05-15 13:20:21,681 INFO  [i.core.discovery.server.PublicServer] [] [] [] : Stopped Service(improbable.platform.runtime.SnapshotService) on host: "127.0.0.1"
+port: 9023
+
+2017-05-15 13:20:21,681 INFO  [i.core.discovery.server.LocalServer] [] [] [] : Stopped Service(improbable.fabric.internal.service.LocalBrokerInternalService) on host: "127.0.0.1"
+port: 9012
+
+2017-05-15 13:20:21,681 INFO  [i.core.discovery.server.PublicServer] [] [] [] : Stopped Service(improbable.platform.runtime.InspectionService) on host: "127.0.0.1"
+port: 9025
+
+2017-05-15 13:20:21,682 INFO  [i.core.discovery.server.LocalServer] [] [] [] : Stopped Service(improbable.fabric.internal.service.GlobalBrokerInternalService) on host: "127.0.0.1"
+port: 9014
+
+2017-05-15 13:20:21,683 INFO  [i.core.discovery.server.LocalServer] [] [] [] : Stopped Service(improbable.fabric.internal.service.ContentionInternalService) on host: "127.0.0.1"
+port: 9003
+
+2017-05-15 13:20:21,683 INFO  [i.core.discovery.server.LocalServer] [] [] [] : Stopped Service(improbable.fabric.internal.service.NodeConfigurationInternalService) on host: "127.0.0.1"
+port: 9005
+
+2017-05-15 13:20:21,683 INFO  [i.core.discovery.server.LocalServer] [] [] [] : Stopped Service(improbable.fabric.internal.service.BridgeInternalService) on host: "127.0.0.1"
+port: 9016
+
+2017-05-15 13:20:21,684 INFO  [i.core.discovery.server.PublicServer] [] [] [] : Stopped Service(improbable.platform.runtime.ReceptionistService) on host: "127.0.0.1"
+port: 9019
+
+2017-05-15 13:20:21,684 INFO  [i.core.discovery.server.LocalServer] [] [] [] : Stopped Service(improbable.fabric.internal.service.BridgePositionHintInternalService) on host: "127.0.0.1"
+port: 9008
+
+2017-05-15 13:20:21,684 INFO  [i.core.discovery.server.PublicServer] [] [] [] : Stopped Service(improbable.platform.inner.worker.WorkerRunner) on host: "127.0.0.1"
+port: 9021
+
+2017-05-15 13:20:21,684 INFO  [i.core.discovery.server.LocalServer] [] [] [] : Stopped Service(improbable.fabric.internal.service.RouterInternalService) on host: "127.0.0.1"
+port: 9010
+
+2017-05-15 13:20:21,685 INFO  [i.core.discovery.server.PublicServer] [] [] [] : Stopped Service(improbable.platform.runtime.HealthCheckService) on host: "127.0.0.1"
+port: 9001
+
+2017-05-15 13:20:21,686 INFO  [i.core.discovery.server.LocalServer] [] [] [] : Stopped Service(improbable.fabric.internal.service.BridgeOracleInternalService) on host: "127.0.0.1"
+port: 9013
+
+2017-05-15 13:20:21,686 INFO  [i.core.discovery.server.LocalServer] [] [] [] : Stopped Service(improbable.fabric.internal.service.PerfInternalService) on host: "127.0.0.1"
+port: 9002
+
+2017-05-15 13:20:21,687 INFO  [i.core.discovery.server.LocalServer] [] [] [] : Stopped Service(improbable.fabric.internal.service.ServiceDiscoveryInternalService) on host: "127.0.0.1"
+port: 5301
+
+2017-05-15 13:20:21,687 INFO  [i.core.discovery.server.LocalServer] [] [] [] : Stopped Service(improbable.fabric.internal.service.EntityQueryInternalService) on host: "127.0.0.1"
+port: 9024
+
+2017-05-15 13:20:21,687 INFO  [i.core.discovery.server.LocalServer] [] [] [] : Stopped Service(improbable.fabric.internal.service.BridgeServiceOracleInternalService) on host: "127.0.0.1"
+port: 9015
+
+2017-05-15 13:20:21,687 INFO  [i.core.discovery.server.PublicServer] [] [] [] : Stopped Service(improbable.platform.runtime.FeatureService) on host: "127.0.0.1"
+port: 9004
+
+2017-05-15 13:20:21,688 INFO  [i.core.discovery.server.PublicServer] [] [] [] : Stopped Service(improbable.platform.runtime.ModuleService) on host: "127.0.0.1"
+port: 9017
+
+2017-05-15 13:20:21,688 INFO  [i.core.discovery.server.LocalServer] [] [] [] : Stopped Service(improbable.fabric.internal.service.WorldExtentsInternalService) on host: "127.0.0.1"
+port: 9006
+
+2017-05-15 13:20:21,688 INFO  [i.core.discovery.server.LocalServer] [] [] [] : Stopped Service(improbable.fabric.internal.service.ReceptionistInternalService) on host: "127.0.0.1"
+port: 9018
+
+2017-05-15 13:20:21,688 INFO  [i.core.discovery.server.LocalServer] [] [] [] : Stopped Service(improbable.fabric.internal.service.EntityIdInternalService) on host: "127.0.0.1"
+port: 9007
+
+2017-05-15 13:20:21,689 INFO  [i.core.discovery.server.LocalServer] [] [] [] : Stopped Service(improbable.fabric.internal.service.RouterLookupInternalService) on host: "127.0.0.1"
+port: 9009
+
+2017-05-15 13:20:21,689 INFO  [i.core.discovery.server.LocalServer] [] [] [] : Stopped Service(improbable.fabric.internal.service.WorldAppOracleInternalService) on host: "127.0.0.1"
+port: 9020
+
+2017-05-15 13:20:21,690 INFO  [i.core.discovery.server.PublicServer] [] [] [] : Stopped Service(improbable.fabric.internal.service.ScalingStatsInternalService) on host: "127.0.0.1"
+port: 9022
+
+2017-05-15 13:20:21,690 INFO  [i.core.discovery.server.LocalServer] [] [] [] : Stopped Service(improbable.fabric.internal.service.RemoteMessageInternalService) on host: "127.0.0.1"
+port: 9011
+
+2017-05-15 13:20:21,690 INFO  [i.core.discovery.server.LocalServer] [] [] [] : Stopped Service(improbable.fabric.internal.service.RunLevelInternalService) on host: "127.0.0.1"
+port: 9000
+
