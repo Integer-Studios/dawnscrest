@@ -1,7 +1,23 @@
-# realms
-A simple, profound experiment.
-Once upon a god damn time. 
-Unity thought they could make git. 
-And it turned out, well, the couldn't. 
-After being brutally raped by unity collab,
-well here we are.
+# Blank Project
+---
+
+*Copyright Improbable Worlds Ltd, 2017*
+
+- *GitHub repository*: [https://github.com/spatialos/BlankProject](https://github.com/spatialos/BlankProject)
+
+---
+
+## Introduction
+
+This is a blank SpatialOS project that you can use to build your own SpatialOS application.
+
+It contains:
+
+* A SpatialOS project descriptor.
+* A Unity worker.
+* Bare-bones Launch Configurations for automatically and manually launching workers.
+* Bare-bones Client and Physics Scenes with a `Bootstrap.cs` file.
+* An example deployment configuration, `default_launch.json`.
+* `.gitignore` files for a SpatialOS project.
+
+If you run into problems, or want to give us feedback, please visit the [SpatialOS forums](https://forums.improbable.io/).

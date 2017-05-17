@@ -1,0 +1,102 @@
+Mono path[0] = '/var/folders/4l/xzgp2w7j5lzd9ydctvd65g1c0000gn/T/improbable2729093904303914782/UnityWorker@Mac.app/Contents/Resources/Data/Managed'
+Mono config path = '/var/folders/4l/xzgp2w7j5lzd9ydctvd65g1c0000gn/T/improbable2729093904303914782/UnityWorker@Mac.app/Contents/Data/Managed/etc'
+Initialize engine version: 5.5.2f1 (3829d7f588f3)
+GfxDevice: creating device client; threaded=0
+Renderer: AMD Radeon R9 M370X OpenGL Engine
+Vendor:   ATI Technologies Inc.
+Version:  4.1 ATI-1.42.15
+GLES:     0
+ GL_ARB_blend_func_extended GL_ARB_draw_buffers_blend GL_ARB_draw_indirect GL_ARB_ES2_compatibility GL_ARB_explicit_attrib_location GL_ARB_gpu_shader_fp64 GL_ARB_gpu_shader5 GL_ARB_instanced_arrays GL_ARB_internalformat_query GL_ARB_occlusion_query2 GL_ARB_sample_shading GL_ARB_sampler_objects GL_ARB_separate_shader_objects GL_ARB_shader_bit_encoding GL_ARB_shader_subroutine GL_ARB_shading_language_include GL_ARB_tessellation_shader GL_ARB_texture_buffer_object_rgb32 GL_ARB_texture_cube_map_array GL_ARB_texture_gather GL_ARB_texture_query_lod GL_ARB_texture_rgb10_a2ui GL_ARB_texture_storage GL_ARB_texture_swizzle GL_ARB_timer_query GL_ARB_transform_feedback2 GL_ARB_transform_feedback3 GL_ARB_vertex_attrib_64bit GL_ARB_vertex_type_2_10_10_10_rev GL_ARB_viewport_array GL_EXT_debug_label GL_EXT_debug_marker GL_EXT_depth_bounds_test GL_EXT_texture_compression_s3tc GL_EXT_texture_filter_anisotropic GL_EXT_texture_mirror_clamp GL_EXT_texture_sRGB_decode GL_APPLE_client_storage GL_APPLE_container_object_shareable G
+L_APPLE_flush_render GL_APPLE_object_purgeable GL_APPLE_rgb_422 GL_APPLE_row_bytes GL_APPLE_texture_range GL_ATI_texture_mirror_once GL_NV_texture_barrier
+OPENGL LOG: Creating OpenGL 4.1 graphics device ; Context level  <OpenGL 4.1> ; Context handle 176222208
+Begin MonoManager ReloadAssembly
+Platform assembly: /var/folders/4l/xzgp2w7j5lzd9ydctvd65g1c0000gn/T/improbable2729093904303914782/UnityWorker@Mac.app/Contents/Resources/Data/Managed/UnityEngine.dll (this message is harmless)
+Loading /var/folders/4l/xzgp2w7j5lzd9ydctvd65g1c0000gn/T/improbable2729093904303914782/UnityWorker@Mac.app/Contents/Resources/Data/Managed/UnityEngine.dll into Unity Child Domain
+Platform assembly: /var/folders/4l/xzgp2w7j5lzd9ydctvd65g1c0000gn/T/improbable2729093904303914782/UnityWorker@Mac.app/Contents/Resources/Data/Managed/Assembly-CSharp.dll (this message is harmless)
+Loading /var/folders/4l/xzgp2w7j5lzd9ydctvd65g1c0000gn/T/improbable2729093904303914782/UnityWorker@Mac.app/Contents/Resources/Data/Managed/Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: /var/folders/4l/xzgp2w7j5lzd9ydctvd65g1c0000gn/T/improbable2729093904303914782/UnityWorker@Mac.app/Contents/Resources/Data/Managed/UnityEngine.UI.dll (this message is harmless)
+Loading /var/folders/4l/xzgp2w7j5lzd9ydctvd65g1c0000gn/T/improbable2729093904303914782/UnityWorker@Mac.app/Contents/Resources/Data/Managed/UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: /var/folders/4l/xzgp2w7j5lzd9ydctvd65g1c0000gn/T/improbable2729093904303914782/UnityWorker@Mac.app/Contents/Resources/Data/Managed/UnityEngine.Networking.dll (this message is harmless)
+Loading /var/folders/4l/xzgp2w7j5lzd9ydctvd65g1c0000gn/T/improbable2729093904303914782/UnityWorker@Mac.app/Contents/Resources/Data/Managed/UnityEngine.Networking.dll into Unity Child Domain
+Platform assembly: /var/folders/4l/xzgp2w7j5lzd9ydctvd65g1c0000gn/T/improbable2729093904303914782/UnityWorker@Mac.app/Contents/Resources/Data/Managed/UnityEngine.PlaymodeTestsRunner.dll (this message is harmless)
+Loading /var/folders/4l/xzgp2w7j5lzd9ydctvd65g1c0000gn/T/improbable2729093904303914782/UnityWorker@Mac.app/Contents/Resources/Data/Managed/UnityEngine.PlaymodeTestsRunner.dll into Unity Child Domain
+Platform assembly: /var/folders/4l/xzgp2w7j5lzd9ydctvd65g1c0000gn/T/improbable2729093904303914782/UnityWorker@Mac.app/Contents/Resources/Data/Managed/Generated.Code.dll (this message is harmless)
+Loading /var/folders/4l/xzgp2w7j5lzd9ydctvd65g1c0000gn/T/improbable2729093904303914782/UnityWorker@Mac.app/Contents/Resources/Data/Managed/Generated.Code.dll into Unity Child Domain
+Platform assembly: /var/folders/4l/xzgp2w7j5lzd9ydctvd65g1c0000gn/T/improbable2729093904303914782/UnityWorker@Mac.app/Contents/Resources/Data/Managed/Improbable.WorkerSdkCsharp.dll (this message is harmless)
+Loading /var/folders/4l/xzgp2w7j5lzd9ydctvd65g1c0000gn/T/improbable2729093904303914782/UnityWorker@Mac.app/Contents/Resources/Data/Managed/Improbable.WorkerSdkCsharp.dll into Unity Child Domain
+Platform assembly: /var/folders/4l/xzgp2w7j5lzd9ydctvd65g1c0000gn/T/improbable2729093904303914782/UnityWorker@Mac.app/Contents/Resources/Data/Managed/Improbable.WorkerSdkCsharp.Framework.dll (this message is harmless)
+Loading /var/folders/4l/xzgp2w7j5lzd9ydctvd65g1c0000gn/T/improbable2729093904303914782/UnityWorker@Mac.app/Contents/Resources/Data/Managed/Improbable.WorkerSdkCsharp.Framework.dll into Unity Child Domain
+Platform assembly: /var/folders/4l/xzgp2w7j5lzd9ydctvd65g1c0000gn/T/improbable2729093904303914782/UnityWorker@Mac.app/Contents/Resources/Data/Managed/protobuf-net.dll (this message is harmless)
+Loading /var/folders/4l/xzgp2w7j5lzd9ydctvd65g1c0000gn/T/improbable2729093904303914782/UnityWorker@Mac.app/Contents/Resources/Data/Managed/protobuf-net.dll into Unity Child Domain
+Platform assembly: /var/folders/4l/xzgp2w7j5lzd9ydctvd65g1c0000gn/T/improbable2729093904303914782/UnityWorker@Mac.app/Contents/Resources/Data/Managed/System.Threading.dll (this message is harmless)
+Loading /var/folders/4l/xzgp2w7j5lzd9ydctvd65g1c0000gn/T/improbable2729093904303914782/UnityWorker@Mac.app/Contents/Resources/Data/Managed/System.Threading.dll into Unity Child Domain
+Platform assembly: /var/folders/4l/xzgp2w7j5lzd9ydctvd65g1c0000gn/T/improbable2729093904303914782/UnityWorker@Mac.app/Contents/Resources/Data/Managed/Improbable.UnityDll.dll (this message is harmless)
+Loading /var/folders/4l/xzgp2w7j5lzd9ydctvd65g1c0000gn/T/improbable2729093904303914782/UnityWorker@Mac.app/Contents/Resources/Data/Managed/Improbable.UnityDll.dll into Unity Child Domain
+Platform assembly: /private/var/folders/4l/xzgp2w7j5lzd9ydctvd65g1c0000gn/T/improbable2729093904303914782/UnityWorker@Mac.app/Contents/Resources/Data/Managed/System.Core.dll (this message is harmless)
+- Completed reload, in  0.015 seconds
+Platform assembly: /private/var/folders/4l/xzgp2w7j5lzd9ydctvd65g1c0000gn/T/improbable2729093904303914782/UnityWorker@Mac.app/Contents/Resources/Data/Managed/System.dll (this message is harmless)
+Platform assembly: /private/var/folders/4l/xzgp2w7j5lzd9ydctvd65g1c0000gn/T/improbable2729093904303914782/UnityWorker@Mac.app/Contents/Resources/Data/Managed/System.Xml.dll (this message is harmless)
+WARNING: BC6H/BC7 texture format is not supported, decompressing texture
+UnloadTime: 0.765796 ms
+Command line /var/folders/4l/xzgp2w7j5lzd9ydctvd65g1c0000gn/T/improbable2729093904303914782/UnityWorker@Mac.app/Contents/MacOS/UnityWorker@Mac +appName your_project_name_here +receptionistIp 127.0.0.1 +receptionistPort 7777 +workerType UnityWorker +workerId UnityWorker0 +useInternalIpForBridge true +infraServicesUrl http://127.0.0.1:21000 +assemblyName local_assembly +linkProtocol RakNet -logfile /Users/trefethen/Documents/unity/spatial/logs/2017-05-16_21-32-00_0/workers/UnityWorker/UnityWorker0-4879296850532822880.log -batchmode -nographics
+ 
+(Filename: /Users/builduser/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+WorkerConfiguration settings
+AppName = your_project_name_here
+AssemblyName = local_assembly
+DeploymentId = 
+DeploymentTag = prod
+EngineId = UnityWorker0
+EnginePlatform = UnityWorker
+WorkerId = UnityWorker0
+WorkerPlatform = UnityWorker
+EntityCreationLimitPerFrame = 100
+InfraServiceUrl = http://127.0.0.1:21000
+Ip = 127.0.0.1
+LinkProtocol = RakNet
+LoginToken = 
+MetaData = {  }
+Port = 7777
+ProtocolLoggingOnStartup = False
+ProtocolLogPrefix = protocol-
+ProtocolLogMaxFileBytes = 104857600
+RaknetHeartbeatTimeoutMillis = 60000
+ReceiveQueueCapacity = 32768
+SendQueueCapacity = 16384
+ShowDebugTraces = False
+SteamToken = 
+TcpMultiplexLevel = 32
+UseInstrumentation = True
+UsePerInstanceAssetCache = True
+UsePrefabPooling = False
+LogDebugToSpatialOs = False
+LogAssertToSpatialOs = False
+LogWarningToSpatialOs = True
+LogErrorToSpatialOs = True
+LogExceptionToSpatialOs = True
+
+ 
+(Filename: /Users/builduser/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Starting Worker
+ 
+(Filename: /Users/builduser/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Platform assembly: /private/var/folders/4l/xzgp2w7j5lzd9ydctvd65g1c0000gn/T/improbable2729093904303914782/UnityWorker@Mac.app/Contents/Resources/Data/Managed/Mono.Security.dll (this message is harmless)
+Platform assembly: /private/var/folders/4l/xzgp2w7j5lzd9ydctvd65g1c0000gn/T/improbable2729093904303914782/UnityWorker@Mac.app/Contents/Resources/Data/Managed/System.Configuration.dll (this message is harmless)
+Platform assembly: /private/var/folders/4l/xzgp2w7j5lzd9ydctvd65g1c0000gn/T/improbable2729093904303914782/UnityWorker@Mac.app/Contents/Resources/Data/Managed/System.ServiceModel.dll (this message is harmless)
+Platform assembly: /private/var/folders/4l/xzgp2w7j5lzd9ydctvd65g1c0000gn/T/improbable2729093904303914782/UnityWorker@Mac.app/Contents/Resources/Data/Managed/System.Runtime.Serialization.dll (this message is harmless)
+Setting up 2 worker threads for Enlighten.
+  Thread -> id: 700001be0000 -> priority: 1 
+  Thread -> id: 700001c63000 -> priority: 1 
+Platform assembly: /private/var/folders/4l/xzgp2w7j5lzd9ydctvd65g1c0000gn/T/improbable2729093904303914782/UnityWorker@Mac.app/Contents/Resources/Data/Managed/System.Web.dll (this message is harmless)
+Platform assembly: /private/var/folders/4l/xzgp2w7j5lzd9ydctvd65g1c0000gn/T/improbable2729093904303914782/UnityWorker@Mac.app/Contents/Resources/Data/Managed/System.IdentityModel.dll (this message is harmless)
+Platform assembly: /private/var/folders/4l/xzgp2w7j5lzd9ydctvd65g1c0000gn/T/improbable2729093904303914782/UnityWorker@Mac.app/Contents/Resources/Data/Managed/System.Security.dll (this message is harmless)
+Platform assembly: /private/var/folders/4l/xzgp2w7j5lzd9ydctvd65g1c0000gn/T/improbable2729093904303914782/UnityWorker@Mac.app/Contents/Resources/Data/Managed/System.Messaging.dll (this message is harmless)
+Platform assembly: /private/var/folders/4l/xzgp2w7j5lzd9ydctvd65g1c0000gn/T/improbable2729093904303914782/UnityWorker@Mac.app/Contents/Resources/Data/Managed/System.Transactions.dll (this message is harmless)
+Platform assembly: /private/var/folders/4l/xzgp2w7j5lzd9ydctvd65g1c0000gn/T/improbable2729093904303914782/UnityWorker@Mac.app/Contents/Resources/Data/Managed/System.Web.Services.dll (this message is harmless)
+player login with ID1 and worker ID:UnityClientf1b4a277-e524-41e0-981f-625004b5ab49
+ 
+(Filename: /Users/builduser/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
