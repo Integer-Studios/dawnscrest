@@ -1,7 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
+using PolyNet;
+using System.IO;
 
 namespace PolyItem {
 
@@ -21,7 +22,6 @@ namespace PolyItem {
 
 		// Server Interface
 
-		[Server]
 		public virtual void setRecipe(Recipe r) {
 			recipe = r;
 			if (recipe != null) {
@@ -32,16 +32,13 @@ namespace PolyItem {
 				input = null;
 			}
 
-			if (r == null)
-				RpcSetRecipe (new NetworkItemStack (null), new NetworkItemStackArray (null));
-			else
-				RpcSetRecipe (new NetworkItemStack (r.output), new NetworkItemStackArray (r.input));
+			identity.sendBehaviourPacket (new PacketRecipe (this, r));
+			identity.sendBehaviourPacket (new PacketItemStackArray (this, input));
 		}
 
-		[Server]
 		public virtual void setInput(ItemStack[] s) {
 			input = s;
-			RpcSetInput (new NetworkItemStackArray (s));
+			identity.sendBehaviourPacket (new PacketItemStackArray (this, s));
 		}
 
 		// General Interface
@@ -81,24 +78,41 @@ namespace PolyItem {
 			return input;
 		}
 
+		public override void writeBehaviourSpawnData(ref BinaryWriter writer) {
+			PacketHelper.write (ref writer, recipe);
+			PacketHelper.write (ref writer, input);
+			base.writeBehaviourSpawnData (ref writer);
+		}
+
+		public override void readBehaviourSpawnData(ref BinaryReader reader) {
+			PacketHelper.read (ref reader, ref recipe);
+			PacketHelper.read (ref reader, ref input);
+			base.readBehaviourSpawnData (ref reader);
+		}
+
+		public override void handleBehaviourPacket (PacketBehaviour p) {
+			base.handleBehaviourPacket (p);
+			if (p.id == 19) {
+				PacketItemStackArray o = (PacketItemStackArray)p;
+				rpc_setInput (o.stacks);
+			} else if (p.id == 20) {
+				PacketRecipe o = (PacketRecipe)p;
+				rpc_setRecipe (o.recipe);
+			}
+		}
+
 		/*
 		* 
 		* Server->Client Interface
 		* 
 		*/
 
-		[ClientRpc]
-		private void RpcSetRecipe(NetworkItemStack o, NetworkItemStackArray i) {
-			recipe = Recipe.unwrapRecipe(o,i);
-			if (recipe != null)
-				input = new ItemStack[recipe.input.GetLength (0)];
-			else
-				input = null;
+		private void rpc_setRecipe(Recipe r) {
+			recipe = r;
 		}
 
-		[ClientRpc]
-		private void RpcSetInput(NetworkItemStackArray i) {
-			input = ItemStack.unwrapNetworkStackArray(i);
+		private void rpc_setInput(ItemStack[] i) {
+			input = i;
 		}
 
 		/*
@@ -121,7 +135,7 @@ namespace PolyItem {
 					input [i] = null;
 			}
 
-			RpcSetInput (new NetworkItemStackArray (input));
+			identity.sendBehaviourPacket (new PacketItemStackArray (this, input));
 		}
 
 		public virtual JSONObject write () {

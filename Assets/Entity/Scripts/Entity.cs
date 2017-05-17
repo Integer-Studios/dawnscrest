@@ -1,13 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
+using PolyNet;
 using PolyPlayer;
 using System;
 
 namespace PolyEntity {
 
-	public class Entity : NetworkBehaviour, Living {
+	public class Entity : PolyNetBehaviour, Living {
 
 		// Vars : public, protected, private, hide
 		public float maxHealth;
@@ -18,6 +18,7 @@ namespace PolyEntity {
 		public steeringInfo steeringInfo;
 		public GameObject deadPrefab;
 		public GameObject seekTarget;
+		public float syncRate = 9f;
 
 		protected Animator anim;
 		protected Rigidbody rigidBody;
@@ -28,10 +29,8 @@ namespace PolyEntity {
 		private List<Action> currentActions;
 		private List<Action> completedActions;
 
-		// Syncvars
-		[SyncVar]
+		//TODO Syncvars
 		private Vector3 velocity;
-		[SyncVar]
 		private float rotation;
 
 		/*
@@ -49,35 +48,68 @@ namespace PolyEntity {
 		}
 
 		public void setVelocity(Vector3 v) {
-			velocity = v;
-			anim.SetFloat ("Vertical", speedToAnim(v.z));
+			if (velocity != v) {
+				velocity = v;
+				identity.sendBehaviourPacket (new PacketSyncVector (this, 0, velocity));
+				anim.SetFloat ("Vertical", speedToAnim (v.z));
+			}
 		}
 
 		public void setRotation(float f) {
 			int r = (int)(f * rotationalDownsample);
 			r /= rotationalDownsample;
-			rotation = (float)r;
-			anim.SetFloat ("Horizontal", f/maxRotation);
+			if (rotation != r) {
+				rotation = (float)r;
+				identity.sendBehaviourPacket (new PacketSyncFloat (this, 0, rotation));
+				anim.SetFloat ("Horizontal", f / maxRotation);
+			}
 		}
 
 		// Living Interface
 
-		[Server]
 		public void living_hurt(Living l, float d) {
-			if (!NetworkClient.active) {
+			if (!PolyClient.isActive) {
 				anim.SetTrigger ("Hurt");
 			}
 			health -= d;
 			if (health <= 0)
 				die ();
-			RpcHurt ();
+//			RpcHurt ();
 		}
 
-		[Server]
 		public void living_setHeated(bool h) {
 			
 		}
 
+		public void setAttacking(bool b) {
+			anim.SetBool ("Attacking", b);
+//			RpcAttacking (b);
+		}
+
+		public void onAttackHit() {
+			if (!PolyServer.isActive)
+				return;
+			
+			Debug.Log ("yeeee");
+		}
+
+		public override void handleBehaviourPacket (PacketBehaviour p) {
+			base.handleBehaviourPacket (p);
+			if (p.id == 24) {
+				PacketEntitySync o = (PacketEntitySync)p;
+				anim.SetFloat ("Vertical", o.vertical);
+				anim.SetFloat ("Horizontal", o.horizontal);
+				transform.position = o.position;
+				transform.eulerAngles = o.euler;
+			} else if (p.id == 25) {
+				PacketSyncVector o = (PacketSyncVector)p;
+				velocity = o.value;
+
+			} else if (p.id == 13) {
+				PacketSyncFloat o = (PacketSyncFloat)p;
+				rotation = o.value;
+			}
+		}
 
 		/*
 		* 
@@ -85,19 +117,27 @@ namespace PolyEntity {
 		* 
 		*/
 
-		[ClientRpc]
-		private void RpcInteracting(bool b) {
+		private void rpc_interacting(bool b) {
 			anim.SetBool ("Interacting", b);
 		}
 
-		[ClientRpc]
-		private void RpcConsuming(bool b) {
+		private void rpc_consuming(bool b) {
 			anim.SetBool ("Eating", b);
 		}
 
-		[ClientRpc]
-		private void RpcHurt() {
+		private void rpc_urt() {
 			anim.SetTrigger ("Hurt");
+		}
+
+		private void rpc_attacking(bool b) {
+			anim.SetBool ("Attacking", b);
+		}
+
+		private IEnumerator syncUpdate() {
+			while (true) {
+				identity.sendBehaviourPacket (new PacketEntitySync (this, anim.GetFloat ("Vertical"), anim.GetFloat ("Horizontal")));
+				yield return new WaitForSeconds (1 / syncRate);
+			}
 		}
 
 		/*
@@ -109,11 +149,11 @@ namespace PolyEntity {
 		protected virtual void Start() {
 			anim = GetComponent<Animator> ();
 			rigidBody = GetComponent<Rigidbody> ();
-			ClientScene.RegisterPrefab(deadPrefab);
 
-			if (!NetworkServer.active)
+			if (!PolyServer.isActive)
 				return;
 
+			StartCoroutine (syncUpdate());
 			health = maxHealth;
 			queuedActions = new List<Action> ();
 			currentActions = new List<Action> ();
@@ -126,7 +166,7 @@ namespace PolyEntity {
 
 		protected virtual void Update() {
 			updateLocomotion ();
-			if (!isServer)
+			if (!PolyServer.isActive)
 				return;
 			updateBrain ();
 	
@@ -173,17 +213,17 @@ namespace PolyEntity {
 		}
 
 		private void setInteracting(bool b) {
-			if (!NetworkClient.active) {
+			if (!PolyClient.isActive) {
 				anim.SetBool ("Interacting", b);
 			}
-			RpcInteracting (b);
+//			RpcInteracting (b);
 		}
 
 		private void setConsuming(bool b) {
-			if (!NetworkClient.active) {
+			if (!PolyClient.isActive) {
 				anim.SetBool ("Eating", b);
 			}
-			RpcConsuming (b);
+//			RpcConsuming (b);
 		}
 
 		private void die() {
@@ -191,8 +231,8 @@ namespace PolyEntity {
 			g.transform.position = transform.position;
 			g.transform.localScale = transform.localScale;
 			g.transform.rotation = transform.rotation;
-			NetworkServer.Destroy (gameObject);
-			NetworkServer.Spawn (g);
+			PolyNetWorld.destroy (gameObject);
+			PolyNetWorld.spawnObject (g);
 		}
 
 		private float speedToAnim(float f) {

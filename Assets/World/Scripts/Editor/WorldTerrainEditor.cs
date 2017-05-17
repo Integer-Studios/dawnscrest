@@ -21,22 +21,19 @@ namespace PolyWorld {
 
 			}
 			EditorGUILayout.EndHorizontal();
-
-			if (GUILayout.Button ("Generate Chunks")) {
-				terrain.editor_generateChunks ();
-			}
-			if (GUILayout.Button ("Destroy Chunks")) {
-				terrain.editor_destroyChunks ();
-			}
-			if (GUILayout.Button ("Chunkify")) {
-				terrain.editor_chunkify ();
-			}
-			if (GUILayout.Button ("Combine")) {
-				terrain.editor_combine ();
-			}
-			if (GUILayout.Button ("Rip Height Map")) {
-				terrain.editor_ripHeightMap ();
-			}
+//
+//			if (GUILayout.Button ("Load Chunks")) {
+//				terrain.editor_loadChunks ();
+//			}
+//			if (GUILayout.Button ("Save Chunks")) {
+//				terrain.editor_saveChunks ();
+//			}
+//			if (GUILayout.Button ("Clear")) {
+//				terrain.editor_clearChunks ();
+//			}
+//			if (GUILayout.Button ("Overwrite Heightmap")) {
+//				terrain.editor_saveHeightmap ();
+//			}
 		}
 
 	}

@@ -1,8 +1,11 @@
 fileFormatVersion: 2
 guid: 9117cf42a049945ff98ee32e88c0f6c9
+labels:
+- Identity
 timeCreated: 1491064519
 licenseType: Free
 NativeFormatImporter:
+  mainObjectFileID: -1
   userData: 
   assetBundleName: 
   assetBundleVariant: 

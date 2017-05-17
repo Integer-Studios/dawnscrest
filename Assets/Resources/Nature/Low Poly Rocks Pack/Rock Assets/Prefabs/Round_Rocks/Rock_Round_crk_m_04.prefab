@@ -8,6 +8,9 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 492870}
+  - component: {fileID: 114465332433914666}
+  - component: {fileID: 114077888240202206}
+  - component: {fileID: 114842162208838196}
   m_Layer: 0
   m_Name: Rock_Round_crk_m_04
   m_TagString: decoration
@@ -26,9 +29,6 @@ GameObject:
   - component: {fileID: 3367900}
   - component: {fileID: 2322272}
   - component: {fileID: 6427138}
-  - component: {fileID: 114472030128732732}
-  - component: {fileID: 114600124638378264}
-  - component: {fileID: 114809119112605488}
   m_Layer: 0
   m_Name: Rock_Round_crk_m_04
   m_TagString: Untagged
@@ -93,6 +93,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 0
 --- !u!33 &3367900
 MeshFilter:
@@ -126,44 +127,12 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 143078}
   m_IsPrefabParent: 1
---- !u!114 &114472030128732732
+--- !u!114 &114077888240202206
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 144828}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 111
-    i1: 28
-    i2: 140
-    i3: 188
-    i4: 131
-    i5: 156
-    i6: 8
-    i7: 164
-    i8: 171
-    i9: 78
-    i10: 0
-    i11: 252
-    i12: 119
-    i13: 227
-    i14: 233
-    i15: 55
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
---- !u!114 &114600124638378264
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 144828}
+  m_GameObject: {fileID: 143078}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d59c217d16c2a48198c5b8e471808671, type: 3}
@@ -178,12 +147,29 @@ MonoBehaviour:
   refills: 5
   refillTime: 60
   replacement: {fileID: 0}
---- !u!114 &114809119112605488
+  curRepeats: 0
+  curRefills: 0
+--- !u!114 &114465332433914666
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 144828}
+  m_GameObject: {fileID: 143078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bedd2bbdc15b94dcfbe10067a533d4d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabId: 134
+  isStatic: 1
+  isLocalPlayer: 0
+  isSaveable: 1
+--- !u!114 &114842162208838196
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 143078}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 11eb8acd47c934639b60e87a2cf56a51, type: 3}

@@ -1,13 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
+using PolyNet;
 
 namespace PolyItem {
 	
 	public class FueledCraftable : Craftable {
 
-		[SyncVar]
+		//TOD fuel is a syncvar
 		public float fuel = 0f;
 		public float fuelConumptionRate = 0.1f;
 		public Item[] fuelItems;
@@ -21,7 +21,6 @@ namespace PolyItem {
 		* 
 		*/
 
-		[Server]
 		public override void setRecipe(Recipe r) {
 			base.setRecipe (r);
 			setMaxStrength (0f);
@@ -39,7 +38,7 @@ namespace PolyItem {
 
 		protected virtual void OnCollisionEnter(Collision collision) {
 
-			if (!NetworkServer.active)
+			if (!PolyServer.isActive)
 				return;
 			
 			Item i = collision.gameObject.GetComponent<Item> ();
@@ -49,7 +48,7 @@ namespace PolyItem {
 			foreach (Item item in fuelItems) {
 				if (i.id == item.id) {
 					addFuel (5f);
-					NetworkServer.Destroy (i.gameObject);
+					PolyNetWorld.destroy (i.gameObject);
 					break;
 				}
 			}
@@ -60,13 +59,13 @@ namespace PolyItem {
 				setFuled (true);
 		}
 
-		protected override void Update() {
+		protected virtual void Update() {
 			if (fuel <= 0f && isFueled)
 				setFuled (false);
 			else if (fuel > 0f && !isFueled)
 				setFuled (true);
 			
-			if (!NetworkServer.active)
+			if (!PolyServer.isActive)
 				return;
 
 			if (isFueled)
@@ -101,7 +100,8 @@ namespace PolyItem {
 
 			for (int j = 0; j < recipe.output.size; j++) {
 				GameObject g = ItemManager.createItem (drop);
-				g.GetComponent<Item> ().setPosition (transform.position + transform.up * 2f);
+				g.transform.position = transform.position + transform.up * 2f;
+//				PolyServer.spawnObject (g);
 			}
 			base.onComplete (i);
 		}

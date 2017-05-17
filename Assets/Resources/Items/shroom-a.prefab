@@ -21,8 +21,8 @@ GameObject:
   - component: {fileID: 4703315936040518}
   - component: {fileID: 65413362504734496}
   - component: {fileID: 54234499994095876}
-  - component: {fileID: 114431746761229560}
   - component: {fileID: 114606557163485852}
+  - component: {fileID: 114770944958190478}
   m_Layer: 0
   m_Name: shroom-a
   m_TagString: decoration
@@ -104,6 +104,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 0
 --- !u!33 &33910856383328004
 MeshFilter:
@@ -139,38 +140,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.2, y: 0.3, z: 0.2}
   m_Center: {x: 0, y: 0.1, z: 0}
---- !u!114 &114431746761229560
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1105227799977794}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 91
-    i1: 14
-    i2: 212
-    i3: 126
-    i4: 29
-    i5: 206
-    i6: 4
-    i7: 86
-    i8: 59
-    i9: 30
-    i10: 123
-    i11: 99
-    i12: 26
-    i13: 60
-    i14: 140
-    i15: 39
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
 --- !u!114 &114606557163485852
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -188,7 +157,22 @@ MonoBehaviour:
   weight: 1
   maxStackSize: 5
   type: 0
-  onPlaced: {fileID: 0}
   quality: 0
+  onPlaced: {fileID: 0}
   nutrition: 10
   consumableType: 1
+--- !u!114 &114770944958190478
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1105227799977794}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bedd2bbdc15b94dcfbe10067a533d4d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabId: 187
+  isStatic: 1
+  isLocalPlayer: 0
+  isSaveable: 1

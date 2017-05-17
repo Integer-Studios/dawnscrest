@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 54109384556335352}
   - component: {fileID: 65387473836774826}
   - component: {fileID: 114068146883311342}
-  - component: {fileID: 114088994276165628}
+  - component: {fileID: 114599300178266736}
   m_Layer: 0
   m_Name: log
   m_TagString: Untagged
@@ -104,6 +104,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 0
 --- !u!33 &33759827223852230
 MeshFilter:
@@ -156,9 +157,9 @@ MonoBehaviour:
   weight: 2
   maxStackSize: 10
   type: 0
-  onPlaced: {fileID: 0}
   quality: 0
---- !u!114 &114088994276165628
+  onPlaced: {fileID: 0}
+--- !u!114 &114599300178266736
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -166,27 +167,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1636280945804658}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Script: {fileID: 11500000, guid: bedd2bbdc15b94dcfbe10067a533d4d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 156
-    i1: 96
-    i2: 5
-    i3: 250
-    i4: 135
-    i5: 127
-    i6: 84
-    i7: 52
-    i8: 72
-    i9: 31
-    i10: 69
-    i11: 11
-    i12: 125
-    i13: 67
-    i14: 58
-    i15: 215
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
+  prefabId: 181
+  isStatic: 1
+  isLocalPlayer: 0
+  isSaveable: 1

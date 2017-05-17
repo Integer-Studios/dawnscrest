@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using PolyWorld;
+using PolyWorldOld;
 
 namespace PolyPlayer {
 

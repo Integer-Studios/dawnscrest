@@ -22,7 +22,9 @@ GameObject:
   - component: {fileID: 64770839654834092}
   - component: {fileID: 33009801928252954}
   - component: {fileID: 23690705932187136}
-  - component: {fileID: 114029932313124840}
+  - component: {fileID: 114858904938686074}
+  - component: {fileID: 114515125112448044}
+  - component: {fileID: 114996883516341084}
   m_Layer: 0
   m_Name: Chunk Mesh
   m_TagString: Untagged
@@ -73,6 +75,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 0
 --- !u!33 &33009801928252954
 MeshFilter:
@@ -95,7 +98,7 @@ MeshCollider:
   m_InflateMesh: 0
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 0}
---- !u!114 &114029932313124840
+--- !u!114 &114515125112448044
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -103,27 +106,44 @@ MonoBehaviour:
   m_GameObject: {fileID: 1817784262469390}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Script: {fileID: 11500000, guid: c2c9731e3f051478ea88f60bf01b6557, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 192
-    i1: 20
-    i2: 1
-    i3: 255
-    i4: 217
-    i5: 233
-    i6: 100
-    i7: 14
-    i8: 123
-    i9: 51
-    i10: 74
-    i11: 51
-    i12: 213
-    i13: 179
-    i14: 152
-    i15: 167
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
+--- !u!114 &114858904938686074
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1817784262469390}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bedd2bbdc15b94dcfbe10067a533d4d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabId: 1
+  isStatic: 1
+  isLocalPlayer: 0
+  isSaveable: 0
+--- !u!114 &114996883516341084
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1817784262469390}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11eb8acd47c934639b60e87a2cf56a51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  effects:
+    hitEffect:
+      clips: []
+      particles: {fileID: 0}
+    stepEffect:
+      clips:
+      - {fileID: 8300000, guid: 9421169b231874293918e738c073e538, type: 3}
+      - {fileID: 8300000, guid: b19860f3d34e748a98303a5529ee1dba, type: 3}
+      - {fileID: 8300000, guid: 67dc2f6c5d50e4b978fdd09e8e9b1b73, type: 3}
+      - {fileID: 8300000, guid: eee1e62809cdc4d89b496183d177869d, type: 3}
+      - {fileID: 8300000, guid: 554bc1af3e2644701bbee2565fcaea87, type: 3}
+      particles: {fileID: 0}

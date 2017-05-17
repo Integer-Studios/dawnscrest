@@ -52,7 +52,7 @@ namespace PolyItem {
 
 		public ItemStack(Item i) {
 			id = i.id;
-			quality = i.getQuality();
+			quality = i.quality;
 			size = 1;
 		}
 

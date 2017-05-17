@@ -25,10 +25,10 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 482366}
-  - component: {fileID: 114446788205749948}
   - component: {fileID: 114277376537779284}
   - component: {fileID: 65450388325656330}
   - component: {fileID: 114632436167576034}
+  - component: {fileID: 114126586670420576}
   m_Layer: 0
   m_Name: Grass_b_TwoS_03
   m_TagString: decoration
@@ -93,6 +93,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 0
 --- !u!33 &3332000
 MeshFilter:
@@ -124,6 +125,21 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.5, y: 0.5, z: 0.5}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &114126586670420576
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 131954}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bedd2bbdc15b94dcfbe10067a533d4d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabId: 41
+  isStatic: 1
+  isLocalPlayer: 0
+  isSaveable: 1
 --- !u!114 &114277376537779284
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -144,38 +160,8 @@ MonoBehaviour:
   refills: 5
   refillTime: 60
   replacement: {fileID: 0}
---- !u!114 &114446788205749948
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 131954}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 218
-    i1: 132
-    i2: 154
-    i3: 232
-    i4: 101
-    i5: 148
-    i6: 112
-    i7: 180
-    i8: 89
-    i9: 67
-    i10: 242
-    i11: 192
-    i12: 10
-    i13: 63
-    i14: 128
-    i15: 75
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
+  curRepeats: 0
+  curRefills: 0
 --- !u!114 &114632436167576034
 MonoBehaviour:
   m_ObjectHideFlags: 1

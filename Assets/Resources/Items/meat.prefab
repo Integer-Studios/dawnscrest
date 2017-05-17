@@ -38,8 +38,8 @@ GameObject:
   - component: {fileID: 4845340399870162}
   - component: {fileID: 65632127484501172}
   - component: {fileID: 54077595996285664}
-  - component: {fileID: 114851564543183902}
   - component: {fileID: 114616664711963648}
+  - component: {fileID: 114861568143734786}
   m_Layer: 0
   m_Name: meat
   m_TagString: Untagged
@@ -104,6 +104,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 0
 --- !u!33 &33740648234216976
 MeshFilter:
@@ -156,11 +157,11 @@ MonoBehaviour:
   weight: 1
   maxStackSize: 3
   type: 0
-  onPlaced: {fileID: 0}
   quality: 0
+  onPlaced: {fileID: 0}
   nutrition: 50
   consumableType: 1
---- !u!114 &114851564543183902
+--- !u!114 &114861568143734786
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -168,27 +169,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1768839809474872}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Script: {fileID: 11500000, guid: bedd2bbdc15b94dcfbe10067a533d4d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 148
-    i1: 27
-    i2: 31
-    i3: 16
-    i4: 255
-    i5: 177
-    i6: 100
-    i7: 159
-    i8: 89
-    i9: 2
-    i10: 252
-    i11: 91
-    i12: 169
-    i13: 184
-    i14: 215
-    i15: 218
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
+  prefabId: 182
+  isStatic: 1
+  isLocalPlayer: 0
+  isSaveable: 1

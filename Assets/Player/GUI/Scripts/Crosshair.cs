@@ -10,15 +10,27 @@ namespace PolyPlayer {
 		public Sprite expandedImage;
 		public Sprite minimizedImage;
 		public float animationSpeed = 8f;
+		public Color highlightColor;
 
 		private int state = 0;
 		private Image image;
+		private Color defaultColor = Color.black;
 
 		/*
 		* 
 		* Public Interface
 		* 
 		*/
+
+		public void setHighlighted(bool b) {
+			if (defaultColor == Color.black)
+				defaultColor = new Color(image.color.r, image.color.g, image.color.b, image.color.a);
+			
+			if (b)
+				image.color = highlightColor;
+			else 
+				image.color = defaultColor;
+		}
 
 		public void expand() {
 			if (state == 2) 

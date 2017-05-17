@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 54794587897715764}
   - component: {fileID: 65968822226144466}
   - component: {fileID: 114820388541141892}
-  - component: {fileID: 114496196827557084}
+  - component: {fileID: 114827586191368668}
   m_Layer: 0
   m_Name: stone
   m_TagString: Untagged
@@ -87,7 +87,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 768dd319dde83439f98c0bd68a6e2310, type: 2}
+  - {fileID: 2100000, guid: 6022fa8e02e69409aaa0b9cb35c00f94, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -104,6 +104,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 0
 --- !u!33 &33495837785311144
 MeshFilter:
@@ -139,38 +140,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.90412456, y: 0.5196286, z: 1.0206769}
   m_Center: {x: -0.04797184, y: 0.049422305, z: -0.010306161}
---- !u!114 &114496196827557084
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1487008296232128}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 51
-    i1: 23
-    i2: 40
-    i3: 13
-    i4: 77
-    i5: 58
-    i6: 68
-    i7: 149
-    i8: 219
-    i9: 47
-    i10: 212
-    i11: 63
-    i12: 122
-    i13: 189
-    i14: 169
-    i15: 72
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
 --- !u!114 &114820388541141892
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -188,5 +157,20 @@ MonoBehaviour:
   weight: 1
   maxStackSize: 10
   type: 0
-  onPlaced: {fileID: 0}
   quality: 0
+  onPlaced: {fileID: 0}
+--- !u!114 &114827586191368668
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1487008296232128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bedd2bbdc15b94dcfbe10067a533d4d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabId: 193
+  isStatic: 1
+  isLocalPlayer: 0
+  isSaveable: 1

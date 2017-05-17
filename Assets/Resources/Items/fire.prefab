@@ -20,8 +20,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4102812056949236}
   - component: {fileID: 135702719959745316}
-  - component: {fileID: 114948887260706954}
   - component: {fileID: 114450475430160602}
+  - component: {fileID: 114150260292746056}
   m_Layer: 0
   m_Name: fire
   m_TagString: Untagged
@@ -42,6 +42,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114150260292746056
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1456139303017004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bedd2bbdc15b94dcfbe10067a533d4d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabId: 180
+  isStatic: 1
+  isLocalPlayer: 0
+  isSaveable: 1
 --- !u!114 &114450475430160602
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -59,40 +74,8 @@ MonoBehaviour:
   weight: 1
   maxStackSize: 1
   type: 0
-  onPlaced: {fileID: 1636660678836128, guid: f7bdd44def0e545f08bb58538539f966, type: 2}
   quality: 0
---- !u!114 &114948887260706954
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1456139303017004}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 68
-    i1: 139
-    i2: 100
-    i3: 96
-    i4: 199
-    i5: 7
-    i6: 244
-    i7: 28
-    i8: 40
-    i9: 31
-    i10: 243
-    i11: 207
-    i12: 94
-    i13: 89
-    i14: 210
-    i15: 95
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
+  onPlaced: {fileID: 1636660678836128, guid: f7bdd44def0e545f08bb58538539f966, type: 2}
 --- !u!135 &135702719959745316
 SphereCollider:
   m_ObjectHideFlags: 1

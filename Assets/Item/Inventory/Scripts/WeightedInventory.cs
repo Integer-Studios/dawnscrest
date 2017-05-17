@@ -16,7 +16,7 @@ namespace PolyItem {
 		* 
 		*/
 
-		public override void Start() {
+		protected override void initializeSlots() {
 			slots = new WeightedSlot[size];
 			int weight = 3;
 			for (int i = 0; i < size; i++) {
@@ -29,7 +29,6 @@ namespace PolyItem {
 			if (data != null)
 				this.read (data);
 		}
-
 
 		public int getSlotWeight(int i) {
 			return ((WeightedSlot)slots [i]).weight;

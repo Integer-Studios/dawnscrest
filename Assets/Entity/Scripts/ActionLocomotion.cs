@@ -113,9 +113,9 @@ namespace PolyEntity {
 		}
 
 		protected bool canWalk(Vector3 dir, float castDist) {
-			if (WorldTerrain.isUnderwater (owner.transform.position + dir*castDist)) {
-				return false;
-			}
+//			if (WorldTerrain.isUnderwater (owner.transform.position + dir*castDist)) {
+//				return false;
+//			}
 			RaycastHit[] hits = Physics.SphereCastAll (castPos (), owner.steeringInfo.radius, dir, castDist);
 			bool flag = true;
 			foreach (RaycastHit hit in hits) {

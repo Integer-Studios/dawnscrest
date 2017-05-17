@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
+using PolyNet;
 
 namespace PolyItem {
 
@@ -33,9 +33,11 @@ namespace PolyItem {
 
 		protected override void onComplete(Interactor i) {
 			if (destroyOnInteract)
-				NetworkServer.Destroy (gameObject);
-			else
+				PolyNetWorld.destroy (gameObject);
+			else {
 				strength = maxStrength;
+				identity.sendBehaviourPacket (new PacketSyncFloat (this, 0, strength));
+			}
 		}
 
 		private bool isCompatable(Interactor i) {

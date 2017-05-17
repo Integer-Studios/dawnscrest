@@ -80,7 +80,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4472775701847360}
   - component: {fileID: 95930563684076072}
-  - component: {fileID: 114634352743828274}
   - component: {fileID: 54293233063691198}
   - component: {fileID: 136142212462808230}
   - component: {fileID: 114129125766001932}
@@ -91,6 +90,7 @@ GameObject:
   - component: {fileID: 114137157421131952}
   - component: {fileID: 114075640260152844}
   - component: {fileID: 114433160127206770}
+  - component: {fileID: 114763021453899292}
   m_Layer: 0
   m_Name: human
   m_TagString: Player
@@ -386,7 +386,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1287477547474674}
-  m_LocalRotation: {x: 0.50000006, y: 0.49999997, z: -0.49999997, w: 0.50000006}
+  m_LocalRotation: {x: -0.35781994, y: -0.35781994, z: 0.60988927, w: -0.60988927}
   m_LocalPosition: {x: -0.0061723734, y: 0.010888625, z: 1.3108187}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -910,7 +910,6 @@ MonoBehaviour:
   maxHealth: 100
   maxHunger: 100
   maxThirst: 100
-  playerID: 0
 --- !u!114 &114433160127206770
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -941,7 +940,7 @@ MonoBehaviour:
   ones: 12
   twos: 4
   threes: 0
---- !u!114 &114634352743828274
+--- !u!114 &114763021453899292
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -949,30 +948,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1282339028826058}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Script: {fileID: 11500000, guid: bedd2bbdc15b94dcfbe10067a533d4d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 224
-    i1: 174
-    i2: 110
-    i3: 252
-    i4: 1
-    i5: 202
-    i6: 4
-    i7: 9
-    i8: 201
-    i9: 7
-    i10: 50
-    i11: 173
-    i12: 247
-    i13: 247
-    i14: 241
-    i15: 12
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 1
+  prefabId: 0
+  isStatic: 0
+  isLocalPlayer: 0
+  isSaveable: 0
 --- !u!136 &136142212462808230
 CapsuleCollider:
   m_ObjectHideFlags: 1
@@ -1016,12 +998,13 @@ SkinnedMeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 0
   serializedVersion: 2
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: 4300002, guid: a4c3dfbfb1e41442c98c4848dfe86e22, type: 3}
+  m_Mesh: {fileID: 4300000, guid: a4c3dfbfb1e41442c98c4848dfe86e22, type: 3}
   m_Bones:
   - {fileID: 4260057567207748}
   - {fileID: 4721252324770450}
@@ -1075,6 +1058,7 @@ SkinnedMeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 0
   serializedVersion: 2
   m_Quality: 0

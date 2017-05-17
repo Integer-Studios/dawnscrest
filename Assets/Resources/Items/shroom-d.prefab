@@ -21,8 +21,8 @@ GameObject:
   - component: {fileID: 4184751849899404}
   - component: {fileID: 65014180388158320}
   - component: {fileID: 54312013851007746}
-  - component: {fileID: 114990259317178628}
   - component: {fileID: 114048898583223232}
+  - component: {fileID: 114976051304783076}
   m_Layer: 0
   m_Name: shroom-d
   m_TagString: decoration
@@ -104,6 +104,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 0
 --- !u!33 &33785751244298514
 MeshFilter:
@@ -156,11 +157,11 @@ MonoBehaviour:
   weight: 1
   maxStackSize: 5
   type: 0
-  onPlaced: {fileID: 0}
   quality: 0
+  onPlaced: {fileID: 0}
   nutrition: 10
   consumableType: 1
---- !u!114 &114990259317178628
+--- !u!114 &114976051304783076
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -168,27 +169,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1644534853073114}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Script: {fileID: 11500000, guid: bedd2bbdc15b94dcfbe10067a533d4d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 249
-    i1: 116
-    i2: 247
-    i3: 49
-    i4: 23
-    i5: 13
-    i6: 52
-    i7: 117
-    i8: 57
-    i9: 0
-    i10: 5
-    i11: 102
-    i12: 125
-    i13: 64
-    i14: 172
-    i15: 124
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
+  prefabId: 190
+  isStatic: 1
+  isLocalPlayer: 0
+  isSaveable: 1

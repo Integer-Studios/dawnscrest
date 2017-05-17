@@ -1,12 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
+
 namespace PolyItem {
 
 	public class HotBarInventory : WeightedInventory, ISaveable {
 
-		public override void Start() {
+		protected override void initializeSlots() {
 			slots = new WeightedSlot[3];
 			slots [0] = new WeightedSlot (2);
 			slots [1] = new WeightedSlot (3);
@@ -15,7 +15,6 @@ namespace PolyItem {
 				this.read (data);
 		}
 
-		[Server]
 		public override bool insert(Item item) {
 			ItemStack stack = new ItemStack (item);
 			for (int i = 0; i < slots.GetLength(0); i++) {
@@ -41,7 +40,6 @@ namespace PolyItem {
 			return false;
 		}
 
-		[Server]
 		public void switchBack(bool rightHand) {
 			int hand = 0;
 			if (rightHand)
