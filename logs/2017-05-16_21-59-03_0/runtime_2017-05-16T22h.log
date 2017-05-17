@@ -1,0 +1,89 @@
+2017-05-16 22:00:00,242 INFO  [io.grpc.internal.ClientCallImpl] [] [] [] : Call timeout set to '29999334700' ns, due to context deadline. Explicit call timeout was '29999927065' ns.
+2017-05-16 22:00:01,749 INFO  [io.grpc.internal.ClientCallImpl] [] [] [] : Call timeout set to '29999198110' ns, due to context deadline. Explicit call timeout was '29999949796' ns.
+2017-05-16 22:00:03,263 INFO  [io.grpc.internal.ClientCallImpl] [] [] [] : Call timeout set to '29998735194' ns, due to context deadline. Explicit call timeout was '29999911367' ns.
+2017-05-16 22:00:04,782 INFO  [io.grpc.internal.ClientCallImpl] [] [] [] : Call timeout set to '29999001168' ns, due to context deadline. Explicit call timeout was '29999932939' ns.
+2017-05-16 22:00:06,289 INFO  [io.grpc.internal.ClientCallImpl] [] [] [] : Call timeout set to '29999438125' ns, due to context deadline. Explicit call timeout was '29999933070' ns.
+2017-05-16 22:00:07,549 INFO  [i.c.discovery.ServiceDiscoveryImpl] [] [] [] : Shutting down all services
+2017-05-16 22:00:07,557 INFO  [i.core.discovery.server.PublicServer] [] [] [] : Stopped Service(improbable.platform.runtime.HealthCheckService) on host: "127.0.0.1"
+port: 9001
+
+2017-05-16 22:00:07,562 INFO  [i.core.discovery.server.LocalServer] [] [] [] : Stopped Service(improbable.fabric.internal.service.RouterInternalService) on host: "127.0.0.1"
+port: 9010
+
+2017-05-16 22:00:07,564 INFO  [i.core.discovery.server.PublicServer] [] [] [] : Stopped Service(improbable.platform.inner.worker.WorkerRunner) on host: "127.0.0.1"
+port: 9021
+
+2017-05-16 22:00:07,564 INFO  [i.core.discovery.server.LocalServer] [] [] [] : Stopped Service(improbable.fabric.internal.service.ContentionInternalService) on host: "127.0.0.1"
+port: 9003
+
+2017-05-16 22:00:07,566 INFO  [i.core.discovery.server.LocalServer] [] [] [] : Stopped Service(improbable.fabric.internal.service.GlobalBrokerInternalService) on host: "127.0.0.1"
+port: 9014
+
+2017-05-16 22:00:07,567 INFO  [i.core.discovery.server.PublicServer] [] [] [] : Stopped Service(improbable.platform.runtime.InspectionService) on host: "127.0.0.1"
+port: 9025
+
+2017-05-16 22:00:07,567 INFO  [i.core.discovery.server.LocalServer] [] [] [] : Stopped Service(improbable.fabric.internal.service.LocalBrokerInternalService) on host: "127.0.0.1"
+port: 9012
+
+2017-05-16 22:00:07,571 INFO  [i.core.discovery.server.PublicServer] [] [] [] : Stopped Service(improbable.platform.runtime.SnapshotService) on host: "127.0.0.1"
+port: 9023
+
+2017-05-16 22:00:07,571 ERROR [i.engine.worker.CommandLineExecutor] [] [] [] : Worker UnityWorker0 terminated abnormally. It may have crashed due to worker-side errors.
+2017-05-16 22:00:07,574 INFO  [i.core.discovery.server.LocalServer] [] [] [] : Stopped Service(improbable.fabric.internal.service.WorldExtentsInternalService) on host: "127.0.0.1"
+port: 9006
+
+2017-05-16 22:00:07,574 ERROR [i.engine.worker.CommandLineExecutor] [] [] [] : (UnityWorker0) Command exited with code 143 (POSIX signal: 15): /var/folders/4l/xzgp2w7j5lzd9ydctvd65g1c0000gn/T/improbable7636721722836142520/UnityWorker@Mac.app/Contents/MacOS/UnityWorker@Mac +appName your_project_name_here +receptionistIp 127.0.0.1 +receptionistPort 7777 +workerType UnityWorker +workerId UnityWorker0 +useInternalIpForBridge true +infraServicesUrl http://127.0.0.1:21000 +assemblyName local_assembly +linkProtocol RakNet -logfile /Users/trefethen/Documents/unity/realms/logs/2017-05-16_21-59-03_0/workers/UnityWorker/UnityWorker0-8010822756591424064.log -batchmode -nographics
+2017-05-16 22:00:07,574 INFO  [i.core.discovery.server.PublicServer] [] [] [] : Stopped Service(improbable.platform.runtime.ModuleService) on host: "127.0.0.1"
+port: 9017
+
+2017-05-16 22:00:07,574 INFO  [i.core.discovery.server.PublicServer] [] [] [] : Stopped Service(improbable.platform.runtime.FeatureService) on host: "127.0.0.1"
+port: 9004
+
+2017-05-16 22:00:07,576 INFO  [i.core.discovery.server.LocalServer] [] [] [] : Stopped Service(improbable.fabric.internal.service.BridgeServiceOracleInternalService) on host: "127.0.0.1"
+port: 9015
+
+2017-05-16 22:00:07,577 INFO  [i.core.discovery.server.LocalServer] [] [] [] : Stopped Service(improbable.fabric.internal.service.BridgePositionHintInternalService) on host: "127.0.0.1"
+port: 9008
+
+2017-05-16 22:00:07,577 INFO  [i.core.discovery.server.PublicServer] [] [] [] : Stopped Service(improbable.platform.runtime.ReceptionistService) on host: "127.0.0.1"
+port: 9019
+
+2017-05-16 22:00:07,578 INFO  [i.core.discovery.server.LocalServer] [] [] [] : Stopped Service(improbable.fabric.internal.service.RunLevelInternalService) on host: "127.0.0.1"
+port: 9000
+
+2017-05-16 22:00:07,581 INFO  [i.core.discovery.server.LocalServer] [] [] [] : Stopped Service(improbable.fabric.internal.service.RemoteMessageInternalService) on host: "127.0.0.1"
+port: 9011
+
+2017-05-16 22:00:07,582 INFO  [i.core.discovery.server.PublicServer] [] [] [] : Stopped Service(improbable.fabric.internal.service.ScalingStatsInternalService) on host: "127.0.0.1"
+port: 9022
+
+2017-05-16 22:00:07,584 INFO  [i.core.discovery.server.LocalServer] [] [] [] : Stopped Service(improbable.fabric.internal.service.WorldAppOracleInternalService) on host: "127.0.0.1"
+port: 9020
+
+2017-05-16 22:00:07,584 INFO  [i.core.discovery.server.LocalServer] [] [] [] : Stopped Service(improbable.fabric.internal.service.EntityQueryInternalService) on host: "127.0.0.1"
+port: 9024
+
+2017-05-16 22:00:07,586 INFO  [i.core.discovery.server.LocalServer] [] [] [] : Stopped Service(improbable.fabric.internal.service.ServiceDiscoveryInternalService) on host: "127.0.0.1"
+port: 5301
+
+2017-05-16 22:00:07,586 INFO  [i.core.discovery.server.LocalServer] [] [] [] : Stopped Service(improbable.fabric.internal.service.PerfInternalService) on host: "127.0.0.1"
+port: 9002
+
+2017-05-16 22:00:07,588 INFO  [i.core.discovery.server.LocalServer] [] [] [] : Stopped Service(improbable.fabric.internal.service.BridgeOracleInternalService) on host: "127.0.0.1"
+port: 9013
+
+2017-05-16 22:00:07,589 INFO  [i.core.discovery.server.LocalServer] [] [] [] : Stopped Service(improbable.fabric.internal.service.BridgeInternalService) on host: "127.0.0.1"
+port: 9016
+
+2017-05-16 22:00:07,589 INFO  [i.core.discovery.server.LocalServer] [] [] [] : Stopped Service(improbable.fabric.internal.service.NodeConfigurationInternalService) on host: "127.0.0.1"
+port: 9005
+
+2017-05-16 22:00:07,590 INFO  [i.core.discovery.server.LocalServer] [] [] [] : Stopped Service(improbable.fabric.internal.service.RouterLookupInternalService) on host: "127.0.0.1"
+port: 9009
+
+2017-05-16 22:00:07,590 INFO  [i.core.discovery.server.LocalServer] [] [] [] : Stopped Service(improbable.fabric.internal.service.EntityIdInternalService) on host: "127.0.0.1"
+port: 9007
+
+2017-05-16 22:00:07,592 INFO  [i.core.discovery.server.LocalServer] [] [] [] : Stopped Service(improbable.fabric.internal.service.ReceptionistInternalService) on host: "127.0.0.1"
+port: 9018
+

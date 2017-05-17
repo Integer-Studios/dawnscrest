@@ -2,23 +2,18 @@
 using Improbable.Unity.Configuration;
 using Improbable.Unity.Core;
 using UnityEngine;
+using Polytechnica.Realms.User;
 
-// Placed on a GameObject in a Unity scene to execute SpatialOS connection logic on startup.
-namespace Assets.Gamelogic.Core
-{
-    public class Bootstrap : MonoBehaviour
-    {
+namespace Polytechnica.Realms.Core {
+    public class Bootstrap : MonoBehaviour {
         public WorkerConfigurationData Configuration = new WorkerConfigurationData();
 
-        private void Start()
-        {
+        private void Start() {
             SpatialOS.ApplyConfiguration(Configuration);
 
             Time.fixedDeltaTime = 1.0f / SimulationSettings.FixedFramerate;
 
-            // Distinguishes between when the Unity is running as a client or a server.
-            switch (SpatialOS.Configuration.WorkerPlatform)
-            {
+            switch (SpatialOS.Configuration.WorkerPlatform) {
 			case WorkerPlatform.UnityWorker:
 					Debug.Log ("Starting Worker");
                     Application.targetFrameRate = SimulationSettings.TargetServerFramerate;
@@ -34,8 +29,7 @@ namespace Assets.Gamelogic.Core
             SpatialOS.Connect(gameObject);
         }
 
-        private static void OnSpatialOsConnection()
-        {
+        private static void OnSpatialOsConnection() {
 			ClientPlayerSpawner.SpawnPlayer();
         }
     }

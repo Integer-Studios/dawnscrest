@@ -1,4 +1,4 @@
-﻿using Assets.Gamelogic.Core;
+﻿using Polytechnica.Realms.Core;
 using Improbable.Unity;
 using Improbable.Unity.EditorTools.Build;
 using System;
@@ -6,14 +6,11 @@ using System.IO;
 using System.Linq;
 using UnityEditor;
 
-namespace Assets.Editor
-{
+namespace Polytechnica.Realms.Editor {
     [InitializeOnLoad]
-    public class PlayerBuildProcess : IPlayerBuildEvents
-    {
+    public class PlayerBuildProcess : IPlayerBuildEvents {
         // Install the custom event handler
-        static PlayerBuildProcess()
-        {
+        static PlayerBuildProcess() {
             /* Each time you use Build development players or Build deployment players, SimpleBuildSystem.CreatePlayerBuildEventsAction
                is called, and a new PlayerBuildProcess event handler will be created */
             SimpleBuildSystem.CreatePlayerBuildEventsAction = () => new PlayerBuildProcess();
@@ -24,12 +21,10 @@ namespace Assets.Editor
         #region Implement IPlayerBuildEvents
 
         // Overridden function to load (and optionally modify) scenes, then return an array of scene paths to be built into the worker
-        public string[] GetScenes(WorkerPlatform workerType)
-        {
+        public string[] GetScenes(WorkerPlatform workerType) {
             string[] scenePaths;
 
-            switch (workerType)
-            {
+            switch (workerType) {
                 case WorkerPlatform.UnityClient:
                     scenePaths = FormatSceneList(BuildSettings.ClientScenes, BuildSettings.ClientDefaultActiveScene);
                     break;
@@ -55,26 +50,22 @@ namespace Assets.Editor
         #endregion
 
         // Map array of scene paths to custom Unity type for saving as editor build settings
-        private static EditorBuildSettingsScene[] FormatAsBuildSettingsScenes(string[] scenePaths)
-        {
+        private static EditorBuildSettingsScene[] FormatAsBuildSettingsScenes(string[] scenePaths) {
             return scenePaths.Select(scenePath => new EditorBuildSettingsScene(scenePath, true)).ToArray();
         }
 
         // Get all scenes for the purposes of adding to the Unity editor build settings
-        private static string[] GetAllScenes()
-        {
+        private static string[] GetAllScenes() {
             return BuildSettings.ClientScenes.Union(BuildSettings.WorkerScenes).Select(FormatSceneName).ToArray();
         }
 
         // Ensures scene specified as default is listed (and therefore loaded) first
-        private static string[] FormatSceneList(string[] sceneList, string defaultActiveScene)
-        {
+        private static string[] FormatSceneList(string[] sceneList, string defaultActiveScene) {
             return sceneList.OrderBy(scene => scene != defaultActiveScene).Select(FormatSceneName).ToArray();
         }
 
         // Formats scene name as it appears in your Unity project directory
-        private static string FormatSceneName(string sceneName)
-        {
+        private static string FormatSceneName(string sceneName) {
             return Path.Combine(BuildSettings.SceneDirectory, sceneName) + ".unity";
         }
     }

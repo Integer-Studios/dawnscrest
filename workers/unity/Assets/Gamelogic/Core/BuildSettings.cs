@@ -1,8 +1,6 @@
 ﻿
-namespace Assets.Gamelogic.Core
-{
-    public static class BuildSettings
-    {
+namespace Polytechnica.Realms.Core {
+    public static class BuildSettings {
         public static readonly string UnityClientScene = "UnityClient";
         public static readonly string ClientDefaultActiveScene = UnityClientScene;
         public static readonly string[] ClientScenes = { UnityClientScene };

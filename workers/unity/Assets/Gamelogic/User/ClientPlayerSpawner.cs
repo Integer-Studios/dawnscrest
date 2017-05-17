@@ -8,13 +8,11 @@ using Improbable.Worker.Query;
 using System;
 using UnityEngine;
 
-namespace Assets.Gamelogic.Core
-{
+namespace Polytechnica.Realms.User {
 	/// <summary>
 	/// Helper class for handling spawning and deleting of the player character
 	/// </summary>
-	public static class ClientPlayerSpawner
-	{
+	public static class ClientPlayerSpawner {
 		public static int playerID = 1;
 
 		public static void SpawnPlayer() {
