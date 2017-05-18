@@ -2,7 +2,6 @@
 using Improbable.Unity.Configuration;
 using Improbable.Unity.Core;
 using UnityEngine;
-using Polytechnica.Realms.User;
 
 namespace Polytechnica.Realms.Core {
     public class Bootstrap : MonoBehaviour {

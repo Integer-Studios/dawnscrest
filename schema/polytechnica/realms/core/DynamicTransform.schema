@@ -1,0 +1,25 @@
+package polytechnica.realms.core;
+
+type TransformUpdateRequest {
+	EntityPosition position = 1;
+    Vector3d rotation = 2;
+    Vector3d scale = 3;
+    Vector3d velocity = 4;
+    float rotational_velocity = 5;
+}
+
+type TransformUpdateResponse {
+	bool accepted = 1;
+}
+
+component DynamicTransform {
+    id = 1001;
+    
+    EntityPosition position = 1;
+    Vector3d rotation = 2;
+    Vector3d scale = 3;
+    Vector3d velocity = 4;
+    float rotational_velocity = 5;
+    
+    command TransformUpdateResponse update_transform(TransformUpdateRequest);
+}

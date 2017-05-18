@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using Improbable.Unity.Visualizer;
 using Improbable.Entity.Component;
-using Improbable.User;
 using Improbable.Core;
 using Improbable.Unity;
 using Improbable.Unity.Core;
@@ -11,7 +10,7 @@ using Improbable;
 using Improbable.Math;
 using Polytechnica.Realms.Core;
 
-namespace Polytechnica.Realms.User {
+namespace Polytechnica.Realms.Core {
 
 	[WorkerType(WorkerPlatform.UnityWorker)]
 	public class LoginManager : MonoBehaviour {

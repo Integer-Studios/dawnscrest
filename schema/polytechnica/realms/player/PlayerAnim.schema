@@ -1,0 +1,15 @@
+package polytechnica.realms.player;
+
+import "polytechnica/realms/core/Nothing.schema";
+
+component PlayerAnim {
+  id = 1100;
+	
+  bool right_hand = 1;
+  float pitch = 2;
+  bool interacting = 3;
+  bool consuming = 4;
+  
+  event polytechnica.realms.core.Nothing jump;
+  event polytechnica.realms.core.Nothing swing;
+}

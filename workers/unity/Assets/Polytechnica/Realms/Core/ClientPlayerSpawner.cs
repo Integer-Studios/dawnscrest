@@ -1,6 +1,5 @@
 ﻿using Improbable;
 using Improbable.Core;
-using Improbable.User;
 using Improbable.Unity.Core;
 using Improbable.Unity.Core.EntityQueries;
 using Improbable.Worker;
@@ -8,7 +7,7 @@ using Improbable.Worker.Query;
 using System;
 using UnityEngine;
 
-namespace Polytechnica.Realms.User {
+namespace Polytechnica.Realms.Core {
 	/// <summary>
 	/// Helper class for handling spawning and deleting of the player character
 	/// </summary>
