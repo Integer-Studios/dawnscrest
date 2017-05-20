@@ -40,10 +40,10 @@ public class TransformReceiver : MonoBehaviour
 //            {
 //                transform.position = update.position.Value.ToVector3();
 //            }
-////                if (update.rotation.HasValue)
-////                {
-////                    transform.rotation = Quaternion.Euler(0.0f, update.rotation.Value, 0.0f);
-////                }
+//                if (update.rotation.HasValue)
+//                {
+//                    transform.rotation = Quaternion.Euler(0.0f, update.rotation.Value, 0.0f);
+//                }
 //        }
 //    }
 }

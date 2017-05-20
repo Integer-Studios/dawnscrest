@@ -44,8 +44,8 @@ namespace Polytechnica.Realms.Core {
 		}
 
 		private void CreatePlayer(string clientWorkerId, EntityId entityId) {
-			var playerEntityTemplate = EntityTemplateFactory.CreateCubeTemplate(clientWorkerId);
-			SpatialOS.Commands.CreateEntity(playerSpawningWriter, entityId, "Cube", playerEntityTemplate)
+			var playerEntityTemplate = EntityTemplateFactory.CreatePlayerTemplate(clientWorkerId);
+			SpatialOS.Commands.CreateEntity(playerSpawningWriter, entityId, SimulationSettings.PlayerPrefab, playerEntityTemplate)
 				.OnFailure(failure => OnFailedPlayerCreation(failure, clientWorkerId, entityId));
 		}
 

@@ -6,5 +6,8 @@ namespace Polytechnica.Realms.Core {
         public static readonly int TargetServerFramerate = 60;
         public static readonly int FixedFramerate = 20;
         public static readonly string DefaultSnapshotPath = Application.dataPath + "/../../../snapshots/default.snapshot";
+
+		public static string PlayerPrefab = "Player";
+
     }
 }
