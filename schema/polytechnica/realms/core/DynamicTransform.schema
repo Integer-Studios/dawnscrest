@@ -1,7 +1,0 @@
-package polytechnica.realms.core;
-
-component DynamicTransform {
-    id = 1001;
-    Vector3d velocity = 1;
-    float rotational_velocity = 2;
-}

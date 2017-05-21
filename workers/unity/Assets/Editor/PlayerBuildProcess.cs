@@ -1,4 +1,4 @@
-﻿using Polytechnica.Realms.Core;
+﻿using Polytechnica.Dawnscrest.Core;
 using Improbable.Unity;
 using Improbable.Unity.EditorTools.Build;
 using System;
@@ -6,7 +6,7 @@ using System.IO;
 using System.Linq;
 using UnityEditor;
 
-namespace Polytechnica.Realms.Editor {
+namespace Polytechnica.Dawnscrest.Editor {
     [InitializeOnLoad]
     public class PlayerBuildProcess : IPlayerBuildEvents {
         // Install the custom event handler

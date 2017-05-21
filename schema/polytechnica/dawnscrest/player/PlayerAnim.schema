@@ -1,0 +1,15 @@
+package polytechnica.dawnscrest.player;
+
+import "polytechnica/dawnscrest/core/Nothing.schema";
+
+component PlayerAnim {
+  id = 1100;
+	
+  bool right_hand = 1;
+  float pitch = 2;
+  bool interacting = 3;
+  bool consuming = 4;
+  
+  event polytechnica.dawnscrest.core.Nothing jump;
+  event polytechnica.dawnscrest.core.Nothing swing;
+}

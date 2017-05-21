@@ -1,4 +1,4 @@
-﻿using Polytechnica.Realms.Core;
+﻿using Polytechnica.Dawnscrest.Core;
 using Improbable;
 using Improbable.Worker;
 using JetBrains.Annotations;
@@ -7,7 +7,7 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 
-namespace Polytechnica.Realms.Editor {
+namespace Polytechnica.Dawnscrest.Editor {
 	public class SnapshotMenu : MonoBehaviour {
 		[MenuItem("Improbable/Snapshots/Generate Default Snapshot")]
 		[UsedImplicitly]

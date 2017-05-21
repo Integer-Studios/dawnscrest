@@ -1,0 +1,11 @@
+package polytechnica.dawnscrest.core;
+
+import "polytechnica/dawnscrest/core/Nothing.schema";
+
+component Character {
+    id = 1003;
+    uint32 house_id = 2;
+    bool active = 3;
+
+    command polytechnica.dawnscrest.core.Nothing embody(polytechnica.dawnscrest.core.Nothing);
+}
