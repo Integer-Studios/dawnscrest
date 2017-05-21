@@ -47,11 +47,12 @@ namespace Polytechnica.Realms.Core {
 		}
 
 		private static void OnCreateFailure(ICommandErrorDetails error) {
-			Debug.LogWarning("Create Family command failed - you probably tried to connect too soon. Try again in a few seconds.");
+			Debug.Log("Create Family command failed - you probably tried to connect too soon. Try again in a few seconds.");
 		}
 
 		private static void OnCreateSuccess() {
-			Debug.LogWarning("Create Family Success");
+			Debug.Log("Create Family Success");
+			FindBody ();
 		}
 
 		public static void FindBody() {
@@ -66,9 +67,6 @@ namespace Polytechnica.Realms.Core {
 			}
 			var queriedEntities = result.Response.Value;
 			Debug.Log("Found " + queriedEntities.EntityCount + " nearby entities with a character component");
-			if (queriedEntities.EntityCount < 1) {
-				return;
-			}
 
 			// Parse query for family and active character
 			Map<EntityId, Entity> characters = queriedEntities.Entities;
@@ -93,10 +91,9 @@ namespace Polytechnica.Realms.Core {
 					.OnFailure(error => OnEmbodyFailure(error));
 			} else if (family.Count > 0) {
 				Debug.Log ("Looks like you fucking died - nice job retard");
-			} else if (isNewPlayer) {
-				Debug.Log ("Welcome to Manifest Destiny - lets start your house");
 			} else {
-				Debug.Log ("Wow. They are actually all dead. you dipshit. you have to restart.");
+				Debug.Log ("Welcome to Manifest Destiny - lets start your house");
+				CreateFamily ();
 			}
 
 		}

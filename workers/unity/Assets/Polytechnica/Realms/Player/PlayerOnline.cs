@@ -5,6 +5,7 @@ using Improbable.Core;
 using Improbable.Math;
 using Improbable.Unity.Visualizer;
 using Polytechnica.Realms.Core;
+using Improbable;
 
 namespace Polytechnica.Realms.Player {
 
@@ -12,6 +13,9 @@ namespace Polytechnica.Realms.Player {
 	public class PlayerOnline : MonoBehaviour {
 
 		[Require] private WorldTransform.Reader WorldTransformReader;
+
+		// Just to make this never turn on if it isnt a
+		[Require] private EntityAcl.Writer AclWriter;
 
 		public float MaxTimeout = 1f;
 
@@ -41,6 +45,7 @@ namespace Polytechnica.Realms.Player {
 		}
 
 		private void Logout() {
+			Debug.LogWarning ("Timeout - Kicking Player");
 			Character.setToNPC ();
 		}
 	}
