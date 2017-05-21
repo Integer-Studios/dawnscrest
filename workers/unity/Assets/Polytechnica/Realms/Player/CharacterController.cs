@@ -30,6 +30,8 @@ namespace Polytechnica.Realms.Player {
 			CharacterWriter.CommandReceiver.OnEmbody.RegisterResponse (OnEmbody);
 			PlayerOnline = GetComponent<PlayerOnline> ();
 			PlayerVisualizer = GetComponent<PlayerVisualizer> ();
+
+			// Initialize to NPC ACL
 			PlayerOnline.enabled = false;
 			PlayerVisualizer.enabled = false;
 		}

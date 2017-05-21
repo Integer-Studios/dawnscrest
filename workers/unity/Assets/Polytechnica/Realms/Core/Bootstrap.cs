@@ -32,7 +32,7 @@ namespace Polytechnica.Realms.Core {
         }
 
         private static void OnSpatialOsConnection() {
-			Test.InitializeEmbodiment();
+			BodyFinder.FindBody();
         }
     }
 }

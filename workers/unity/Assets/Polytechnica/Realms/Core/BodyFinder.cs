@@ -24,7 +24,7 @@ namespace Polytechnica.Realms.Core {
 		// 3. see if it enables the controller? or like enable it yourself?
 		// 4. if it doesnt do this auto also disable the server-side NPC stuff
 
-		public static void InitializeEmbodiment() {
+		public static void FindBody() {
 			EntityQuery characterQuery = Query.HasComponent<Character> ().ReturnComponents (1003);
 			SpatialOS.WorkerCommands.SendQuery(characterQuery, queryResult => OnQueryResult(queryResult));
 		}

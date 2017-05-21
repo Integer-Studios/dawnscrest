@@ -11,7 +11,7 @@ namespace Polytechnica.Realms.Core {
     public static class EntityTemplateFactory {
 
 		public static SnapshotEntity CreateCharacterTemplate() {
-			var template = new SnapshotEntity { Prefab = "Player" };
+			var template = new SnapshotEntity { Prefab = "Character" };
 			template.Add(new WorldTransform.Data(Coordinates.ZERO, new Vector3d(0,0,0), new Vector3d(1,1,1)));
 			template.Add(new DynamicTransform.Data(new Vector3d(0,0,0), 0f));
 			template.Add (new PlayerAnim.Data (false, 0, false, false));

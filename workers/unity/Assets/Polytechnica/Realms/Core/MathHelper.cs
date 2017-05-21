@@ -17,4 +17,17 @@ namespace Polytechnica.Realms.Core {
 
 	}
 
+	public static class Vector3Extensions {
+		public static Coordinates ToCoordinates(this Vector3 vector3) {
+			return new Coordinates(vector3.x, vector3.y, vector3.z);
+		}
+	}
+
+	public static class CoordinatesExtensions
+	{
+		public static Vector3 ToVector3(this Coordinates coordinates)
+		{
+			return new Vector3((float)coordinates.X, (float)coordinates.Y, (float)coordinates.Z);
+		}
+	}
 }

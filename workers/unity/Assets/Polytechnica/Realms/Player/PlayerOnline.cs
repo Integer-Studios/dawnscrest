@@ -13,33 +13,35 @@ namespace Polytechnica.Realms.Player {
 
 		[Require] private WorldTransform.Reader WorldTransformReader;
 
-		private float timeout;
-		private CharacterController character;
+		public float MaxTimeout = 1f;
 
-		// Use this for initialization
+		private float Timeout;
+		private CharacterController Character;
+
 		void OnEnable () {
 			WorldTransformReader.ComponentUpdated += Heatbeat;
-			character = GetComponent<CharacterController> ();
-			timeout = 0f;
+			Character = GetComponent<CharacterController> ();
+			Timeout = 0f;
 		}
 
-		// Update is called once per frame
 		void OnDisable () {
 			WorldTransformReader.ComponentUpdated -= Heatbeat;
 		}
 
 		private void Update() {
-			timeout += Time.deltaTime;
-			if (timeout > 5f)
+
+			// Assume Logout if no word from client
+			Timeout += Time.deltaTime;
+			if (Timeout > MaxTimeout)
 				Logout ();
 		}
 
 		private void Heatbeat(WorldTransform.Update update) {
-			timeout = 0f;
+			Timeout = 0f;
 		}
 
 		private void Logout() {
-			character.setToNPC ();
+			Character.setToNPC ();
 		}
 	}
 
