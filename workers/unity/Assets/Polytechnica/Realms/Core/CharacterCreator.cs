@@ -14,22 +14,22 @@ namespace Polytechnica.Realms.Core {
 
 	public class CharacterCreator : MonoBehaviour {
 
-		[Require] CharacterCreatorController.Writer CreatorControllerWriter;
+		[Require] private CharacterCreatorController.Writer CreatorControllerWriter;
+
+		private Dictionary<int, CreationRequest> creationsInProgress = new  Dictionary<int, CreationRequest>();
 
 		private void OnEnable() {
-			CreatorControllerWriter.CommandReceiver.OnCreateFamily.RegisterResponse (CreateFamily);
+			CreatorControllerWriter.CommandReceiver.OnCreateFamily.RegisterAsyncResponse (CreateFamily);
 		}
 
 		private void OnDisable() {
 			CreatorControllerWriter.CommandReceiver.OnCreateFamily.DeregisterResponse ();
 		}
 
-		private Nothing CreateFamily(CreateFamilyRequest request, ICommandCallerInfo info) {
-			int houseId = (int)request.houseId;
+		private void CreateFamily(ResponseHandle<CharacterCreatorController.Commands.CreateFamily, CreateFamilyRequest, Nothing> responseHandle) {
+			int houseId = (int)responseHandle.Request.houseId;
+			creationsInProgress.Add (houseId, new CreationRequest(0, responseHandle));
 			CreateCharacterWithReservedId (houseId, true);
-			CreateCharacterWithReservedId (houseId, false);
-			CreateCharacterWithReservedId (houseId, false);
-			return new Nothing ();
 		}
 
 		private void CreateCharacterWithReservedId(int houseId, bool active) {
@@ -39,19 +39,43 @@ namespace Polytechnica.Realms.Core {
 		}
 
 		private void OnFailedReservation(ICommandErrorDetails response, int houseId, bool active) {
-			Debug.LogError("Failed to Reserve EntityId for Player: " + response.ErrorMessage + ". Retrying...");
+			Debug.LogError("Failed to Reserve EntityId for Character: " + response.ErrorMessage + ". Retrying...");
 			CreateCharacterWithReservedId(houseId, active);
 		}
 
 		private void CreateCharacter(int houseId, bool active, EntityId entityId) {
 			var charEntityTemplate = EntityTemplateFactory.CreateCharacterTemplate(houseId, true);
 			SpatialOS.Commands.CreateEntity(CreatorControllerWriter, entityId, "Character", charEntityTemplate)
-				.OnFailure(failure => OnFailedPlayerCreation(failure, houseId, active,  entityId));
+				.OnFailure(failure => OnFailedCharacterCreation(failure, houseId, active,  entityId))
+				.OnSuccess(response => OnCreationSuccess(houseId));
 		}
 
-		private void OnFailedPlayerCreation(ICommandErrorDetails response, int houseId, bool active, EntityId entityId) {
-			Debug.LogError("Failed to Create PlayerShip Entity: " + response.ErrorMessage + ". Retrying...");
+		private void OnFailedCharacterCreation(ICommandErrorDetails response, int houseId, bool active, EntityId entityId) {
+			Debug.LogError("Failed to Create Character Entity: " + response.ErrorMessage + ". Retrying...");
 			CreateCharacter(houseId, active, entityId);
+		}
+
+		private void OnCreationSuccess(int houseId) {
+			CreationRequest req; 
+			if (!creationsInProgress.TryGetValue (houseId, out req)) {
+				Debug.LogError ("Lost House's Request, Quitting! Fuck! This is Fucked!");
+				return;
+			}
+			req.amountCreated++;
+			if (req.amountCreated == 3) {
+				req.ResponseHandle.Respond (new Nothing ());
+			} else {
+				CreateCharacterWithReservedId (houseId, false);
+			}
+		}
+
+		private class CreationRequest {
+			public int amountCreated;
+			public ResponseHandle<CharacterCreatorController.Commands.CreateFamily, CreateFamilyRequest, Nothing> ResponseHandle;
+			public CreationRequest(int a, ResponseHandle<CharacterCreatorController.Commands.CreateFamily, CreateFamilyRequest, Nothing> r) {
+				amountCreated = a;
+				ResponseHandle = r;
+			}
 		}
 
 	}

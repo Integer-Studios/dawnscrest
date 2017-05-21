@@ -43,11 +43,15 @@ namespace Polytechnica.Realms.Core {
 
 			var characterCreatorEntityId = queriedEntities.Entities.First.Value.Key;
 			SpatialOS.WorkerCommands.SendCommand (CharacterCreatorController.Commands.CreateFamily.Descriptor, new CreateFamilyRequest ((uint)houseId), characterCreatorEntityId)
-				.OnFailure(error => OnCreateFailure(error));
+				.OnFailure(error => OnCreateFailure(error)).OnSuccess(response => OnCreateSuccess());
 		}
 
 		private static void OnCreateFailure(ICommandErrorDetails error) {
 			Debug.LogWarning("Create Family command failed - you probably tried to connect too soon. Try again in a few seconds.");
+		}
+
+		private static void OnCreateSuccess() {
+			Debug.LogWarning("Create Family Success");
 		}
 
 		public static void FindBody() {
