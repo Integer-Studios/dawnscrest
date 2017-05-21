@@ -52,10 +52,11 @@ namespace Polytechnica.Dawnscrest.Player {
 		 * Start Functions
 		 */
 		private void OnEnable () {
-			if (Bootstrap.isServer)
+			if (Bootstrap.isServer) {
 				this.enabled = false;
-			else {
-				Bootstrap.menuManager.OnGameStarted ();
+				return;
+			} else {
+				Bootstrap.OnPlayerSpawn ();
 			}
 			// Fix initialization of scale to 0 by authority latency
 			transform.localScale = Vector3.one;

@@ -15,7 +15,7 @@ namespace Polytechnica.Dawnscrest.Editor {
 			var snapshotEntities = new Dictionary<EntityId, SnapshotEntity>();
 
 			var currentEntityId = 1;
-			snapshotEntities.Add(new EntityId(currentEntityId++), EntityTemplateFactory.CreateGroundTemplate());
+//			snapshotEntities.Add(new EntityId(currentEntityId++), EntityTemplateFactory.CreateGroundTemplate());
 			snapshotEntities.Add(new EntityId(currentEntityId++), EntityTemplateFactory.CreateCharacterCreatorTemplate());
 			SaveSnapshot(snapshotEntities);
 		}

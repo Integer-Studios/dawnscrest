@@ -20,18 +20,18 @@ namespace Polytechnica.Dawnscrest.Core {
 
             switch (SpatialOS.Configuration.WorkerPlatform) {
 			case WorkerPlatform.UnityWorker:
-					isServer = true;
-					Debug.Log ("Starting Worker");
-                    Application.targetFrameRate = SimulationSettings.TargetServerFramerate;
-                    SpatialOS.OnDisconnected += reason => Application.Quit();
-                    break;
+				isServer = true;
+				Debug.Log ("Starting Worker");
+                Application.targetFrameRate = SimulationSettings.TargetServerFramerate;
+                SpatialOS.OnDisconnected += reason => Application.Quit();
+                break;
 			case WorkerPlatform.UnityClient:
-					Debug.Log ("Starting Client");
-					Bootstrap.menuManager = FindObjectOfType<MenuManager> ();
-					
-                    Application.targetFrameRate = SimulationSettings.TargetClientFramerate;
-                    SpatialOS.OnConnected += OnSpatialOsConnection;
-                    break;
+				isServer = false;
+				Debug.Log ("Starting Client");
+				Bootstrap.menuManager = FindObjectOfType<MenuManager> ();
+                Application.targetFrameRate = SimulationSettings.TargetClientFramerate;
+                SpatialOS.OnConnected += OnSpatialOsConnection;
+                break;
             }
 
             SpatialOS.Connect(gameObject);
@@ -47,5 +47,11 @@ namespace Polytechnica.Dawnscrest.Core {
 				BodyFinder.FindBody (1);
 			}
         }
+
+		public static void OnPlayerSpawn() {
+			if (menuManager != null) {
+				menuManager.OnGameStarted ();
+			}
+		}
     }
 }
