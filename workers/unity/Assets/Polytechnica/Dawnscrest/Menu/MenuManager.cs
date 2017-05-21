@@ -51,10 +51,8 @@ namespace Polytechnica.Dawnscrest.Menu {
 					m.FadeOut (fade);
 				}
  			}
-			if (toLoad != null) {
-				toLoad.Initialize ();
-				toLoad.FadeIn (fade);
-			}
+			StartCoroutine (FadeInMenu(toLoad));
+
 		}
 
 		/*
@@ -100,6 +98,14 @@ namespace Polytechnica.Dawnscrest.Menu {
 			public string error;
 			public override string ToString () {
 				return string.Format ("[HouseData: loginId={0}, name={1}, character={2}, spawned={3}, email={4}, password={5}, status={6}, error={7}, house={8}, irl={9}]", loginId, name, character, spawned, email, password, status, error, id, irl);
+			}
+		}
+
+		private IEnumerator FadeInMenu(Menu toLoad) {
+			yield return new WaitForSeconds(0.5F);
+			if (toLoad != null) {
+				toLoad.Initialize ();
+				toLoad.FadeIn ();
 			}
 		}
 
