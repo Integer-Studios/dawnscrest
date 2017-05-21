@@ -1,0 +1,13 @@
+package polytechnica.realms.core;
+
+import "polytechnica/realms/core/Nothing.schema";
+
+type CreateFamilyRequest {
+  uint32 house_id = 1;
+}
+
+component CharacterCreatorController {
+    id = 1004;
+
+    command polytechnica.realms.core.Nothing create_family(CreateFamilyRequest);
+}

@@ -24,6 +24,32 @@ namespace Polytechnica.Realms.Core {
 		// 3. see if it enables the controller? or like enable it yourself?
 		// 4. if it doesnt do this auto also disable the server-side NPC stuff
 
+		public static void CreateFamily() {
+			EntityQuery characterQuery = Query.HasComponent<CharacterCreatorController> ().ReturnOnlyEntityIds ();
+			SpatialOS.WorkerCommands.SendQuery(characterQuery, queryResult => OnCreateQueryResult(queryResult));
+		}
+
+		private static void OnCreateQueryResult(ICommandCallbackResponse<EntityQueryResult> result) {
+			if (!result.Response.HasValue || result.StatusCode != StatusCode.Success) {
+				Debug.LogError("CharacterCreatorController query failed. SpatialOS workers probably haven't started yet.  Try again in a few seconds.");
+				return;
+			}
+
+			var queriedEntities = result.Response.Value;
+			if (queriedEntities.EntityCount < 1) {
+				Debug.LogError("Failed to find CharacterCreatorController. SpatialOS probably hadn't finished spawning the initial snapshot. Try again in a few seconds.");
+				return;
+			}
+
+			var characterCreatorEntityId = queriedEntities.Entities.First.Value.Key;
+			SpatialOS.WorkerCommands.SendCommand (CharacterCreatorController.Commands.CreateFamily.Descriptor, new CreateFamilyRequest ((uint)houseId), characterCreatorEntityId)
+				.OnFailure(error => OnCreateFailure(error));
+		}
+
+		private static void OnCreateFailure(ICommandErrorDetails error) {
+			Debug.LogWarning("Create Family command failed - you probably tried to connect too soon. Try again in a few seconds.");
+		}
+
 		public static void FindBody() {
 			EntityQuery characterQuery = Query.HasComponent<Character> ().ReturnComponents (1003);
 			SpatialOS.WorkerCommands.SendQuery(characterQuery, queryResult => OnQueryResult(queryResult));
