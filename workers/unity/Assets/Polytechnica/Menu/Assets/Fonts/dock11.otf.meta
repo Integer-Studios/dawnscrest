@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: dd6bc9ce3f4a94fc4bf04df2563d8637
+timeCreated: 1495391972
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: DOCK11
+  fontNames:
+  - DOCK11
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
