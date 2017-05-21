@@ -12,21 +12,25 @@ using Improbable.Unity.Core.Acls;
 
 namespace Polytechnica.Dawnscrest.Core {
 
+	/*
+	 * This is a client-side class used upon connection to spatial to locate a player's
+	 * active character and embody that character.
+	 * It is also responsible for creating a new family if a player has no characters.
+	 */
 	public class BodyFinder {
 
-		//
-		// Basic Plan
-		//
-		// 1. query for character with player id and active = true
-		// 2. set the acl to client auth
-		// 3. see if it enables the controller? or like enable it yourself?
-		// 4. if it doesnt do this auto also disable the server-side NPC stuff
-
+		/*
+		 * Creates a new Family request, this first part simply queries to find the CharacterCreator,
+		 * a component set up server side to handle creation requests
+		 */
 		public static void CreateFamily(int house) {
 			EntityQuery characterQuery = Query.HasComponent<CharacterCreatorController> ().ReturnOnlyEntityIds ();
 			SpatialOS.WorkerCommands.SendQuery(characterQuery, queryResult => OnCreateQueryResult(queryResult, house));
 		}
 
+		/*
+		 * Using the CharacterCreators entity id, a request is set to it to create new family
+		 */
 		private static void OnCreateQueryResult(ICommandCallbackResponse<EntityQueryResult> result, int houseId) {
 			if (!result.Response.HasValue || result.StatusCode != StatusCode.Success) {
 				Debug.LogError("CharacterCreatorController query failed. SpatialOS workers probably haven't started yet.  Try again in a few seconds.");
@@ -53,11 +57,19 @@ namespace Polytechnica.Dawnscrest.Core {
 			FindBody (houseId);
 		}
 
+		/*
+		 * Begins the process of embodiement, sends a query for all characters in the world.
+		 * TODO Optimize this query process by having an SQL link to families
+		 */
 		public static void FindBody(int house) {
 			EntityQuery characterQuery = Query.HasComponent<Character> ().ReturnComponents (1003);
 			SpatialOS.WorkerCommands.SendQuery(characterQuery, queryResult => OnQueryResult(queryResult, house));
 		}
 
+		/*
+		 * Upon succesful character query, parse out the users family and active player, then call
+		 * a request to embody that character.
+		 */
 		private static void OnQueryResult(ICommandCallbackResponse<EntityQueryResult> result, int houseId) {
 			if (!result.Response.HasValue || result.StatusCode != StatusCode.Success) {
 				Debug.Log ("query Failed");
@@ -83,10 +95,12 @@ namespace Polytechnica.Dawnscrest.Core {
 				}
 			}
 
+			// There is an active character
 			if (activeCharacterFound) {
 				Debug.Log ("Active Character Found, Embodying...");
 				SpatialOS.WorkerCommands.SendCommand (Character.Commands.Embody.Descriptor, new Nothing (), activeCharacter)
 					.OnFailure(error => OnEmbodyFailure(error));
+			// TODO handling death
 			} else if (family.Count > 0) {
 				Debug.Log ("Looks like you fucking died - nice job retard");
 			} else {

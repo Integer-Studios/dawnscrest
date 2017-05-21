@@ -9,12 +9,18 @@ using Improbable;
 
 namespace Polytechnica.Dawnscrest.Player {
 
-	// Server authoritative player functionality
+	/*
+	 * This class is enabled when a character is currently being controller by a remote client
+	 * It is onlu enabled server side, and works as a server-side counterpart to PlayerController
+	 * Any code that the server must execute authoritatively for remote client characters
+	 * is in here.
+	 */
 	public class PlayerOnline : MonoBehaviour {
 
+		// Isnt used, just wire-tapped so the heartbeat can make sure the player is still online
 		[Require] private WorldTransform.Reader WorldTransformReader;
 
-		// Just to make this never turn on if it isnt a
+		// This isnt used - its just to make this class disable on clients
 		[Require] private EntityAcl.Writer AclWriter;
 
 		public float MaxTimeout = 1f;
@@ -31,7 +37,7 @@ namespace Polytechnica.Dawnscrest.Player {
 		void OnDisable () {
 			WorldTransformReader.ComponentUpdated -= Heatbeat;
 		}
-
+			
 		private void Update() {
 
 			// Assume Logout if no word from client
@@ -40,10 +46,16 @@ namespace Polytechnica.Dawnscrest.Player {
 				Logout ();
 		}
 
+		/*
+		 * Updates every transform packet from client, resets timeout counter
+		 */
 		private void Heatbeat(WorldTransform.Update update) {
 			Timeout = 0f;
 		}
 
+		/*
+		 * Called when timeout is reached ie the client stopped responing
+		 */
 		private void Logout() {
 			Debug.LogWarning ("Timeout - Kicking Player");
 			Character.setToNPC ();

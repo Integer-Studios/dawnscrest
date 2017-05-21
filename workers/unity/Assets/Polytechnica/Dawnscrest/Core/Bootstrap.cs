@@ -6,14 +6,15 @@ using Polytechnica.Dawnscrest.Menu;
 
 namespace Polytechnica.Dawnscrest.Core {
     public class Bootstrap : MonoBehaviour {
-        public WorkerConfigurationData Configuration = new WorkerConfigurationData();
+		
+        public WorkerConfigurationData configuration = new WorkerConfigurationData();
 
 		public static bool isServer;
 
 		public static MenuManager menuManager;
 
         private void Start() {
-            SpatialOS.ApplyConfiguration(Configuration);
+			SpatialOS.ApplyConfiguration(configuration);
 
             Time.fixedDeltaTime = 1.0f / SimulationSettings.FixedFramerate;
 
@@ -36,6 +37,9 @@ namespace Polytechnica.Dawnscrest.Core {
             SpatialOS.Connect(gameObject);
         }
 
+		/*
+		 * On Connection to spatial, client start
+		 */
         private static void OnSpatialOsConnection() {
 			if (menuManager != null) {
 				BodyFinder.FindBody (menuManager.house.id);

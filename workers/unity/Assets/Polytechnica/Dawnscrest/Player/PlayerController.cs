@@ -8,48 +8,49 @@ using Polytechnica.Dawnscrest.Core;
 
 namespace Polytechnica.Dawnscrest.Player {
 
-	// Client Authoritative player functionality
+	/*
+	 * This class is responsible for the client-authoritative player code
+	 * Anything involving a player's affect on their character starts here
+	 * It is only enabled on the authoritative client
+	 */
 	public class PlayerController : MonoBehaviour {
 
-		[Require] private WorldTransform.Writer WorldTransformWriter;
-		[Require] private DynamicTransform.Writer DynamicTransformWriter;
-		[Require] private PlayerAnim.Writer PlayerAnimWriter;
+		[Require] private WorldTransform.Writer worldTransformWriter;
+		[Require] private DynamicTransform.Writer dynamicTransformWriter;
+		[Require] private PlayerAnim.Writer playerAnimWriter;
 
-		public float MouseSensitivity = 8.0f;
-		public float MaxSpeed;
-		public float MaxRotation;
-		public float JumpSpeed;
-		public GameObject HairMesh;
-		public GameObject BodyMesh;
-		public Mesh FpsMesh;
-		public GameObject Hip;
-		public GameObject Pivot;
+		public float mouseSensitivity = 8.0f;
+		public float maxSpeed;
+		public float maxRotation;
+		public float jumpSpeed;
+		public GameObject hairMesh;
+		public GameObject bodyMesh;
+		public Mesh fpsMesh;
+		public GameObject hip;
+		public GameObject pivot;
 
 		// Velocity
-		private Vector3 Velocity;
-		private float RotationalVelocity;
+		private Vector3 velocity;
+		private float rotationalVelocity;
 
 		// Animation
-		private bool RightHand;
-		private bool IsConsuming;
-		private bool IsInteracting;
-		private Animator Anim;
-		private Rigidbody RigidBody;
-		private bool ShouldJump;
-		private bool Grounded = false;
-		private GameObject GroundObject;
+		private bool rightHand;
+		private bool isConsuming;
+		private bool isInteracting;
+		private Animator anim;
+		private Rigidbody rigidBody;
+		private bool shouldJump;
+		private bool grounded = false;
+		private GameObject groundObject;
 
 		//Control
-		private GameObject PlayerCamera;
-		private float Speed;
-		private float Pitch, DeltaPitch;
+		private GameObject playerCamera;
+		private float speed;
+		private float pitch, deltaPitch;
 
 		/*
-		 * 
-		 * Start
-		 * 
+		 * Start Functions
 		 */
-
 		private void OnEnable () {
 			if (Bootstrap.isServer)
 				this.enabled = false;
@@ -60,43 +61,44 @@ namespace Polytechnica.Dawnscrest.Player {
 			transform.localScale = Vector3.one;
 
 			// Initialize References
-			Anim = GetComponent<Animator> ();
-			RigidBody = GetComponent<Rigidbody> ();
+			anim = GetComponent<Animator> ();
+			rigidBody = GetComponent<Rigidbody> ();
 		}
 
 		private void Start() {
 			setUpFPS ();
 		}
 
+		/*
+		 * This transforms the character on the local worker only
+		 * to an FPS setup
+		 */
 		private void setUpFPS() {
 			// Setup FPS Model
-			Destroy (HairMesh);
-			BodyMesh.GetComponent<SkinnedMeshRenderer> ().sharedMesh = FpsMesh;
+			Destroy (hairMesh);
+			bodyMesh.GetComponent<SkinnedMeshRenderer> ().sharedMesh = fpsMesh;
 
 			// Setup FPS Camera
-			PlayerCamera = GameObject.FindGameObjectWithTag("MainCamera");
-			PlayerCamera.transform.parent = transform;
-			PlayerCamera.transform.localPosition = new Vector3 (0f, 2.3f, 0f);
-			PlayerCamera.transform.localRotation = Quaternion.Euler (new Vector3 (20f, 0f, 0f));
+			playerCamera = GameObject.FindGameObjectWithTag("MainCamera");
+			playerCamera.transform.parent = transform;
+			playerCamera.transform.localPosition = new Vector3 (0f, 2.3f, 0f);
+			playerCamera.transform.localRotation = Quaternion.Euler (new Vector3 (20f, 0f, 0f));
 
 			// Set up FPS Cursor
 			Cursor.lockState = CursorLockMode.Locked;
 			Cursor.visible = false;
 
 			// Set Up FPS Animator
-			Anim.SetLayerWeight(1, 1);
-			Anim.SetLayerWeight(0, 0);
+			anim.SetLayerWeight(1, 1);
+			anim.SetLayerWeight(0, 0);
 
 			// Set up no-collide with self
 			gameObject.layer = 2;
 		}
 
 		/*
-		 * 
-		 * Update
-		 * 
+		 * Update Functions
 		 */
-
 		private void Update () {
 			UpdateInput ();
 			UpdateLocomotionControls ();
@@ -104,21 +106,23 @@ namespace Polytechnica.Dawnscrest.Player {
 		}
 
 		private void LateUpdate() {
-			Hip.transform.eulerAngles = new Vector3 (Pitch, Hip.transform.eulerAngles.y, Hip.transform.eulerAngles.z);
+			hip.transform.eulerAngles = new Vector3 (pitch, hip.transform.eulerAngles.y, hip.transform.eulerAngles.z);
 		}
 
 		void FixedUpdate() {
 			UpdateTransform ();
 		}
 
-		// Keypress Processing
+		/*
+		 * Keypress Processing
+		 */
 		private void UpdateInput() {
 
 			// Update Speed
 			if (Input.GetKey(KeyCode.LeftShift)) {
-				Speed = MaxSpeed;
+				speed = maxSpeed;
 			} else {
-				Speed = MaxSpeed / 2f;
+				speed = maxSpeed / 2f;
 			}
 
 			// Detect Jump
@@ -126,104 +130,113 @@ namespace Polytechnica.Dawnscrest.Player {
 				Jump ();
 		}
 
-		// Get Locomotion Input Inputs
+		/*
+		 * Get Locomotion Input Inputs
+		 */
 		private void UpdateLocomotionControls() {
 
 			// Velocity Input
-			Velocity = DownsampleVelocity(new Vector3 (Input.GetAxis ("Horizontal") * Speed, 0f, Input.GetAxis ("Vertical") * Speed));
+			velocity = DownsampleVelocity(new Vector3 (Input.GetAxis ("Horizontal") * speed, 0f, Input.GetAxis ("Vertical") * speed));
 
 			// Turn Input
-			RotationalVelocity = MouseSensitivity * Input.GetAxis ("Mouse X");
+			rotationalVelocity = mouseSensitivity * Input.GetAxis ("Mouse X");
 
 			// Horizontal Mouse Input
-			PlayerCamera.transform.RotateAround(Pivot.transform.position, Pivot.transform.TransformDirection(new Vector3(-1f,0f,0f)), DeltaPitch);
+			playerCamera.transform.RotateAround(pivot.transform.position, pivot.transform.TransformDirection(new Vector3(-1f,0f,0f)), deltaPitch);
 
 			// Vertical Mouse Input
-			DeltaPitch = MouseSensitivity * Input.GetAxis ("Mouse Y");
-			if (Pitch - DeltaPitch < 72f && Pitch - DeltaPitch > -72f) {
-				Pitch -= DeltaPitch;
+			deltaPitch = mouseSensitivity * Input.GetAxis ("Mouse Y");
+			if (pitch - deltaPitch < 72f && pitch - deltaPitch > -72f) {
+				pitch -= deltaPitch;
 			} else {
-				DeltaPitch = 0f;
+				deltaPitch = 0f;
 			}
 		}
 
-		// Locomotion Enacting
+		/*
+		 * Locomotion Enacting
+		 */
 		private void UpdateLocomotion() {
 			
 			// Update Grounded
 			RaycastHit hit;
 			if (Physics.Raycast (transform.position+transform.up, -transform.up, out hit, 2f)) {
-				GroundObject = hit.collider.gameObject;
-				Anim.SetBool ("Grounded", true);
-				Grounded = true;
+				groundObject = hit.collider.gameObject;
+				anim.SetBool ("Grounded", true);
+				grounded = true;
 			} else {
-				Anim.SetBool ("Grounded", false);
-				Grounded = false;
+				anim.SetBool ("Grounded", false);
+				grounded = false;
 			}
 
 			// Enact Movement
-			RigidBody.velocity = transform.TransformDirection(Velocity) + new Vector3(0f, RigidBody.velocity.y, 0f);
+			rigidBody.velocity = transform.TransformDirection(velocity) + new Vector3(0f, rigidBody.velocity.y, 0f);
 
 			// Enact Jump
-			if (ShouldJump) {
-				RigidBody.velocity += new Vector3 (0f, JumpSpeed, 0f);
-				ShouldJump = false;
+			if (shouldJump) {
+				rigidBody.velocity += new Vector3 (0f, jumpSpeed, 0f);
+				shouldJump = false;
 			}
 
 			// Enact Turn
-			transform.Rotate (Vector3.up * RotationalVelocity);
+			transform.Rotate (Vector3.up * rotationalVelocity);
 
 			// Set Anim Params
-			Anim.SetFloat ("Vertical", Velocity.z / MaxSpeed);
-			Anim.SetFloat ("Horizontal", RotationalVelocity / MaxRotation);
+			anim.SetFloat ("Vertical", velocity.z / maxSpeed);
+			anim.SetFloat ("Horizontal", rotationalVelocity / maxRotation);
 		}
 
-		// Send a Transform update
+		/*
+		 * Send a Transform update
+		 */
 		private void UpdateTransform() {
 
 			// Send Transform Update
-			WorldTransformWriter.Send(new WorldTransform.Update()
+			worldTransformWriter.Send(new WorldTransform.Update()
 				.SetPosition(transform.position.ToCoordinates())
 				.SetRotation(MathHelper.toVector3d(transform.eulerAngles))
 			);
 
 			// Send Velocity Update
-			DynamicTransformWriter.Send(new DynamicTransform.Update()
-				.SetVelocity(MathHelper.toVector3d(Velocity))
-				.SetRotationalVelocity(RotationalVelocity)
+			dynamicTransformWriter.Send(new DynamicTransform.Update()
+				.SetVelocity(MathHelper.toVector3d(velocity))
+				.SetRotationalVelocity(rotationalVelocity)
 			);
 
 			// Send Pitch Update
-			PlayerAnimWriter.Send (new PlayerAnim.Update ()
-				.SetPitch(Pitch)
+			playerAnimWriter.Send (new PlayerAnim.Update ()
+				.SetPitch(pitch)
 			);
 		}
 
 		/*
-		 * 
-		 * Helpers
-		 * 
+		 * Helper Functions
 		 */
 
-		// Used to normalize velocity for networking
+		/*
+		 * Used to normalize velocity for networking
+		 */
 		private Vector3 DownsampleVelocity(Vector3 v) {
-			float x = Mathf.Round(v.x * 2f / MaxSpeed);
-			float z = Mathf.Round(v.z * 2f / MaxSpeed);
-			return new Vector3 (x * MaxSpeed / 2f, 0f, z * MaxSpeed / 2f);
+			float x = Mathf.Round(v.x * 2f / maxSpeed);
+			float z = Mathf.Round(v.z * 2f / maxSpeed);
+			return new Vector3 (x * maxSpeed / 2f, 0f, z * maxSpeed / 2f);
 		}
 
+		/*
+		 * Triggered by space bar
+		 */
 		private void Jump() {
-			if (!Grounded)
+			if (!grounded)
 				return;
 
 			// Send Jump Event
-			PlayerAnimWriter.Send(new PlayerAnim.Update()
+			playerAnimWriter.Send(new PlayerAnim.Update()
 				.AddJump(new Nothing())
 			);
 
 			// Set Anim Param
-			Anim.SetTrigger ("Jump");
-			ShouldJump = true;
+			anim.SetTrigger ("Jump");
+			shouldJump = true;
 		}
 	}
 
