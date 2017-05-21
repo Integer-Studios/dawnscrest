@@ -13,8 +13,6 @@ using Improbable.Unity.Core.Acls;
 namespace Polytechnica.Realms.Core {
 
 	public class BodyFinder {
-		public static int houseId = 1;
-		public static bool isNewPlayer;
 
 		//
 		// Basic Plan
@@ -24,12 +22,12 @@ namespace Polytechnica.Realms.Core {
 		// 3. see if it enables the controller? or like enable it yourself?
 		// 4. if it doesnt do this auto also disable the server-side NPC stuff
 
-		public static void CreateFamily() {
+		public static void CreateFamily(int house) {
 			EntityQuery characterQuery = Query.HasComponent<CharacterCreatorController> ().ReturnOnlyEntityIds ();
-			SpatialOS.WorkerCommands.SendQuery(characterQuery, queryResult => OnCreateQueryResult(queryResult));
+			SpatialOS.WorkerCommands.SendQuery(characterQuery, queryResult => OnCreateQueryResult(queryResult, house));
 		}
 
-		private static void OnCreateQueryResult(ICommandCallbackResponse<EntityQueryResult> result) {
+		private static void OnCreateQueryResult(ICommandCallbackResponse<EntityQueryResult> result, int houseId) {
 			if (!result.Response.HasValue || result.StatusCode != StatusCode.Success) {
 				Debug.LogError("CharacterCreatorController query failed. SpatialOS workers probably haven't started yet.  Try again in a few seconds.");
 				return;
@@ -43,24 +41,24 @@ namespace Polytechnica.Realms.Core {
 
 			var characterCreatorEntityId = queriedEntities.Entities.First.Value.Key;
 			SpatialOS.WorkerCommands.SendCommand (CharacterCreatorController.Commands.CreateFamily.Descriptor, new CreateFamilyRequest ((uint)houseId), characterCreatorEntityId)
-				.OnFailure(error => OnCreateFailure(error)).OnSuccess(response => OnCreateSuccess());
+				.OnFailure(error => OnCreateFailure(error)).OnSuccess(response => OnCreateSuccess(houseId));
 		}
 
 		private static void OnCreateFailure(ICommandErrorDetails error) {
 			Debug.Log("Create Family command failed - you probably tried to connect too soon. Try again in a few seconds.");
 		}
 
-		private static void OnCreateSuccess() {
+		private static void OnCreateSuccess(int houseId) {
 			Debug.Log("Create Family Success");
-			FindBody ();
+			FindBody (houseId);
 		}
 
-		public static void FindBody() {
+		public static void FindBody(int house) {
 			EntityQuery characterQuery = Query.HasComponent<Character> ().ReturnComponents (1003);
-			SpatialOS.WorkerCommands.SendQuery(characterQuery, queryResult => OnQueryResult(queryResult));
+			SpatialOS.WorkerCommands.SendQuery(characterQuery, queryResult => OnQueryResult(queryResult, house));
 		}
 
-		private static void OnQueryResult(ICommandCallbackResponse<EntityQueryResult> result) {
+		private static void OnQueryResult(ICommandCallbackResponse<EntityQueryResult> result, int houseId) {
 			if (!result.Response.HasValue || result.StatusCode != StatusCode.Success) {
 				Debug.Log ("query Failed");
 				return;
@@ -93,7 +91,7 @@ namespace Polytechnica.Realms.Core {
 				Debug.Log ("Looks like you fucking died - nice job retard");
 			} else {
 				Debug.Log ("Welcome to Manifest Destiny - lets start your house");
-				CreateFamily ();
+				CreateFamily (houseId);
 			}
 
 		}

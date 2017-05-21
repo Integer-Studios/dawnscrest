@@ -53,6 +53,9 @@ namespace Polytechnica.Realms.Player {
 		private void OnEnable () {
 			if (Bootstrap.isServer)
 				this.enabled = false;
+			else {
+				Bootstrap.menuManager.onGameStarted ();
+			}
 			// Fix initialization of scale to 0 by authority latency
 			transform.localScale = Vector3.one;
 
