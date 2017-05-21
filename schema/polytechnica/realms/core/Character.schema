@@ -1,0 +1,11 @@
+package polytechnica.realms.core;
+
+import "polytechnica/realms/core/Nothing.schema";
+
+component Character {
+    id = 1003;
+    uint32 house_id = 2;
+    bool active = 3;
+
+    command polytechnica.realms.core.Nothing embody(polytechnica.realms.core.Nothing);
+}

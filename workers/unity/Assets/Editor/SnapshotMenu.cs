@@ -16,7 +16,7 @@ namespace Polytechnica.Realms.Editor {
 
 			var currentEntityId = 1;
 			snapshotEntities.Add(new EntityId(currentEntityId++), EntityTemplateFactory.CreateGroundTemplate());
-			snapshotEntities.Add(new EntityId(currentEntityId++), EntityTemplateFactory.CreateLoginManagerTemplate());
+			snapshotEntities.Add(new EntityId(currentEntityId++), EntityTemplateFactory.CreateCharacterTemplate());
 			SaveSnapshot(snapshotEntities);
 		}
 

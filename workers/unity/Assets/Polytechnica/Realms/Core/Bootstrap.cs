@@ -7,6 +7,8 @@ namespace Polytechnica.Realms.Core {
     public class Bootstrap : MonoBehaviour {
         public WorkerConfigurationData Configuration = new WorkerConfigurationData();
 
+		public static bool isServer;
+
         private void Start() {
             SpatialOS.ApplyConfiguration(Configuration);
 
@@ -14,6 +16,7 @@ namespace Polytechnica.Realms.Core {
 
             switch (SpatialOS.Configuration.WorkerPlatform) {
 			case WorkerPlatform.UnityWorker:
+					isServer = true;
 					Debug.Log ("Starting Worker");
                     Application.targetFrameRate = SimulationSettings.TargetServerFramerate;
                     SpatialOS.OnDisconnected += reason => Application.Quit();
@@ -29,7 +32,7 @@ namespace Polytechnica.Realms.Core {
         }
 
         private static void OnSpatialOsConnection() {
-			ClientPlayerSpawner.SpawnPlayer();
+			Test.InitializeEmbodiment();
         }
     }
 }
