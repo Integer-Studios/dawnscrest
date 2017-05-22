@@ -147,11 +147,8 @@ namespace Polytechnica.Dawnscrest.Player {
 			// Velocity Input
 			velocity = DownsampleVelocity(new Vector3 (Input.GetAxis ("Horizontal") * speed, 0f, Input.GetAxis ("Vertical") * speed));
 
-			// Turn Input
-			rotationalVelocity = mouseSensitivity * Input.GetAxis ("Mouse X");
-
 			// Horizontal Mouse Input
-			playerCamera.transform.RotateAround(pivot.transform.position, pivot.transform.TransformDirection(new Vector3(-1f,0f,0f)), deltaPitch);
+			rotationalVelocity = mouseSensitivity * Input.GetAxis ("Mouse X");
 
 			// Vertical Mouse Input
 			deltaPitch = mouseSensitivity * Input.GetAxis ("Mouse Y");
@@ -166,6 +163,9 @@ namespace Polytechnica.Dawnscrest.Player {
 		 * Locomotion Enacting
 		 */
 		private void UpdateLocomotion() {
+
+			// Enact Turn
+			transform.Rotate (Vector3.up * rotationalVelocity);
 			
 			// Update Grounded
 			RaycastHit hit;
@@ -187,8 +187,8 @@ namespace Polytechnica.Dawnscrest.Player {
 				shouldJump = false;
 			}
 
-			// Enact Turn
-			transform.Rotate (Vector3.up * rotationalVelocity);
+			// Enact Pitch
+			playerCamera.transform.RotateAround(pivot.transform.position, pivot.transform.TransformDirection(new Vector3(-1f,0f,0f)), deltaPitch);
 
 			// Set Anim Params
 			anim.SetFloat ("Vertical", velocity.z / maxSpeed);
