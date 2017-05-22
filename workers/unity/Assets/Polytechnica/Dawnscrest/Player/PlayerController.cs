@@ -143,6 +143,17 @@ namespace Polytechnica.Dawnscrest.Player {
 				speed = maxSpeed / 2f;
 			}
 
+			// Temporary Test Keys for Crosshair
+			if (Input.GetKey (KeyCode.O)) {
+				GUIManager.crosshair.SetInteractable ("Pickup\nRock");
+			}
+			if (Input.GetKey (KeyCode.P)) {
+				GUIManager.crosshair.SetMinimized ();
+			}
+			if (Input.GetKey (KeyCode.L)) {
+				GUIManager.crosshair.SetTooltip ("Pick\nRequired");
+			}
+
 			// Detect Jump
 			if (Input.GetKeyDown (KeyCode.Space))
 				Jump ();

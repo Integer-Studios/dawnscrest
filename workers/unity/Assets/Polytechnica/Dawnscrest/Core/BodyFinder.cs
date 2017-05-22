@@ -104,7 +104,7 @@ namespace Polytechnica.Dawnscrest.Core {
 			} else if (family.Count > 0) {
 				Debug.Log ("Looks like you fucking died - nice job retard");
 			} else {
-				Debug.Log ("Welcome to Manifest Destiny - lets start your house");
+				Debug.Log ("Welcome to Dawnscrest - lets start your house");
 				CreateFamily (houseId);
 			}
 
