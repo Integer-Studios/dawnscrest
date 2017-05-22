@@ -1,0 +1,13 @@
+package polytechnica.dawnscrest.player;
+
+component CharacterVitals {
+  id = 1101;
+	
+  float thirst_max = 1;
+  float thirst = 2;
+  float hunger_max = 3;
+  float hunger = 4;
+  float health_max = 5;
+  float health = 6;
+
+}

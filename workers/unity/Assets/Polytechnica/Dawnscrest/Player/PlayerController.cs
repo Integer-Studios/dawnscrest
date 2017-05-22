@@ -5,6 +5,7 @@ using Improbable.Core;
 using Improbable.Math;
 using Improbable.Unity.Visualizer;
 using Polytechnica.Dawnscrest.Core;
+using Polytechnica.Dawnscrest.GUI;
 
 namespace Polytechnica.Dawnscrest.Player {
 
@@ -18,6 +19,7 @@ namespace Polytechnica.Dawnscrest.Player {
 		[Require] private WorldTransform.Writer worldTransformWriter;
 		[Require] private DynamicTransform.Writer dynamicTransformWriter;
 		[Require] private PlayerAnim.Writer playerAnimWriter;
+		[Require] private CharacterVitals.Reader characterVitalsReader;
 
 		public float mouseSensitivity = 8.0f;
 		public float maxSpeed;
@@ -52,18 +54,24 @@ namespace Polytechnica.Dawnscrest.Player {
 		 * Start Functions
 		 */
 		private void OnEnable () {
+			// Disable if this is on the server
 			if (Bootstrap.isServer) {
 				this.enabled = false;
 				return;
 			} else {
 				Bootstrap.OnPlayerSpawn ();
 			}
-			// Fix initialization of scale to 0 by authority latency
-			transform.localScale = Vector3.one;
+
+			// Setup Vitals Reader
+			characterVitalsReader.ComponentUpdated += OnVitalsUpdated;
 
 			// Initialize References
 			anim = GetComponent<Animator> ();
 			rigidBody = GetComponent<Rigidbody> ();
+		}
+
+		private void OnDisable() {
+			characterVitalsReader.ComponentUpdated -= OnVitalsUpdated;
 		}
 
 		private void Start() {
@@ -208,6 +216,15 @@ namespace Polytechnica.Dawnscrest.Player {
 			playerAnimWriter.Send (new PlayerAnim.Update ()
 				.SetPitch(pitch)
 			);
+		}
+
+		/*
+		 * Triggered by component update for vitals, sets HUD sliders
+		 */
+		private void OnVitalsUpdated(CharacterVitals.Update update) {
+			GUIManager.hud.setThirst (update.thirst.Value, update.thirstMax.Value);
+			GUIManager.hud.setHunger (update.hunger.Value, update.hungerMax.Value);
+			GUIManager.hud.setHealth (update.health.Value, update.healthMax.Value);
 		}
 
 		/*

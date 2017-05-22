@@ -18,15 +18,21 @@ using Improbable.Unity.Core.Acls;
 namespace Polytechnica.Dawnscrest.Player {
 
 	/*
-	 * This class handles switching between NPCs and Player control
-	 * The two main functions are set to player and set to npc
-	 * these flip the ACL and give access to remote clients or
-	 * take the access back to the server side
+	 * This class represents everything in common between players and NPCs
+	 * It is always on on a character and also controlls the transfer of ACLs
 	 */
 	public class CharacterController : MonoBehaviour {
 
 		[Require] private Character.Writer characterWriter;
 		[Require] private EntityAcl.Writer aclWriter;
+		[Require] private CharacterVitals.Writer characterVitalsWriter;
+
+		private float maxThirst;
+		private float thirst;
+		private float maxHunger;
+		private float hunger;
+		private float maxHealth;
+		private float health;
 
 		private PlayerOnline playerOnline;
 		private CharacterVisualizer characterVisualizer;
@@ -35,6 +41,8 @@ namespace Polytechnica.Dawnscrest.Player {
 			characterWriter.CommandReceiver.OnEmbody.RegisterResponse (OnEmbody);
 			playerOnline = GetComponent<PlayerOnline> ();
 			characterVisualizer = GetComponent<CharacterVisualizer> ();
+
+			InitializeVitals ();
 
 			// Initialize to NPC ACL
 			playerOnline.enabled = false;
@@ -45,6 +53,15 @@ namespace Polytechnica.Dawnscrest.Player {
 			characterWriter.CommandReceiver.OnEmbody.DeregisterResponse();
 		}
 
+		private void InitializeVitals() {
+			maxThirst = characterVitalsWriter.Data.thirstMax;
+			thirst = characterVitalsWriter.Data.thirst;
+			maxHunger = characterVitalsWriter.Data.hungerMax;
+			hunger = characterVitalsWriter.Data.hunger;
+			maxHealth = characterVitalsWriter.Data.healthMax;
+			health = characterVitalsWriter.Data.health;
+		}
+			
 		/*
 		 * Sets the character to a player auth mode
 		 * This flips the acl to be client authoritative to
@@ -57,6 +74,7 @@ namespace Polytechnica.Dawnscrest.Player {
 			write.Add (DynamicTransform.ComponentId, CommonRequirementSets.SpecificClientOnly (workerId));
 			write.Add (PlayerAnim.ComponentId, CommonRequirementSets.SpecificClientOnly (workerId));
 			write.Add (Character.ComponentId, CommonRequirementSets.PhysicsOnly);
+			write.Add (CharacterVitals.ComponentId, CommonRequirementSets.PhysicsOnly);
 			write.Add (EntityAcl.ComponentId, CommonRequirementSets.PhysicsOnly);
 
 			ComponentAcl acl = new ComponentAcl (write);
@@ -83,6 +101,7 @@ namespace Polytechnica.Dawnscrest.Player {
 			write.Add (DynamicTransform.ComponentId, CommonRequirementSets.PhysicsOnly);
 			write.Add (PlayerAnim.ComponentId, CommonRequirementSets.PhysicsOnly);
 			write.Add (Character.ComponentId, CommonRequirementSets.PhysicsOnly);
+			write.Add (CharacterVitals.ComponentId, CommonRequirementSets.PhysicsOnly);
 			write.Add (EntityAcl.ComponentId, CommonRequirementSets.PhysicsOnly);
 
 			ComponentAcl acl = new ComponentAcl (write);
@@ -95,6 +114,18 @@ namespace Polytechnica.Dawnscrest.Player {
 
 			// Visualizer not needed server side because server is producing the written values
 			characterVisualizer.enabled = false;
+		}
+
+		private void Update() {
+			health -= Time.deltaTime;
+			characterVitalsWriter.Send (new CharacterVitals.Update ()
+				.SetThirstMax (maxThirst)
+				.SetThirst (thirst)
+				.SetHungerMax (maxHunger)
+				.SetHunger (hunger)
+				.SetHealthMax (maxHealth)
+				.SetHealth (health)
+			);
 		}
 
 		/*
