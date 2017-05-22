@@ -9,11 +9,15 @@ namespace Polytechnica.Dawnscrest.Core {
 		
         public WorkerConfigurationData configuration = new WorkerConfigurationData();
 
+		public int debugPlayerID = 1;
+		private static int debugPlayerIDStatic;
+
 		public static bool isServer;
 
 		public static MenuManager menuManager;
 
         private void Start() {
+			debugPlayerIDStatic = debugPlayerID;
 			SpatialOS.ApplyConfiguration(configuration);
 
             Time.fixedDeltaTime = 1.0f / SimulationSettings.FixedFramerate;
@@ -44,7 +48,7 @@ namespace Polytechnica.Dawnscrest.Core {
 			if (menuManager != null) {
 				BodyFinder.FindBody (menuManager.house.id);
 			} else {
-				BodyFinder.FindBody (1);
+				BodyFinder.FindBody (debugPlayerIDStatic);
 			}
         }
 

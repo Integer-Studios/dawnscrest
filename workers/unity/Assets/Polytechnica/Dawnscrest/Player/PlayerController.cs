@@ -114,8 +114,17 @@ namespace Polytechnica.Dawnscrest.Player {
 			UpdateLocomotion ();
 		}
 
+		/*
+		 * Update Function Which will overwrite physics calc's
+		 * This is important because the character movement is done with rigidbody
+		 * velocities so the controls have to overwrite the physics calculations *selectively*
+		 */
 		private void LateUpdate() {
 			hip.transform.eulerAngles = new Vector3 (pitch, hip.transform.eulerAngles.y, hip.transform.eulerAngles.z);
+			// Enact Movement
+			rigidBody.velocity = transform.TransformDirection(velocity) + new Vector3(0f, rigidBody.velocity.y, 0f);
+			// Entact Rotaton
+			rigidBody.MoveRotation(Quaternion.Euler(rigidBody.rotation.eulerAngles + Vector3.up * rotationalVelocity));
 		}
 
 		void FixedUpdate() {
@@ -145,7 +154,7 @@ namespace Polytechnica.Dawnscrest.Player {
 		private void UpdateLocomotionControls() {
 
 			// Velocity Input
-			velocity = DownsampleVelocity(new Vector3 (Input.GetAxis ("Horizontal") * speed, 0f, Input.GetAxis ("Vertical") * speed));
+			velocity = new Vector3 (Input.GetAxis ("Horizontal") * speed, 0f, Input.GetAxis ("Vertical") * speed);
 
 			// Horizontal Mouse Input
 			rotationalVelocity = mouseSensitivity * Input.GetAxis ("Mouse X");
@@ -160,13 +169,10 @@ namespace Polytechnica.Dawnscrest.Player {
 		}
 
 		/*
-		 * Locomotion Enacting
+		 * Locomotion Enacting - Except Physics Velocities (See LateUpdate)
 		 */
 		private void UpdateLocomotion() {
 
-			// Enact Turn
-			transform.Rotate (Vector3.up * rotationalVelocity);
-			
 			// Update Grounded
 			RaycastHit hit;
 			if (Physics.Raycast (transform.position+transform.up, -transform.up, out hit, 2f)) {
@@ -177,9 +183,6 @@ namespace Polytechnica.Dawnscrest.Player {
 				anim.SetBool ("Grounded", false);
 				grounded = false;
 			}
-
-			// Enact Movement
-			rigidBody.velocity = transform.TransformDirection(velocity) + new Vector3(0f, rigidBody.velocity.y, 0f);
 
 			// Enact Jump
 			if (shouldJump) {
@@ -194,7 +197,7 @@ namespace Polytechnica.Dawnscrest.Player {
 			anim.SetFloat ("Vertical", velocity.z / maxSpeed);
 			anim.SetFloat ("Horizontal", rotationalVelocity / maxRotation);
 		}
-
+			
 		/*
 		 * Send a Transform update
 		 */
@@ -208,7 +211,7 @@ namespace Polytechnica.Dawnscrest.Player {
 
 			// Send Velocity Update
 			dynamicTransformWriter.Send(new DynamicTransform.Update()
-				.SetVelocity(MathHelper.toVector3d(velocity))
+				.SetVelocity(MathHelper.toVector3d(DownsampleVelocity(velocity)))
 				.SetRotationalVelocity(rotationalVelocity)
 			);
 

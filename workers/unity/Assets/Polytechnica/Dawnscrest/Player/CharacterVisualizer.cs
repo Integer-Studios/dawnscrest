@@ -85,16 +85,23 @@ namespace Polytechnica.Dawnscrest.Player {
 			UpdateLocomotion ();
 		}
 
+		/*
+		 * Physics part of locomotion update See PlayerController LateUpdate for details
+		 */
 		private void LateUpdate() {
 			if (playerAnimReader.HasAuthority)
 				return;
 
 			// Update Pitch Visualization
 			controller.hip.transform.eulerAngles = new Vector3 (pitch, controller.transform.eulerAngles.y, controller.hip.transform.eulerAngles.z);
+			// Enact Movement
+			rigidBody.velocity = transform.TransformDirection(velocity) + new Vector3(0f, rigidBody.velocity.y, 0f);
+			// Entact Rotaton
+			rigidBody.MoveRotation(Quaternion.Euler(rigidBody.rotation.eulerAngles + Vector3.up * rotationalVelocity));
 		}
 
 		/*
-		 * Visualize Locomotion
+		 * Visualize Locomotion - Except Physics Velocities
 		 */
 		private void UpdateLocomotion() {
 
@@ -109,17 +116,11 @@ namespace Polytechnica.Dawnscrest.Player {
 				grounded = false;
 			}
 
-			// Enact Move
-			rigidBody.velocity = transform.TransformDirection(velocity) + new Vector3(0f, rigidBody.velocity.y, 0f);
-
 			// Enact Jump
 			if (shouldJump) {
 				rigidBody.velocity += new Vector3 (0f, controller.jumpSpeed, 0f);
 				shouldJump = false;
 			}
-
-			// Enact Turn
-			transform.Rotate (Vector3.up * rotationalVelocity);
 
 			// Set Anim Params
 			anim.SetFloat ("Vertical", velocity.z / controller.maxSpeed);
