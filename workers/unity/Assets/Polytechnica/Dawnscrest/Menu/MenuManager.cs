@@ -51,6 +51,7 @@ namespace Polytechnica.Dawnscrest.Menu {
 					m.FadeOut (fade);
 				}
  			}
+			//Waits for all menus to fade out before fading new one in
 			StartCoroutine (FadeInMenu(toLoad));
 
 		}
@@ -98,6 +99,16 @@ namespace Polytechnica.Dawnscrest.Menu {
 			public string error;
 			public override string ToString () {
 				return string.Format ("[HouseData: loginId={0}, name={1}, character={2}, spawned={3}, email={4}, password={5}, status={6}, error={7}, house={8}, irl={9}]", loginId, name, character, spawned, email, password, status, error, id, irl);
+			}
+		}
+
+		[Serializable]
+		public class SaveResponseData {
+			public int status;
+			public string error;
+			public string response;
+			public override string ToString () {
+				return string.Format ("[SaveResponseData]: status={0}, error={1}", status, error);
 			}
 		}
 
