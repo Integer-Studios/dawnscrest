@@ -10,6 +10,7 @@ namespace Polytechnica.Dawnscrest.Menu {
 	public class HouseCreationMenu : Menu {
 
 		public Button next,back;
+		public Dropdown layout, colorOne, colorTwo, sigilColor;
 		public Text houseTitle, errorText;
 		public InputField houseName;
 
@@ -22,6 +23,19 @@ namespace Polytechnica.Dawnscrest.Menu {
 		public override void Initialize() {
 			if (manager.house.name.Length != 0) {
 				houseName.text = manager.house.name;
+
+				if (manager.banner != null) {
+					layout.value = manager.banner.layout;
+					colorOne.value = manager.banner.colorOne;
+					colorTwo.value = manager.banner.colorTwo;
+					sigilColor.value = manager.banner.sigilColor;
+					layout.RefreshShownValue ();
+					colorOne.RefreshShownValue ();
+					colorTwo.RefreshShownValue ();
+					sigilColor.RefreshShownValue ();
+
+				}
+
 			}
 			errorText.text = "";
 
@@ -74,6 +88,11 @@ namespace Polytechnica.Dawnscrest.Menu {
 			form.AddField ("login", manager.house.loginId);
 			form.AddField ("house", manager.house.id);
 			form.AddField ("name", houseName.text);
+
+			form.AddField ("layout", layout.value);
+			form.AddField ("color-one", colorOne.value);
+			form.AddField ("color-two", colorTwo.value);
+			form.AddField ("sigil-color", sigilColor.value);
 
 			WWW w = new WWW ("http://cdn.polytechni.ca/house.php", form);    
 			StartCoroutine (OnSave (w));

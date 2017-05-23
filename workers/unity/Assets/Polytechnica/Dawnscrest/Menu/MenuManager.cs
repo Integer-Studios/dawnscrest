@@ -17,6 +17,7 @@ namespace Polytechnica.Dawnscrest.Menu {
 
 		[HideInInspector]
 		public HouseData house;
+		public BannerData banner = null;
 
 		private int started = 0;
 
@@ -97,8 +98,20 @@ namespace Polytechnica.Dawnscrest.Menu {
 			public string password;
 			public int status;
 			public string error;
+			public string banner;
 			public override string ToString () {
-				return string.Format ("[HouseData: loginId={0}, name={1}, character={2}, spawned={3}, email={4}, password={5}, status={6}, error={7}, house={8}, irl={9}]", loginId, name, character, spawned, email, password, status, error, id, irl);
+				return string.Format ("[HouseData: loginId={0}, name={1}, character={2}, spawned={3}, email={4}, password={5}, status={6}, error={7}, house={8}, irl={9}], banner={10}", loginId, name, character, spawned, email, password, status, error, id, irl, banner);
+			}
+		}
+
+		[Serializable]
+		public class BannerData {
+			public int layout;
+			public int colorOne;
+			public int colorTwo;
+			public int sigilColor;
+			public override string ToString ()	{
+				return string.Format ("[BannerData]: layout={0}, colorOne={1}", layout, colorOne);
 			}
 		}
 
