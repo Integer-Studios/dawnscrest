@@ -77,7 +77,10 @@ namespace Polytechnica.Dawnscrest.Menu {
 
 			if (_w.error == null) {
 				MenuManager.HouseData house = JsonUtility.FromJson<MenuManager.HouseData> (_w.text);
-				Debug.Log (house.ToString ());
+				if (house.banner.Length > 1) {
+					manager.banner = JsonUtility.FromJson<MenuManager.BannerData> (house.banner);
+
+				}
 				if (house.status != 200) {
 					//failed
 					errorText.text = house.error;
