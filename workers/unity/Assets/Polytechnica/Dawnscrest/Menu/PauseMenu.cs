@@ -7,10 +7,11 @@ namespace Polytechnica.Dawnscrest.Menu {
 
 	public class PauseMenu : Menu {
 
-		public Button logout;
+		public Button logout, close;
 
 		public override void Start() {
 			base.Start ();
+			close.onClick.AddListener (OnClose);
 		}
 
 		public override void Initialize() {
@@ -19,6 +20,10 @@ namespace Polytechnica.Dawnscrest.Menu {
 		public override void Update() {
 			base.Update ();
 
+		}
+
+		protected void OnClose() {
+			this.FadeOut ();
 		}
 
 		protected override void OnShow() {
