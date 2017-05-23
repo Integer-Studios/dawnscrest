@@ -85,7 +85,7 @@ namespace Polytechnica.Dawnscrest.Menu {
 			canvas.gameObject.GetComponent<CanvasGroup> ();
 
 			HideMenus ();
-			GUIManager.Show ();
+//			GUIManager.Show ();
 		}
 
 		/*

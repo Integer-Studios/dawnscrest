@@ -1,0 +1,13 @@
+package polytechnica.dawnscrest.player;
+
+component CharacterAppearance {
+  id = 1102;
+	
+  bool sex = 1;
+  uint32 hair_color = 2;
+  uint32 eye_color = 3;
+  uint32 build = 4;
+  uint32 hair = 5;
+  uint32 facial_hair = 6;
+
+}

@@ -2,17 +2,28 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Polytechnica.Dawnscrest.Player;
 
 namespace Polytechnica.Dawnscrest.GUI {
 
 	public class HUD : MonoBehaviour {
 
+		public Camera photoboothCam;
+		public AppearanceVisualizer photoboothCharacter;
+		public RawImage portrait;
 		public Slider thirstSlider;
 		public Slider hungerSlider;
 		public Slider healthSlider;
 		public Text thirstText;
 		public Text hungerText;
 		public Text healthText;
+
+		public void setPortraitAppearanceFromUpdate(CharacterAppearance.Update update) {
+			// Change the guy
+			photoboothCharacter.setAppearanceFromUpdate (update);
+			// Take a picture of the new guy
+			photoboothCam.Render();
+		}
 
 		public void setThirst(float value, float maxValue) {
 			thirstSlider.maxValue = maxValue;

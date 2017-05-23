@@ -75,6 +75,7 @@ namespace Polytechnica.Dawnscrest.Player {
 			write.Add (PlayerAnim.ComponentId, CommonRequirementSets.SpecificClientOnly (workerId));
 			write.Add (Character.ComponentId, CommonRequirementSets.PhysicsOnly);
 			write.Add (CharacterVitals.ComponentId, CommonRequirementSets.PhysicsOnly);
+			write.Add (CharacterAppearance.ComponentId, CommonRequirementSets.PhysicsOnly);
 			write.Add (EntityAcl.ComponentId, CommonRequirementSets.PhysicsOnly);
 
 			ComponentAcl acl = new ComponentAcl (write);
@@ -102,6 +103,7 @@ namespace Polytechnica.Dawnscrest.Player {
 			write.Add (PlayerAnim.ComponentId, CommonRequirementSets.PhysicsOnly);
 			write.Add (Character.ComponentId, CommonRequirementSets.PhysicsOnly);
 			write.Add (CharacterVitals.ComponentId, CommonRequirementSets.PhysicsOnly);
+			write.Add (CharacterAppearance.ComponentId, CommonRequirementSets.PhysicsOnly);
 			write.Add (EntityAcl.ComponentId, CommonRequirementSets.PhysicsOnly);
 
 			ComponentAcl acl = new ComponentAcl (write);
