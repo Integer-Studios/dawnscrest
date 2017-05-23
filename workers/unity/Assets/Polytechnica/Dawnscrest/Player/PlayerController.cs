@@ -154,6 +154,12 @@ namespace Polytechnica.Dawnscrest.Player {
 				GUIManager.crosshair.SetTooltip ("Pick\nRequired");
 			}
 
+			if (Input.GetKey (KeyCode.Escape)) {
+				Cursor.lockState = CursorLockMode.None;
+				Cursor.visible = true;
+				Bootstrap.menuManager.LoadMenu (Polytechnica.Dawnscrest.Menu.MenuManager.MenuType.PAUSE);
+			}
+
 			// Detect Jump
 			if (Input.GetKeyDown (KeyCode.Space))
 				Jump ();

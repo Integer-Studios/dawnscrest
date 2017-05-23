@@ -12,6 +12,7 @@ namespace Polytechnica.Dawnscrest.Menu {
 
 		public Canvas canvas;
 		public Menu[] menus;
+		public UnityEngine.UI.Image menuBackground;
 
 		public string version = "0.0";
 		public bool debug = false;
@@ -59,6 +60,16 @@ namespace Polytechnica.Dawnscrest.Menu {
 		}
 
 		/*
+		 *	Fades out all menus AND BG
+		 */
+		public void HideMenus() {
+			foreach (Menu m in menus) {
+				m.FadeOut ();
+			}
+			menuBackground.color = new Color (0, 0, 0, 0);
+		}
+
+		/*
 		 *	Triggered when loading screen is fully visible
 		 */
 		public IEnumerator StartGame(LoadingMenu m) {
@@ -73,7 +84,7 @@ namespace Polytechnica.Dawnscrest.Menu {
 
 			canvas.gameObject.GetComponent<CanvasGroup> ();
 
-			Destroy (canvas.gameObject);
+			HideMenus ();
 			GUIManager.Show ();
 		}
 
@@ -86,7 +97,8 @@ namespace Polytechnica.Dawnscrest.Menu {
 			SETTINGS,
 			HOUSE_CREATION,
 			CUSTOMIZATION,
-			LOADING
+			LOADING,
+			PAUSE
 		}
 			
 		[Serializable]
