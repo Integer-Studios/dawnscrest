@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.IO;
 using System;
+using Polytechnica.Dawnscrest.GUI;
 
 namespace Polytechnica.Dawnscrest.Menu {
 
@@ -60,8 +61,9 @@ namespace Polytechnica.Dawnscrest.Menu {
 		/*
 		 *	Triggered when loading screen is fully visible
 		 */
-		public void StartGame() {
-			SceneManager.LoadScene ("UnityClient");
+		public IEnumerator StartGame(LoadingMenu m) {
+			m.async =  SceneManager.LoadSceneAsync ("UnityClient");
+			yield return m.async;
 		}
 
 		/*
@@ -72,6 +74,7 @@ namespace Polytechnica.Dawnscrest.Menu {
 			canvas.gameObject.GetComponent<CanvasGroup> ();
 
 			Destroy (canvas.gameObject);
+			GUIManager.Show ();
 		}
 
 		/*

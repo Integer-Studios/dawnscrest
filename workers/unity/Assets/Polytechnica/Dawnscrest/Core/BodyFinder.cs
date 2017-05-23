@@ -9,6 +9,7 @@ using Improbable.Worker;
 using Improbable.Worker.Query;
 using Improbable.Collections;
 using Improbable.Unity.Core.Acls;
+using Polytechnica.Dawnscrest.Menu;
 
 namespace Polytechnica.Dawnscrest.Core {
 
@@ -24,6 +25,8 @@ namespace Polytechnica.Dawnscrest.Core {
 		 * a component set up server side to handle creation requests
 		 */
 		public static void CreateFamily(int house) {
+			LoadingMenu.stage = 3;
+
 			EntityQuery characterQuery = Query.HasComponent<CharacterCreatorController> ().ReturnOnlyEntityIds ();
 			SpatialOS.WorkerCommands.SendQuery(characterQuery, queryResult => OnCreateQueryResult(queryResult, house));
 		}
@@ -62,6 +65,8 @@ namespace Polytechnica.Dawnscrest.Core {
 		 * TODO Optimize this query process by having an SQL link to families
 		 */
 		public static void FindBody(int house) {
+			LoadingMenu.stage = 4;
+
 			EntityQuery characterQuery = Query.HasComponent<Character> ().ReturnComponents (1003);
 			SpatialOS.WorkerCommands.SendQuery(characterQuery, queryResult => OnQueryResult(queryResult, house));
 		}
