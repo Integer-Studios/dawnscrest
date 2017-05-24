@@ -51,7 +51,7 @@ namespace Polytechnica.Dawnscrest.Core {
 				BodyFinder.FindBody (debugPlayerIDStatic);
 			}
         }
-
+			
 		public static void OnPlayerSpawn() {
 			if (menuManager != null) {
 				menuManager.OnGameStarted ();

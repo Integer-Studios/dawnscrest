@@ -20,6 +20,8 @@ namespace Polytechnica.Dawnscrest.Core {
 	 */
 	public class BodyFinder {
 
+		private static EntityId activeCharacter;
+
 		/*
 		 * Creates a new Family request, this first part simply queries to find the CharacterCreator,
 		 * a component set up server side to handle creation requests
@@ -86,7 +88,7 @@ namespace Polytechnica.Dawnscrest.Core {
 			// Parse query for family and active character
 			Map<EntityId, Entity> characters = queriedEntities.Entities;
 			Map<EntityId, Entity> family = new Map<EntityId, Entity>();
-			EntityId activeCharacter = new EntityId();
+			activeCharacter = new EntityId();
 			bool activeCharacterFound = false;
 			foreach (var c in characters) {
 				Entity e = c.Value;
@@ -118,6 +120,16 @@ namespace Polytechnica.Dawnscrest.Core {
 		private static void OnEmbodyFailure(ICommandErrorDetails error) {
 			Debug.LogWarning("Embody command failed - you probably tried to connect too soon. Try again in a few seconds.");
 		}
+
+		public static void Logout() {
+			SpatialOS.WorkerCommands.SendCommand (Character.Commands.Logout.Descriptor, new Nothing (), activeCharacter)
+				.OnFailure(error => OnLogoutFailure(error));
+		}
+
+		private static void OnLogoutFailure(ICommandErrorDetails error) {
+			Debug.LogWarning("Logout command failed - you probably tried to connect too soon. Try again in a few seconds.");
+		}
+
 	}
 
 }

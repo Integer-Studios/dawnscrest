@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Polytechnica.Dawnscrest.Core;
 
 namespace Polytechnica.Dawnscrest.Menu {
 
@@ -11,6 +12,8 @@ namespace Polytechnica.Dawnscrest.Menu {
 
 		public override void Start() {
 			base.Start ();
+			logout.onClick.AddListener (OnLogout);
+
 			close.onClick.AddListener (OnClose);
 		}
 
@@ -20,6 +23,10 @@ namespace Polytechnica.Dawnscrest.Menu {
 		public override void Update() {
 			base.Update ();
 
+		}
+
+		protected void OnLogout() {
+			BodyFinder.Logout ();
 		}
 
 		protected void OnClose() {

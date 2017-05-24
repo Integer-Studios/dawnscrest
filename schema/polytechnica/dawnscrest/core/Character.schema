@@ -8,4 +8,6 @@ component Character {
     bool active = 3;
 
     command polytechnica.dawnscrest.core.Nothing embody(polytechnica.dawnscrest.core.Nothing);
+command polytechnica.dawnscrest.core.Nothing 
+logout(polytechnica.dawnscrest.core.Nothing);
 }

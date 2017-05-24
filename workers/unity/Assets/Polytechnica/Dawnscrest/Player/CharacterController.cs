@@ -39,6 +39,7 @@ namespace Polytechnica.Dawnscrest.Player {
 
 		private void OnEnable () {
 			characterWriter.CommandReceiver.OnEmbody.RegisterResponse (OnEmbody);
+			characterWriter.CommandReceiver.OnLogout.RegisterResponse (OnLogout);
 			playerOnline = GetComponent<PlayerOnline> ();
 			characterVisualizer = GetComponent<CharacterVisualizer> ();
 
@@ -136,6 +137,17 @@ namespace Polytechnica.Dawnscrest.Player {
 		private Nothing OnEmbody(Nothing n, ICommandCallerInfo callerInfo) {
 			Debug.Log ("Embody request with worker ID:" + callerInfo.CallerWorkerId);
 			setToPlayer (callerInfo.CallerWorkerId);
+			return new Nothing ();
+		}
+
+		/*
+		 * This is a command handler for an embodiment request. It is called by a client when login occurs
+		 * And after that client has identiifed this haracter as its body. From here the character is set
+		 * to player mode
+		 */
+		private Nothing OnLogout(Nothing n, ICommandCallerInfo callerInfo) {
+			Debug.Log ("Logout request with worker ID:" + callerInfo.CallerWorkerId);
+			setToNPC ();
 			return new Nothing ();
 		}
 
