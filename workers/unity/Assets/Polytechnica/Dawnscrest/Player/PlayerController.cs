@@ -20,6 +20,7 @@ namespace Polytechnica.Dawnscrest.Player {
 		[Require] private DynamicTransform.Writer dynamicTransformWriter;
 		[Require] private PlayerAnim.Writer playerAnimWriter;
 		[Require] private CharacterVitals.Reader characterVitalsReader;
+		[Require] private CharacterAppearance.Reader appearanceReader;
 
 		public float mouseSensitivity = 8.0f;
 		public float maxSpeed;
@@ -39,16 +40,19 @@ namespace Polytechnica.Dawnscrest.Player {
 		private bool rightHand;
 		private bool isConsuming;
 		private bool isInteracting;
-		private Animator anim;
-		private Rigidbody rigidBody;
 		private bool shouldJump;
 		private bool grounded = false;
 		private GameObject groundObject;
 
-		//Control
+		// Control
 		private GameObject playerCamera;
 		private float speed;
 		private float pitch, deltaPitch;
+
+		// References
+		private AppearanceVisualizer appearanceVisualizer;
+		private Animator anim;
+		private Rigidbody rigidBody;
 
 		/*
 		 * Start Functions
@@ -64,10 +68,15 @@ namespace Polytechnica.Dawnscrest.Player {
 
 			// Setup Vitals Reader
 			characterVitalsReader.ComponentUpdated += OnVitalsUpdated;
+			appearanceReader.ComponentUpdated += OnAppearanceUpdated;
 
 			// Initialize References
 			anim = GetComponent<Animator> ();
 			rigidBody = GetComponent<Rigidbody> ();
+			appearanceVisualizer = GetComponent<AppearanceVisualizer> ();
+
+			// Initialize Appearance
+			appearanceVisualizer.InitializeFromData(appearanceReader.Data);
 		}
 
 		private void OnDisable() {
@@ -157,7 +166,7 @@ namespace Polytechnica.Dawnscrest.Player {
 			if (Input.GetKey (KeyCode.Escape)) {
 				Cursor.lockState = CursorLockMode.None;
 				Cursor.visible = true;
-				Bootstrap.menuManager.LoadMenu (Polytechnica.Dawnscrest.Menu.MenuManager.MenuType.PAUSE);
+//				Bootstrap.menuManager.LoadMenu (Polytechnica.Dawnscrest.Menu.MenuManager.MenuType.PAUSE);
 			}
 
 			// Detect Jump
@@ -245,6 +254,14 @@ namespace Polytechnica.Dawnscrest.Player {
 			GUIManager.hud.setThirst (update.thirst.Value, update.thirstMax.Value);
 			GUIManager.hud.setHunger (update.hunger.Value, update.hungerMax.Value);
 			GUIManager.hud.setHealth (update.health.Value, update.healthMax.Value);
+		}
+
+		/*
+		 * Triggered by component update for appearance
+		 */
+		private void OnAppearanceUpdated(CharacterAppearance.Update update) {
+			appearanceVisualizer.setAppearanceFromUpdate (update);
+			GUIManager.hud.setPortraitAppearanceFromUpdate (update);
 		}
 
 		/*

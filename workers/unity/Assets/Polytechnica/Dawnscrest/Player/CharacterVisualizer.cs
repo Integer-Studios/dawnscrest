@@ -19,6 +19,7 @@ namespace Polytechnica.Dawnscrest.Player {
 		[Require] private WorldTransform.Reader worldTransformReader;
 		[Require] private DynamicTransform.Reader dynamicTransformReader;
 		[Require] private PlayerAnim.Reader playerAnimReader;
+		[Require] private CharacterAppearance.Reader appearanceReader;
 
 		public float ipPositionAllowance;
 		public float ipRotationAllowance;
@@ -40,6 +41,7 @@ namespace Polytechnica.Dawnscrest.Player {
 
 		//References
 		private PlayerController controller;
+		private AppearanceVisualizer appearanceVisualizer;
 
 		/*
 		 * 
@@ -48,9 +50,17 @@ namespace Polytechnica.Dawnscrest.Player {
 		 */
 		void OnEnable () {
 
+			// Initialize References
+			controller = GetComponent<PlayerController> ();
+			anim = GetComponent<Animator> ();
+			rigidBody = GetComponent<Rigidbody> ();
+			rigidBody.interpolation = RigidbodyInterpolation.Interpolate;
+			appearanceVisualizer = GetComponent<AppearanceVisualizer> ();
+
 			// Register Listeners
 			worldTransformReader.ComponentUpdated += OnWorldTransformUpdated;
 			dynamicTransformReader.ComponentUpdated += OnDynamicTransformUpdated;
+			appearanceReader.ComponentUpdated += OnAppearanceUpdated;
 			playerAnimReader.JumpTriggered += OnJump;
 			playerAnimReader.PitchUpdated += OnPitchUpdated;
 
@@ -59,11 +69,8 @@ namespace Polytechnica.Dawnscrest.Player {
 			transform.eulerAngles = MathHelper.toVector3(worldTransformReader.Data.rotation);
 			transform.localScale = MathHelper.toVector3 (worldTransformReader.Data.scale);
 
-			// Initialize References
-			controller = GetComponent<PlayerController> ();
-			anim = GetComponent<Animator> ();
-			rigidBody = GetComponent<Rigidbody> ();
-			rigidBody.interpolation = RigidbodyInterpolation.Interpolate;
+			// Initialize Appearance
+			appearanceVisualizer.InitializeFromData(appearanceReader.Data);
 		}
 
 		void OnDisable () {
@@ -179,6 +186,10 @@ namespace Polytechnica.Dawnscrest.Player {
 		 */
 		private void OnPitchUpdated(float p) {
 			pitch = p;
+		}
+
+		private void OnAppearanceUpdated(CharacterAppearance.Update update) {
+			appearanceVisualizer.setAppearanceFromUpdate (update);
 		}
 
 		/*

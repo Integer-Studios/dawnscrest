@@ -17,6 +17,7 @@ namespace Polytechnica.Dawnscrest.Core {
 			template.Add (new PlayerAnim.Data (false, 0, false, false));
 			template.Add (new Character.Data ((uint)houseId, active));
 			template.Add (new CharacterVitals.Data (100f,100f,100f,100f,100f,100f));
+			template.Add (new CharacterAppearance.Data (true,0,0,0,0,0));
 			var acl = Acl.Build ()
 				.SetReadAccess (CommonRequirementSets.PhysicsOrVisual)
 				.SetWriteAccess<WorldTransform> (CommonRequirementSets.PhysicsOnly)
@@ -24,6 +25,7 @@ namespace Polytechnica.Dawnscrest.Core {
 				.SetWriteAccess<PlayerAnim> (CommonRequirementSets.PhysicsOnly)
 				.SetWriteAccess<Character> (CommonRequirementSets.PhysicsOnly)
 				.SetWriteAccess<CharacterVitals>(CommonRequirementSets.PhysicsOnly)
+				.SetWriteAccess<CharacterAppearance>(CommonRequirementSets.PhysicsOnly)
 				.SetWriteAccess<EntityAcl>(CommonRequirementSets.PhysicsOnly);
 			template.SetAcl(acl);
 			return template;
