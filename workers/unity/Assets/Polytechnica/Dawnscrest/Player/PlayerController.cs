@@ -74,13 +74,11 @@ namespace Polytechnica.Dawnscrest.Player {
 			anim = GetComponent<Animator> ();
 			rigidBody = GetComponent<Rigidbody> ();
 			appearanceVisualizer = GetComponent<AppearanceVisualizer> ();
-
-			// Initialize Appearance
-			appearanceVisualizer.InitializeFromData(appearanceReader.Data);
 		}
 
 		private void OnDisable() {
 			characterVitalsReader.ComponentUpdated -= OnVitalsUpdated;
+			appearanceReader.ComponentUpdated -= OnAppearanceUpdated;
 		}
 
 		private void Start() {
@@ -251,17 +249,16 @@ namespace Polytechnica.Dawnscrest.Player {
 		 * Triggered by component update for vitals, sets HUD sliders
 		 */
 		private void OnVitalsUpdated(CharacterVitals.Update update) {
-			GUIManager.hud.setThirst (update.thirst.Value, update.thirstMax.Value);
-			GUIManager.hud.setHunger (update.hunger.Value, update.hungerMax.Value);
-			GUIManager.hud.setHealth (update.health.Value, update.healthMax.Value);
+			GUIManager.hud.SetThirst (update.thirst.Value, update.thirstMax.Value);
+			GUIManager.hud.SetHunger (update.hunger.Value, update.hungerMax.Value);
+			GUIManager.hud.SetHealth (update.health.Value, update.healthMax.Value);
 		}
 
 		/*
 		 * Triggered by component update for appearance
 		 */
 		private void OnAppearanceUpdated(CharacterAppearance.Update update) {
-			appearanceVisualizer.setAppearanceFromUpdate (update);
-			GUIManager.hud.setPortraitAppearanceFromUpdate (update);
+			GUIManager.hud.SetPortraitAppearance (AppearanceSet.GetSetFromUpdate (update));
 		}
 
 		/*
