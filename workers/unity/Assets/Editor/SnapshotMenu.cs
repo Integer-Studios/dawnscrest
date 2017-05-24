@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
+using Improbable.Math;
+using Polytechnica.Dawnscrest.World;
 
 namespace Polytechnica.Dawnscrest.Editor {
 	public class SnapshotMenu : MonoBehaviour {
@@ -15,8 +17,15 @@ namespace Polytechnica.Dawnscrest.Editor {
 			var snapshotEntities = new Dictionary<EntityId, SnapshotEntity>();
 
 			var currentEntityId = 1;
-//			snapshotEntities.Add(new EntityId(currentEntityId++), EntityTemplateFactory.CreateGroundTemplate());
 			snapshotEntities.Add(new EntityId(currentEntityId++), EntityTemplateFactory.CreateCharacterCreatorTemplate());
+
+			int radius = 2;
+			for (int z = -radius; z <= radius; z++) {
+				for (int x = -radius; x <= radius; x++) {
+					snapshotEntities.Add(new EntityId(currentEntityId++), EntityTemplateFactory.CreateTerrainChunkTemplate(x, z));
+				}
+			}
+
 			SaveSnapshot(snapshotEntities);
 		}
 

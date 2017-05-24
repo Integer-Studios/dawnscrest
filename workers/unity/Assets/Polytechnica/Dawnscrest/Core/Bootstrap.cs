@@ -3,6 +3,7 @@ using Improbable.Unity.Configuration;
 using Improbable.Unity.Core;
 using UnityEngine;
 using Polytechnica.Dawnscrest.Menu;
+using Polytechnica.Dawnscrest.World;
 
 namespace Polytechnica.Dawnscrest.Core {
     public class Bootstrap : MonoBehaviour {
@@ -27,6 +28,7 @@ namespace Polytechnica.Dawnscrest.Core {
 				isServer = true;
 				Debug.Log ("Starting Worker");
                 Application.targetFrameRate = SimulationSettings.TargetServerFramerate;
+				SpatialOS.OnConnected += OnServerConnected;
                 SpatialOS.OnDisconnected += reason => Application.Quit();
                 break;
 			case WorkerPlatform.UnityClient:
@@ -34,17 +36,21 @@ namespace Polytechnica.Dawnscrest.Core {
 				Debug.Log ("Starting Client");
 				Bootstrap.menuManager = FindObjectOfType<MenuManager> ();
                 Application.targetFrameRate = SimulationSettings.TargetClientFramerate;
-                SpatialOS.OnConnected += OnSpatialOsConnection;
+				SpatialOS.OnConnected += OnClientConnected;
                 break;
             }
 
             SpatialOS.Connect(gameObject);
         }
 
+		private static void OnServerConnected() {
+			
+		}
+
 		/*
 		 * On Connection to spatial, client start
 		 */
-        private static void OnSpatialOsConnection() {
+        private static void OnClientConnected() {
 			if (menuManager != null) {
 				BodyFinder.FindBody (menuManager.house.id);
 			} else {
