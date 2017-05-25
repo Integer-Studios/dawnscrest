@@ -26,7 +26,6 @@ namespace Polytechnica.Dawnscrest.Menu {
 		}
 
 		protected void OnLogout() {
-			BodyFinder.Logout ();
 		}
 
 		protected void OnClose() {

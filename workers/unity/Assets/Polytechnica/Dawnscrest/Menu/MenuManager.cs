@@ -97,8 +97,7 @@ namespace Polytechnica.Dawnscrest.Menu {
 			SETTINGS,
 			HOUSE_CREATION,
 			CUSTOMIZATION,
-			LOADING,
-			PAUSE
+			LOADING
 		}
 			
 		[Serializable]

@@ -16,12 +16,17 @@ namespace Polytechnica.Dawnscrest.Player {
 
 	public class AppearanceSet {
 		public bool sex;
-		int hairColor;
-		int eyeColor;
-		int build;
-		int hair;
-		int facialHair;
+		public int hairColor;
+		public int eyeColor;
+		public int build;
+		public int hair;
+		public int facialHair;
 		// maybe we'll put clothes in here too later
+
+		public override string ToString ()
+		{
+			return string.Format ("[AppearanceSet]: sex={0}, hairColor={1}, eyeColor={2}, build={3}, hair={4}, facialHair={5}", sex, hairColor, eyeColor, build, hair, facialHair);
+		}
 
 		public static AppearanceSet GetSetFromUpdate(CharacterAppearance.Update update) {
 			return null;

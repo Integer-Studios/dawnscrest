@@ -143,5 +143,14 @@ namespace Polytechnica.Dawnscrest.Menu {
 			}
 		}
 
+		public virtual void OnPointerDown(PointerEventData eventData, int id)
+		{
+		}
+
+		public virtual void OnPointerUp(PointerEventData eventData, int id)
+		{
+			
+		}
+
 	}
 }

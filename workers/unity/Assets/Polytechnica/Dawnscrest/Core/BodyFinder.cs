@@ -121,11 +121,6 @@ namespace Polytechnica.Dawnscrest.Core {
 			Debug.LogWarning("Embody command failed - you probably tried to connect too soon. Try again in a few seconds.");
 		}
 
-		public static void Logout() {
-			SpatialOS.WorkerCommands.SendCommand (Character.Commands.Logout.Descriptor, new Nothing (), activeCharacter)
-				.OnFailure(error => OnLogoutFailure(error));
-		}
-
 		private static void OnLogoutFailure(ICommandErrorDetails error) {
 			Debug.LogWarning("Logout command failed - you probably tried to connect too soon. Try again in a few seconds.");
 		}
