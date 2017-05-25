@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using Polytechnica.Dawnscrest.Player;
+using System.Text.RegularExpressions;
 
 namespace Polytechnica.Dawnscrest.Menu {
 
@@ -92,6 +93,7 @@ namespace Polytechnica.Dawnscrest.Menu {
 			WWWForm form = new WWWForm ();
 
 			form.AddField ("heritage", heritage.value);
+			form.AddField ("gender", gender.value);
 
 			WWW w = new WWW ("http://cdn.polytechni.ca/fetch_name.php", form);    
 			StartCoroutine (OnNewName (w));
@@ -99,10 +101,10 @@ namespace Polytechnica.Dawnscrest.Menu {
 
 		protected IEnumerator OnNewName(WWW _w) {
 			yield return _w; 
-
+			
 			if (_w.error == null) {
 				try {
-					nameText.text = _w.text + " " + manager.house.name;
+					nameText.text = Regex.Replace(_w.text, @"\s+", "") + " " + manager.house.name;
 				} catch (System.ArgumentException e) {
 					errorText.text = "Name Fetch Failed! Please Try Again.";
 
