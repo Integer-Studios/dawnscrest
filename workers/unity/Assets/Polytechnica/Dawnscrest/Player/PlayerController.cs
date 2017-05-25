@@ -26,6 +26,7 @@ namespace Polytechnica.Dawnscrest.Player {
 		public float maxSpeed;
 		public float maxRotation;
 		public float jumpSpeed;
+		public Material cullingMaterial; 
 		public GameObject hairMesh;
 		public GameObject bodyMesh;
 		public Mesh fpsMesh;
@@ -74,13 +75,11 @@ namespace Polytechnica.Dawnscrest.Player {
 			anim = GetComponent<Animator> ();
 			rigidBody = GetComponent<Rigidbody> ();
 			appearanceVisualizer = GetComponent<AppearanceVisualizer> ();
-
-			// Initialize Appearance
-			appearanceVisualizer.InitializeFromData(appearanceReader.Data);
 		}
 
 		private void OnDisable() {
 			characterVitalsReader.ComponentUpdated -= OnVitalsUpdated;
+			appearanceReader.ComponentUpdated -= OnAppearanceUpdated;
 		}
 
 		private void Start() {
@@ -93,13 +92,19 @@ namespace Polytechnica.Dawnscrest.Player {
 		 */
 		private void setUpFPS() {
 			// Setup FPS Model
-			Destroy (hairMesh);
-			bodyMesh.GetComponent<SkinnedMeshRenderer> ().sharedMesh = fpsMesh;
+			Material[] mats = hairMesh.GetComponent<SkinnedMeshRenderer>().materials;
+			mats [0] = cullingMaterial;
+			hairMesh.GetComponent<SkinnedMeshRenderer> ().materials = mats;
+//			Destroy (hairMesh);
+			mats = bodyMesh.GetComponent<SkinnedMeshRenderer> ().materials;
+			mats [0] = cullingMaterial;
+			bodyMesh.GetComponent<SkinnedMeshRenderer> ().materials = mats;
+			bodyMesh.GetComponent<SkinnedMeshRenderer> ().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
 
 			// Setup FPS Camera
 			playerCamera = GameObject.FindGameObjectWithTag("MainCamera");
 			playerCamera.transform.parent = transform;
-			playerCamera.transform.localPosition = new Vector3 (0f, 2.3f, 0f);
+			playerCamera.transform.localPosition = new Vector3 (0f, 3f, 0f);
 			playerCamera.transform.localRotation = Quaternion.Euler (new Vector3 (20f, 0f, 0f));
 
 			// Set up FPS Cursor
@@ -251,17 +256,16 @@ namespace Polytechnica.Dawnscrest.Player {
 		 * Triggered by component update for vitals, sets HUD sliders
 		 */
 		private void OnVitalsUpdated(CharacterVitals.Update update) {
-			GUIManager.hud.setThirst (update.thirst.Value, update.thirstMax.Value);
-			GUIManager.hud.setHunger (update.hunger.Value, update.hungerMax.Value);
-			GUIManager.hud.setHealth (update.health.Value, update.healthMax.Value);
+			GUIManager.hud.SetThirst (update.thirst.Value, update.thirstMax.Value);
+			GUIManager.hud.SetHunger (update.hunger.Value, update.hungerMax.Value);
+			GUIManager.hud.SetHealth (update.health.Value, update.healthMax.Value);
 		}
 
 		/*
 		 * Triggered by component update for appearance
 		 */
 		private void OnAppearanceUpdated(CharacterAppearance.Update update) {
-			appearanceVisualizer.setAppearanceFromUpdate (update);
-			GUIManager.hud.setPortraitAppearanceFromUpdate (update);
+			GUIManager.hud.SetPortraitAppearance (AppearanceSet.GetSetFromUpdate (update));
 		}
 
 		/*

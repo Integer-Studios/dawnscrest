@@ -70,15 +70,17 @@ namespace Polytechnica.Dawnscrest.Player {
 			transform.localScale = MathHelper.toVector3 (worldTransformReader.Data.scale);
 
 			// Initialize Appearance
-			appearanceVisualizer.InitializeFromData(appearanceReader.Data);
+			appearanceVisualizer.SetAppearance(AppearanceSet.GetSetFromData(appearanceReader.Data));
 		}
 
 		void OnDisable () {
 			// UnRegister Listeners
 			worldTransformReader.ComponentUpdated -= OnWorldTransformUpdated;
 			dynamicTransformReader.ComponentUpdated -= OnDynamicTransformUpdated;
+			appearanceReader.ComponentUpdated -= OnAppearanceUpdated;
 			playerAnimReader.JumpTriggered -= OnJump;
 			playerAnimReader.PitchUpdated -= OnPitchUpdated;
+
 		}
 
 		/*
@@ -189,7 +191,7 @@ namespace Polytechnica.Dawnscrest.Player {
 		}
 
 		private void OnAppearanceUpdated(CharacterAppearance.Update update) {
-			appearanceVisualizer.setAppearanceFromUpdate (update);
+			appearanceVisualizer.SetAppearance (AppearanceSet.GetSetFromUpdate(update));
 		}
 
 		/*

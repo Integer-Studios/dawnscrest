@@ -2,7 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AppearanceSettings : MonoBehaviour {
+namespace Polytechnica.Dawnscrest.Player {
 
+	public class AppearanceSettings : MonoBehaviour {
+
+		
+	}
 
 }

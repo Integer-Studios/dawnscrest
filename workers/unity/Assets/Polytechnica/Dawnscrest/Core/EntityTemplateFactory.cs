@@ -5,6 +5,8 @@ using Improbable.Worker;
 using Improbable;
 using UnityEngine;
 using Polytechnica.Dawnscrest.Player;
+using Polytechnica.Dawnscrest.World;
+using Improbable.Collections;
 
 namespace Polytechnica.Dawnscrest.Core {
 	
@@ -35,6 +37,16 @@ namespace Polytechnica.Dawnscrest.Core {
 			var template = new SnapshotEntity { Prefab = "CharacterCreator" };
 			template.Add(new WorldTransform.Data(Coordinates.ZERO, new Vector3d(0,0,0), new Vector3d(0,0,0)));
 			template.Add (new CharacterCreatorController.Data ());
+			var acl = Acl.GenerateServerAuthoritativeAcl(template);
+			template.SetAcl(acl);
+			return template;
+		}
+
+		public static SnapshotEntity CreateTerrainChunkTemplate(int x, int z) {
+			Coordinates c = Coordinates.ZERO;
+			var template = new SnapshotEntity { Prefab = "TerrainChunk" };
+			template.Add(new WorldTransform.Data(c, new Vector3d(0,0,0), new Vector3d(1,1,1)));
+			template.Add (new TerrainChunk.Data (new List<float> (),64*x,64*z, 0, 0));
 			var acl = Acl.GenerateServerAuthoritativeAcl(template);
 			template.SetAcl(acl);
 			return template;

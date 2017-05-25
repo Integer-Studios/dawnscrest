@@ -1,23 +1,12 @@
-# Blank Project
+# Dawnscrest
 ---
 
-*Copyright Improbable Worlds Ltd, 2017*
-
-- *GitHub repository*: [https://github.com/spatialos/BlankProject](https://github.com/spatialos/BlankProject)
+Polytechnica Studios
 
 ---
 
 ## Introduction
 
-This is a blank SpatialOS project that you can use to build your own SpatialOS application.
+This the spatialOS project for Dawnscrest, a MMORTS sandbox game developed by Polytechnica.
 
-It contains:
-
-* A SpatialOS project descriptor.
-* A Unity worker.
-* Bare-bones Launch Configurations for automatically and manually launching workers.
-* Bare-bones Client and Physics Scenes with a `Bootstrap.cs` file.
-* An example deployment configuration, `default_launch.json`.
-* `.gitignore` files for a SpatialOS project.
-
-If you run into problems, or want to give us feedback, please visit the [SpatialOS forums](https://forums.improbable.io/).
+Realms is a geopolitical fantasy sandbox. Its goal is to allow the collective effort of its players to produce a simulated civilization using the tools it provides to them in a first person, open world, survival environment.

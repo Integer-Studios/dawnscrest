@@ -5,25 +5,10 @@ using UnityEngine;
 namespace Polytechnica.Dawnscrest.Player {
 
 	public class AppearanceVisualizer : MonoBehaviour {
-
-		/*
-		 * Initialization from a reader data in networking
-		 */
-		public void InitializeFromData(CharacterAppearanceData data) {
-			// unpack into an appearance set, call set appearance
-		}
-
-		/*
-		 * Update related appearance setting
-		 */
-		public void setAppearanceFromUpdate(CharacterAppearance.Update update) {
-			// unpack into an appearance set, call set appearance
-		}
-
 		/*
 		 * For use external to networking
 		 */
-		public void setAppearance(AppearanceSet a) {
+		public void SetAppearance(AppearanceSet a) {
 			// actually set appearance TODO
 		}
 
@@ -37,6 +22,14 @@ namespace Polytechnica.Dawnscrest.Player {
 		int hair;
 		int facialHair;
 		// maybe we'll put clothes in here too later
+
+		public static AppearanceSet GetSetFromUpdate(CharacterAppearance.Update update) {
+			return null;
+		}
+
+		public static AppearanceSet GetSetFromData(CharacterAppearanceData data) {
+			return null;
+		}
 	}
 
 }

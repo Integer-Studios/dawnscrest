@@ -1,0 +1,10 @@
+package polytechnica.dawnscrest.world;
+
+component TerrainChunk {
+  id = 1200;
+  list<float> heightmap = 1;
+  int32 x = 2;
+  int32 z = 3;
+  uint32 size_x = 4;
+  uint32 size_z = 5;
+}
