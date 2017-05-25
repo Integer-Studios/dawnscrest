@@ -18,6 +18,8 @@ namespace Polytechnica.Dawnscrest.Menu {
 		private AppearanceSet appearance;
 		public Text nameText;
 
+		private int heritageValue;
+
 		public override void Start() {
 			base.Start ();
 			character.SetActive (false);
@@ -32,6 +34,7 @@ namespace Polytechnica.Dawnscrest.Menu {
 			appearance = new AppearanceSet ();
 			UpdateAppearance ();
 			nameText.text = "Ramos " + manager.house.name;
+			NewName ();
 
 		}
 
@@ -42,6 +45,12 @@ namespace Polytechnica.Dawnscrest.Menu {
 			} else if (r == -1) {
 				character.transform.eulerAngles = new Vector3 (character.transform.eulerAngles.x, character.transform.eulerAngles.y - 2F, character.transform.eulerAngles.z);
 			}
+
+			if (heritageValue != heritage.value) {
+				heritageValue = heritage.value;
+				NewName ();
+			}
+
 			if (appearance != null)
 				UpdateAppearance ();
 		}
