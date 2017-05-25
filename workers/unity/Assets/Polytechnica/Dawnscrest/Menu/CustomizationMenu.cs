@@ -22,7 +22,7 @@ namespace Polytechnica.Dawnscrest.Menu {
 			character.SetActive (false);
 
 			play.onClick.AddListener (OnPlay);
-			
+			randomize.onClick.AddListener (NewName);
 		}
 
 		public override void Initialize() {
@@ -85,6 +85,34 @@ namespace Polytechnica.Dawnscrest.Menu {
 			} else {
 				Debug.Log(_w.error);
 				errorText.text = "Heritage Creation Failed! Please Try Again.";
+			}
+		}
+
+		protected void NewName() {
+			WWWForm form = new WWWForm ();
+
+			form.AddField ("heritage", heritage.value);
+
+			WWW w = new WWW ("http://cdn.polytechni.ca/fetch_name.php", form);    
+			StartCoroutine (OnNewName (w));
+		}
+
+		protected IEnumerator OnNewName(WWW _w) {
+			yield return _w; 
+
+			if (_w.error == null) {
+				try {
+					nameText.text = _w.text + " " + manager.house.name;
+				} catch (System.ArgumentException e) {
+					errorText.text = "Name Fetch Failed! Please Try Again.";
+
+				}
+
+			} else {
+				Debug.Log(_w.error);
+				errorText.text = "Name Fetch Failed! Please Try Again.";
+
+				//php error
 			}
 		}
 
