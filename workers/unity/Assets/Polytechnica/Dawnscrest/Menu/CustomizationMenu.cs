@@ -9,12 +9,13 @@ namespace Polytechnica.Dawnscrest.Menu {
 
 	public class CustomizationMenu : Menu {
 
-		public Button play, left, right;
+		public Button play, left, right, randomize;
 		public Text errorText;
 		public Dropdown gender, heritage, virtue, vice;
 		public GameObject character;
-		public OptionCycler hair, hairColor, eyeColor, build, facialHair;
+		public OptionCycler hair, hairColor, eyeColor, build, facialHair, name;
 		private AppearanceSet appearance;
+		public Text nameText;
 
 		public override void Start() {
 			base.Start ();
@@ -29,6 +30,7 @@ namespace Polytechnica.Dawnscrest.Menu {
 			character.SetActive (true);
 			appearance = new AppearanceSet ();
 			UpdateAppearance ();
+			nameText.text = "Ramos " + manager.house.name;
 
 		}
 
