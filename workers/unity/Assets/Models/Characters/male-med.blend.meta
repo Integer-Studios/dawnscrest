@@ -31,6 +31,7 @@ ModelImporter:
     100046: thigh_l
     100048: thigh_r
     100050: Character_Soldier_01_005
+    100052: Character_Soldier_01_006
     400000: arm_l
     400002: arm_r
     400004: Armature
@@ -57,6 +58,7 @@ ModelImporter:
     400046: thigh_l
     400048: thigh_r
     400050: Character_Soldier_01_005
+    400052: Character_Soldier_01_006
     2300000: Cube
     2300002: Cube_001
     3300000: Cube
@@ -69,6 +71,7 @@ ModelImporter:
     4300010: Character_Soldier_01_001
     4300012: Character_Soldier_01
     4300014: Character_Soldier_01_005
+    4300016: Character_Soldier_01_006
     7400000: Default Take
     7400002: FPS-Idle_001
     7400004: Idle-1
@@ -80,6 +83,7 @@ ModelImporter:
     13700006: Character_Soldier_01_003
     13700008: Character_Soldier_01_004
     13700010: Character_Soldier_01_005
+    13700012: Character_Soldier_01_006
   materials:
     importMaterials: 1
     materialName: 0
