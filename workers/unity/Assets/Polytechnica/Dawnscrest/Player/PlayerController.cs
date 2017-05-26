@@ -91,6 +91,7 @@ namespace Polytechnica.Dawnscrest.Player {
 		 */
 		private void setUpFPS() {
 			// Setup FPS Model
+			appearanceVisualizer.SetFPSMode(true);
 			Material[] mats;
 			foreach (GameObject g in cullingMeshes) {
 				mats = g.GetComponent<SkinnedMeshRenderer> ().materials;
