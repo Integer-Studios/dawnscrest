@@ -20,32 +20,28 @@ namespace Polytechnica.Dawnscrest.Player {
 		public void SetAppearance(AppearanceSet a) {
 			if (a == null)
 				return;
-			if (a.sex) {
-				// male
-				body.GetComponent<SkinnedMeshRenderer>().sharedMesh = AppearanceManager.manager.maleBuilds[a.build];
-				hair.GetComponent<SkinnedMeshRenderer>().sharedMesh = AppearanceManager.manager.maleHair[a.hair];
-				facial.GetComponent<SkinnedMeshRenderer>().sharedMesh = AppearanceManager.manager.maleFacial[a.facialHair];
-				brows.GetComponent<SkinnedMeshRenderer>().sharedMesh = AppearanceManager.manager.maleEyebrows[a.eyebrows];
+			
+			body.GetComponent<SkinnedMeshRenderer>().sharedMesh = AppearanceManager.GetBuild(a.sex, a.build);
+			eyes.GetComponent<SkinnedMeshRenderer>().sharedMesh = AppearanceManager.GetEyes(a.sex, a.build);
 
-			} else {
-				// female not supported yet
-			}
+			hair.GetComponent<SkinnedMeshRenderer>().sharedMesh = AppearanceManager.GetHair(a.sex, a.build, a.hair);
+			facial.GetComponent<SkinnedMeshRenderer>().sharedMesh = AppearanceManager.GetFacial(a.sex, a.build, a.facialHair);
+			brows.GetComponent<SkinnedMeshRenderer>().sharedMesh = AppearanceManager.GetEyebrows(a.sex, a.build, a.eyebrows);
 
-			if (!fpsMode) {
+			if (fpsMode)
+				return;
 				
-				Material[] mats;
+			Material[] mats;
 
-				mats = hair.GetComponent<SkinnedMeshRenderer> ().materials;
-				mats [0] = AppearanceManager.manager.hairColors [a.hairColor];
-				hair.GetComponent<SkinnedMeshRenderer> ().materials = mats;
-				brows.GetComponent<SkinnedMeshRenderer> ().materials = mats;
-				facial.GetComponent<SkinnedMeshRenderer> ().materials = mats;
+			mats = hair.GetComponent<SkinnedMeshRenderer> ().materials;
+			mats [0] = AppearanceManager.manager.hairColors [a.hairColor];
+			hair.GetComponent<SkinnedMeshRenderer> ().materials = mats;
+			brows.GetComponent<SkinnedMeshRenderer> ().materials = mats;
+			facial.GetComponent<SkinnedMeshRenderer> ().materials = mats;
 
-				mats = eyes.GetComponent<SkinnedMeshRenderer> ().materials;
-				mats [0] = AppearanceManager.manager.eyeColors [a.eyeColor];
-				eyes.GetComponent<SkinnedMeshRenderer> ().materials = mats;
-
-			}
+			mats = eyes.GetComponent<SkinnedMeshRenderer> ().materials;
+			mats [0] = AppearanceManager.manager.eyeColors [a.eyeColor];
+			eyes.GetComponent<SkinnedMeshRenderer> ().materials = mats;
 		}
 
 		public void SetFPSMode(bool b) {
