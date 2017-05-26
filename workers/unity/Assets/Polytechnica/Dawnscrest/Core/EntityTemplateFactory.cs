@@ -12,14 +12,14 @@ namespace Polytechnica.Dawnscrest.Core {
 	
     public static class EntityTemplateFactory {
 
-		public static Entity CreateCharacterTemplate(int houseId, bool active) {
+		public static Entity CreateCharacterTemplate(int houseId, bool active, AppearanceSet a) {
 			var template = new Entity();
 			template.Add(new WorldTransform.Data(Coordinates.ZERO, new Vector3d(0,0,0), new Vector3d(1,1,1)));
 			template.Add(new DynamicTransform.Data(new Vector3d(0,0,0), 0f));
 			template.Add (new PlayerAnim.Data (false, 0, false, false));
 			template.Add (new Character.Data ((uint)houseId, active));
 			template.Add (new CharacterVitals.Data (100f,100f,100f,100f,100f,100f));
-			template.Add (new CharacterAppearance.Data (true,0,0,0,0,0));
+			template.Add (new CharacterAppearance.Data (a.sex,(uint)a.hairColor,(uint)a.eyeColor,(uint)a.build,(uint)a.hair,(uint)a.eyebrows,(uint)a.facialHair));
 			var acl = Acl.Build ()
 				.SetReadAccess (CommonRequirementSets.PhysicsOrVisual)
 				.SetWriteAccess<WorldTransform> (CommonRequirementSets.PhysicsOnly)

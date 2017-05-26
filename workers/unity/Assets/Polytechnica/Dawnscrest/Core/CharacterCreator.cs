@@ -8,6 +8,7 @@ using Improbable.Unity;
 using Improbable.Unity.Core;
 using Improbable;
 using Improbable.Math;
+using Polytechnica.Dawnscrest.Player;
 
 namespace Polytechnica.Dawnscrest.Core {
 
@@ -34,7 +35,8 @@ namespace Polytechnica.Dawnscrest.Core {
 		 */
 		private void CreateFamily(ResponseHandle<CharacterCreatorController.Commands.CreateFamily, CreateFamilyRequest, Nothing> responseHandle) {
 			int houseId = (int)responseHandle.Request.houseId;
-			creationsInProgress.Add (houseId, new CreationRequest(0, responseHandle));
+			AppearanceSet a = new AppearanceSet (responseHandle.Request.sex, (int)responseHandle.Request.hairColor, (int)responseHandle.Request.eyeColor, (int)responseHandle.Request.build, (int)responseHandle.Request.hair, (int)responseHandle.Request.facialHair, (int)responseHandle.Request.eyebrow);
+			creationsInProgress.Add (houseId, new CreationRequest(0, responseHandle, a));
 			CreateCharacterWithReservedId (houseId, true);
 		}
 
@@ -56,7 +58,12 @@ namespace Polytechnica.Dawnscrest.Core {
 		 * Uses the entity ID to spawn a new character for the given house
 		 */
 		private void CreateCharacter(int houseId, bool active, EntityId entityId) {
-			var charEntityTemplate = EntityTemplateFactory.CreateCharacterTemplate(houseId, true);
+			CreationRequest req; 
+			if (!creationsInProgress.TryGetValue (houseId, out req)) {
+				Debug.LogError ("Lost House's Request, Quitting! Fuck! This is Fucked!");
+				return;
+			}
+			var charEntityTemplate = EntityTemplateFactory.CreateCharacterTemplate(houseId, true, AppearanceSet.GetGeneticVariation(req.appearance));
 			SpatialOS.Commands.CreateEntity(creatorControllerWriter, entityId, "Character", charEntityTemplate)
 				.OnFailure(failure => OnFailedCharacterCreation(failure, houseId, active,  entityId))
 				.OnSuccess(response => OnCreationSuccess(houseId));
@@ -94,9 +101,11 @@ namespace Polytechnica.Dawnscrest.Core {
 		private class CreationRequest {
 			public int amountCreated;
 			public ResponseHandle<CharacterCreatorController.Commands.CreateFamily, CreateFamilyRequest, Nothing> ResponseHandle;
-			public CreationRequest(int a, ResponseHandle<CharacterCreatorController.Commands.CreateFamily, CreateFamilyRequest, Nothing> r) {
+			public AppearanceSet appearance;
+			public CreationRequest(int a, ResponseHandle<CharacterCreatorController.Commands.CreateFamily, CreateFamilyRequest, Nothing> r, AppearanceSet ap) {
 				amountCreated = a;
 				ResponseHandle = r;
+				appearance = ap;
 			}
 		}
 
