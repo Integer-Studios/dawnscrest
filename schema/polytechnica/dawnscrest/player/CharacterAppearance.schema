@@ -8,6 +8,7 @@ component CharacterAppearance {
   uint32 eye_color = 3;
   uint32 build = 4;
   uint32 hair = 5;
-  uint32 facial_hair = 6;
+  uint32 eyebrow = 6;
+  uint32 facial_hair = 7;
 
 }
