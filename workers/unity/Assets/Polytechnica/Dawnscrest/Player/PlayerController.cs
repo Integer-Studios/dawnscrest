@@ -27,9 +27,8 @@ namespace Polytechnica.Dawnscrest.Player {
 		public float maxRotation;
 		public float jumpSpeed;
 		public Material cullingMaterial; 
-		public GameObject hairMesh;
+		public GameObject[] cullingMeshes;
 		public GameObject bodyMesh;
-		public Mesh fpsMesh;
 		public GameObject hip;
 		public GameObject pivot;
 
@@ -92,11 +91,13 @@ namespace Polytechnica.Dawnscrest.Player {
 		 */
 		private void setUpFPS() {
 			// Setup FPS Model
-			Material[] mats = hairMesh.GetComponent<SkinnedMeshRenderer>().materials;
-			mats [0] = cullingMaterial;
-			hairMesh.GetComponent<SkinnedMeshRenderer> ().materials = mats;
-//			Destroy (hairMesh);
-			mats = bodyMesh.GetComponent<SkinnedMeshRenderer> ().materials;
+			Material[] mats;
+			foreach (GameObject g in cullingMeshes) {
+				mats = g.GetComponent<SkinnedMeshRenderer> ().materials;
+				mats [0] = cullingMaterial;
+				g.GetComponent<SkinnedMeshRenderer> ().materials = mats;
+			}
+		    mats = bodyMesh.GetComponent<SkinnedMeshRenderer> ().materials;
 			mats [0] = cullingMaterial;
 			bodyMesh.GetComponent<SkinnedMeshRenderer> ().materials = mats;
 			bodyMesh.GetComponent<SkinnedMeshRenderer> ().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
@@ -104,7 +105,7 @@ namespace Polytechnica.Dawnscrest.Player {
 			// Setup FPS Camera
 			playerCamera = GameObject.FindGameObjectWithTag("MainCamera");
 			playerCamera.transform.parent = transform;
-			playerCamera.transform.localPosition = new Vector3 (0f, 3f, 0f);
+			playerCamera.transform.localPosition = new Vector3 (0f, 3.3f, 0f);
 			playerCamera.transform.localRotation = Quaternion.Euler (new Vector3 (20f, 0f, 0f));
 
 			// Set up FPS Cursor
