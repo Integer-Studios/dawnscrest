@@ -58,7 +58,7 @@ namespace Polytechnica.Dawnscrest.Core {
 
 			var characterCreatorEntityId = queriedEntities.Entities.First.Value.Key;
 			Polytechnica.Dawnscrest.Player.AppearanceSet g = Bootstrap.menuManager.genetics;
-			SpatialOS.WorkerCommands.SendCommand (CharacterCreatorController.Commands.CreateFamily.Descriptor, new CreateFamilyRequest ((uint)houseId, g.sex, (uint)g.hairColor, (uint)g.eyeColor, (uint)g.build, (uint)g.hair, (uint)g.facialHair), characterCreatorEntityId)
+			SpatialOS.WorkerCommands.SendCommand (CharacterCreatorController.Commands.CreateFamily.Descriptor, new CreateFamilyRequest ((uint)houseId, g.sex, (uint)g.hairColor, (uint)g.eyeColor, (uint)g.build, (uint)g.hair, (uint)g.facialHair, 0), characterCreatorEntityId)
 				.OnFailure(error => OnCreateFailure(error)).OnSuccess(response => OnCreateSuccess(houseId));
 		}
 
