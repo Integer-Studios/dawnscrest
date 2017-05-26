@@ -19,6 +19,7 @@ namespace Polytechnica.Dawnscrest.Menu {
 
 		[HideInInspector]
 		public HouseData house;
+		public Polytechnica.Dawnscrest.Player.AppearanceSet genetics;
 		public BannerData banner = null;
 
 		private int started = 0;
@@ -78,13 +79,23 @@ namespace Polytechnica.Dawnscrest.Menu {
 		}
 
 		/*
+		 *	Triggered when log out
+		 */
+		public void StopGame() {
+			
+//			SceneManager.LoadSceneAsync ("MenuScene");
+		}
+
+		/*
 		 *	Triggered when local player has SPAWNED
 		 */
 		public void OnGameStarted() {
 
 			canvas.gameObject.GetComponent<CanvasGroup> ();
-
 			HideMenus ();
+
+			DestroyImmediate (canvas);
+
 //			GUIManager.Show ();
 		}
 

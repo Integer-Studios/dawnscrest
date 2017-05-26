@@ -83,6 +83,7 @@ namespace Polytechnica.Dawnscrest.Menu {
 
 						Debug.Log ("Customization Failed");
 					} else {
+						manager.genetics = appearance;
 						Debug.Log("Customization Saved");
 						manager.LoadMenu (MenuManager.MenuType.LOADING);
 
@@ -160,6 +161,11 @@ namespace Polytechnica.Dawnscrest.Menu {
 			StartCoroutine (OnSave (w));
 
 
+		}
+
+		public override void FadeOut(bool fade = true) {
+			base.FadeOut (fade);
+			character.SetActive (false);
 		}
 
 	}

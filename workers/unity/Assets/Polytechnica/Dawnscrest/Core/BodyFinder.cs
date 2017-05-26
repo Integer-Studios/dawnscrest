@@ -34,6 +34,14 @@ namespace Polytechnica.Dawnscrest.Core {
 		}
 
 		/*
+		 * Creates a new Logout request
+		 */
+		public static void Logout() {
+			SpatialOS.WorkerCommands.SendCommand (Character.Commands.Logout.Descriptor, new Nothing (), activeCharacter)
+				.OnFailure(error => OnLogoutFailure(error)).OnSuccess(response => OnLogoutSuccess());
+		}
+
+		/*
 		 * Using the CharacterCreators entity id, a request is set to it to create new family
 		 */
 		private static void OnCreateQueryResult(ICommandCallbackResponse<EntityQueryResult> result, int houseId) {
@@ -49,7 +57,8 @@ namespace Polytechnica.Dawnscrest.Core {
 			}
 
 			var characterCreatorEntityId = queriedEntities.Entities.First.Value.Key;
-			SpatialOS.WorkerCommands.SendCommand (CharacterCreatorController.Commands.CreateFamily.Descriptor, new CreateFamilyRequest ((uint)houseId), characterCreatorEntityId)
+			Polytechnica.Dawnscrest.Player.AppearanceSet g = Bootstrap.menuManager.genetics;
+			SpatialOS.WorkerCommands.SendCommand (CharacterCreatorController.Commands.CreateFamily.Descriptor, new CreateFamilyRequest ((uint)houseId, g.sex, (uint)g.hairColor, (uint)g.eyeColor, (uint)g.build, (uint)g.hair, (uint)g.facialHair), characterCreatorEntityId)
 				.OnFailure(error => OnCreateFailure(error)).OnSuccess(response => OnCreateSuccess(houseId));
 		}
 
@@ -124,6 +133,12 @@ namespace Polytechnica.Dawnscrest.Core {
 		private static void OnLogoutFailure(ICommandErrorDetails error) {
 			Debug.LogWarning("Logout command failed - you probably tried to connect too soon. Try again in a few seconds.");
 		}
+
+		private static void OnLogoutSuccess() {
+			SpatialOS.Disconnect ();
+			Bootstrap.menuManager.StopGame ();
+		}
+
 
 	}
 

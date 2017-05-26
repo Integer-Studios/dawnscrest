@@ -39,7 +39,6 @@ namespace Polytechnica.Dawnscrest.Core {
 				SpatialOS.OnConnected += OnClientConnected;
                 break;
             }
-
             SpatialOS.Connect(gameObject);
         }
 

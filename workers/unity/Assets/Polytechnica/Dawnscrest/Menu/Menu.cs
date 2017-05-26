@@ -120,7 +120,7 @@ namespace Polytechnica.Dawnscrest.Menu {
 		/*
 		 *	Optional boolean input makes it instante if false
 		 */
-		public void FadeOut(bool fade = true) {
+		public virtual void FadeOut(bool fade = true) {
 			if (!fade)
 				canvas.alpha = 0;
 

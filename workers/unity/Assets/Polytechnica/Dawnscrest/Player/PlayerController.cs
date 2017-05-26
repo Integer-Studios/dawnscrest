@@ -173,7 +173,7 @@ namespace Polytechnica.Dawnscrest.Player {
 			if (Input.GetKey (KeyCode.Escape)) {
 				Cursor.lockState = CursorLockMode.None;
 				Cursor.visible = true;
-//				Bootstrap.menuManager.LoadMenu (Polytechnica.Dawnscrest.Menu.MenuManager.MenuType.PAUSE);
+//				BodyFinder.Logout ();
 			}
 
 			// Detect Jump

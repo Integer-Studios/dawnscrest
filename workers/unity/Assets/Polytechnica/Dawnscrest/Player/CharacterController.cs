@@ -150,6 +150,7 @@ namespace Polytechnica.Dawnscrest.Player {
 		private Nothing OnLogout(Nothing n, ICommandCallerInfo callerInfo) {
 			Debug.Log ("Logout request with worker ID:" + callerInfo.CallerWorkerId);
 			setToNPC ();
+
 			return new Nothing ();
 		}
 
