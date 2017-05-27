@@ -14,7 +14,7 @@ namespace Polytechnica.Dawnscrest.Menu {
 		public Text errorText;
 		public Dropdown gender, heritage, virtue, vice;
 		public GameObject character;
-		public OptionCycler hair, hairColor, eyeColor, build, facialHair, name;
+		public OptionCycler hair, hairColor, eyeColor, build, facialHair, name, eyebrowFuck;
 		private AppearanceSet appearance;
 		public Text nameText;
 
@@ -65,6 +65,7 @@ namespace Polytechnica.Dawnscrest.Menu {
 			appearance.hairColor = hairColor.current;
 			appearance.facialHair = facialHair.current;
 			appearance.eyeColor = eyeColor.current;
+			appearance.eyebrows = eyebrowFuck.current;
 			character.GetComponent<AppearanceVisualizer> ().SetAppearance (appearance);
 		}
 

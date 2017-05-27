@@ -1,0 +1,15 @@
+package polytechnica.dawnscrest.item;
+import "polytechnica/dawnscrest/core/Nothing.schema";
+
+type InteractRequest {
+  EntityId entity_id = 1;
+}
+
+component InteractableComponent {
+  id = 1300;
+  
+  float strength = 1;
+  float max_strength = 2;
+  command polytechnica.dawnscrest.core.Nothing interact(InteractRequest);
+
+}

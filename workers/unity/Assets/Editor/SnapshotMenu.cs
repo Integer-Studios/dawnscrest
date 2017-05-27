@@ -18,6 +18,7 @@ namespace Polytechnica.Dawnscrest.Editor {
 
 			var currentEntityId = 1;
 			snapshotEntities.Add(new EntityId(currentEntityId++), EntityTemplateFactory.CreateCharacterCreatorTemplate());
+			snapshotEntities.Add(new EntityId(currentEntityId++), EntityTemplateFactory.CreateInteractable());
 
 			int radius = 2;
 			for (int z = -radius; z <= radius; z++) {

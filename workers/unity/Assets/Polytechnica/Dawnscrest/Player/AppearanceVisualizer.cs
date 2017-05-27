@@ -40,7 +40,7 @@ namespace Polytechnica.Dawnscrest.Player {
 			facial.GetComponent<SkinnedMeshRenderer> ().materials = mats;
 
 			mats = eyes.GetComponent<SkinnedMeshRenderer> ().materials;
-			mats [0] = AppearanceManager.manager.eyeColors [a.eyeColor];
+			mats [1] = AppearanceManager.manager.eyeColors [a.eyeColor];
 			eyes.GetComponent<SkinnedMeshRenderer> ().materials = mats;
 		}
 
@@ -103,7 +103,7 @@ namespace Polytechnica.Dawnscrest.Player {
 
 		public static AppearanceSet GetGeneticVariation(AppearanceSet a) {
 			AppearanceSet aNew = new AppearanceSet();
-			aNew.build = Random.Range (0, 3);
+			aNew.build = 0;
 			aNew.hair = Random.Range (0, AppearanceManager.GetHairOptions (true));
 			aNew.facialHair = Random.Range (0, AppearanceManager.GetFacialOptions (true));
 			aNew.eyebrows = Random.Range (0, AppearanceManager.GetEyebrowOptions (true));

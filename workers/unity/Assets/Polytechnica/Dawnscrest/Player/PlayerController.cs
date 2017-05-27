@@ -6,6 +6,7 @@ using Improbable.Math;
 using Improbable.Unity.Visualizer;
 using Polytechnica.Dawnscrest.Core;
 using Polytechnica.Dawnscrest.GUI;
+using Polytechnica.Dawnscrest.Item;
 
 namespace Polytechnica.Dawnscrest.Player {
 
@@ -26,6 +27,7 @@ namespace Polytechnica.Dawnscrest.Player {
 		public float maxSpeed;
 		public float maxRotation;
 		public float jumpSpeed;
+		public float armLength;
 		public Material cullingMaterial; 
 		public GameObject[] cullingMeshes;
 		public GameObject bodyMesh;
@@ -48,6 +50,11 @@ namespace Polytechnica.Dawnscrest.Player {
 		private GameObject playerCamera;
 		private float speed;
 		private float pitch, deltaPitch;
+
+		//Crosshair
+		private GameObject lookingAtObject;
+		private Vector3 lookingAtPoint;
+		private Vector3 lookingAtNormal;
 
 		// References
 		private AppearanceVisualizer appearanceVisualizer;
@@ -128,6 +135,8 @@ namespace Polytechnica.Dawnscrest.Player {
 			UpdateInput ();
 			UpdateLocomotionControls ();
 			UpdateLocomotion ();
+			UpdateLookingAt ();
+			UpdateCrosshair ();
 		}
 
 		/*
@@ -254,6 +263,37 @@ namespace Polytechnica.Dawnscrest.Player {
 			);
 		}
 
+
+		private void UpdateLookingAt() {
+			RaycastHit hit; 
+			Ray ray = Camera.main.ScreenPointToRay (GUIManager.crosshair.transform.position); 
+
+			if (Physics.Raycast (ray, out hit, armLength)) {
+				lookingAtObject = hit.collider.gameObject;
+				lookingAtPoint = hit.point;
+				lookingAtNormal = hit.normal;
+			} else {
+				lookingAtObject = null;
+				lookingAtPoint = transform.position+ transform.up  + transform.forward;
+				ray = new Ray (transform.position + transform.up  + transform.forward, -transform.up);
+				if (Physics.Raycast (ray, out hit)) {
+					lookingAtPoint = hit.point;
+					lookingAtNormal = Vector3.zero;
+				}
+				lookingAtNormal = hit.normal;
+			}
+		}
+
+		private void UpdateCrosshair () {
+			if (IsLookingAtInteractable ()) {
+				GUIManager.crosshair.SetInteractable (lookingAtObject.GetComponentInParent<InteractableVisualizer>().GetTooltip());
+//				GUIManager.crosshair.setFill (lookingAtObject.GetComponentInParent<Interactable> ().getPercent ());
+			} else {
+				GUIManager.crosshair.SetMinimized ();
+			}
+		}
+
+
 		/*
 		 * Triggered by component update for vitals, sets HUD sliders
 		 */
@@ -299,6 +339,22 @@ namespace Polytechnica.Dawnscrest.Player {
 			anim.SetTrigger ("Jump");
 			shouldJump = true;
 		}
+
+		private bool IsLookingAtInteractable(bool inter) {
+			if (lookingAtObject == null)
+				return false;
+
+			InteractableVisualizer i = lookingAtObject.GetComponentInParent<InteractableVisualizer> ();
+			if (inter)
+				return (i && i.IsInteractable());
+			else return i;
+		}
+
+		private bool IsLookingAtInteractable() {
+			return IsLookingAtInteractable (true);
+		}
+
+
 	}
 
 }
