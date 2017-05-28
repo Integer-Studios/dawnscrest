@@ -20,9 +20,9 @@ namespace Polytechnica.Dawnscrest.Editor {
 			snapshotEntities.Add(new EntityId(currentEntityId++), EntityTemplateFactory.CreateCharacterCreatorTemplate());
 			snapshotEntities.Add(new EntityId(currentEntityId++), EntityTemplateFactory.CreateInteractable());
 
-			int radius = 2;
-			for (int z = -radius; z <= radius; z++) {
-				for (int x = -radius; x <= radius; x++) {
+			int max = WorldTerrain.size / WorldTerrain.chunkSize;
+			for (int z = 0; z < max; z++) {
+				for (int x = 0; x < max; x++) {
 					snapshotEntities.Add(new EntityId(currentEntityId++), EntityTemplateFactory.CreateTerrainChunkTemplate(x, z));
 				}
 			}

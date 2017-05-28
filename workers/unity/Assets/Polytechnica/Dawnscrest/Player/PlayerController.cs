@@ -73,11 +73,12 @@ namespace Polytechnica.Dawnscrest.Player {
 				Bootstrap.OnPlayerSpawn ();
 			}
 
-			// Setup Vitals Reader
+			// Setup Readers
 			characterVitalsReader.ComponentUpdated += OnVitalsUpdated;
 			appearanceReader.ComponentUpdated += OnAppearanceUpdated;
 
 			// Initialize References
+			GUIManager.hud.SetPortraitAppearance (AppearanceSet.GetSetFromData (appearanceReader.Data));
 			anim = GetComponent<Animator> ();
 			rigidBody = GetComponent<Rigidbody> ();
 			appearanceVisualizer = GetComponent<AppearanceVisualizer> ();
