@@ -45,8 +45,8 @@ namespace Polytechnica.Dawnscrest.Core {
 
 		public static SnapshotEntity CreateTerrainChunkTemplate(int x, int z) {
 			Coordinates c = Coordinates.ZERO;
-			c.X = WorldTerrain.chunkSize * x;
-			c.Z = WorldTerrain.chunkSize * z;
+			c.X = WorldTerrain.chunkSize * x - (WorldTerrain.size/2);
+			c.Z = WorldTerrain.chunkSize * z - (WorldTerrain.size/2);
 			var template = new SnapshotEntity { Prefab = "TerrainChunk" };
 			template.Add(new WorldTransform.Data(c, new Vector3d(0,0,0), new Vector3d(1,1,1)));
 			template.Add (new TerrainChunk.Data (new List<float> (),x, z, 0, 0));

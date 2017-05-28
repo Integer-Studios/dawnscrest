@@ -8,11 +8,11 @@ namespace Polytechnica.Dawnscrest.World {
 
 		public string rawFile;
 		public ByteOrder rawHeightMapOrder = ByteOrder.Windows;
-		public float height = 600f;
+		public float height = 300f;
 
 		public static WorldTerrain terrain;
 		public static int resolution = 5;
-		public static int size = 5000;
+		public static int size = 1400;
 		public static int chunkSize = 50;
 
 		private float[,] heightmap;
@@ -41,8 +41,8 @@ namespace Polytechnica.Dawnscrest.World {
 
 		public static Vector3 ToPosition(HeightmapIndex h) {
 			Vector3 v = Vector3.zero;
-			v.x = h.x * resolution;
-			v.z = h.z * resolution;
+			v.x = h.x * resolution - (size/2);
+			v.z = h.z * resolution - (size/2);
 			return v;
 		}
 
