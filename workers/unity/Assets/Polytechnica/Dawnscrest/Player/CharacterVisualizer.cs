@@ -70,7 +70,8 @@ namespace Polytechnica.Dawnscrest.Player {
 			transform.localScale = MathHelper.toVector3 (worldTransformReader.Data.scale);
 
 			// Initialize Appearance
-			appearanceVisualizer.SetAppearance(AppearanceSet.GetSetFromData(appearanceReader.Data));
+			AppearanceSet a = AppearanceSet.GetSetFromData(appearanceReader.Data);
+			appearanceVisualizer.SetAppearance(a);
 		}
 
 		void OnDisable () {

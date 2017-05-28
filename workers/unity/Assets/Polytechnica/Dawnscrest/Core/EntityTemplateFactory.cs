@@ -15,7 +15,8 @@ namespace Polytechnica.Dawnscrest.Core {
 
 		public static Entity CreateCharacterTemplate(int houseId, bool active, AppearanceSet a) {
 			var template = new Entity();
-			template.Add(new WorldTransform.Data(Coordinates.ZERO, new Vector3d(0,0,0), new Vector3d(1,1,1)));
+			Coordinates c = new Coordinates (Random.Range (-10f, 10f), 15f, Random.Range (-10f, 10f));
+			template.Add(new WorldTransform.Data(c, new Vector3d(0,0,0), new Vector3d(1,1,1)));
 			template.Add(new DynamicTransform.Data(new Vector3d(0,0,0), 0f));
 			template.Add (new PlayerAnim.Data (false, 0, false, false));
 			template.Add (new Character.Data ((uint)houseId, active));
