@@ -108,6 +108,12 @@ namespace Polytechnica.Dawnscrest.Player {
 			rigidBody.velocity = transform.TransformDirection(velocity) + new Vector3(0f, rigidBody.velocity.y, 0f);
 			// Entact Rotaton
 			rigidBody.MoveRotation(Quaternion.Euler(rigidBody.rotation.eulerAngles + Vector3.up * rotationalVelocity));
+
+			// Enact Jump
+			if (shouldJump) {
+				rigidBody.velocity += new Vector3 (0f, controller.jumpSpeed, 0f);
+				shouldJump = false;
+			}
 		}
 
 		/*
@@ -124,12 +130,6 @@ namespace Polytechnica.Dawnscrest.Player {
 			} else {
 				anim.SetBool ("Grounded", false);
 				grounded = false;
-			}
-
-			// Enact Jump
-			if (shouldJump) {
-				rigidBody.velocity += new Vector3 (0f, controller.jumpSpeed, 0f);
-				shouldJump = false;
 			}
 
 			// Set Anim Params
