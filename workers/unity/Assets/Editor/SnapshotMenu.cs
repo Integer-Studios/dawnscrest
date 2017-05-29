@@ -18,7 +18,7 @@ namespace Polytechnica.Dawnscrest.Editor {
 
 			var currentEntityId = 1;
 			snapshotEntities.Add(new EntityId(currentEntityId++), EntityTemplateFactory.CreateCharacterCreatorTemplate());
-			snapshotEntities.Add(new EntityId(currentEntityId++), EntityTemplateFactory.CreateInteractable());
+			snapshotEntities.Add(new EntityId(currentEntityId++), EntityTemplateFactory.CreateWorldLoaderTemplate());
 
 			int max = WorldTerrain.size / WorldTerrain.chunkSize;
 			for (int z = 0; z < max; z++) {

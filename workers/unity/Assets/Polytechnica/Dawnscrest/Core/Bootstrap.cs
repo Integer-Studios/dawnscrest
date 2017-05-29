@@ -49,7 +49,7 @@ namespace Polytechnica.Dawnscrest.Core {
 
 		private IEnumerator LoadWorld() {
 			yield return new WaitForSeconds (5f);
-			FindObjectOfType<WorldTerrain>().LoadChunks ();
+			FindObjectOfType<WorldLoader>().LoadChunks ();
 		}
 
 		/*

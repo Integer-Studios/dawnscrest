@@ -51,6 +51,10 @@ namespace Polytechnica.Dawnscrest.World {
 			return l;
 		}
 
+		public ChunkIndex GetIndex() {
+			return index;
+		}
+
 	}
 
 }

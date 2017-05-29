@@ -10,12 +10,29 @@ using Polytechnica.Dawnscrest.Item;
 using Improbable.Collections;
 
 namespace Polytechnica.Dawnscrest.Core {
+
+	[System.Serializable]
+	public enum EntityTemplateType {
+		Basic,
+	}
 	
     public static class EntityTemplateFactory {
 
+		public static Entity CreateEntityTemplate(WorldObject w) {
+			return CreateBasicEntityTemplate (w.position, w.rotation, w.scale);
+		}
+
+		public static Entity CreateBasicEntityTemplate(Vector3 pos, Vector3 rot, Vector3 scale) {
+			var template = new Entity();
+			template.Add(new WorldTransform.Data(new Coordinates (pos.x, pos.y, pos.z), new Vector3d(rot.x,rot.y,rot.z), new Vector3d(scale.x,scale.y,scale.z)));
+			var acl = Acl.GenerateServerAuthoritativeAcl(template);
+			template.SetAcl(acl);
+			return template;
+		}
+
 		public static Entity CreateCharacterTemplate(int houseId, bool active, AppearanceSet a) {
 			var template = new Entity();
-			Coordinates c = new Coordinates (Random.Range (-10f, 10f), 15f, Random.Range (-10f, 10f));
+			Coordinates c = new Coordinates (Random.Range (-10f, 10f), 100f, Random.Range (-10f, 10f));
 			template.Add(new WorldTransform.Data(c, new Vector3d(0,0,0), new Vector3d(1,1,1)));
 			template.Add(new DynamicTransform.Data(new Vector3d(0,0,0), 0f));
 			template.Add (new PlayerAnim.Data (false, 0, false, false));
@@ -39,6 +56,14 @@ namespace Polytechnica.Dawnscrest.Core {
 			var template = new SnapshotEntity { Prefab = "CharacterCreator" };
 			template.Add(new WorldTransform.Data(Coordinates.ZERO, new Vector3d(0,0,0), new Vector3d(0,0,0)));
 			template.Add (new CharacterCreatorController.Data ());
+			var acl = Acl.GenerateServerAuthoritativeAcl(template);
+			template.SetAcl(acl);
+			return template;
+		}
+
+		public static SnapshotEntity CreateWorldLoaderTemplate() {
+			var template = new SnapshotEntity { Prefab = "WorldLoader" };
+			template.Add(new WorldTransform.Data(Coordinates.ZERO, new Vector3d(0,0,0), new Vector3d(0,0,0)));
 			var acl = Acl.GenerateServerAuthoritativeAcl(template);
 			template.SetAcl(acl);
 			return template;

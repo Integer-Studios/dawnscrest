@@ -10,6 +10,19 @@ namespace Polytechnica.Dawnscrest.World {
 		public ByteOrder rawHeightMapOrder = ByteOrder.Windows;
 		public float height = 300f;
 
+		public Vector3 climateMin;
+		public Vector3 climateMax;
+
+		public Color grass;
+		public float grassPoint = 0.8f;
+		public Color dirt;
+		public float dirtPoint = 0.6f;
+		public Color stone;
+		public float stonePoint = 0.3f;
+		public Color snow;
+		public float snowPoint = 0.2f;
+		public Color sand;
+
 		public static WorldTerrain terrain;
 		public static int resolution = 5;
 		public static int size = 1400;
@@ -21,15 +34,8 @@ namespace Polytechnica.Dawnscrest.World {
 			terrain = this;
 		}
 
-		public void LoadChunks() {
-			Debug.LogWarning ("Loading Heightmap From Raw...");
-			GenerateHeightmap ();
-			Debug.LogWarning ("Successfully Loaded Heightmap Of Size: " + heightmap.Length + ". Refreshing Chunks...");
-			Chunk[] chunks = FindObjectsOfType<Chunk> ();
-			foreach (Chunk c in chunks) {
-				c.LoadHeightmap (heightmap);
-			}
-			Debug.LogWarning ("Successfully Refreshed " + chunks.Length + " Chunks.");
+		public void LoadChunkTerrain(Chunk c) {
+			c.LoadHeightmap (heightmap);
 		}
 
 		public static HeightmapIndex ToHMI(ChunkIndex c) {
@@ -46,7 +52,15 @@ namespace Polytechnica.Dawnscrest.World {
 			return v;
 		}
 
-		private void GenerateHeightmap() {
+		public static ChunkIndex ToChunkIndex(Vector3 pos) {
+			ChunkIndex i = new ChunkIndex ();
+			i.x = (int) ((pos.x + (size/2)) / chunkSize);
+			i.z = (int) ((pos.z + (size/2)) / chunkSize);
+			return i;
+		}
+
+		public void GenerateHeightmap() {
+			Debug.LogWarning ("Loading Heightmap From Raw...");
 			var info = new System.IO.FileInfo(rawFile);
 			int rawHeightMapSize = Mathf.RoundToInt(Mathf.Sqrt(info.Length / sizeof(System.UInt16)));
 
@@ -74,6 +88,54 @@ namespace Polytechnica.Dawnscrest.World {
 					heightmap [xi, zi] = height * rawHeightmap [(int)(u * rawHeightMapSize), (int)(v * rawHeightMapSize)];
 				}
 			}
+			Debug.LogWarning ("Successfully Loaded Heightmap Of Size: " + heightmap.Length + ". Refreshing Chunks...");
+		}
+
+		public float GetTempurature(Vector3 pos) {
+			// inverse
+			return (pos.y - climateMax.y) / (climateMin.y - climateMax.y);
+		}
+
+		public float GetHumidity(Vector3 pos) {
+			return (pos.z - climateMax.z) / (climateMin.z - climateMax.z);
+		}
+
+		public Color GetColor(Vector3 pos) {
+			//get full humidity color
+			float t = GetTempurature(pos);
+
+			Color c;
+			if (t > grassPoint) {
+				c = grass;
+				c = mix (sand,c, GetHumidity (pos));
+			} else if (t > dirtPoint) {
+				c = mix (dirt, grass, getGradientPoint (dirtPoint, grassPoint, t));
+				c = mix (sand,c, GetHumidity (pos));
+			} else if (t > stonePoint) {
+				c = mix (stone, dirt, getGradientPoint (stonePoint, dirtPoint, t));
+				c = mix (sand,c, GetHumidity (pos));
+			} else if (t > snowPoint) {
+				c = mix (snow, stone, getGradientPoint (snowPoint, stonePoint, t));
+			} else
+				c = snow;
+
+			return c;
+		}
+
+		private float getGradientPoint(float p1, float p2, float ptarget) {
+			p2 -= p1;
+			ptarget -= p1;
+			return (ptarget / p2);
+		}
+
+		private Color mix(Color c1, Color c2, float p) {
+			if (p < 0f)
+				return c1;
+			if (p > 1f)
+				return c2;
+
+			Color delta = c2 - c1;
+			return c1 + (p * delta);
 		}
 
 	}

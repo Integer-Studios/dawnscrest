@@ -123,10 +123,10 @@ namespace Polytechnica.Dawnscrest.World {
 				vert.Add (toPosition(temp));
 			uv.Add (new Vector2 (0, 0));
 			tri.Add (i);
-//			if (c != Color.black)
+			if (c != Color.black)
 				color.Add (c);
-//			else
-//				color.Add (WorldTerrain.terrain.getColor (toWorld(temp), heightmap[temp.x,temp.z]));
+			else
+				color.Add (WorldTerrain.terrain.GetColor(toPosition(temp)));
 			i++;
 		}
 
