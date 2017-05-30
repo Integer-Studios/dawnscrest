@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 using System.IO;
 using System;
 using Polytechnica.Dawnscrest.GUI;
+using Polytechnica.Dawnscrest.Core;
 
 namespace Polytechnica.Dawnscrest.Menu {
 
@@ -30,6 +31,7 @@ namespace Polytechnica.Dawnscrest.Menu {
 		}
 
 		void Start() {
+			SettingsManager.initialize ();
 		}
 
 		/*
