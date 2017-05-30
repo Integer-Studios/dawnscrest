@@ -73,11 +73,12 @@ namespace Polytechnica.Dawnscrest.Player {
 				Bootstrap.OnPlayerSpawn ();
 			}
 
-			// Setup Vitals Reader
+			// Setup Readers
 			characterVitalsReader.ComponentUpdated += OnVitalsUpdated;
 			appearanceReader.ComponentUpdated += OnAppearanceUpdated;
 
 			// Initialize References
+			GUIManager.hud.SetPortraitAppearance (AppearanceSet.GetSetFromData (appearanceReader.Data));
 			anim = GetComponent<Animator> ();
 			rigidBody = GetComponent<Rigidbody> ();
 			appearanceVisualizer = GetComponent<AppearanceVisualizer> ();
@@ -145,11 +146,21 @@ namespace Polytechnica.Dawnscrest.Player {
 		 * velocities so the controls have to overwrite the physics calculations *selectively*
 		 */
 		private void LateUpdate() {
+			Debug.Log (rigidBody.velocity.y);
+			// Enact Pitch
 			hip.transform.eulerAngles = new Vector3 (pitch, hip.transform.eulerAngles.y, hip.transform.eulerAngles.z);
 			// Enact Movement
 			rigidBody.velocity = transform.TransformDirection(velocity) + new Vector3(0f, rigidBody.velocity.y, 0f);
 			// Entact Rotaton
 			rigidBody.MoveRotation(Quaternion.Euler(rigidBody.rotation.eulerAngles + Vector3.up * rotationalVelocity));
+
+			// Enact Jump
+			if (shouldJump) {
+				rigidBody.velocity += new Vector3 (0f, jumpSpeed, 0f);
+				Debug.Log ("JUMP: " + rigidBody.velocity.y);
+				shouldJump = false;
+			}
+
 		}
 
 		void FixedUpdate() {
@@ -224,12 +235,6 @@ namespace Polytechnica.Dawnscrest.Player {
 			} else {
 				anim.SetBool ("Grounded", false);
 				grounded = false;
-			}
-
-			// Enact Jump
-			if (shouldJump) {
-				rigidBody.velocity += new Vector3 (0f, jumpSpeed, 0f);
-				shouldJump = false;
 			}
 
 			// Enact Pitch

@@ -2,6 +2,7 @@
 using Improbable.Unity.Configuration;
 using Improbable.Unity.Core;
 using UnityEngine;
+using System.Collections;
 using Polytechnica.Dawnscrest.Menu;
 using Polytechnica.Dawnscrest.World;
 
@@ -42,8 +43,13 @@ namespace Polytechnica.Dawnscrest.Core {
             SpatialOS.Connect(gameObject);
         }
 
-		private static void OnServerConnected() {
-			
+		private void OnServerConnected() {
+			StartCoroutine (LoadWorld());
+		}
+
+		private IEnumerator LoadWorld() {
+			yield return new WaitForSeconds (5f);
+			FindObjectOfType<WorldLoader>().LoadChunks ();
 		}
 
 		/*

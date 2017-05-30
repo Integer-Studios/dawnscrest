@@ -36,6 +36,7 @@ namespace Polytechnica.Dawnscrest.Core {
 		private void CreateFamily(ResponseHandle<CharacterCreatorController.Commands.CreateFamily, CreateFamilyRequest, Nothing> responseHandle) {
 			int houseId = (int)responseHandle.Request.houseId;
 			AppearanceSet a = new AppearanceSet (responseHandle.Request.sex, (int)responseHandle.Request.hairColor, (int)responseHandle.Request.eyeColor, (int)responseHandle.Request.build, (int)responseHandle.Request.hair, (int)responseHandle.Request.facialHair, (int)responseHandle.Request.eyebrow);
+			Debug.LogWarning (a.ToString ());
 			creationsInProgress.Add (houseId, new CreationRequest(0, responseHandle, a));
 			CreateCharacterWithReservedId (houseId, true);
 		}
@@ -63,10 +64,19 @@ namespace Polytechnica.Dawnscrest.Core {
 				Debug.LogError ("Lost House's Request, Quitting! Fuck! This is Fucked!");
 				return;
 			}
-			var charEntityTemplate = EntityTemplateFactory.CreateCharacterTemplate(houseId, true, AppearanceSet.GetGeneticVariation(req.appearance));
-			SpatialOS.Commands.CreateEntity(creatorControllerWriter, entityId, "Character", charEntityTemplate)
-				.OnFailure(failure => OnFailedCharacterCreation(failure, houseId, active,  entityId))
-				.OnSuccess(response => OnCreationSuccess(houseId));
+			AppearanceSet aSet = req.appearance;
+			if (active) {
+				var charEntityTemplate = EntityTemplateFactory.CreateCharacterTemplate(houseId, active, req.appearance);
+				SpatialOS.Commands.CreateEntity(creatorControllerWriter, entityId, "Character", charEntityTemplate)
+					.OnFailure(failure => OnFailedCharacterCreation(failure, houseId, active,  entityId))
+					.OnSuccess(response => OnCreationSuccess(houseId));
+			} else {
+				AppearanceSet s = AppearanceSet.GetGeneticVariation (req.appearance);
+				var charEntityTemplate = EntityTemplateFactory.CreateCharacterTemplate(houseId, active, s);
+				SpatialOS.Commands.CreateEntity(creatorControllerWriter, entityId, "Character", charEntityTemplate)
+					.OnFailure(failure => OnFailedCharacterCreation(failure, houseId, active,  entityId))
+					.OnSuccess(response => OnCreationSuccess(houseId));
+			}
 		}
 
 		private void OnFailedCharacterCreation(ICommandErrorDetails response, int houseId, bool active, EntityId entityId) {
