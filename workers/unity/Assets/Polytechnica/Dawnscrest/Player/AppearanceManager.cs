@@ -18,6 +18,11 @@ namespace Polytechnica.Dawnscrest.Player {
 
 		public static AppearanceManager manager;
 
+		void Awake() {
+			DontDestroyOnLoad (this);
+
+		}
+
 		private void OnEnable() {
 			manager = this;
 		}
