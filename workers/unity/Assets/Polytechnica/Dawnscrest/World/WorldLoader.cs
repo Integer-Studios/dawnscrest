@@ -43,9 +43,6 @@ namespace Polytechnica.Dawnscrest.World {
 		private string LoadChunkObjectJSON(Chunk c) {
 			ChunkIndex i = c.GetIndex ();
 			return File.ReadAllText(worldObjectsDirectory+i.x+"-"+i.z+".chunk");
-//			WorldObjectChunk test = new WorldObjectChunk(new WorldObject[]{new WorldObject ("Cube", Polytechnica.Dawnscrest.Core.EntityTemplateType.Basic, Vector3.zero, Vector3.zero, Vector3.one)});
-//			string json = JsonUtility.ToJson(test);
-//			return json;
 		}
 
 		private void LoadObject(WorldObject w) {
