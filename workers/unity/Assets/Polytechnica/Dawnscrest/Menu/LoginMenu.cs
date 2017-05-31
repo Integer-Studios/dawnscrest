@@ -90,6 +90,7 @@ namespace Polytechnica.Dawnscrest.Menu {
 
 					SaveUser (house);
 					manager.house = house;
+					Polytechnica.Dawnscrest.Core.SettingsManager.house = house;
 					manager.LoadMenu (MenuManager.MenuType.MAIN);
 					//					SceneManager.LoadScene ("main");
 				}

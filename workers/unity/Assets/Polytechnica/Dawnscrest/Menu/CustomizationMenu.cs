@@ -85,6 +85,7 @@ namespace Polytechnica.Dawnscrest.Menu {
 						Debug.Log ("Customization Failed");
 					} else {
 						manager.genetics = appearance;
+						Polytechnica.Dawnscrest.Core.SettingsManager.appearanceSet = appearance;
 						Debug.Log("Customization Saved");
 						manager.LoadMenu (MenuManager.MenuType.LOADING);
 

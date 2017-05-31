@@ -20,7 +20,6 @@ namespace Polytechnica.Dawnscrest.Player {
 
 		void Awake() {
 			DontDestroyOnLoad (this);
-
 		}
 
 		private void OnEnable() {

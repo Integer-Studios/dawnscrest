@@ -97,7 +97,7 @@ namespace Polytechnica.Dawnscrest.Menu {
 			HideMenus ();
 
 			DestroyImmediate (canvas);
-
+			DestroyImmediate (this);
 //			GUIManager.Show ();
 		}
 

@@ -57,7 +57,7 @@ namespace Polytechnica.Dawnscrest.Core {
 		 */
         private static void OnClientConnected() {
 			if (menuManager != null) {
-				BodyFinder.FindBody (menuManager.house.id);
+				BodyFinder.FindBody (SettingsManager.house.id);
 			} else {
 				BodyFinder.FindBody (debugPlayerIDStatic);
 			}
