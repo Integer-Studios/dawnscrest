@@ -19,8 +19,6 @@ namespace Polytechnica.Dawnscrest.Menu {
 		public bool debug = false;
 
 		[HideInInspector]
-		public HouseData house;
-		public Polytechnica.Dawnscrest.Player.AppearanceSet genetics;
 		public BannerData banner = null;
 
 		private int started = 0;
@@ -69,7 +67,6 @@ namespace Polytechnica.Dawnscrest.Menu {
 			foreach (Menu m in menus) {
 				m.FadeOut ();
 			}
-			menuBackground.color = new Color (0, 0, 0, 0);
 		}
 
 		/*
@@ -96,8 +93,8 @@ namespace Polytechnica.Dawnscrest.Menu {
 			canvas.gameObject.GetComponent<CanvasGroup> ();
 			HideMenus ();
 
-			DestroyImmediate (canvas);
-			DestroyImmediate (this);
+			DestroyImmediate (canvas.gameObject);
+			DestroyImmediate (this.gameObject);
 //			GUIManager.Show ();
 		}
 

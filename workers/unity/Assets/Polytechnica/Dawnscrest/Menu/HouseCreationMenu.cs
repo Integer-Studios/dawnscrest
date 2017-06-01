@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using Polytechnica.Dawnscrest.Core;
 using UnityEngine.EventSystems;
 
 namespace Polytechnica.Dawnscrest.Menu {
@@ -21,8 +21,8 @@ namespace Polytechnica.Dawnscrest.Menu {
 		}
 
 		public override void Initialize() {
-			if (manager.house.name.Length != 0) {
-				houseName.text = manager.house.name;
+			if (SettingsManager.house.name.Length != 0) {
+				houseName.text = SettingsManager.house.name;
 
 				if (manager.banner != null) {
 					layout.value = manager.banner.layout;
@@ -64,7 +64,7 @@ namespace Polytechnica.Dawnscrest.Menu {
 
 						Debug.Log ("Failed");
 					} else {
-						manager.house.name = response.response;
+						SettingsManager.house.name = response.response;
 						manager.LoadMenu (MenuManager.MenuType.CUSTOMIZATION);
 
 					}
@@ -85,8 +85,8 @@ namespace Polytechnica.Dawnscrest.Menu {
 
 			WWWForm form = new WWWForm ();
 
-			form.AddField ("login", manager.house.loginId);
-			form.AddField ("house", manager.house.id);
+			form.AddField ("login", SettingsManager.house.loginId);
+			form.AddField ("house", SettingsManager.house.id);
 			form.AddField ("name", houseName.text);
 
 			form.AddField ("layout", layout.value);

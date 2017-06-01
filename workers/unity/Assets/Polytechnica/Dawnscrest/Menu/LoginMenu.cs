@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Security.Cryptography;
+using Polytechnica.Dawnscrest.Core;
 
 namespace Polytechnica.Dawnscrest.Menu {
 	
@@ -89,7 +90,7 @@ namespace Polytechnica.Dawnscrest.Menu {
 					//connect
 
 					SaveUser (house);
-					manager.house = house;
+					SettingsManager.house = house;
 					Polytechnica.Dawnscrest.Core.SettingsManager.house = house;
 					manager.LoadMenu (MenuManager.MenuType.MAIN);
 					//					SceneManager.LoadScene ("main");

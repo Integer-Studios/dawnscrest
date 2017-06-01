@@ -69,9 +69,7 @@ namespace Polytechnica.Dawnscrest.Player {
 			if (Bootstrap.isServer) {
 				this.enabled = false;
 				return;
-			} else {
-				Bootstrap.OnPlayerSpawn ();
-			}
+			} 
 
 			// Setup Readers
 			characterVitalsReader.ComponentUpdated += OnVitalsUpdated;
@@ -127,6 +125,9 @@ namespace Polytechnica.Dawnscrest.Player {
 
 			// Set up no-collide with self
 			gameObject.layer = 2;
+			if (!Bootstrap.isServer) {
+				Bootstrap.OnPlayerSpawn ();
+			}
 		}
 
 		/*
@@ -146,7 +147,6 @@ namespace Polytechnica.Dawnscrest.Player {
 		 * velocities so the controls have to overwrite the physics calculations *selectively*
 		 */
 		private void LateUpdate() {
-			Debug.Log (rigidBody.velocity.y);
 			// Enact Pitch
 			hip.transform.eulerAngles = new Vector3 (pitch, hip.transform.eulerAngles.y, hip.transform.eulerAngles.z);
 			// Enact Movement

@@ -15,7 +15,7 @@ namespace Polytechnica.Dawnscrest.World {
 
 	public class WorldLoader : MonoBehaviour {
 
-		public static string worldObjectsDirectory = "Assets/World/World/";
+		public static string worldObjectsDirectory = "/Users/quinnfinney/Code/World/";
 
 		private WorldTerrain terrain;
 

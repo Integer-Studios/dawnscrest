@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Security.Cryptography;
+using Polytechnica.Dawnscrest.Core;
 
 namespace Polytechnica.Dawnscrest.Menu {
 
@@ -23,8 +24,8 @@ namespace Polytechnica.Dawnscrest.Menu {
 		}
 
 		public override void Initialize() {
-			nameText.text = manager.house.irl;
-			if (!manager.house.spawned) {
+			nameText.text = SettingsManager.house.irl;
+			if (!SettingsManager.house.spawned) {
 				house.interactable = false;
 			}
 		}
@@ -38,7 +39,7 @@ namespace Polytechnica.Dawnscrest.Menu {
 		}
 
 		protected void OnEnterWorld() {
-			if (manager.house.spawned == false) {
+			if (SettingsManager.house.spawned == false) {
 				manager.LoadMenu (MenuManager.MenuType.HOUSE_CREATION);
 			} else {
 				manager.LoadMenu (MenuManager.MenuType.LOADING);

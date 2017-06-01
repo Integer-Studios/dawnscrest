@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using Polytechnica.Dawnscrest.Player;
 using System.Text.RegularExpressions;
+using Polytechnica.Dawnscrest.Core;
 
 namespace Polytechnica.Dawnscrest.Menu {
 
@@ -33,7 +34,7 @@ namespace Polytechnica.Dawnscrest.Menu {
 			character.SetActive (true);
 			appearance = new AppearanceSet ();
 			UpdateAppearance ();
-			nameText.text = "Ramos " + manager.house.name;
+			nameText.text = "Ramos " + SettingsManager.house.name;
 			NewName ();
 
 		}
@@ -84,7 +85,6 @@ namespace Polytechnica.Dawnscrest.Menu {
 
 						Debug.Log ("Customization Failed");
 					} else {
-						manager.genetics = appearance;
 						Polytechnica.Dawnscrest.Core.SettingsManager.appearanceSet = appearance;
 						Debug.Log("Customization Saved");
 						manager.LoadMenu (MenuManager.MenuType.LOADING);
@@ -116,7 +116,7 @@ namespace Polytechnica.Dawnscrest.Menu {
 			
 			if (_w.error == null) {
 				try {
-					nameText.text = Regex.Replace(_w.text, @"\s+", "") + " " + manager.house.name;
+					nameText.text = Regex.Replace(_w.text, @"\s+", "") + " " + SettingsManager.house.name;
 				} catch (System.ArgumentException e) {
 					errorText.text = "Name Fetch Failed! Please Try Again.";
 
@@ -153,7 +153,7 @@ namespace Polytechnica.Dawnscrest.Menu {
 
 			WWWForm form = new WWWForm ();
 
-			form.AddField ("house", manager.house.id);
+			form.AddField ("house", SettingsManager.house.id);
 			form.AddField ("gender", gender.value);
 			form.AddField ("heritage", heritage.value);
 			form.AddField ("virtue", virtue.value);
