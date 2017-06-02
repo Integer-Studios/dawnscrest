@@ -113,17 +113,29 @@ namespace Polytechnica.Dawnscrest.Core {
 
 			// There is an active character
 			if (activeCharacterFound) {
+				SettingsManager.house.spawned = true;
 				Debug.Log ("Active Character Found, Embodying...");
-				SpatialOS.WorkerCommands.SendCommand (Character.Commands.Embody.Descriptor, new Nothing (), activeCharacter)
-					.OnFailure(error => OnEmbodyFailure(error));
+				if (Bootstrap.menuManager == null) {
+					AttemptWorldEntry ();
+				}
 			// TODO handling death
 			} else if (family.Count > 0) {
 				Debug.Log ("Looks like you fucking died - nice job retard");
 			} else {
 				Debug.Log ("Welcome to Dawnscrest - lets start your house");
-				CreateFamily (houseId);
+				SettingsManager.house.spawned = false;
+				if (Bootstrap.menuManager == null) {
+					CreateFamily (houseId);
+				}
 			}
+			if (Bootstrap.menuManager != null) {
+				Bootstrap.menuManager.OnBodyQuery ();
+			} 
+		}
 
+		public static void AttemptWorldEntry() {
+			SpatialOS.WorkerCommands.SendCommand (Character.Commands.Embody.Descriptor, new Nothing (), activeCharacter)
+				.OnFailure(error => OnEmbodyFailure(error));
 		}
 
 		private static void OnEmbodyFailure(ICommandErrorDetails error) {

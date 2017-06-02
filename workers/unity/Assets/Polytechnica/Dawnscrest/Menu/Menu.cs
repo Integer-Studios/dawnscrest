@@ -32,6 +32,10 @@ namespace Polytechnica.Dawnscrest.Menu {
 			HandleFade ();
 		}
 
+		public virtual void OnBodyQuery(bool status = true) {
+
+		}
+
 		/*
 		 *	Handles tab key and enter, using inputs array set in editor
 		 */

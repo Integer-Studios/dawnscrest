@@ -125,9 +125,7 @@ namespace Polytechnica.Dawnscrest.Player {
 
 			// Set up no-collide with self
 			gameObject.layer = 2;
-			if (!Bootstrap.isServer) {
-				Bootstrap.OnPlayerSpawn ();
-			}
+			Bootstrap.OnPlayerSpawn ();
 		}
 
 		/*

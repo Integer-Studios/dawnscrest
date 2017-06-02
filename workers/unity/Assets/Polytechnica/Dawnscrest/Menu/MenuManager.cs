@@ -13,6 +13,7 @@ namespace Polytechnica.Dawnscrest.Menu {
 
 		public Canvas canvas;
 		public Menu[] menus;
+		public Menu activeMenu;
 		public UnityEngine.UI.Image menuBackground;
 
 		public string version = "0.0";
@@ -20,6 +21,7 @@ namespace Polytechnica.Dawnscrest.Menu {
 
 		[HideInInspector]
 		public BannerData banner = null;
+		public bool loading = false;
 
 		private int started = 0;
 
@@ -55,6 +57,7 @@ namespace Polytechnica.Dawnscrest.Menu {
 					m.FadeOut (fade);
 				}
  			}
+			activeMenu = toLoad;
 			//Waits for all menus to fade out before fading new one in
 			StartCoroutine (FadeInMenu(toLoad));
 
@@ -96,6 +99,10 @@ namespace Polytechnica.Dawnscrest.Menu {
 			DestroyImmediate (canvas.gameObject);
 			DestroyImmediate (this.gameObject);
 //			GUIManager.Show ();
+		}
+
+		public void OnBodyQuery(bool status = true) {
+			activeMenu.OnBodyQuery (status);
 		}
 
 		/*

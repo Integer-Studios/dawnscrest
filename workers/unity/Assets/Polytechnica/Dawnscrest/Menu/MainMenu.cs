@@ -20,7 +20,7 @@ namespace Polytechnica.Dawnscrest.Menu {
 			house.onClick.AddListener(OnHouse);
 			settings.onClick.AddListener(OnSettings);
 			logout.onClick.AddListener(OnLogout);
-
+			enter.interactable = false;
 		}
 
 		public override void Initialize() {
@@ -28,10 +28,18 @@ namespace Polytechnica.Dawnscrest.Menu {
 			if (!SettingsManager.house.spawned) {
 				house.interactable = false;
 			}
+			Bootstrap.OnLogin ();
+
 		}
 
 		public override void Update() {
 			base.Update ();
+		}
+
+		public override void OnBodyQuery(bool status = true) {
+			if (status) {
+				enter.interactable = true;
+			}
 		}
 
 		protected override void OnEnter() {

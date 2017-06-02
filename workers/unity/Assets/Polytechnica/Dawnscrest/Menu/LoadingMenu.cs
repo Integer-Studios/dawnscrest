@@ -58,6 +58,7 @@ namespace Polytechnica.Dawnscrest.Menu {
 				break;
 			case 2:
 				stageText.text = "connecting to spatial...";
+			
 				break;
 			case 3:
 				stageText.text = "creating family...";
@@ -72,6 +73,8 @@ namespace Polytechnica.Dawnscrest.Menu {
 		}
 
 		public override void Initialize() {
+			manager.loading = true;
+			manager.canvas.renderMode = RenderMode.ScreenSpaceOverlay;
 		}
 
 		public override void Update() {
@@ -79,6 +82,14 @@ namespace Polytechnica.Dawnscrest.Menu {
 
 		}
 			
+		public override void OnBodyQuery(bool status) {
+			if (status) {
+				if (Polytechnica.Dawnscrest.Core.SettingsManager.house.spawned == true) {
+					Polytechnica.Dawnscrest.Core.BodyFinder.AttemptWorldEntry ();
+				}
+			}
+		}
+
 		protected override void OnShow() {
 			LoadingMenu.stage = 1;
 			StartCoroutine(manager.StartGame (this));
