@@ -6,10 +6,6 @@ namespace Polytechnica.Dawnscrest.World {
 
 	public class WorldTerrain : MonoBehaviour {
 
-		public string rawFile;
-		public ByteOrder rawHeightMapOrder = ByteOrder.Windows;
-		public float height = 300f;
-
 		public Vector3 climateMin;
 		public Vector3 climateMax;
 
@@ -27,14 +23,17 @@ namespace Polytechnica.Dawnscrest.World {
 		public static int resolution = 5;
 		public static int size = 1400;
 		public static int chunkSize = 50;
+		public static string rawFile = "/Users/trefethen/Documents/unity/dawnscrest/workers/unity/Assets/World/Resources/Raws/gatbalyn.raw";
+		public ByteOrder rawHeightMapOrder = ByteOrder.Windows;
+		public static float height = 300f;
 
-		private float[,] heightmap;
+		private static float[,] heightmap;
 
-		private void OnEnable() {
-			terrain = this;
-		}
+		/*
+		 * Static Gen
+		 */
 
-		public void LoadChunkTerrain(Chunk c) {
+		public static void LoadChunkTerrain(Chunk c) {
 			c.LoadHeightmap (heightmap);
 		}
 
@@ -59,7 +58,7 @@ namespace Polytechnica.Dawnscrest.World {
 			return i;
 		}
 
-		public void GenerateHeightmap() {
+		public static void GenerateHeightmap() {
 			Debug.LogWarning ("Loading Heightmap From Raw...");
 			var info = new System.IO.FileInfo(rawFile);
 			int rawHeightMapSize = Mathf.RoundToInt(Mathf.Sqrt(info.Length / sizeof(System.UInt16)));
@@ -89,6 +88,14 @@ namespace Polytechnica.Dawnscrest.World {
 				}
 			}
 			Debug.LogWarning ("Successfully Loaded Heightmap Of Size: " + heightmap.Length + ". Refreshing Chunks...");
+		}
+
+		/*
+		 * Client & Server Gen Helpers
+		 */
+
+		private void OnEnable() {
+			terrain = this;
 		}
 
 		public float GetTempurature(Vector3 pos) {

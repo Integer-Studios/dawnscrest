@@ -21,12 +21,11 @@ namespace Polytechnica.Dawnscrest.World {
 
 		[Require] private WorldTransform.Writer transformWriter;
 
-		public void LoadChunks() {
-			terrain = FindObjectOfType<WorldTerrain> ();
-			terrain.GenerateHeightmap ();
+		public static  void LoadChunks() {
+			WorldTerrain.GenerateHeightmap ();
 			Chunk[] chunks = FindObjectsOfType<Chunk> ();
 			foreach (Chunk c in chunks) {
-				terrain.LoadChunkTerrain (c);
+				WorldTerrain.LoadChunkTerrain (c);
 				LoadChunkObjects (c);
 			}
 			Debug.LogWarning ("Successfully Loaded " + chunks.Length + " Chunks.");
