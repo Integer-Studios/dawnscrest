@@ -60,12 +60,7 @@ namespace Polytechnica.Dawnscrest.Core {
 		}
 
 		private void OnServerConnected() {
-			StartCoroutine (LoadWorld());
-		}
 
-		private IEnumerator LoadWorld() {
-			yield return new WaitForSeconds (5f);
-			FindObjectOfType<WorldLoader>().LoadChunks ();
 		}
 
 		/*

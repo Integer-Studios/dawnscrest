@@ -18,12 +18,14 @@ namespace Polytechnica.Dawnscrest.Core {
 	
     public static class EntityTemplateFactory {
 
-		public static Entity CreateEntityTemplate(WorldObject w) {
-			return CreateBasicEntityTemplate (w.position, w.rotation, w.scale);
+		public static SnapshotEntity CreateEntityTemplate(WorldObject w) {
+
+			//TODO use type in here
+			return CreateBasicEntityTemplate (w.name, w.position, w.rotation, w.scale);
 		}
 
-		public static Entity CreateBasicEntityTemplate(Vector3 pos, Vector3 rot, Vector3 scale) {
-			var template = new Entity();
+		public static SnapshotEntity CreateBasicEntityTemplate(string name, Vector3 pos, Vector3 rot, Vector3 scale) {
+			var template = new SnapshotEntity { Prefab = name };
 			template.Add(new WorldTransform.Data(new Coordinates (pos.x, pos.y, pos.z), new Vector3d(rot.x,rot.y,rot.z), new Vector3d(scale.x,scale.y,scale.z)));
 			var acl = Acl.GenerateServerAuthoritativeAcl(template);
 			template.SetAcl(acl);
@@ -75,7 +77,7 @@ namespace Polytechnica.Dawnscrest.Core {
 			c.Z = WorldTerrain.chunkSize * z - (WorldTerrain.size/2);
 			var template = new SnapshotEntity { Prefab = "TerrainChunk" };
 			template.Add(new WorldTransform.Data(c, new Vector3d(0,0,0), new Vector3d(1,1,1)));
-			template.Add (new TerrainChunk.Data (new List<float> (),x, z, 0, 0));
+			template.Add (WorldTerrain.GetTerrainData(x,z));
 			var acl = Acl.GenerateServerAuthoritativeAcl(template);
 			template.SetAcl(acl);
 			return template;

@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Improbable.Collections;
 using UnityEngine;
 
 namespace Polytechnica.Dawnscrest.World {
@@ -23,8 +22,7 @@ namespace Polytechnica.Dawnscrest.World {
 		public static int resolution = 5;
 		public static int size = 1400;
 		public static int chunkSize = 50;
-		public static string rawFile = "/Users/trefethen/Documents/unity/dawnscrest/workers/unity/Assets/World/Resources/Raws/gatbalyn.raw";
-		public ByteOrder rawHeightMapOrder = ByteOrder.Windows;
+		public static ByteOrder rawHeightMapOrder = ByteOrder.Windows;
 		public static float height = 300f;
 
 		private static float[,] heightmap;
@@ -32,10 +30,6 @@ namespace Polytechnica.Dawnscrest.World {
 		/*
 		 * Static Gen
 		 */
-
-		public static void LoadChunkTerrain(Chunk c) {
-			c.LoadHeightmap (heightmap);
-		}
 
 		public static HeightmapIndex ToHMI(ChunkIndex c) {
 			HeightmapIndex h;
@@ -59,11 +53,15 @@ namespace Polytechnica.Dawnscrest.World {
 		}
 
 		public static void GenerateHeightmap() {
-			Debug.LogWarning ("Loading Heightmap From Raw...");
-			var info = new System.IO.FileInfo(rawFile);
+			// Usually if someone is generating the heightmap it's just safer to have this reference working
+			if (terrain == null)
+				terrain = FindObjectOfType<WorldTerrain> ();
+			
+			Debug.Log ("Loading Heightmap From Raw...");
+			var info = new System.IO.FileInfo(WorldCreator.worldDirectory+"terrain.raw");
 			int rawHeightMapSize = Mathf.RoundToInt(Mathf.Sqrt(info.Length / sizeof(System.UInt16)));
 
-			var rawBytes = System.IO.File.ReadAllBytes(rawFile);
+			var rawBytes = System.IO.File.ReadAllBytes(WorldCreator.worldDirectory+"terrain.raw");
 			bool reverseBytes = System.BitConverter.IsLittleEndian == (rawHeightMapOrder == ByteOrder.Mac);
 			float [,]rawHeightmap = new float[rawHeightMapSize, rawHeightMapSize];
 			int index = 0;
@@ -87,7 +85,41 @@ namespace Polytechnica.Dawnscrest.World {
 					heightmap [xi, zi] = height * rawHeightmap [(int)(u * rawHeightMapSize), (int)(v * rawHeightMapSize)];
 				}
 			}
-			Debug.LogWarning ("Successfully Loaded Heightmap Of Size: " + heightmap.Length + ". Refreshing Chunks...");
+			Debug.Log ("Successfully Loaded Heightmap Of Size: " + heightmap.Length + ". Refreshing Chunks...");
+		}
+
+		public static TerrainChunk.Data GetTerrainData(int x, int z) {
+			ChunkIndex index = new ChunkIndex (x, z);
+			float[,] map = GetChunkHeightmap (index);
+			return new TerrainChunk.Data(WrapHeightmap (GetChunkHeightmap (index)),x,z,(uint)map.GetLength(0),(uint)map.GetLength(1));
+		}
+
+		public static float[,] GetChunkHeightmap(ChunkIndex i) {
+			HeightmapIndex start = ToHMI (i);
+			int chunkSizeX = (WorldTerrain.chunkSize / WorldTerrain.resolution) + 1;
+			int chunkSizeZ = chunkSizeX;
+			if (start.x + chunkSizeX >= heightmap.GetLength(0))
+				chunkSizeX--;
+			if (start.z + chunkSizeZ >= heightmap.GetLength(1))
+				chunkSizeZ--;
+
+			float[,] chunkHeightmap = new float[chunkSizeX,chunkSizeZ];
+			for (int z = 0; z < chunkHeightmap.GetLength (1); z++) {
+				for (int x = 0; x < chunkHeightmap.GetLength (0); x++) {
+					chunkHeightmap [x, z] = heightmap [start.x + x, start.z + z];
+				}
+			}
+			return chunkHeightmap;
+		}
+
+		public static List<float> WrapHeightmap(float[,] map) {
+			List<float> l = new List<float> ();
+			for (int z = 0; z < map.GetLength (1); z++) {
+				for (int x = 0; x < map.GetLength (0); x++) {
+					l.Add (map [x, z]);
+				}
+			}
+			return l;
 		}
 
 		/*

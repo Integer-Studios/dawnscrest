@@ -39,6 +39,15 @@ namespace Polytechnica.Dawnscrest.World {
 				refreshMesh ();
 			}
 		}
+
+		public void EditorVisualize(TerrainChunk.Data data) {
+			index = new ChunkIndex (data.Value.x, data.Value.z);
+			start = WorldTerrain.ToHMI (index);
+			if (data.Value.heightmap.Count > 0) {
+				UnwrapHeightmap ((int)data.Value.sizeX, (int)data.Value.sizeZ, data.Value.heightmap);
+				refreshMesh ();
+			}
+		}
 			
 		private void UnwrapHeightmap(int sizeX, int sizeZ, List<float> list) {
 			heightmap = new float[sizeX, sizeZ];
@@ -64,7 +73,7 @@ namespace Polytechnica.Dawnscrest.World {
 			for (int zi = 0; zi < heightmap.GetLength(1); zi++) {
 				for (int xi = 0; xi <  heightmap.GetLength(0); xi++) {
 					if (xi + 1 <  heightmap.GetLength(0) && zi + 1 <  heightmap.GetLength(1)) {
-						HeightmapIndex temp = new HeightmapIndex (xi, zi);
+//						HeightmapIndex temp = new HeightmapIndex (xi, zi);
 
 						addTri(xi, zi, xi, zi+1, xi+1, zi, false, ref vertList, ref uvList, ref triList, ref colorList, ref i, Color.black);
 						addTri(xi, zi+1, xi+1, zi+1, xi+1, zi, false, ref vertList, ref uvList, ref triList, ref colorList, ref i, Color.black);
