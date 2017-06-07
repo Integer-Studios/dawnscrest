@@ -63,9 +63,11 @@ namespace Polytechnica.Dawnscrest.Core {
 			return template;
 		}
 
-		public static SnapshotEntity CreateWorldLoaderTemplate() {
-			var template = new SnapshotEntity { Prefab = "WorldLoader" };
+		public static SnapshotEntity CreateWorldTimeTemplate() {
+			var template = new SnapshotEntity { Prefab = "WorldTime" };
 			template.Add(new WorldTransform.Data(Coordinates.ZERO, new Vector3d(0,0,0), new Vector3d(0,0,0)));
+			template.Add (new TimeComponent.Data (0));
+			template.Add (new GloballyVisibile.Data ());
 			var acl = Acl.GenerateServerAuthoritativeAcl(template);
 			template.SetAcl(acl);
 			return template;

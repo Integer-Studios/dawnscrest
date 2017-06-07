@@ -14,7 +14,13 @@
         "radius": 200
       }
     },
-    "streaming_query": [],
+    "streaming_query": [
+	    {
+		    "global_component_streaming_query":{
+		      "component_name":"polytechnica.dawnscrest.core.GloballyVisibile"
+		    }
+	    }
+    ],
     "component_delivery": {
       "default": "RELIABLE_ORDERED",
       "checkout_all_initially": true

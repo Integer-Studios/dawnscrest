@@ -1,0 +1,6 @@
+package polytechnica.dawnscrest.world;
+
+component TimeComponent {
+  id = 1201;
+  float time = 1;
+}

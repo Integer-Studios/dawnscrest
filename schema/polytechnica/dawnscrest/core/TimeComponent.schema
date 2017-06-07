@@ -1,0 +1,5 @@
+package polytechnica.dawnscrest.core;
+
+component GloballyVisibile {
+  id = 1005;
+}

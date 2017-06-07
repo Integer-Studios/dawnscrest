@@ -19,6 +19,7 @@ namespace Polytechnica.Dawnscrest.Editor {
 
 			var currentEntityId = 1;
 			snapshotEntities.Add(new EntityId(currentEntityId++), EntityTemplateFactory.CreateCharacterCreatorTemplate());
+			snapshotEntities.Add(new EntityId(currentEntityId++), EntityTemplateFactory.CreateWorldTimeTemplate());
 
 			WorldTerrain.GenerateHeightmap ();
 
