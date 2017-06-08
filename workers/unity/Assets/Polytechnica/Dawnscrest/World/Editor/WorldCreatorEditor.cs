@@ -77,10 +77,10 @@ namespace Polytechnica.Dawnscrest.World {
 		private void LoadObjects() {
 
 			// Save the actually loaded range
-//			loadedMinX = minX;
-//			loadedMaxX = maxX;
-//			loadedMinZ = minZ;
-//			loadedMaxZ = maxZ;
+			loadedMinX = minX;
+			loadedMaxX = maxX;
+			loadedMinZ = minZ;
+			loadedMaxZ = maxZ;
 
 			int minXi = Mathf.RoundToInt(minX);
 			int maxXi = Mathf.RoundToInt(maxX);
@@ -137,17 +137,17 @@ namespace Polytechnica.Dawnscrest.World {
 		private void SaveObjects() {
 
 			// Reset the range to the actually loaded one to prevent fuck ups
-//			minX = loadedMinX;
-//			maxX = loadedMaxX;
-//			minZ = loadedMinZ;
-//			maxZ = loadedMaxZ;
+			minX = loadedMinX;
+			maxX = loadedMaxX;
+			minZ = loadedMinZ;
+			maxZ = loadedMaxZ;
 
 			int minXi = Mathf.RoundToInt(minX);
 			int maxXi = Mathf.RoundToInt(maxX);
 			int minZi = Mathf.RoundToInt(minZ);
 			int maxZi = Mathf.RoundToInt(maxZ);
 
-			WorldObjectChunk[,] chunks = new WorldObjectChunk[maxXi-minXi, maxZi-minZi];
+			WorldObjectChunk[,] chunks = new WorldObjectChunk[maxXi-minXi+1, maxZi-minZi+1];
 			for (int z = 0; z < chunks.GetLength (1); z++) {
 				for (int x = 0; x < chunks.GetLength (0); x++) {
 					chunks [x, z] = new WorldObjectChunk ();
@@ -162,8 +162,10 @@ namespace Polytechnica.Dawnscrest.World {
 				// Get Chunk Index
 				ChunkIndex index = WorldTerrain.ToChunkIndex (obj.transform.position);
 				// Check Chunk in range
-				if (!(chunks.GetLength (0) > index.x - minXi && index.x - minXi >= 0 && chunks.GetLength (1) > index.z - minZi && index.z - minZi >= 0))
+				if (chunks.GetLength (0) <= index.x - minXi || index.x - minXi < 0 || chunks.GetLength (1) <= index.z - minZi || index.z - minZi < 0) {
+					Debug.Log (savable.name + " " + (index.x) + " " + (index.z));
 					continue;
+				}
 
 				// We actually want to save this one
 
