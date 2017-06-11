@@ -17,6 +17,7 @@ namespace Polytechnica.Dawnscrest.World {
 		public Color snow;
 		public float snowPoint = 0.2f;
 		public Color sand;
+		public float humidityOffset = 1f;
 
 		public static WorldTerrain terrain;
 		public static int resolution = 5;
@@ -146,13 +147,13 @@ namespace Polytechnica.Dawnscrest.World {
 			Color c;
 			if (t > grassPoint) {
 				c = grass;
-				c = mix (sand,c, GetHumidity (pos));
+				c = mix (sand,c, GetHumidity (pos)+humidityOffset);
 			} else if (t > dirtPoint) {
 				c = mix (dirt, grass, getGradientPoint (dirtPoint, grassPoint, t));
-				c = mix (sand,c, GetHumidity (pos));
+				c = mix (sand,c, GetHumidity (pos)+humidityOffset);
 			} else if (t > stonePoint) {
 				c = mix (stone, dirt, getGradientPoint (stonePoint, dirtPoint, t));
-				c = mix (sand,c, GetHumidity (pos));
+				c = mix (sand,c, GetHumidity (pos)+humidityOffset);
 			} else if (t > snowPoint) {
 				c = mix (snow, stone, getGradientPoint (snowPoint, stonePoint, t));
 			} else

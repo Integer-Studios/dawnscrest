@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEditor;
 using System.IO;
 using Polytechnica.Dawnscrest.Editor;
+using Borodar.FarlandSkies.LowPoly;
 
 namespace Polytechnica.Dawnscrest.World {
 
@@ -23,7 +24,10 @@ namespace Polytechnica.Dawnscrest.World {
 		public override void OnInspectorGUI() {
 
 			DrawDefaultInspector();
+
 			WorldCreator creator = (WorldCreator)target;
+
+			SkyboxDayNightCycle.Instance.TimeOfDay = creator.editorTime;
 
 			EditorGUILayout.LabelField("Chunk X Range: " + (int)minX + " to " + (int)maxX);
 			EditorGUILayout.MinMaxSlider(ref minX, ref maxX, 0, WorldTerrain.size/WorldTerrain.chunkSize - 1);

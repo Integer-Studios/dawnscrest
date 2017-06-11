@@ -1,0 +1,9 @@
+package polytechnica.dawnscrest.item;
+import "polytechnica/dawnscrest/item/ItemStackData.schema";
+
+component InventoryComponent {
+  id = 1301;
+  
+  list<ItemStackData> stacks = 1;
+
+}

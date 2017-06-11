@@ -1,5 +1,7 @@
 fileFormatVersion: 2
 guid: b518d1c2437290342ad322301233ec42
+labels:
+- Savable
 timeCreated: 1469466589
 licenseType: Store
 NativeFormatImporter:

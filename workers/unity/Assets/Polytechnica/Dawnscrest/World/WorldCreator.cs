@@ -7,6 +7,7 @@ namespace Polytechnica.Dawnscrest.World {
 
 	public class WorldCreator : MonoBehaviour {
 		public static string worldDirectory = "/Users/trefethen/Desktop/World/";
+		public float editorTime = 0f;
 	}
 
 }

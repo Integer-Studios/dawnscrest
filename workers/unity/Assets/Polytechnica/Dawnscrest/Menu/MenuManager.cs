@@ -6,6 +6,7 @@ using System.IO;
 using System;
 using Polytechnica.Dawnscrest.GUI;
 using Polytechnica.Dawnscrest.Core;
+using Borodar.FarlandSkies.LowPoly;
 
 namespace Polytechnica.Dawnscrest.Menu {
 
@@ -18,12 +19,15 @@ namespace Polytechnica.Dawnscrest.Menu {
 
 		public string version = "0.0";
 		public bool debug = false;
+		public float timeCycleDuration = 150f;
+		public float startTime = 0.3f;
 
 		[HideInInspector]
 		public BannerData banner = null;
 		public bool loading = false;
 
 		private int started = 0;
+		private float bgTime = 0;
 
 		void Awake(){
 			DontDestroyOnLoad (this);
@@ -31,7 +35,15 @@ namespace Polytechnica.Dawnscrest.Menu {
 		}
 
 		void Start() {
+			bgTime = startTime;
 			SettingsManager.initialize ();
+		}
+
+		void Update() {
+			bgTime += (1f/timeCycleDuration) * Time.deltaTime;
+			if (bgTime >= 1f)
+				bgTime = 0f;
+			SkyboxDayNightCycle.Instance.TimeOfDay = bgTime*100f;
 		}
 
 		/*
