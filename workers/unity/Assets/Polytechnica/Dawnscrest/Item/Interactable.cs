@@ -4,6 +4,8 @@ using UnityEngine;
 using Improbable.Core;
 using Improbable.Math;
 using Improbable.Unity.Visualizer;
+using Improbable.Entity.Component;
+using Polytechnica.Dawnscrest.Core;
 
 namespace Polytechnica.Dawnscrest.Item {
 
@@ -14,18 +16,34 @@ namespace Polytechnica.Dawnscrest.Item {
 		public float maxStrength;
 		protected float strength;
 
-		// Use this for initialization
-		void OnEnable () {
-			
+		protected virtual void OnEnable() {
+			interactableWriter.CommandReceiver.OnInteract.RegisterResponse (OnInteractRequest);
+
+			// set the component data to the configured data
+			strength = maxStrength;
+			interactableWriter.Send (new InteractableComponent.Update ()
+				.SetMaxStrength(maxStrength)
+				.SetStrength(strength)
+			);
 		}
-		
-		// Update is called once per frame
-		void Update () {
-			
+
+		public virtual void Interact(float f) {
+			strength -= f;
+			if (strength <= 0f)
+				OnComplete ();
+
+			interactableWriter.Send (new InteractableComponent.Update ()
+				.SetStrength(strength)
+			);
 		}
 
 		protected virtual void OnComplete() {
 
+		}
+
+		private Nothing OnInteractRequest(InteractRequest r, ICommandCallerInfo callerInfo) {
+			Interact (r.amount);
+			return new Nothing ();
 		}
 
 	}

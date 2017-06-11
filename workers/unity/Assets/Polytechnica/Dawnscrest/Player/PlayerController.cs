@@ -4,6 +4,7 @@ using UnityEngine;
 using Improbable.Core;
 using Improbable.Math;
 using Improbable.Unity.Visualizer;
+using Improbable.Unity.Core;
 using Polytechnica.Dawnscrest.Core;
 using Polytechnica.Dawnscrest.GUI;
 using Polytechnica.Dawnscrest.Item;
@@ -45,6 +46,7 @@ namespace Polytechnica.Dawnscrest.Player {
 		private bool shouldJump;
 		private bool grounded = false;
 		private GameObject groundObject;
+		private bool rightHandActive = true;
 
 		// Control
 		private GameObject playerCamera;
@@ -137,6 +139,7 @@ namespace Polytechnica.Dawnscrest.Player {
 			UpdateLocomotion ();
 			UpdateLookingAt ();
 			UpdateCrosshair ();
+			UpdateMouse ();
 		}
 
 		/*
@@ -175,17 +178,6 @@ namespace Polytechnica.Dawnscrest.Player {
 				speed = maxSpeed;
 			} else {
 				speed = maxSpeed / 2f;
-			}
-
-			// Temporary Test Keys for Crosshair
-			if (Input.GetKey (KeyCode.O)) {
-				GUIManager.crosshair.SetInteractable ("Pickup\nRock");
-			}
-			if (Input.GetKey (KeyCode.P)) {
-				GUIManager.crosshair.SetMinimized ();
-			}
-			if (Input.GetKey (KeyCode.L)) {
-				GUIManager.crosshair.SetTooltip ("Pick\nRequired");
 			}
 
 			if (Input.GetKey (KeyCode.Escape)) {
@@ -290,12 +282,116 @@ namespace Polytechnica.Dawnscrest.Player {
 		private void UpdateCrosshair () {
 			if (IsLookingAtInteractable ()) {
 				GUIManager.crosshair.SetInteractable (lookingAtObject.GetComponentInParent<InteractableVisualizer>().GetTooltip());
-//				GUIManager.crosshair.setFill (lookingAtObject.GetComponentInParent<Interactable> ().getPercent ());
+				GUIManager.crosshair.setFill (lookingAtObject.GetComponentInParent<InteractableVisualizer> ().GetPercent ());
 			} else {
 				GUIManager.crosshair.SetMinimized ();
 			}
 		}
 
+		private void UpdateMouse() {
+			if(Input.GetMouseButtonDown (0))
+				OnMouseDown (false);
+
+			if(Input.GetMouseButtonUp (0))
+				CancelActions ();
+
+			if(Input.GetMouseButton (0))
+				MouseDown ();
+
+			if(Input.GetMouseButtonDown (1))
+				OnMouseDown (true);
+
+			if(Input.GetMouseButtonUp (1))
+				CancelActions ();
+
+			if(Input.GetMouseButton (1))
+				MouseDown ();
+
+		}
+
+		// Mouse
+
+		private void OnMouseDown(bool rightHand) {
+
+			if (Cursor.visible) {
+				Cursor.lockState = CursorLockMode.Locked;
+				Cursor.visible = false;
+				return;
+			}
+
+			SetRightHand (rightHand);
+
+			if (Input.GetKey (KeyCode.LeftControl))
+				SecondaryAction ();
+			else 
+				PrimaryAction ();
+		}
+
+		private void MouseDown() {
+			if (Input.GetKey (KeyCode.LeftControl))
+				SecondaryActionUpdate ();
+			else 
+				PrimaryActionUpdate ();
+		}
+
+		private void PrimaryAction() {
+			if (!IsLookingAtInteractable ()) {
+				// swing
+			} else {
+				if (lookingAtObject.GetComponentInParent<InteractableVisualizer> ().maxStrength == 0f) {
+					// max strength = 0 so its a instant-complete
+				} else {
+					SetInteracting (true);
+				}
+			}
+		}
+
+		private void PrimaryActionUpdate() {
+			if (!IsLookingAtInteractable (true)) {
+				CancelActions ();
+			}
+		}
+
+		private void SecondaryAction() {
+
+		}
+
+		private void SecondaryActionUpdate() {
+
+		}
+
+		private void CancelActions() {
+			SetInteracting (false);
+		}
+
+		private void SetRightHand(bool b) {
+			rightHandActive = b;
+			anim.SetBool ("Right", b);
+			playerAnimWriter.Send (new PlayerAnim.Update ()
+				.SetRightHand(rightHandActive)
+			);
+		}
+
+		private void SetInteracting(bool i) {
+			anim.SetBool ("Interacting", i);
+			playerAnimWriter.Send (new PlayerAnim.Update ()
+				.SetRightHand(rightHandActive)
+				.SetInteracting(true)
+			);
+		}
+
+		private void OnSwingHit() {
+			if (lookingAtObject == null)
+				return;
+			if (IsLookingAtInteractable ()) {
+				SpatialOS.Commands.SendCommand (
+					worldTransformWriter, 
+					InteractableComponent.Commands.Interact.Descriptor, 
+					new InteractRequest (gameObject.EntityId (), 1f),
+					lookingAtObject.EntityId ()
+				);
+			}
+		}
 
 		/*
 		 * Triggered by component update for vitals, sets HUD sliders

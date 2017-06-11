@@ -43,6 +43,10 @@ namespace Polytechnica.Dawnscrest.GUI {
 		 * 
 		 */
 
+		public void setFill(float f) {
+			image.fillAmount = f;
+		}
+
 		/*
 		 * Minimizes Crosshair
 		 */
@@ -109,6 +113,7 @@ namespace Polytechnica.Dawnscrest.GUI {
 			if (currentState == toState)
 				setContent (end);
 			else {
+				image.fillAmount = 1f;
 				setContent (start);
 				transitionToState = toState;
 				onCompleteContent = end;

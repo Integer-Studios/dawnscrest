@@ -3,6 +3,7 @@ import "polytechnica/dawnscrest/core/Nothing.schema";
 
 type InteractRequest {
   EntityId entity_id = 1;
+  float amount = 2;
 }
 
 component InteractableComponent {

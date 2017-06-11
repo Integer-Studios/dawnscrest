@@ -74,7 +74,7 @@ namespace Polytechnica.Dawnscrest.World {
 				if (name == null)
 					continue;
 
-				prefab.GetComponent<Savable> ().name = name;
+				prefab.GetComponent<Savable> ().prefabName = name;
 			}
 		}
 
@@ -167,14 +167,14 @@ namespace Polytechnica.Dawnscrest.World {
 				ChunkIndex index = WorldTerrain.ToChunkIndex (obj.transform.position);
 				// Check Chunk in range
 				if (chunks.GetLength (0) <= index.x - minXi || index.x - minXi < 0 || chunks.GetLength (1) <= index.z - minZi || index.z - minZi < 0) {
-					Debug.Log (savable.name + " " + (index.x) + " " + (index.z));
+					Debug.Log (savable.prefabName + " " + (index.x) + " " + (index.z));
 					continue;
 				}
 
 				// We actually want to save this one
 
 				// Make a world object
-				WorldObject w = new WorldObject (savable.name, Polytechnica.Dawnscrest.Core.EntityTemplateType.Basic, obj.transform.position, obj.transform.eulerAngles, obj.transform.localScale);
+				WorldObject w = new WorldObject (savable.prefabName, savable.type, obj.transform.position, obj.transform.eulerAngles, obj.transform.localScale);
 				// Add it to the correct chunk data (-min to shift to array index)
 				chunks [index.x - minXi, index.z - minZi].objects.Add (w);
 				//Destroy it

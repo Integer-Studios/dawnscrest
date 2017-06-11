@@ -566,7 +566,7 @@ ModelImporter:
       curves: []
       events:
       - time: 0.7419604
-        functionName: onSwingHit
+        functionName: OnSwingHit
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
@@ -713,7 +713,7 @@ ModelImporter:
       curves: []
       events:
       - time: 0.7790698
-        functionName: onSwingHit
+        functionName: OnSwingHit
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0

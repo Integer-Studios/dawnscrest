@@ -11,24 +11,39 @@ namespace Polytechnica.Dawnscrest.Item {
 
 		[Require] private InteractableComponent.Reader interactableReader;
 
+		public float maxStrength;
+		protected float strength;
+
 		// Use this for initialization
-		void Start () {
-			
+		void OnEnable () {
+			interactableReader.ComponentUpdated += OnInteractableUpdated;
+			maxStrength = interactableReader.Data.maxStrength;
+			strength = interactableReader.Data.strength;
+
 		}
-		
-		// Update is called once per frame
-		void Update () {
-			
+
+		void OnDisable () {
+			interactableReader.ComponentUpdated -= OnInteractableUpdated;
 		}
 
 
 		public virtual string GetTooltip() {
-			return "Test!";
+			return "Interact";
 		}
 
+		public virtual float GetPercent() {
+			return strength/maxStrength;
+		}
 
 		public virtual bool IsInteractable() {
 			return true;
+		}
+
+		private void OnInteractableUpdated(InteractableComponent.Update update) {
+			if (update.maxStrength.HasValue)
+				maxStrength = update.maxStrength.Value;
+			if (update.strength.HasValue)
+				strength = update.strength.Value;
 		}
 
 	}
