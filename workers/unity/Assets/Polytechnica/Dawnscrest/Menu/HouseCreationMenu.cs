@@ -48,12 +48,10 @@ namespace Polytechnica.Dawnscrest.Menu {
 
 		protected IEnumerator OnSave(WWW _w) {
 			yield return _w; 
-			Debug.Log (_w.text);
 
 			if (_w.error == null) {
 				try {
 					MenuManager.SaveResponseData response = JsonUtility.FromJson<MenuManager.SaveResponseData> (_w.text);
-					Debug.Log (response.ToString ());
 					if (response.status != 200) {
 						//failed
 						if (response.status == 500)

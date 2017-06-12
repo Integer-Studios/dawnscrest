@@ -72,8 +72,6 @@ namespace Polytechnica.Dawnscrest.Menu {
 
 		protected IEnumerator OnSave(WWW _w) {
 			yield return _w; 
-			Debug.Log (_w.text);
-			Debug.Log (appearance.ToString());
 			if (_w.error == null) {
 				try {
 					MenuManager.SaveResponseData response = JsonUtility.FromJson<MenuManager.SaveResponseData> (_w.text);

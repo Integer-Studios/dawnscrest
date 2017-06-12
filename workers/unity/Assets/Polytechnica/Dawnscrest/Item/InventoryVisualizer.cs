@@ -42,7 +42,7 @@ namespace Polytechnica.Dawnscrest.Item {
 		}
 
 		private void UnwrapStacks(Improbable.Collections.List<ItemStackData> l) {
-			if (slots.GetLength (0) != l.Count)
+			if (slots == null || slots.GetLength (0) != l.Count)
 				InitializeSlots(l.Count);
 
 			ItemStackData[] arr = l.ToArray ();
@@ -92,6 +92,18 @@ namespace Polytechnica.Dawnscrest.Item {
 			foreach (InventoryVisualizerListener il in listeners) {
 				il.OnInventoryVisSlotChange (this, i, s);
 			}
+		}
+
+		public void Log() {
+			Debug.Log ("====Inventory====");
+			for (int i = 0; i < slots.GetLength(0); i++) {
+				ItemStack s = slots [i].stack;
+				if (!s.IsNull())
+					Debug.Log (i + ": " + s.id + ", Q:" + s.quality + ", S:" + s.size);
+				else
+					Debug.Log (i + ": Empty");
+			}
+			Debug.Log ("=================");
 		}
 	}
 

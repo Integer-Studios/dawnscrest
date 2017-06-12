@@ -158,7 +158,6 @@ namespace Polytechnica.Dawnscrest.Player {
 			// Enact Jump
 			if (shouldJump) {
 				rigidBody.velocity += new Vector3 (0f, jumpSpeed, 0f);
-				Debug.Log ("JUMP: " + rigidBody.velocity.y);
 				shouldJump = false;
 			}
 
@@ -340,6 +339,12 @@ namespace Polytechnica.Dawnscrest.Player {
 			} else {
 				if (lookingAtObject.GetComponentInParent<InteractableVisualizer> ().maxStrength == 0f) {
 					// max strength = 0 so its a instant-complete
+					SpatialOS.Commands.SendCommand (
+						worldTransformWriter, 
+						InteractableComponent.Commands.Interact.Descriptor, 
+						new InteractRequest (gameObject.EntityId (), 1f),
+						lookingAtObject.EntityId ()
+					);
 				} else {
 					SetInteracting (true);
 				}

@@ -3,6 +3,8 @@ using UnityEngine;
 using Improbable.Core;
 using Improbable.Math;
 using Improbable.Unity.Visualizer;
+using Improbable.Entity.Component;
+using Polytechnica.Dawnscrest.Core;
 
 namespace Polytechnica.Dawnscrest.Item {
 
@@ -10,10 +12,20 @@ namespace Polytechnica.Dawnscrest.Item {
 
 		[Require] private InventoryComponent.Writer inventoryWriter;
 
-		readonly public int size;
+		public int size;
 
 		protected ItemSlot[] slots;
 		protected List<InventoryListener> listeners;
+
+		private void OnEnable() {
+			Debug.LogWarning ("yo");
+			inventoryWriter.CommandReceiver.OnGive.RegisterResponse (OnGive);
+			UnwrapStacks (inventoryWriter.Data.stacks);
+		}
+
+		private void OnDisable() {
+			inventoryWriter.CommandReceiver.OnGive.DeregisterResponse ();
+		}
 
 		protected virtual void InitializeSlots() {
 			slots = new ItemSlot[size];
@@ -138,6 +150,11 @@ namespace Polytechnica.Dawnscrest.Item {
 			}
 		}
 
+		private GiveResponse OnGive(ItemStackData i, ICommandCallerInfo callerInfo) {
+			GiveResponse r = new GiveResponse (Insert (new ItemStack (i)));
+			return r;
+		}
+
 		private void OnSlotUpdate(int i) {
 			inventoryWriter.Send (new InventoryComponent.Update ()
 				.SetStacks(WrapStacks())
@@ -151,6 +168,26 @@ namespace Polytechnica.Dawnscrest.Item {
 				l.Add (slots[i].stack.GetData());
 			}
 			return l;
+		}
+
+		private void UnwrapStacks(Improbable.Collections.List<ItemStackData> l) {
+			if (l.Count == 0) {
+				InitializeSlots ();
+
+				inventoryWriter.Send (new InventoryComponent.Update ()
+					.SetStacks (WrapStacks ())
+				);
+			} else {
+				if (l.Count != size)
+					size = l.Count;
+				InitializeSlots ();
+
+				ItemStackData[] arr = l.ToArray ();
+				for (int i = 0; i < slots.GetLength (0); i++) {
+					if (slots [i].CompareAndUpdate (arr [i]))
+						UpdateListeneners (i, slots [i].stack);
+				}
+			}
 		}
 
 	}

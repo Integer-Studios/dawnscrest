@@ -22,7 +22,7 @@ namespace Polytechnica.Dawnscrest.Item {
 		}
 
 		public bool IsEmpty() {
-			return !stack.IsNull ();
+			return stack.IsNull ();
 		}
 
 		/*

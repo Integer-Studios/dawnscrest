@@ -67,7 +67,6 @@ namespace Polytechnica.Dawnscrest.Core {
 		 * On Connection to spatial, client start
 		 */
         private static void OnClientConnected() {
-			Debug.Log (menuManager.loading);
 			if (menuManager != null && !menuManager.loading) {
 				BodyFinder.FindBody (SettingsManager.house.id);
 			} else if (menuManager == null) {

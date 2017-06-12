@@ -14,6 +14,7 @@ using Improbable.Unity.Core.EntityQueries;
 using Improbable.Worker;
 using Improbable.Collections;
 using Improbable.Unity.Core.Acls;
+using  Polytechnica.Dawnscrest.Item;
 
 namespace Polytechnica.Dawnscrest.Player {
 
@@ -77,6 +78,7 @@ namespace Polytechnica.Dawnscrest.Player {
 			write.Add (Character.ComponentId, CommonRequirementSets.PhysicsOnly);
 			write.Add (CharacterVitals.ComponentId, CommonRequirementSets.PhysicsOnly);
 			write.Add (CharacterAppearance.ComponentId, CommonRequirementSets.PhysicsOnly);
+			write.Add (InventoryComponent.ComponentId, CommonRequirementSets.PhysicsOnly);
 			write.Add (EntityAcl.ComponentId, CommonRequirementSets.PhysicsOnly);
 
 			ComponentAcl acl = new ComponentAcl (write);
@@ -105,6 +107,7 @@ namespace Polytechnica.Dawnscrest.Player {
 			write.Add (Character.ComponentId, CommonRequirementSets.PhysicsOnly);
 			write.Add (CharacterVitals.ComponentId, CommonRequirementSets.PhysicsOnly);
 			write.Add (CharacterAppearance.ComponentId, CommonRequirementSets.PhysicsOnly);
+			write.Add (InventoryComponent.ComponentId, CommonRequirementSets.PhysicsOnly);
 			write.Add (EntityAcl.ComponentId, CommonRequirementSets.PhysicsOnly);
 
 			ComponentAcl acl = new ComponentAcl (write);

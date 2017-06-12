@@ -57,6 +57,7 @@ namespace Polytechnica.Dawnscrest.Core {
 			template.Add (new Character.Data ((uint)houseId, active));
 			template.Add (new CharacterVitals.Data (100f,100f,100f,100f,100f,100f));
 			template.Add (new CharacterAppearance.Data (a.sex,(uint)a.hairColor,(uint)a.eyeColor,(uint)a.build,(uint)a.hair,(uint)a.eyebrows,(uint)a.facialHair));
+			template.Add (new InventoryComponent.Data (new List<ItemStackData>(0)));
 			var acl = Acl.Build ()
 				.SetReadAccess (CommonRequirementSets.PhysicsOrVisual)
 				.SetWriteAccess<WorldTransform> (CommonRequirementSets.PhysicsOnly)
@@ -65,7 +66,8 @@ namespace Polytechnica.Dawnscrest.Core {
 				.SetWriteAccess<Character> (CommonRequirementSets.PhysicsOnly)
 				.SetWriteAccess<CharacterVitals>(CommonRequirementSets.PhysicsOnly)
 				.SetWriteAccess<CharacterAppearance>(CommonRequirementSets.PhysicsOnly)
-				.SetWriteAccess<EntityAcl>(CommonRequirementSets.PhysicsOnly);
+				.SetWriteAccess<EntityAcl>(CommonRequirementSets.PhysicsOnly)
+				.SetWriteAccess<InventoryComponent>(CommonRequirementSets.PhysicsOnly);
 			template.SetAcl(acl);
 			return template;
 		}

@@ -1,9 +1,14 @@
 package polytechnica.dawnscrest.item;
 import "polytechnica/dawnscrest/item/ItemStackData.schema";
 
+type GiveResponse {
+  bool success = 1;
+}
+
 component InventoryComponent {
   id = 1301;
   
   list<ItemStackData> stacks = 1;
+  command GiveResponse give(ItemStackData);
 
 }
